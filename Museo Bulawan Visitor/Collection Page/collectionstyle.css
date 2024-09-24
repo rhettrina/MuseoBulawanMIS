@@ -49,12 +49,14 @@
 }
 
 /*Russel part*/
+/*Details*/
 
 .image-container {
+    font-family: "Hina Mincho", serif;
     position: relative;
     width: 100%;
     /* Adjust width as needed */
-    border: 2px solid black;
+    border: 2px solid rgb(12, 255, 12);
   }
   
   .image-container img {
@@ -70,19 +72,153 @@
     left: 50%; /* Adjust to control horizontal position */
     transform: translate(-50%, -50%); /* Center the text */
     color: white; /* Or any color that contrasts well with the image */
-    font-size: 24px; /* Adjust the size of the text */
+    font-size: 50px; /* Adjust the size of the text */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Add shadow for readability */
+    
   }
   
   .image-container .image-details{
     position: absolute;
-    bottom: 10%; /* Position near the bottom of the image */
+    bottom: 0; /* Position near the bottom of the image */
     left: 50%;
+    height: 8vh;
     transform: translateX(-50%);
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
-    width: 80%; /* Adjust the width as necessary */
+    justify-content: center;
+    width: 100%; 
     color: white;
     border: 2px solid rgb(255, 79, 79);
+   
+    text-align: center;
+    
   }
+
+  .category{
+    background-color: rgb(173, 173, 173, 0.3);
+    width: 10%;
+    border: 1px solid #1C1B19;
+  }
+
+  .artist{
+    background-color: rgb(173, 173, 173, 0.3);
+    width: 10%;
+    border: 1px solid #1C1B19;
+  }
+
+  .Date{
+    background-color: rgb(173, 173, 173, 0.3);
+    width: 10%;
+    border: 1px solid #1C1B19;
+  }
+
+  .Period{
+    background-color: rgb(173, 173, 173, 0.3);
+    width: 10%;
+    border: 1px solid #1C1B19;
+  }
+
+  .Dimension{
+    background-color: rgb(173, 173, 173, 0.3);
+    width: 10%;
+    border: 1px solid #1C1B19;
+  }
+
+  
+
+/*Content*/
+.content{
+    font-family: "Hina Mincho", serif;
+    background-color: #1C1B19;
+    font: white;
+}
+.content .first-art{
+    position: relative;
+    display: flex;
+}
+
+.content .first-art img{
+    padding-top: 5%;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-bottom: 20%;
+    width: 100%;
+    height: auto;
+    
+   
+    border: 2px solid rgb(79, 120, 255);
+}
+
+.content .first-art .info{
+    
+    bottom: 0;
+    position: absolute;
+    padding: 20px;
+    background-color: #1C1B19; /* Slightly transparent background */
+    border: 1px solid white; /* Optional: Border around the info section */
+    color: rgb(0, 0, 0); /* Text color */
+    margin-top: 20px;
+    height: 30vh;
+}
+
+
+.content .first-art .info .brief, .head, .details {
+    color: white;
+    margin-bottom: 10px; /* Adds spacing between text sections */
+}
+
+.brief {
+    font-size: 20px;
+    width: 30%;
+    margin-left: 5%;
+    float: left;
+}
+
+.head {
+    font-weight: bold; /* Bold for the heading */
+    font-size: 40px; /* Larger font size for emphasis */
+    float: right;
+    width: 60%;
+    
+}
+
+.details {
+    font-size: 20px;
+    float: right;
+    width: 60%;
+}
+
+
+.content .second-art .info1{
+    color: #1C1B19;
+    border: 2px solid black;
+}
+
+.content .second-art .brief1 {
+   
+    font-size: 20px;
+    width: 30%;
+    margin-left: 5%;
+    float: left;
+}
+
+.content .second-art .head1 {
+    font-weight: bold; /* Bold for the heading */
+    font-size: 40px; /* Larger font size for emphasis */
+    float: right;
+    width: 60%;
+  
+}
+
+.content .second-art .details1 {
+    
+    font-size: 20px;
+    float: right;
+    width: 60%;
+}
+
+.content .second-art img{
+    position: absolute;
+    justify-content: flex-end;
+}
+  /*Russel part*/
