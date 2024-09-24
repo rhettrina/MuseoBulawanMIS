@@ -1,0 +1,55 @@
+#wrapper_topP{
+    object-fit: contain;
+    object-fit: cover;
+    
+
+}
+#bgimg{
+    max-width: 100em;
+
+}
+
+#txt1{
+    text-transform: uppercase;
+    font-family: Hind;
+    font-weight: bold;
+    font-size: 2em;
+    color: #DAB765;
+
+    position: relative;
+    top: -20em;
+    left: 3.4em;
+}
+
+#txt2{
+    text-transform: uppercase;
+    font-family: Hind;
+    font-weight: bold;
+    font-size: 5.8em;
+    color: rgb(255, 255, 255);
+
+    position: relative;
+    top: -7.4em;
+    left: 1.2em;
+
+}
+
+#txt3{
+    text-transform: uppercase;
+    font-family: Hind;
+    font-weight: bold;
+    font-size: 4.1em;
+    color: rgb(255, 255, 255);
+
+    position: relative;
+    top: -11.4em;
+    left: 1.63em;
+
+}
+
+#learnMREbutton{
+    position: relative;
+    top: -47em;
+    left: 6.90em;
+
+}
