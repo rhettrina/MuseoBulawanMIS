@@ -1,0 +1,71 @@
+body{
+    margin-top: 0em;
+    padding: 0rem;
+
+}
+
+.image-container .welcome {
+    
+    position: absolute;
+    top: 23.5%; /* Adjust to control vertical position */
+    left: 15.5%; /* Adjust to control horizontal position */
+    transform: translate(-50%, -50%); /* Center the text */
+    color: #DAB765; /* Or any color that contrasts well with the image */
+    font-family: hind;
+    font-weight: bold;
+    font-size: 2.8em; /* Adjust the size of the text */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Add shadow for readability */
+    
+  }
+
+  .image-container .museo {
+    
+    position: absolute;
+    top: 32.9%; /* Adjust to control vertical position */
+    left: 17.5%; /* Adjust to control horizontal position */
+    transform: translate(-50%, -50%); /* Center the text */
+    color: #ffffff; /* Or any color that contrasts well with the image */
+    font-family: hind;
+    font-weight: bold;
+    font-size: 6.5em; /* Adjust the size of the text */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Add shadow for readability */
+    
+  }
+
+  .image-container .bulawan {
+    
+    position: absolute;
+    top: 42.5%; /* Adjust to control vertical position */
+    left: 22.3%; /* Adjust to control horizontal position */
+    transform: translate(-50%, -50%); /* Center the text */
+    color: #ffffff; /* Or any color that contrasts well with the image */
+    font-family: hind;
+    font-weight: bold;
+    font-size: 6.5em; /* Adjust the size of the text */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Add shadow for readability */
+    
+  }
+
+  .image-container #learn-button{
+    position: absolute;
+    top: 50%;
+    left: 6.5%;
+    width: 9.2%;
+  }
+
+  .image-container #book-button{
+    position: absolute;
+    top: 50%;
+    left: 17%;
+    width: 9.2%;
+  }
+
+  .image-container .museum-hours{
+    position: absolute;
+    top: 63%;
+    left: 7%;
+    font-family: hind;
+    font-weight: bold;
+    font-size: 1em; /* Adjust the size of the text */
+    color: #ffffff;
+  }
