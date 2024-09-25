@@ -3,42 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Two Containers with Box Shadow</title>
+    <title>Vertical HR Example</title>
     <style>
-        .container {
-            display: flex;
-        }
-
-        .box {
-            width: 200px;
-            height: 200px;
-            margin: 10px;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .box-shadow {
-            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .box1 {
-            background-color: #f0f0f0;
-        }
-
-        .box2 {
-            margin-left: 0%;
-            background-color: #ffffff;
+        .vertical-hr {
+            width: 1%; /* Narrow width for vertical line */
+            height: 100px; /* Desired height */
+            background-color: black; /* Line color */
+            border: none; /* Remove default border */
+            /* Optional: Center the line */
+            margin: 0 auto;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="box box1 box-shadow">
-            <p>Container 1 with Box Shadow</p>
-        </div>
-        <div class="box box2">
-            <p>Container 2</p>
-        </div>
-    </div>
+    <hr class="vertical-hr">
 </body>
 </html>
