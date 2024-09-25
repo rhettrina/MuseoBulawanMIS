@@ -1,0 +1,50 @@
+body{
+    margin: 0;
+    padding: 0;
+
+}
+.hero-section {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Adjust height as needed */
+    background-image: url('../source/backgroundimg.png'); /* Background image path */
+    background-size: cover;
+    background-position: center;
+}
+
+.overlay-text {
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    transform: translateY(-50%); /* Vertically center the text */
+    color: white; /* Text color */
+    max-width: 600px; /* Adjust based on your layout */
+}
+
+.overlay-text h1, .overlay-text h2 {
+    margin: 0;
+    font-size: 3rem;
+    font-weight: bold;
+    font-family: hind;
+    font-weight: bold;
+}
+
+.overlay-text p {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    font-family: hind;
+    font-weight: bold;
+
+}
+
+.overlay-text .btn {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+}
