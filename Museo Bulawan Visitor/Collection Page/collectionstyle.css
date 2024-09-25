@@ -1,3 +1,8 @@
+/* header up */
+
+body {
+    margin: 0%;
+}
 .navbar {
     text-align: center;
     padding: 0%;
@@ -30,7 +35,7 @@
 #logo {
     height: fit-content;
     width: 5rem;
-    margin-left: 3rem;
+    margin-left: 5%;
 }
 
 #brand {
@@ -51,7 +56,6 @@
     height: fit-content;
     width: 2.5em;
     position: relative;
-    margin-left: 5rem;
 }
 
 .nav-link {
@@ -62,5 +66,24 @@
 .dropdownicon {
     height: fit-content;
     width: 15px;
+}
+
+/* header end */
+
+.searchcontainer {
+    margin: 0px;
+}
+
+.searchcontainer img {
+    max-width: 101%;
+    width: 200em;
+    height: 20rem;
+    object-fit: cover;
+    object-position: 10% 20%;
+    filter: blur(2px) grayscale(60%) opacity(80%);
+}
+
+::-webkit-scrollbar {
+    display: none;
 }
 
