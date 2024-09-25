@@ -1,50 +1,45 @@
 body{
     margin: 0;
-    padding: 0;
-
+    width: 0;
 }
-.hero-section {
-    position: relative;
+
+.container1{
+    width: 100vw;
+    height: 100vh;
+}
+
+.container1 img{
     width: 100%;
-    height: 100vh; /* Adjust height as needed */
-    background-image: url('../source/backgroundimg.png'); /* Background image path */
-    background-size: cover;
-    background-position: center;
+    height: 100%;
+    object-fit: cover;
 }
 
-.overlay-text {
-    position: absolute;
-    top: 50%;
-    left: 10%;
-    transform: translateY(-50%); /* Vertically center the text */
-    color: white; /* Text color */
-    max-width: 600px; /* Adjust based on your layout */
+.text-container1{
+    position: relative;
+    display: block;
+    top: -80%;
+    
+
 }
 
-.overlay-text h1, .overlay-text h2 {
-    margin: 0;
-    font-size: 3rem;
-    font-weight: bold;
+.welcome-text{
+    color: #DAB765;
     font-family: hind;
     font-weight: bold;
+    font-size: 280%;
+    line-height: 60%;
+    position: relative;
+    top: 20%;
+    left: 6.7%;
 }
 
-.overlay-text p {
-    margin-top: 20px;
-    font-size: 1.2rem;
+.museo-text{
+    color: #ffffff;
     font-family: hind;
     font-weight: bold;
+    line-height: 75%;
+    font-size: 650%;
+    position: relative;
+    left: 6.5%;
 
-}
-
-.overlay-text .btn {
-    display: inline-block;
-    margin-top: 15px;
-    padding: 10px 20px;
-    background-color: #333;
-    color: white;
-    text-decoration: none;
-    border: none;
-    font-size: 1rem;
-    cursor: pointer;
 }
