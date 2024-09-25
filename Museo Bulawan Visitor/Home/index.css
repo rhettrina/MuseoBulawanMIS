@@ -1,55 +1,71 @@
-#wrapper_topP{
-    object-fit: contain;
-    object-fit: cover;
+body{
+    margin-top: 0em;
+    padding: 0rem;
+
+}
+
+.image-container .welcome {
     
-
-}
-#bgimg{
-    max-width: 100em;
-
-}
-
-#txt1{
-    text-transform: uppercase;
-    font-family: Hind;
+    position: absolute;
+    top: 23.5%; /* Adjust to control vertical position */
+    left: 15.5%; /* Adjust to control horizontal position */
+    transform: translate(-50%, -50%); /* Center the text */
+    color: #DAB765; /* Or any color that contrasts well with the image */
+    font-family: hind;
     font-weight: bold;
-    font-size: 2em;
-    color: #DAB765;
+    font-size: 2.8em; /* Adjust the size of the text */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Add shadow for readability */
+    
+  }
 
-    position: relative;
-    top: -20em;
-    left: 3.4em;
-}
-
-#txt2{
-    text-transform: uppercase;
-    font-family: Hind;
+  .image-container .museo {
+    
+    position: absolute;
+    top: 32.9%; /* Adjust to control vertical position */
+    left: 17.5%; /* Adjust to control horizontal position */
+    transform: translate(-50%, -50%); /* Center the text */
+    color: #ffffff; /* Or any color that contrasts well with the image */
+    font-family: hind;
     font-weight: bold;
-    font-size: 5.8em;
-    color: rgb(255, 255, 255);
+    font-size: 6.5em; /* Adjust the size of the text */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Add shadow for readability */
+    
+  }
 
-    position: relative;
-    top: -7.4em;
-    left: 1.2em;
-
-}
-
-#txt3{
-    text-transform: uppercase;
-    font-family: Hind;
+  .image-container .bulawan {
+    
+    position: absolute;
+    top: 42.5%; /* Adjust to control vertical position */
+    left: 22.3%; /* Adjust to control horizontal position */
+    transform: translate(-50%, -50%); /* Center the text */
+    color: #ffffff; /* Or any color that contrasts well with the image */
+    font-family: hind;
     font-weight: bold;
-    font-size: 4.1em;
-    color: rgb(255, 255, 255);
+    font-size: 6.5em; /* Adjust the size of the text */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Add shadow for readability */
+    
+  }
 
-    position: relative;
-    top: -11.4em;
-    left: 1.63em;
+  .image-container #learn-button{
+    position: absolute;
+    top: 50%;
+    left: 6.5%;
+    width: 9.2%;
+  }
 
-}
+  .image-container #book-button{
+    position: absolute;
+    top: 50%;
+    left: 17%;
+    width: 9.2%;
+  }
 
-#learnMREbutton{
-    position: relative;
-    top: -47em;
-    left: 6.90em;
-
-}
+  .image-container .museum-hours{
+    position: absolute;
+    top: 63%;
+    left: 7%;
+    font-family: hind;
+    font-weight: bold;
+    font-size: 1em; /* Adjust the size of the text */
+    color: #ffffff;
+  }
