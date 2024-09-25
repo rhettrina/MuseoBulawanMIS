@@ -11,55 +11,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Museo Bulawan Collection Page</title>
     <link href="collectionstyle.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 </head>
 
 <body>
 
     <div class="wrapper">
-    
-    <div id="container1">
-        <nav class="navbar navbar-expand-md navbar-dark">
-            <p id="open">Open Daily 9:00am-5:00pm, Monday- Friday, Close During Holidays</p>
-            <ul class="navbar-nav py-0 ms-auto px-5">
-                <li class="nav-item">
-                    <a class="nav-link" href="">About Us</a>
-                </li>
-                <li class="nav-item"></li>
-                <a class="nav-link" href="">Visit Us</a>
-                </li>
-                <li class="nav-item"></li>
-                <a class="nav-link" href="">Log In</a>
-                </li>
-            </ul>
-            </ul>
-        </nav>
+
+        <div id="container1">
+            <nav class="navbar navbar-expand-md navbar-dark">
+                <p id="open">Open Daily 9:00am-5:00pm, Monday- Friday, Close During Holidays</p>
+                <ul class="navbar-nav py-0 ms-auto px-5">
+                    <li class="nav-item">
+                        <a class="nav-link" href="">About Us</a>
+                    </li>
+                    <li class="nav-item"></li>
+                    <a class="nav-link" href="">Visit Us</a>
+                    </li>
+                    <li class="nav-item"></li>
+                    <a class="nav-link" href="">Log In</a>
+                    </li>
+                </ul>
+                </ul>
+            </nav>
+        </div>
+
+
+        <div id="container2">
+            <nav class="navbar navbar-expand-lg" data-bs-theme="dark">
+                <div class="logowrapper">
+                    <img src="../source/LOGO.png" alt="" id="logo">
+                    <div class="vr border border-5 ms-3 border-light opacity-100" style="height: 100;"></div>
+                    <a id="brand" class="navbar-brand text-start" href="">Museo<br>Bulawan</a>
+                </div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#burgerbtn"
+                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="burgerbtn">
+
+
+
+                    <ul class="navbar-nav position-absolute top-50 start-50 translate-middle">
+                        <li class="nav-item d-flex align-items-center ms-3">
+                            <a class="nav-link fs-5 me-2" href="">Home <img class="dropdownicon"
+                                    src="../source/dropdown.png" alt=""></a>
+
+                        </li>
+                        <li class="nav-item d-flex align-items-center ms-3">
+                            <a class="nav-link fs-5 me-2" href="">Collections <img class="dropdownicon"
+                                    src="../source/dropdown.png" alt=""></a>
+
+                        </li>
+                        <li class="nav-item d-flex align-items-center ms-3">
+                            <a class="nav-link fs-5 me-2" href="">News and Events <img class="dropdownicon"
+                                    src="../source/dropdown.png" alt=""></a>
+
+                        </li>
+                        <li class="nav-item d-flex align-items-center ms-3">
+                            <a class="nav-link fs-5 me-2" href="">About Us <img class="dropdownicon"
+                                    src="../source/dropdown.png" alt=""></a>
+
+                        </li>
+                    </ul>
+                </div>
+
+
+                <button class="btn btn-custom position-absolute top-50 start-100 translate-middle"><img
+                        src="../source/search.png" alt="" id="searchbtn"></button>
+
+            </nav>
+            <hr class="border border-light border-3 opacity-100 ">
+        </div>
     </div>
-
-
-    <div id="container2">
-        <nav class="navbar navbar-expand-md navbar-dark">
-            <img src="../source/LOGO.png" alt="" id="logo">
-            <a id="brand" class="navbar-brand" href="">Museo Bulawan</a>
-            <ul class="navbar-nav py-0 ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="">Home</a>
-
-                </li>
-                <li class="nav-item"></li>
-                <a class="nav-link" href="">Collections</a>
-                </li>
-                <li class="nav-item"></li>
-                <a class="nav-link" href="">News and Events</a>
-                </li>
-                <li class="nav-item"></li>
-                <a class="nav-link" href="">About Us</a>
-                </li>
-            </ul>
-
-        </nav>
-    </div>
-
-</div>
 </body>
 
 </html>

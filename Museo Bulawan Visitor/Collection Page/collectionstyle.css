@@ -1,11 +1,9 @@
 .navbar {
-    
     text-align: center;
     padding: 0%;
 }
 
 .navbar-nav {
-    
     color: white;
     text-shadow: 5%;
 }
@@ -14,10 +12,6 @@
     color: white;
     padding-left: 5%;
     padding-top: 1%;
-}
-
-#brand {
-    padding-left: 5%;
 }
 
 .wrapper {
@@ -30,13 +24,12 @@
 }
 
 #container2 {
-    margin-top: 1em;
-    padding: 1rem;
+    padding: 1em 3em .1em 3em;
 }
 
 #logo {
     height: fit-content;
-    width: 70px;
+    width: 90px;
     margin-left: 50px;
 }
 
@@ -44,5 +37,35 @@
     text-transform: uppercase;
     font-family: Noto Sans;
     font-weight: bold;
+    font-size: 2em;
+    padding-left: .5em;
+}
+
+.logowrapper {
+    display: flex;
+    align-items: center;
+}
+
+#searchbtn {
+    height: fit-content;
+    width: 40px;
+    margin-right: 5em;
+}
+
+.btn-custom {
+    background: none;
+    border: none;
+    color: inherit;
+    padding: 0;
+}
+
+.nav-link {
+    color: white;
+}
+
+
+.dropdownicon {
+    height: fit-content;
+    width: 15px;
 }
 
