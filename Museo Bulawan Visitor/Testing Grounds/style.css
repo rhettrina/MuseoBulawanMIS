@@ -1,45 +1,42 @@
 body{
     margin: 0;
-    width: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.container1{
+header {
     width: 100vw;
     height: 100vh;
-}
-
-.container1 img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.text-container1{
-    position: relative;
-    display: block;
-    top: -80%;
-    
+    background-image: url('../source/backgroundimg.png');
+    background-position: bottom;
+    background-size: cover;
+    display: flex;
 
 }
 
-.welcome-text{
+header .flex-container1{
+    width: fit-content;
+    height: 100vh;
+    position: absolute;
+    left: 6%;
+    display: flex;
+    align-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+header h2{
     color: #DAB765;
     font-family: hind;
     font-weight: bold;
-    font-size: 280%;
-    line-height: 60%;
-    position: relative;
-    top: 20%;
-    left: 6.7%;
+    font-size: 300%;
+    line-height: 200%;
 }
-
-.museo-text{
-    color: #ffffff;
+header h1{
     font-family: hind;
     font-weight: bold;
-    line-height: 75%;
-    font-size: 650%;
-    position: relative;
-    left: 6.5%;
-
+    color: white;
+    line-height: 65%;
+    font-size: 625%;
 }
