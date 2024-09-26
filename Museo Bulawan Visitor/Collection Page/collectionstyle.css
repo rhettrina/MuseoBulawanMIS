@@ -3,6 +3,7 @@
 body {
     margin: 0%;
 }
+
 .navbar {
     text-align: center;
     padding: 0%;
@@ -72,18 +73,93 @@ body {
 
 .searchcontainer {
     margin: 0px;
+    position: relative;
+    width: 100%;
+    max-width: 100%;
 }
 
 .searchcontainer img {
-    max-width: 101%;
+    max-width: 100%;
     width: 200em;
     height: 20rem;
     object-fit: cover;
     object-position: 10% 20%;
-    filter: blur(2px) grayscale(60%) opacity(80%);
+    filter: blur(2px) grayscale(50%) opacity(80%);
+    display: block;
 }
 
-::-webkit-scrollbar {
-    display: none;
+
+
+.form-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    font-size: large;
 }
 
+.form-control,
+.btn-search {
+    border-radius: 10;
+    border: 1px solid #000;
+}
+
+#features {
+    padding: 5%;
+    background-color: #1C1B19;
+}
+
+.feature-box {
+    text-align: center;
+}
+
+.feature-box img {
+    object-fit: cover;
+    max-width: 100%;
+    height: 400px;
+    width: 400px;
+}
+
+.feature-box img:hover {
+    filter: blur(2px) grayscale(50%) opacity(80%);
+}
+
+.feature-box h5 {
+    color: #BD8049;
+}
+
+.feature-box h2 {
+    color: #FCE6BC;
+    font-family: Hina Mincho;
+    font-size: 2.5em;
+}
+
+.feature-box h4 {
+    color: #B1AEAB;
+    font-size: 1em;
+}
+
+.feature-box h4 h5 {
+    font-family: Nota Sans;
+}
+
+.feature-box .textarea {
+    margin: 20px;
+}
+
+.lowercontainer {
+    background-color: #1C1B19;
+}
+
+.footer {
+    background-color: #1C1B19;
+    height: 100%;
+    color: white;
+}
+
+.footer-box img{
+    margin-left: 3em;
+    height: 60px;
+    width: 60px;
+}

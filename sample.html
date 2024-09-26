@@ -1,34 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Museo Bulawan</title>
-    <link rel="stylesheet" href="sample.css">
-</head>
-<body>
-    <header>
-        <div class="top-bar">
-            Open Daily 9:00am-5:00pm, Monday- Friday, Closed During Holidays
-        </div>
-        <nav class="navbar">
-            <img src="logo.png" alt="Museo Bulawan Logo" class="logo">
-            <h1>MUSEO BULAWAN</h1>
-            <ul class="nav-links">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Collections</a></li>
-                <li><a href="#">News & Events</a></li>
-                <li><a href="#">About us</a></li>
-            </ul>
-            <div class="nav-icons">
-                <a href="#">About us</a>
-                <a href="#">Visit Us</a>
-                <a href="#">Login</a>
+<section id="features">
+    <div class="row" id="feature-container">
+        <!-- Feature boxes will be appended here -->
+    </div>
+</section>
+
+<script>
+    const features = [
+        { imgSrc: '../source/bgsearchimg1.png', title: 'Painting 1', pieceName: 'Name Of The Piece 1', artistName: 'Artist Name 1' },
+        { imgSrc: '../source/bgsearchimg2.png', title: 'Painting 2', pieceName: 'Name Of The Piece 2', artistName: 'Artist Name 2' },
+        { imgSrc: '../source/bgsearchimg2.png', title: 'Painting 2', pieceName: 'Name Of The Piece 2', artistName: 'Artist Name 2' },
+        { imgSrc: '../source/bgsearchimg2.png', title: 'Painting 2', pieceName: 'Name Of The Piece 2', artistName: 'Artist Name 2' },
+        { imgSrc: '../source/bgsearchimg2.png', title: 'Painting 2', pieceName: 'Name Of The Piece 2', artistName: 'Artist Name 2' },
+        { imgSrc: '../source/bgsearchimg2.png', title: 'Painting 2', pieceName: 'Name Of The Piece 2', artistName: 'Artist Name 2' },
+        { imgSrc: '../source/bgsearchimg2.png', title: 'Painting 2', pieceName: 'Name Of The Piece 2', artistName: 'Artist Name 2' },
+        { imgSrc: '../source/bgsearchimg2.png', title: 'Painting 2', pieceName: 'Name Of The Piece 2', artistName: 'Artist Name 2' },
+        { imgSrc: '../source/bgsearchimg2.png', title: 'Painting 2', pieceName: 'Name Of The Piece 2', artistName: 'Artist Name 2' },
+        
+        // Add more objects as needed
+    ];
+
+    const featureContainer = document.getElementById('feature-container');
+
+    features.forEach(feature => {
+        const featureBox = document.createElement('div');
+        featureBox.className = 'feature-box col-lg-3 col-md-4 col-sm-6';
+
+        featureBox.innerHTML = `
+            <img src="${feature.imgSrc}" alt="">
+            <div class="textarea">
+                <h5>${feature.title}</h5>
+                <h2>${feature.pieceName}</h2>
+                <h4>${feature.artistName}</h4>
             </div>
-        </nav>
-        <div class="header-image">
-            <img src="/Museo Bulawan Visitor/source/bgsearchimg.png" alt="Header Image">
-        </div>
-    </header>
-</body>
-</html>
+        `;
+
+        featureContainer.appendChild(featureBox);
+    });
+</script>
