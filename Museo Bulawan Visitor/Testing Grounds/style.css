@@ -40,3 +40,23 @@ header h1{
     line-height: 65%;
     font-size: 625%;
 }
+
+header .flex-container2{
+    width: fit-content;
+    height: 100vh;
+    display: flex;
+    position: absolute;
+    left: -4%;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+}
+
+
+.facebook-handle{
+    transform: rotate(270deg);
+}
+
+.instagram-handle{
+    transform: rotate(270deg);
+}
