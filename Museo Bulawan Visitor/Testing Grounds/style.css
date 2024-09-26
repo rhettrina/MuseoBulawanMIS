@@ -11,19 +11,26 @@ header {
     background-position: bottom;
     background-size: cover;
     display: flex;
+    flex-direction: row;
 
+}
+
+.header-clipped .nuseum-logo{
+    width: 5%;
+    height: 5%;
 }
 
 header .flex-container1{
     width: fit-content;
     height: 100vh;
-    position: absolute;
-    left: 6%;
+    /*position: absolute;
+    left: 6%;*/
     display: flex;
-    align-content: center;
+    align-content: left;
     flex-direction: column;
     flex-wrap: wrap;
     justify-content: space-evenly;
+    flex-grow: 1;
 }
 
 header h2{
@@ -45,18 +52,25 @@ header .flex-container2{
     width: fit-content;
     height: 100vh;
     display: flex;
-    position: absolute;
-    left: -4%;
+   /*position: absolute;
+    left: -4%;*/
     flex-direction: column;
     justify-content: space-evenly;
 
 }
 
 
-.facebook-handle{
-    transform: rotate(270deg);
+header .flex-container3{
+    width: fit-content;
+    height: 100vh;
+    display: flex;
+   /*position: absolute;
+    left: -4%;*/
+    flex-direction: column;
+    justify-content: space-evenly;
+
 }
 
-.instagram-handle{
+.handle{
     transform: rotate(270deg);
 }
