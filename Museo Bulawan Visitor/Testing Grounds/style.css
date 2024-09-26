@@ -129,7 +129,7 @@ header .flex-container3{
 
   /* Text alignment */
     .logo-text span {
-display: block;
+    display: block;
     line-height: 1.2; /* Adjust line height */
 }
 
