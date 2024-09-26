@@ -1,8 +1,7 @@
 body{
     padding: 0;
     margin: 0;
-    box-sizing: border-box;
-    
+    overflow-x: hidden;
 }
 
 header{
@@ -53,7 +52,7 @@ header{
     height: 1fr;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: left;
 }
 
@@ -84,6 +83,8 @@ header{
 
   .logo-container{
     grid-area: text-logo;
+    display: flex;
+    align-content: center;
 
   }
   .logo-text {
@@ -106,8 +107,11 @@ header{
     margin-right: 10px; /* Space between line and text */
 }
 
+
+
+
   /* Text alignment */
-    .logo-text span {
+.logo-text span {
     display: block;
     line-height: 0.9    ; /* Adjust line height */
 }
@@ -115,4 +119,11 @@ header{
 .handle{
     transform: rotate(270deg);
     white-space: nowrap; /* Prevents the text from wrapping to the next line */
+}
+
+.line{
+    display: inline-block; /* This makes the width of the div adjust to its content */
+    border-top: 0.2em solid rgb(255, 255, 255); /* Adds a 2px black underline */
+    width: 90vw ; /* Custom width for the underline */
+
 }
