@@ -15,9 +15,29 @@ header {
 
 }
 
-.header-clipped .nuseum-logo{
-    width: 5%;
-    height: 5%;
+.header-clipped{
+
+    width: 100vw;
+    height: 20vh;
+    position: absolute;
+    display: flex;
+    
+    align-items: center;
+}
+
+.header-clipped::after{
+    content: "";
+    position: absolute;
+    left: 10%;
+    bottom: 7%;
+    width: 80%; /* Custom width for the underline */
+    height: 3px; /* Thickness of the underline */
+    background-color: white; /* Color of the underline */
+}
+
+.museum-logo img{
+    height: 120px;
+    width: 120px;
 }
 
 header .flex-container1{
@@ -74,3 +94,42 @@ header .flex-container3{
 .handle{
     transform: rotate(270deg);
 }
+
+
+.logo-container {
+    position: relative;
+    display: inline-block;
+    background-image: url('background.jpg'); /* Replace with your background image */
+    background-size: cover;
+    background-position: center;
+    width: 200px; /* Adjust as needed */
+    height: 100px; /* Adjust as needed */
+    padding: 10px;
+}
+
+  /* Vertical line and text styling */
+.logo-text {
+    display: flex;
+    align-items: center; /* Vertically center the text */
+    color: white; /* Text color */
+    font-family: Arial, sans-serif; /* Adjust font */
+    font-size: 20px; /* Adjust size */
+    font-weight: bold;
+}
+
+  /* Vertical line */
+.logo-text::before {
+    content: '';
+    display: inline-block;
+    width: 3px; /* Line thickness */
+    height: 60px; /* Line height */
+    background-color: white; /* Line color */
+    margin-right: 10px; /* Space between line and text */
+}
+
+  /* Text alignment */
+    .logo-text span {
+display: block;
+    line-height: 1.2; /* Adjust line height */
+}
+
