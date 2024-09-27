@@ -144,7 +144,7 @@ body{
 #learn-button{
   font-size: 0.8vw;
   width: 8vw;
-  height: 5vh;
+  min-height: 5vh;
   overflow: hidden;
 }
 
@@ -152,7 +152,7 @@ body{
   font-size: 0.8vw;
   overflow: hidden;
   width: 8vw;
-  height: 5vh;
+  min-height: 5vh;
 }
 
 
@@ -228,7 +228,7 @@ header{
   background-position: bottom;
   background-size: cover;
   display: grid;
-  grid-template-columns: 4em 1fr 4em;
+  grid-template-columns: 4vw 1fr 4vw;
   grid-template-rows: auto 1fr;
   grid-template-areas: 
   "handle1 nav handle2"
@@ -238,7 +238,7 @@ header{
 
 .nav{
   grid-area: nav;
-  padding: 1em;
+  padding: 1vw;
   display: grid;
   grid-template-columns: auto 1fr 1fr;
   grid-template-areas: 
