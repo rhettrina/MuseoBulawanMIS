@@ -161,6 +161,50 @@ body{
 /*start nav bar css here*/
 
 
+/* header up */
+
+
+.navbar {
+  text-align: center;
+  padding: 0%;
+}
+
+.navbar-nav {
+  color: white;
+  text-shadow: 5%;
+}
+
+#open {
+  color: white;
+  padding-left: 3vw;
+  padding-top: 0.5vw;
+}
+
+.wrapper {
+  background-color: #1C1B19;
+}
+
+#container1 {
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
+  font-size: small;
+}
+
+
+
+.nav-link {
+  color: white;
+}
+
+
+.dropdownicon {
+  height: fit-content;
+  width: 15px;
+}
+
+/* header end */
+
+
+
 
 /*end nav bar css here*/
 
@@ -222,45 +266,6 @@ body{
 }
 
 
+/*start nav bar items css here*/
 
-/* header up */
-
-
-.navbar {
-  text-align: center;
-  padding: 0%;
-}
-
-.navbar-nav {
-  color: white;
-  text-shadow: 5%;
-}
-
-#open {
-  color: white;
-  padding-left: 3vw;
-  padding-top: 0.5vw;
-}
-
-.wrapper {
-  background-color: #1C1B19;
-}
-
-#container1 {
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
-  font-size: small;
-}
-
-
-
-.nav-link {
-  color: white;
-}
-
-
-.dropdownicon {
-  height: fit-content;
-  width: 15px;
-}
-
-/* header end */
+/*end nav bar items css here*/
