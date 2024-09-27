@@ -133,7 +133,7 @@ body{
 
 .line{
   display: inline-block; /* This makes the width of the div adjust to its content */
-  border-top: 0.3vw solid rgb(255, 255, 255); /* Adds a 2px black underline */
+  border-top: 0.2vw solid rgb(255, 255, 255); /* Adds a 2px black underline */
   width: 92vw ; /* Custom width for the underline */
 
 }
@@ -243,6 +243,8 @@ body{
   font-size: 2vw;
   width: 45vw;
   height: auto;
+  text-align: justify;
+  text-justify: inter-word;
 }
 
 .internal-container{
