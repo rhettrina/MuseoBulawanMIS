@@ -165,3 +165,16 @@ body {
     height: 80px;
     max-width: 100%;
 }
+
+
+/*start*/
+.museo-bulawan-cmp{
+    display: flex;
+    flex-direction: row;
+}
+
+.museo-bulawan-cmp h1{
+    padding: 0.6vw;
+}
+
+/*end*/

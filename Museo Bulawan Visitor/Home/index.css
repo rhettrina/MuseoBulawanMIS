@@ -72,6 +72,7 @@ body{
   font-weight: bold;
   font-size: 3.4vw;
   line-height: 200%;
+  text-shadow: 3px 3px #000000;
 }
 .flex-container h1{
   font-family: hind;
@@ -79,6 +80,7 @@ body{
   color: white;
   line-height: 65%;
   font-size: 6vw;
+  text-shadow: 3px 3px #000000;
 }
 
 
