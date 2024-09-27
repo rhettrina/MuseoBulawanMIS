@@ -1,0 +1,49 @@
+.navbar {
+    
+    text-align: center;
+    padding: 0%;
+}
+
+.navbar-nav {
+    
+    color: white;
+    text-shadow: 5%;
+}
+
+#open {
+    color: white;
+    padding-left: 5%;
+    padding-top: 1%;
+}
+
+#brand {
+    padding-left: 5%;
+}
+
+.wrapper {
+    background-color: #1C1B19;
+}
+
+#container1 {
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
+    font-size: small;
+}
+
+
+
+#container2 {
+    margin-top: 1em;
+    padding: 1rem;
+}
+
+#logo {
+    height: fit-content;
+    width: 70px;
+    margin-left: 50px;
+}
+
+#brand {
+    text-transform: uppercase;
+    font-family: Noto Sans;
+    font-weight: bold;
+}
