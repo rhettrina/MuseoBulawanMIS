@@ -4,7 +4,7 @@ body{
   overflow-x: hidden;
 }
 
-header{
+.front{
   color: white;
   height: 100vh;
   width: 100vw;
@@ -134,3 +134,12 @@ header{
 
 
 /*start nav bar css here*/
+
+/*end nav bar css here*/
+
+.middle{
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+
+} 
