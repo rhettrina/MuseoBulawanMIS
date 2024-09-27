@@ -1,10 +1,13 @@
+html{
+  background-color: black
+}
 body{
   padding: 0;
   margin: 0;
   overflow-x: hidden;
 }
 
-header{
+.front{
   color: white;
   height: 100vh;
   width: 100vw;
@@ -12,7 +15,7 @@ header{
   background-position: bottom;
   background-size: cover;
   display: grid;
-  grid-template-columns: 4em 1fr 4em;
+  grid-template-columns: 4vw 1fr 4vw;
   grid-template-rows: auto 1fr;
   grid-template-areas: 
   "handle1 nav handle2"
@@ -22,9 +25,9 @@ header{
 
 .nav{
   grid-area: nav;
-  padding: 1em;
+  padding: 2vw;
   display: grid;
-  grid-template-columns: auto 1fr 1fr;
+  grid-template-columns: auto 1vw 1vw;
   grid-template-areas: 
   "logo text-logo"
   ;
@@ -35,6 +38,7 @@ header{
   display: flex;
   justify-content: space-evenly;
   flex-direction: column;
+  font-size: 1vw;
 }
 
 .handler2{
@@ -42,6 +46,11 @@ header{
   display: flex;
   justify-content: space-evenly;
   flex-direction: column;
+  font-size: 1vw;
+}
+
+.details{
+  font-size: 1vw;
 }
 
 .content{
@@ -49,7 +58,8 @@ header{
 }
 
 .flex-container{
-  height: 1fr;
+  height: auto;
+  width: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -60,7 +70,7 @@ header{
   color: #DAB765;
   font-family: hind;
   font-weight: bold;
-  font-size: 300%;
+  font-size: 3.4vw;
   line-height: 200%;
 }
 .flex-container h1{
@@ -68,15 +78,15 @@ header{
   font-weight: bold;
   color: white;
   line-height: 65%;
-  font-size: 625%;
+  font-size: 6vw;
 }
 
 
 .logo img{
   grid-area: logo;
-  width: 76px;
-  height: 76px;
-  margin-right: 4em;
+  width: 5vw;
+  height: auto;
+  margin-right: 4vw;
 }
 
 /* Vertical line and text styling */
@@ -92,7 +102,7 @@ header{
   align-items: center; /* Vertically center the text */
   color: white; /* Text color */
   font-family: Arial, sans-serif; /* Adjust font */
-  font-size: 165%; /* Adjust size */
+  font-size: 1.5vw; /* Adjust size */
   font-weight: bold;
   
 }
@@ -101,10 +111,10 @@ header{
 .logo-text::before {
   content: '';
   display: inline-block;
-  width: 0.3em; /* Line thickness */
-  height: 2.7em; /* Line height */
+  width: 0.5vw; /* Line thickness */
+  height: 4vw; /* Line height */
   background-color: white; /* Line color */
-  margin-right: 10px; /* Space between line and text */
+  margin-right: 1vw; /* Space between line and text */
 }
 
 
@@ -113,7 +123,7 @@ header{
 /* Text alignment */
 .logo-text span {
   display: block;
-  line-height: 0.9    ; /* Adjust line height */
+  line-height: 100%; /* Adjust line height */
 }
 
 .handle{
@@ -123,8 +133,8 @@ header{
 
 .line{
   display: inline-block; /* This makes the width of the div adjust to its content */
-  border-top: 0.2em solid rgb(255, 255, 255); /* Adds a 2px black underline */
-  width: 90vw ; /* Custom width for the underline */
+  border-top: 0.3vw solid rgb(255, 255, 255); /* Adds a 2px black underline */
+  width: 92vw ; /* Custom width for the underline */
 
 }
 
@@ -132,11 +142,27 @@ header{
   display: none;
 }
 
+#learn-button{
+  font-size: 0.8vw;
+  width: 8vw;
+  min-height: 5vh;
+  overflow: hidden;
+}
+
+#book-button{
+  font-size: 0.8vw;
+  overflow: hidden;
+  width: 8vw;
+  min-height: 5vh;
+}
+
+
+
+/*start nav bar css here*/
+
+
 /* header up */
 
-body {
-  margin: 0%;
-}
 
 .navbar {
   text-align: center;
@@ -150,8 +176,8 @@ body {
 
 #open {
   color: white;
-  padding-left: 3rem;
-  padding-top: 1rem;
+  padding-left: 3vw;
+  padding-top: 0.5vw;
 }
 
 .wrapper {
@@ -176,3 +202,70 @@ body {
 }
 
 /* header end */
+
+
+
+
+/*end nav bar css here*/
+
+.middle{
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+  display: grid;
+  grid-template-columns: 35vw 65vw;
+  grid-template-rows: 30vh auto;
+  grid-template-areas: 
+  "about image"
+  "text image"
+  ;
+
+} 
+
+.image-container1{
+  width: 100vw;
+  height: 110%;
+  grid-area: image;
+}
+
+.image-container1 img{
+  width: 65vw;
+  height: 105vh;
+
+}
+
+.text-container1{
+  grid-area: text;
+}
+
+#text-width{
+  font-family: Hina Mincho;
+  font-size: 2vw;
+  width: 45vw;
+  height: auto;
+}
+
+.internal-container{
+
+  padding-top: 0vh;
+  padding-left: 10vw;
+}
+
+.about{
+  grid-area: about;
+  padding-top: 20vh;
+  padding-left: 10vw;
+  font-size: 1vw;
+  font-family: Hind;
+}
+
+body{
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+
+/*start nav bar items css here*/
+
+/*end nav bar items css here*/
