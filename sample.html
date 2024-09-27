@@ -3,60 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Footer</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Bootstrap Display Utilities</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .footer {
-            background-color: #1b1b1b;
-            color: white;
-            padding: 20px;
-        }
-        .support-button {
-            background-color: white;
-            color: black;
-            text-decoration: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            display: inline-block;
-        }
-        .footer-column h1, .footer-column h3 {
-            margin-bottom: 15px;
-        }
-        .footer-column p {
-            margin: 5px 0;
+        .box {
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            background-color: #f8f9fa;
         }
     </style>
 </head>
 <body>
-
-<div class="footer container-fluid">
-    <div class="row">
-        <div class="col-md-4 footer-column">
-            <img src="/Museo Bulawan Visitor/source/LOGO.png" alt="Logo" style="width: 50px;">
-            <h1>MUSEO BULAWAN</h1>
-            <p>Helping us raise awareness regarding Camnortenos identity is crucial, and your support can make a significant difference.</p>
-            <p>We gratefully accept donations or just lending of your artifact will greatly help us.</p>
-            <a href="#" class="support-button">Support Us</a>
+    <div class="container">
+        <h1>Bootstrap Display Utilities</h1>
+        <div class="row">
+            <div class="col-12">
+                <h2>Extra Small (xs)</h2>
+                <div class="box d-none">d-none</div>
+                <div class="box d-inline">d-inline</div>
+                <div class="box d-inline-block">d-inline-block</div>
+                <div class="box d-block">d-block</div>
+                <div class="box d-grid">d-grid</div>
+                <div class="box d-inline-grid">d-inline-grid</div>
+                <div class="box d-table">d-table</div>
+                <div class="box d-table-cell">d-table-cell</div>
+                <div class="box d-table-row">d-table-row</div>
+                <div class="box d-flex">d-flex</div>
+                <div class="box d-inline-flex">d-inline-flex</div>
+            </div>
         </div>
-        <div class="col-md-4 footer-column">
-            <h3>Visit Us</h3>
-            <ul class="list-unstyled">
-                <li>About Us</li>
-                <li>Book a Tour</li>
-                <li>Contact Us</li>
-                <li>Map View</li>
-            </ul>
+        <div class="row">
+            <div class="col-12">
+                <h2>Small (sm) and Up</h2>
+                <div class="box d-sm-none">d-sm-none</div>
+                <div class="box d-sm-inline">d-sm-inline</div>
+                <div class="box d-sm-inline-block">d-sm-inline-block</div>
+                <div class="box d-sm-block">d-sm-block</div>
+                <div class="box d-sm-grid">d-sm-grid</div>
+                <div class="box d-sm-inline-grid">d-sm-inline-grid</div>
+                <div class="box d-sm-table">d-sm-table</div>
+                <div class="box d-sm-table-cell">d-sm-table-cell</div>
+                <div class="box d-sm-table-row">d-sm-table-row</div>
+                <div class="box d-sm-flex">d-sm-flex</div>
+                <div class="box d-sm-inline-flex">d-sm-inline-flex</div>
+            </div>
         </div>
-        <div class="col-md-4 footer-column">
-            <h3>Opening Hours</h3>
-            <p>Camarines Norte Provincial Capitol Grounds, Daet Philippines</p>
-            <p>Open Daily 9:00am-5:00pm, Monday-Friday</p>
-        </div>
+        <!-- Repeat similar blocks for md, lg, xl, and xxl -->
     </div>
-</div>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
