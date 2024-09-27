@@ -1,0 +1,136 @@
+body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header {
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../source/backgroundimg.png');
+    background-position: bottom;
+    background-size: cover;
+    display: flex;
+    flex-direction: row;
+
+}
+
+.header-clipped{
+
+    width: 100vw;
+    height: 20vh;
+    position: absolute;
+    display: flex;
+    
+    align-items: center;
+}
+
+.header-clipped::after{
+    content: "";
+    position: absolute;
+    left: 10%;
+    bottom: 7%;
+    width: 80%; /* Custom width for the underline */
+    height: 3px; /* Thickness of the underline */
+    background-color: white; /* Color of the underline */
+}
+
+.museum-logo img{
+    height: 120px;
+    width: 120px;
+}
+
+header .flex-container1{
+    width: fit-content;
+    height: 100vh;
+    /*position: absolute;
+    left: 6%;*/
+    display: flex;
+    align-content: left;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    flex-grow: 1;
+}
+
+header h2{
+    color: #DAB765;
+    font-family: hind;
+    font-weight: bold;
+    font-size: 300%;
+    line-height: 200%;
+}
+header h1{
+    font-family: hind;
+    font-weight: bold;
+    color: white;
+    line-height: 65%;
+    font-size: 625%;
+}
+
+header .flex-container2{
+    width: fit-content;
+    height: 100vh;
+    display: flex;
+   /*position: absolute;
+    left: -4%;*/
+    flex-direction: column;
+    justify-content: space-evenly;
+
+}
+
+
+header .flex-container3{
+    width: fit-content;
+    height: 100vh;
+    display: flex;
+   /*position: absolute;
+    left: -4%;*/
+    flex-direction: column;
+    justify-content: space-evenly;
+
+}
+
+.handle{
+    transform: rotate(270deg);
+}
+
+
+.logo-container {
+    position: relative;
+    display: inline-block;
+    background-image: url('background.jpg'); /* Replace with your background image */
+    background-size: cover;
+    background-position: center;
+    width: 200px; /* Adjust as needed */
+    height: 100px; /* Adjust as needed */
+    padding: 10px;
+}
+
+  /* Vertical line and text styling */
+.logo-text {
+    display: flex;
+    align-items: center; /* Vertically center the text */
+    color: white; /* Text color */
+    font-family: Arial, sans-serif; /* Adjust font */
+    font-size: 20px; /* Adjust size */
+    font-weight: bold;
+}
+
+  /* Vertical line */
+.logo-text::before {
+    content: '';
+    display: inline-block;
+    width: 3px; /* Line thickness */
+    height: 60px; /* Line height */
+    background-color: white; /* Line color */
+    margin-right: 10px; /* Space between line and text */
+    
+}
+
+  /* Text alignment */
+    .logo-text span {
+    display: block;
+    line-height: 1.2; /* Adjust line height */
+}
+

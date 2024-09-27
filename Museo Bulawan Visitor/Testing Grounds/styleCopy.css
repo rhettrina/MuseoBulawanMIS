@@ -1,0 +1,145 @@
+body{
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+header{
+    color: white;
+    height: 100vh;
+    width: 100vw;
+    background-image: url('../source/backgroundimg.png');
+    background-position: bottom;
+    background-size: cover;
+    display: grid;
+    grid-template-columns: 4em 1fr 4em;
+    grid-template-rows: auto 1fr;
+    grid-template-areas: 
+    "handle1 nav handle2"
+    "handle1 content handle2"
+    ;
+}
+
+.nav{
+    grid-area: nav;
+    padding: 1em;
+    display: grid;
+    grid-template-columns: auto 1fr 1fr;
+    grid-template-areas: 
+    "logo text-logo"
+    ;
+}
+
+.handler1{
+    grid-area: handle1;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+}
+
+.handler2{
+    grid-area: handle2;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+}
+
+.content{
+    grid-area: content;
+}
+
+.flex-container{
+    height: 1fr;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: left;
+}
+
+.flex-container h2{
+    color: #DAB765;
+    font-family: hind;
+    font-weight: bold;
+    font-size: 300%;
+    line-height: 200%;
+}
+.flex-container h1{
+    font-family: hind;
+    font-weight: bold;
+    color: white;
+    line-height: 65%;
+    font-size: 625%;
+}
+
+
+.logo img{
+    grid-area: logo;
+    width: 76px;
+    height: 76px;
+    margin-right: 4em;
+}
+
+  /* Vertical line and text styling */
+
+  .logo-container{
+    grid-area: text-logo;
+    display: flex;
+    align-content: center;
+
+  }
+  .logo-text {
+    display: flex;
+    align-items: center; /* Vertically center the text */
+    color: white; /* Text color */
+    font-family: Arial, sans-serif; /* Adjust font */
+    font-size: 165%; /* Adjust size */
+    font-weight: bold;
+    
+}
+
+  /* Vertical line */
+.logo-text::before {
+    content: '';
+    display: inline-block;
+    width: 0.3em; /* Line thickness */
+    height: 2.7em; /* Line height */
+    background-color: white; /* Line color */
+    margin-right: 10px; /* Space between line and text */
+}
+
+
+
+
+  /* Text alignment */
+.logo-text span {
+    display: block;
+    line-height: 0.9    ; /* Adjust line height */
+}
+
+.handle{
+    transform: rotate(270deg);
+    white-space: nowrap; /* Prevents the text from wrapping to the next line */
+}
+
+.line{
+    display: inline-block; /* This makes the width of the div adjust to its content */
+    border-top: 0.2em solid rgb(255, 255, 255); /* Adds a 2px black underline */
+    width: 90vw ; /* Custom width for the underline */
+
+}
+
+  ::-webkit-scrollbar { 
+    display: none;
+  }
+
+
+/*start nav bar css here*/
+
+/*end nav bar css here*/
+
+.middle{
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+
+}

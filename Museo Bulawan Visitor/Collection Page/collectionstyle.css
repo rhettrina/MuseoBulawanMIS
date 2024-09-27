@@ -1,27 +1,28 @@
+/* header up */
+
+body {
+    margin: 0%;
+}
+
 .navbar {
-    
     text-align: center;
     padding: 0%;
 }
 
 .navbar-nav {
-    
     color: white;
     text-shadow: 5%;
 }
 
 #open {
     color: white;
-    padding-left: 5%;
-    padding-top: 1%;
-}
-
-#brand {
-    padding-left: 5%;
+    padding-left: 3rem;
+    padding-top: 1rem;
 }
 
 .wrapper {
     background-color: #1C1B19;
+    padding-bottom: 10px;
 }
 
 #container1 {
@@ -29,24 +30,24 @@
     font-size: small;
 }
 
-
-
 #container2 {
-    margin-top: 1em;
-    padding: 1rem;
+    padding: 1em 3em .1em 3em;
 }
 
 #logo {
     height: fit-content;
-    width: 70px;
-    margin-left: 50px;
+    width: 5rem;
+    margin-left: 5%;
 }
 
 #brand {
     text-transform: uppercase;
     font-family: Noto Sans;
     font-weight: bold;
+    font-size: 1.5em;
+    padding-left: .5em;
 }
+<<<<<<< HEAD
  
 /*Russel part*/
 /*Details*/
@@ -74,11 +75,133 @@
 .image-container .image-details {
     position: absolute;
     bottom: 0;
+=======
+
+.logowrapper {
+    display: flex;
+    align-items: center;
+    margin-right: 20%;
+}
+
+#searchbtn {
+    height: fit-content;
+    width: 2.5em;
+    position: relative;
+}
+
+.nav-link {
+    color: white;
+}
+
+
+.dropdownicon {
+    height: fit-content;
+    width: 15px;
+}
+
+/* header end */
+
+.searchcontainer {
+    margin: 0px;
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+}
+
+.searchcontainer img {
+    max-width: 100%;
+    width: 200em;
+    height: 20rem;
+    object-fit: cover;
+    object-position: 10% 20%;
+    filter: blur(2px) grayscale(50%) opacity(80%);
+    display: block;
+}
+
+
+
+.form-overlay {
+    position: absolute;
+    top: 50%;
+>>>>>>> d048d02a9a5e8e68266ae9f631361ed0f3fb128d
     left: 50%;
-    height: 8vh;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
+    width: 60%;
+    font-size: large;
+}
+
+.form-control,
+.btn-search {
+    border-radius: 10;
+    border: 1px solid #000;
+}
+
+#features {
+    padding: 5%;
+    background-color: #1C1B19;
+}
+
+.feature-box {
+    text-align: center;
+}
+
+.feature-box img {
+    object-fit: cover;
+    max-width: 100%;
+    height: 400px;
+    width: 400px;
+}
+
+.feature-box img:hover {
+    filter: blur(2px) grayscale(50%) opacity(80%);
+}
+
+.feature-box h5 {
+    color: #BD8049;
+}
+
+.feature-box h2 {
+    color: #FCE6BC;
+    font-family: Hina Mincho;
+    font-size: 2.5em;
+}
+
+.feature-box h4 {
+    color: #B1AEAB;
+    font-size: 1em;
+}
+
+.feature-box h4 h5 {
+    font-family: Nota Sans;
+}
+
+.feature-box .textarea {
+    margin: 20px;
+}
+
+/* start of footer */
+
+.lowercontainer {
+    background-color: #1C1B19;
+}
+
+.side-footer {
+    background-color: #1C1B19;
+    color: white;
+}
+
+.side-footer img {
+    width: 80px;
+    height: 80px;
+    max-width: 100%;
+}
+
+
+/*start*/
+.museo-bulawan-cmp{
     display: flex;
     flex-direction: row;
+<<<<<<< HEAD
     justify-content: center;
     width: 100%;
     color: white;
@@ -182,3 +305,12 @@
 }
 
   /*Russel part*/
+=======
+}
+
+.museo-bulawan-cmp h1{
+    padding: 0.6vw;
+}
+
+/*end*/
+>>>>>>> d048d02a9a5e8e68266ae9f631361ed0f3fb128d

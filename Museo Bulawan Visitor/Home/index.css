@@ -1,55 +1,275 @@
-#wrapper_topP{
-    object-fit: contain;
-    object-fit: cover;
-    
-
+html{
+  background-color: black
 }
-#bgimg{
-    max-width: 100em;
-
+body{
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden;
 }
 
-#txt1{
-    text-transform: uppercase;
-    font-family: Hind;
-    font-weight: bold;
-    font-size: 2em;
-    color: #DAB765;
-
-    position: relative;
-    top: -20em;
-    left: 3.4em;
+.front{
+  color: white;
+  height: 100vh;
+  width: 100vw;
+  background-image: url('../source/backgroundimg.png');
+  background-position: bottom;
+  background-size: cover;
+  display: grid;
+  grid-template-columns: 4vw 1fr 4vw;
+  grid-template-rows: auto 1fr;
+  grid-template-areas: 
+  "handle1 nav handle2"
+  "handle1 content handle2"
+  ;
 }
 
-#txt2{
-    text-transform: uppercase;
-    font-family: Hind;
-    font-weight: bold;
-    font-size: 5.8em;
-    color: rgb(255, 255, 255);
+.nav{
+  grid-area: nav;
+  padding: 2vw;
+  display: grid;
+  grid-template-columns: auto 1vw 1vw;
+  grid-template-areas: 
+  "logo text-logo"
+  ;
+}
 
-    position: relative;
-    top: -7.4em;
-    left: 1.2em;
+.handler1{
+  grid-area: handle1;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  font-size: 1vw;
+}
+
+.handler2{
+  grid-area: handle2;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  font-size: 1vw;
+}
+
+.details{
+  font-size: 1vw;
+}
+
+.content{
+  grid-area: content;
+}
+
+.flex-container{
+  height: auto;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: left;
+}
+
+.flex-container h2{
+  color: #DAB765;
+  font-family: hind;
+  font-weight: bold;
+  font-size: 3.4vw;
+  line-height: 200%;
+  text-shadow: 3px 3px #000000;
+}
+.flex-container h1{
+  font-family: hind;
+  font-weight: bold;
+  color: white;
+  line-height: 65%;
+  font-size: 6vw;
+  text-shadow: 3px 3px #000000;
+}
+
+
+.logo img{
+  grid-area: logo;
+  width: 5vw;
+  height: auto;
+  margin-right: 4vw;
+}
+
+/* Vertical line and text styling */
+
+.logo-container{
+  grid-area: text-logo;
+  display: flex;
+  align-content: center;
+
+}
+.logo-text {
+  display: flex;
+  align-items: center; /* Vertically center the text */
+  color: white; /* Text color */
+  font-family: Arial, sans-serif; /* Adjust font */
+  font-size: 1.5vw; /* Adjust size */
+  font-weight: bold;
+  
+}
+
+/* Vertical line */
+.logo-text::before {
+  content: '';
+  display: inline-block;
+  width: 0.5vw; /* Line thickness */
+  height: 4vw; /* Line height */
+  background-color: white; /* Line color */
+  margin-right: 1vw; /* Space between line and text */
+}
+
+
+
+
+/* Text alignment */
+.logo-text span {
+  display: block;
+  line-height: 100%; /* Adjust line height */
+}
+
+.handle{
+  transform: rotate(270deg);
+  white-space: nowrap; /* Prevents the text from wrapping to the next line */
+}
+
+.line{
+  display: inline-block; /* This makes the width of the div adjust to its content */
+  border-top: 0.2vw solid rgb(255, 255, 255); /* Adds a 2px black underline */
+  width: 92vw ; /* Custom width for the underline */
 
 }
 
-#txt3{
-    text-transform: uppercase;
-    font-family: Hind;
-    font-weight: bold;
-    font-size: 4.1em;
-    color: rgb(255, 255, 255);
+::-webkit-scrollbar { 
+  display: none;
+}
 
-    position: relative;
-    top: -11.4em;
-    left: 1.63em;
+#learn-button{
+  font-size: 0.8vw;
+  width: 8vw;
+  min-height: 5vh;
+  overflow: hidden;
+}
+
+#book-button{
+  font-size: 0.8vw;
+  overflow: hidden;
+  width: 8vw;
+  min-height: 5vh;
+}
+
+
+
+/*start nav bar css here*/
+
+
+/* header up */
+
+
+.navbar {
+  text-align: center;
+  padding: 0%;
+}
+
+.navbar-nav {
+  color: white;
+  text-shadow: 5%;
+}
+
+#open {
+  color: white;
+  padding-left: 3vw;
+  padding-top: 0.5vw;
+}
+
+.wrapper {
+  background-color: #1C1B19;
+}
+
+#container1 {
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
+  font-size: small;
+}
+
+
+
+.nav-link {
+  color: white;
+}
+
+
+.dropdownicon {
+  height: fit-content;
+  width: 15px;
+}
+
+/* header end */
+
+
+
+
+/*end nav bar css here*/
+
+.middle{
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+  display: grid;
+  grid-template-columns: 35vw 65vw;
+  grid-template-rows: 30vh auto;
+  grid-template-areas: 
+  "about image"
+  "text image"
+  ;
+
+} 
+
+.image-container1{
+  width: 100vw;
+  height: 110%;
+  grid-area: image;
+}
+
+.image-container1 img{
+  width: 65vw;
+  height: 105vh;
 
 }
 
-#learnMREbutton{
-    position: relative;
-    top: -47em;
-    left: 6.90em;
-
+.text-container1{
+  grid-area: text;
 }
+
+#text-width{
+  font-family: Hina Mincho;
+  font-size: 2vw;
+  width: 45vw;
+  height: auto;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.internal-container{
+
+  padding-top: 0vh;
+  padding-left: 10vw;
+}
+
+.about{
+  grid-area: about;
+  padding-top: 20vh;
+  padding-left: 10vw;
+  font-size: 1vw;
+  font-family: Hind;
+}
+
+body{
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+
+/*start nav bar items css here*/
+
+/*end nav bar items css here*/

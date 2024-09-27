@@ -3,42 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Two Containers with Box Shadow</title>
+    <title>Bootstrap Display Utilities</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .container {
-            display: flex;
-        }
-
         .box {
-            width: 200px;
-            height: 200px;
-            margin: 10px;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .box-shadow {
-            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .box1 {
-            background-color: #f0f0f0;
-        }
-
-        .box2 {
-            margin-left: 0%;
-            background-color: #ffffff;
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            background-color: #f8f9fa;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="box box1 box-shadow">
-            <p>Container 1 with Box Shadow</p>
+        <h1>Bootstrap Display Utilities</h1>
+        <div class="row">
+            <div class="col-12">
+                <h2>Extra Small (xs)</h2>
+                <div class="box d-none">d-none</div>
+                <div class="box d-inline">d-inline</div>
+                <div class="box d-inline-block">d-inline-block</div>
+                <div class="box d-block">d-block</div>
+                <div class="box d-grid">d-grid</div>
+                <div class="box d-inline-grid">d-inline-grid</div>
+                <div class="box d-table">d-table</div>
+                <div class="box d-table-cell">d-table-cell</div>
+                <div class="box d-table-row">d-table-row</div>
+                <div class="box d-flex">d-flex</div>
+                <div class="box d-inline-flex">d-inline-flex</div>
+            </div>
         </div>
-        <div class="box box2">
-            <p>Container 2</p>
+        <div class="row">
+            <div class="col-12">
+                <h2>Small (sm) and Up</h2>
+                <div class="box d-sm-none">d-sm-none</div>
+                <div class="box d-sm-inline">d-sm-inline</div>
+                <div class="box d-sm-inline-block">d-sm-inline-block</div>
+                <div class="box d-sm-block">d-sm-block</div>
+                <div class="box d-sm-grid">d-sm-grid</div>
+                <div class="box d-sm-inline-grid">d-sm-inline-grid</div>
+                <div class="box d-sm-table">d-sm-table</div>
+                <div class="box d-sm-table-cell">d-sm-table-cell</div>
+                <div class="box d-sm-table-row">d-sm-table-row</div>
+                <div class="box d-sm-flex">d-sm-flex</div>
+                <div class="box d-sm-inline-flex">d-sm-inline-flex</div>
+            </div>
         </div>
+        <!-- Repeat similar blocks for md, lg, xl, and xxl -->
     </div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
