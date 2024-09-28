@@ -18,8 +18,8 @@ body{
   grid-template-columns: 4vw 1fr 4vw;
   grid-template-rows: auto 1fr;
   grid-template-areas: 
-  "handle1 nav handle2"
-  "handle1 content handle2"
+  "left nav handle2"
+  "left content handle2"
   ;
 }
 
@@ -34,7 +34,7 @@ body{
 }
 
 .handler1{
-  grid-area: handle1;
+  grid-area: left;
   display: flex;
   justify-content: space-evenly;
   flex-direction: column;
@@ -184,6 +184,8 @@ body{
 
 .wrapper {
   background-color: #1C1B19;
+  position: relative;
+  z-index: 2;
 }
 
 #container1 {
@@ -233,6 +235,9 @@ body{
 .image-container1 img{
   width: 65vw;
   height: 105vh;
+  overflow: clip;
+  position: relative;
+  z-index: 1;
 
 }
 
@@ -250,7 +255,8 @@ body{
 }
 
 .internal-container{
-
+  position: relative;
+  z-index: 2;
   padding-top: 0vh;
   padding-left: 10vw;
 }
@@ -261,6 +267,8 @@ body{
   padding-left: 10vw;
   font-size: 1vw;
   font-family: Hind;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 body{
@@ -273,3 +281,28 @@ body{
 /*start nav bar items css here*/
 
 /*end nav bar items css here*/
+
+
+.body{
+  width: 100vw;
+  height: 100vh;
+
+}
+
+
+.body-img-container img{
+  position: absolute;
+  top: 191.7vh;
+  width: 100vw;
+  height: auto;
+  z-index: 0;
+}
+.legs{
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  background-color: FCDC;
+  grid-template-columns: 40vw 1fr;
+  grid-template-rows: 1fr 20vh;
+}
+
