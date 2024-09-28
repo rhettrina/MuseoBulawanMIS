@@ -1,0 +1,480 @@
+/* header up */
+
+body {
+    margin: 0%;
+}
+
+.navbar {
+    text-align: center;
+    padding: 0%;
+}
+
+.navbar-nav {
+    color: white;
+    text-shadow: 5%;
+}
+
+#open {
+    color: white;
+    padding-left: 3rem;
+    padding-top: 1rem;
+}
+
+.wrapper {
+    background-color: #1C1B19;
+}
+
+#container1 {
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
+    font-size: small;
+
+}
+
+#container2 {
+    padding: 1em 3em .1em 3em;
+}
+
+#logo {
+    height: fit-content;
+    width: 5rem;
+    margin-left: 5%;
+}
+
+#brand {
+    text-transform: uppercase;
+    font-family: Noto Sans;
+    font-weight: bold;
+    font-size: 1.5em;
+    padding-left: .5em;
+}
+
+.logowrapper {
+    display: flex;
+    align-items: center;
+    margin-right: 20%;
+}
+
+#searchbtn {
+    height: fit-content;
+    width: 2.5em;
+    position: relative;
+}
+
+.nav-link {
+    color: white;
+}
+
+
+.dropdownicon {
+    height: fit-content;
+    width: 15px;
+}
+
+/* header end */
+
+.searchcontainer {
+    margin: 0px;
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+}
+
+.searchcontainer img {
+    max-width: 100%;
+    width: 200em;
+    height: 20rem;
+    object-fit: cover;
+    object-position: 10% 20%;
+    filter: blur(2px) grayscale(50%) opacity(80%);
+    display: block;
+}
+
+
+
+.form-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    font-size: large;
+}
+
+.form-control,
+.btn-search {
+    border-radius: 10;
+    border: 1px solid #000;
+}
+
+#features {
+    padding: 5%;
+    background-color: #1C1B19;
+}
+
+.feature-box {
+    text-align: center;
+}
+
+.feature-box img {
+    object-fit: cover;
+    max-width: 100%;
+    height: 400px;
+    width: 400px;
+}
+
+.feature-box img:hover {
+    filter: blur(2px) grayscale(50%) opacity(80%);
+}
+
+.feature-box h5 {
+    color: #BD8049;
+}
+
+.feature-box h2 {
+    color: #FCE6BC;
+    font-family: Hina Mincho;
+    font-size: 2.5em;
+}
+
+.feature-box h4 {
+    color: #B1AEAB;
+    font-size: 1em;
+}
+
+.feature-box h4 h5 {
+    font-family: Nota Sans;
+}
+
+.feature-box .textarea {
+    margin: 20px;
+}
+
+.lowercontainer {
+    background-color: #1C1B19;
+}
+
+.footer {
+    background-color: #1C1B19;
+    height: 100%;
+    color: white;
+}
+
+.footer-box img{
+    margin-left: 3em;
+    height: 60px;
+    width: 60px;
+}
+
+
+.group img{
+    width: 100%;  
+    height: auto;
+
+}
+
+/*  about us */
+
+.sec {
+
+    margin-top: 8%;
+    margin-left: 13%;
+    margin-right: 6%;
+    max-width: auto;
+    height: auto;
+    display: flex;  
+    justify-content: space-between;  
+    
+}
+
+.sec .leftside {
+    height: auto;
+    width: 40%; 
+    margin-right: 30px;
+    box-sizing: border-box; 
+    overflow: hidden; 
+}
+
+.sec .rightside {
+    height: auto;
+    width: 57%; 
+    box-sizing: border-box; 
+
+}
+
+.sec .leftside .tl {
+
+    width: auto;
+    padding-top: 25px;
+    padding-bottom: 35px;
+    position: relative;
+    height: auto;
+            
+}
+.sec .leftside .tl h6{
+
+    font-family: Hina Mincho;
+    font-size: 1.05vw;           
+    line-height: 2;            
+    color: black;  
+    text-align: justify; 
+    overflow-wrap: break-word;         
+}
+
+#pic1 img {
+    width: 100%; 
+    height: auto; 
+
+
+}
+
+.sec .rightside .tr{
+    width: auto;
+    padding-bottom: 10px;
+}
+
+.sec .rightside .tr h3{
+    font-family: Hina Mincho;
+    font-size: 2.7vw;             
+    line-height: 1.3;           
+    color: black;  
+    text-align: justify;    
+    overflow-wrap: break-word;
+
+}
+
+.sec .rightside .sbr {
+    width: auto;
+}
+
+.sec .rightside .sbr h6{
+    font-family: Hina Mincho;
+    font-size: 1.43vw;            
+    line-height: 1.3;           
+    color: black;  
+    text-align: justify;  
+    overflow-wrap: break-word;  
+}
+
+
+.sec2{
+
+    width: auto;
+    height: auto;
+
+    margin-left: 13%;
+    margin-right: 5%;
+    margin-top: 5%;
+    
+}
+
+.sec2 .topsec {
+
+    position: relative;
+    padding-right: 40%;
+
+  
+
+}
+
+.sec2 .topsec h1 {
+    font-family: Hina Mincho;
+    font-size: 2.5vw;
+    line-height: 1.5;
+    color: black;
+}
+
+.sec2 .botsec2{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;        
+    gap: 20px;                      
+    margin: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+    
+}
+
+.bsl {
+    width: 45%;                  
+    display: flex;
+    justify-content: flex-end;        
+}
+
+.bsr {
+    width: 50%;                   
+    display: flex;
+    flex-direction: column;           
+    justify-content: flex-start;      
+    gap: 20px;                       
+}
+
+#pic2 img {
+    width: 100%;                     
+    height: auto; 
+    margin-left: -8%;
+}
+
+.con {
+    font-family: Hina Mincho;
+    display: flex;
+    align-items: center;  /* Vertically center align the "L" and the "orem" text */
+    gap: 10px;            /* Add some spacing between "L" and "orem" */
+}
+
+.L h1{
+
+    font-size: 8vw;
+    color: black;
+}
+
+.orem h6 {
+    font-family: Hina Mincho;
+    font-size: 1.6vw;
+    line-height: 1.2;
+    text-align: justify;
+    color: black;
+    overflow-wrap: break-word;
+    padding-top: 20px;
+}
+
+.lorem h6 {
+    margin-top: -20px;
+    font-family: Hina Mincho;
+    font-size: 1.34vw;
+    line-height: 1.5;
+    text-align: justify;
+    color: black;
+    overflow-wrap: break-word;
+}
+
+
+.sec3{
+
+    width: auto;
+    height: auto;
+    margin-left: 13%;
+    margin-right: 6%;
+    overflow: hidden;
+    margin-top: 5%;
+}
+
+
+
+.sec3 .topsec{
+    margin-bottom: 3%;
+    width: auto;
+    height: auto;
+    display: flex;
+
+}
+
+
+
+.sec3 .topsec .tl{
+    width: 500px;
+    text-align: justify;
+    font-family: Hina Mincho;
+    height: auto;
+    overflow: hidden;
+}
+
+.sec3 .topsec .tl h6{
+    line-height: 1.8;
+    color: black;
+    font-size: 1.34vw;  
+    overflow-wrap: break-word;
+}
+
+
+
+#pic3 img{
+    width: 100%;
+    height: auto;
+    padding-left: 10%;
+
+}
+
+
+
+.sec3 .botsec{
+    width: auto;
+    height: auto;
+    display: flex;
+}
+
+
+.sec3 .botsec .leftsec3{
+    width: 60%;
+    height: auto;
+    overflow: hidden;
+}
+
+.sec3 .botsec .rightsec3{
+    width: 40%;
+    height: auto;
+    overflow: hidden;
+    padding-right: 5%;
+    text-align: justify;
+    font-family: Hina Mincho;
+    padding-left: 2%;
+
+}
+
+.sec3 .botsec .rightsec3 h6{
+    line-height: 1.8;
+    font-size: 1.2vw;
+    overflow-wrap: break-word;
+    color: black;
+}
+
+.sec3 .botsec .leftsec3 h1{
+    text-align: justify;
+    font-family: Hina Mincho;
+    padding-left: 3%;
+    font-size: 3vw;
+    color: black;
+}
+
+.sec3 .botsec .leftsec3 h6{
+    text-align: justify;
+    font-family: Hina Mincho;
+    font-size: 1.5vw;
+    line-height: 1.5;
+    padding-top: 3%;
+    color: black;
+
+}
+
+
+.map .text{
+    width: auto;
+    height: fit-content;
+
+    margin-top: 8%;
+    margin-bottom: 5%;
+    padding-left: 13%;
+
+}
+
+.map .text h1{
+    font-weight: bold;
+    font-family: Hind Kochi;
+    color: black;
+}
+
+#frame{
+    display: flex;
+    width: 100%;
+    height: auto;
+    box-sizing: border-box; 
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+}
+#frame img{
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;  
+
+}
+
