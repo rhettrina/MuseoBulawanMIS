@@ -1,0 +1,287 @@
+body{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    background-color: #000000;
+}
+html{
+    background-color: #000000;
+}
+
+* {
+    box-sizing: border-box;
+}
+::-webkit-scrollbar { 
+    display: none;
+  }
+
+/*Top bar start*/
+.bar{
+    height: auto;
+    width: 100vw;
+    background-color: #1C1B19;
+    box-shadow: 0px 0.1vh 0.2vh 1vh #1C1B19;
+    z-index: 2;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+
+.bar p{
+    font-size: 0.8rem;
+    font-family: hind;
+    height: 100% ;
+    width: fit-content;
+    color: #EDE2CD;
+    position: relative;
+    top: 0.8rem;
+    padding-left: 3rem;
+
+}
+
+.bar-button-wrapper{
+    display: flex;
+    flex-direction: row;
+    padding-right: 3rem;
+    flex-wrap: wrap;
+ 
+}
+
+.bar-blank-space{
+    flex-grow: 1;
+}
+
+.bar-button-wrapper a{
+    font-size: 0.5rem;
+    color: #EDE2CD;
+    text-decoration: none;
+    padding-left: 1rem;
+    position: relative;
+    top: 0.4rem;
+    overflow: hidden;
+}
+
+/*Top bar end*/
+.handle{
+    transform: rotate(270deg);
+    white-space: nowrap; /* Prevents the text from wrapping to the next line */
+  }
+
+.front-page{
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../source/backgroundimg.png');
+    background-position: bottom;
+    background-size: cover;
+    display: grid;
+    grid-template-columns: 4vw 1fr 4vw;
+    grid-template-rows: auto 1fr;
+    grid-template-areas: 
+    "socials-left nav socials-right"
+    "socials-left info socials-right"
+    ;
+}
+
+.socials-left{
+    grid-area: socials-left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    font-size: 1vw;
+    text-align: center;
+}
+
+.socials-right{
+    grid-area: socials-right;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    font-size: 1vw;
+}
+
+.fp-nav{
+    display: grid;
+    grid-template-columns: 20vw 1fr 1fr;
+    height: fit-content;
+    width: auto;
+    padding-top: 2vh;
+    border-bottom: 0.4vh solid rgb(255, 255, 255); /* Adds a black bottom border */
+    padding-bottom: 2vh; /* Optional: Adds space between text and border */
+}
+.fp-brand{
+    display: flex;
+    flex-direction: row;
+    padding-left: 1vw;
+}
+
+.logo img{
+    grid-area: logo;
+    width: 5vw;
+    height: auto;
+    margin-right: 4vw;
+  }
+  
+  /* Vertical line and text styling */
+  
+  .logo-container{
+    grid-area: text-logo;
+    display: flex;
+    align-content: center;
+  
+  }
+  .logo-text {
+    display: flex;
+    align-items: center; /* Vertically center the text */
+    color: white; /* Text color */
+    font-family: Arial, sans-serif; /* Adjust font */
+    font-size: 1.5vw; /* Adjust size */
+    font-weight: bold;
+    
+  }
+  
+  /* Vertical line */
+  .logo-text::before {
+    content: '';
+    display: inline-block;
+    width: 0.3vw; /* Line thickness */
+    height: 4vw; /* Line height */
+    background-color: white; /* Line color */
+    margin-right: 1vw; /* Space between line and text */
+  }
+  
+  
+  
+  
+  /* Text alignment */
+  .logo-text span {
+    display: block;
+    line-height: 100%; /* Adjust line height */
+  }
+
+  .fp-info{
+    grid-area: info;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    
+  }
+
+  .fp-info h2{
+    color: #DAB765;
+    font-family: hind;
+    font-weight: bold;
+    font-size: 3.4vw;
+    line-height: 200%;
+    text-shadow: 3px 3px #000000;
+  }
+  .fp-info h1{
+    font-family: hind;
+    font-weight: bold;
+    color: white;
+    line-height: 65%;
+    font-size: 6vw;
+    text-shadow: 3px 3px #000000;
+  }
+
+  .details{
+    font-size: 1vw;
+    color: #ffffff;
+  }
+
+  #learn-button{
+    font-size: 0.8vw;
+    width: 8vw;
+    min-height: 5vh;
+    overflow: hidden;
+  }
+  
+  #book-button{
+    font-size: 0.8vw;
+    overflow: hidden;
+    width: 8vw;
+    min-height: 5vh;
+  }
+
+.content-wrapper{
+    height: 500vh;
+    width: 100vw;
+}
+
+.about{
+    width: 100vw;
+    height: 100vh;
+    background-color: #ffffff;
+    display: grid;
+    grid-template-columns: 23vw 1fr;
+    grid-template-areas: 
+    "text image"
+    ;
+}
+.about-text{
+    position: relative;
+    z-index: 3;
+    grid-area: text;
+}
+.about-image{
+    grid-area: image;
+}
+.about-image img{
+    height: 105vh;
+    width: auto;
+    padding-right: 0vw;
+    position: relative;
+    z-index: 2;
+}
+
+.about-content{
+    padding-left: 10vh;
+    width: 45vw;
+    font-family: Hina Mincho;
+    font-size: 2vw;
+    text-align: justify;
+    text-justify: inter-word;
+    position: relative;
+    z-index: 2;
+}
+.at-id{
+    padding-top: 20vh;
+    padding-left: 10vh;
+    font-family: hind;
+    font-size: 1vw;
+}
+.at-link{
+    padding-left: 10vh;
+    font-family: hind;
+    font-size: 1vw;
+}
+
+.featured-collections img{
+    width: 110%;
+    height: auto;
+    overflow: visible;
+    position: relative;
+    top: -17vh;
+    z-index: 1;
+}
+
+.legs{
+    height: 100vh;
+    width: 100vw;
+    background-color: #ffffff;
+    position: relative;
+    top: -50vh;
+    z-index: 0;
+}
+.legs-extension{
+    height: 12vh;
+    width: 100vw;
+    background-color: #867055;
+    position: relative;
+    top: -50vh;
+}

@@ -185,7 +185,7 @@ body{
 .wrapper {
   background-color: #1C1B19;
   position: relative;
-  z-index: 2;
+
 }
 
 #container1 {
@@ -256,7 +256,7 @@ body{
 
 .internal-container{
   position: relative;
-  z-index: 2;
+  z-index: 5;
   padding-top: 0vh;
   padding-left: 10vw;
 }
@@ -286,50 +286,24 @@ body{
 .body{
   width: 100vw;
   height: 100vh;
+  position: relative;
 
 }
-
+.body-img-container{
+  width: 100vw;
+  height: 100vh;
+}
 
 .body-img-container img{
   position: relative;
   z-index: 2;
   top: -15.15vh;
   width: 100vw;
-  height: auto;
+  overflow: clip;
 }
+
 .legs{
+  background-color: #716242;
   width: 100vw;
   height: 100vh;
-  display: grid;
-  position: relative;
-  top: 0vh;
-  z-index: 1;
-  background-color: white;
-  grid-template-columns: 40vw 1fr;
-  grid-template-rows: 1fr 20vh;
-  grid-template-areas: 
-    "statur text"
-    "bar bar"
-  ;
-}
-
-.legs-img-container{
-  padding-top: 16.1vh;
-  padding-left: 6vw;
-
-}
-.legs-img-container img{
-  height: 90vh;
-  width: auto;
-  position: absolute;
-  bottom: -0.1vh;
-  z-index: 2;
-}
-
-.legs-banner-bottom{
-  grid-area: bar;
-  height: 20vh;
-  width: 100vw;
-  background-color: #867055;
-
 }
