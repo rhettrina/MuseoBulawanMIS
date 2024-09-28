@@ -237,7 +237,7 @@ body{
   height: 105vh;
   overflow: clip;
   position: relative;
-  z-index: 1;
+  z-index: 5;
 
 }
 
@@ -291,18 +291,45 @@ body{
 
 
 .body-img-container img{
-  position: absolute;
-  top: 191.7vh;
+  position: relative;
+  z-index: 2;
+  top: -15.15vh;
   width: 100vw;
   height: auto;
-  z-index: 0;
 }
 .legs{
   width: 100vw;
   height: 100vh;
   display: grid;
-  background-color: FCDC;
+  position: relative;
+  top: 0vh;
+  z-index: 1;
+  background-color: white;
   grid-template-columns: 40vw 1fr;
   grid-template-rows: 1fr 20vh;
+  grid-template-areas: 
+    "statur text"
+    "bar bar"
+  ;
 }
 
+.legs-img-container{
+  padding-top: 16.1vh;
+  padding-left: 6vw;
+
+}
+.legs-img-container img{
+  height: 90vh;
+  width: auto;
+  position: absolute;
+  bottom: -0.1vh;
+  z-index: 2;
+}
+
+.legs-banner-bottom{
+  grid-area: bar;
+  height: 20vh;
+  width: 100vw;
+  background-color: #867055;
+
+}
