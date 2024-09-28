@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="../Home/home.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Hina+Mincho&display=swap" rel="stylesheet">
@@ -18,68 +18,27 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+    <div class="bar">
+                <p>Open Daily 9:00am-5:00pm, Monday- Friday, Close During Holidays</p>
+        <div class="bar-blank-space">
 
-   <!--navbar here-->
-
-
-    <!-- header start -->
-
-    <div class="wrapper">
-
-        <div id="container1">
-            <nav class="navbar navbar-expand-lg navbar-dark me-3">
-                <p id="open">Open Daily 9:00am-5:00pm, Monday- Friday, Close During Holidays</p>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#morebtn"
-                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="fa-solid fa-caret-down"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="morebtn">
-
-
-
-                    <ul class="navbar-nav ms-auto px-4">
-                        <li class="nav-item">
-                            <a class="nav-link" href="">About Us</a>
-                        </li>
-                        <li class="nav-item"></li>
-                        <a class="nav-link" href="">Visit Us</a>
-                        </li>
-                        <li class="nav-item"></li>
-                        <a class="nav-link" href="">Log In</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
         </div>
-
+        <div class="bar-button-wrapper">
+            <div class="bar-about">
+                <a href="#">About Us</a>
+            </div>
+            <div class="bar-visit">
+                <a href="#">Visit Us</a>
+            </div>
+            <div class="bar-login">
+                <a href="#">Login</a>
+            </div>
+        </div>
     </div>
-        
-
-        <!-- header end -->
 
 
-    
-    <div class="front">
-        <div class="nav">
-            <div class="logo">
-                <img src="../source/LOGO.png" alt="">
-            </div>
-            <div class="logo-container">
-                <div class="logo-text">
-                  <span>MUSEO<br>BULAWAN</span>
-                </div>
-            </div>
-
-            <div class="navigation-items">
-                <!--Nav items, mala header narin to-->
-                
-            </div>
-        </div>
-
-
-        <div class="handler1">
+    <div class="front-page">
+        <div class="socials-left">
             <div class="handle">
                 <p><a href="#" class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"><i class="bi bi-circle-fill"></i>&nbsp;&nbsp;<i class="bi bi-facebook"></i>&nbsp;&nbsp;Museo Bulawan</a></p>
             </div>
@@ -87,8 +46,7 @@
                 <p><a href="#" class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"><i class="bi bi-circle-fill"></i>&nbsp;&nbsp;<i class="bi bi-instagram"></i>&nbsp;&nbsp;museobulawanofficial</a></p>
             </div>
         </div>
-        
-        <div class="handler2">
+        <div class="socials-right">
             <div class="handle">
                 <p><a href="#" class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"><i class="bi bi-circle-fill"></i>&nbsp;&nbsp;<i class="bi bi-envelope"></i>&nbsp;&nbsp;museobulawan</a></p>
             </div>
@@ -100,12 +58,23 @@
             </div>
         </div>
 
-
-        <div class="flex-container">
-            <div class="line">
-                
+        <div class="fp-nav">
+            <div class="fp-brand">
+                <div class="logo">
+                    <img src="../source/LOGO.png" alt="">
+                </div>
+                <div class="logo-container">
+                    <div class="logo-text">
+                      <span>MUSEO<br>BULAWAN</span>
+                    </div>
+                </div>
             </div>
-            <div class="item welcome-container">
+            <div class="fp-buttons">
+                <!--navigation buttons-->
+            </div>
+        </div>
+        <div class="fp-info">
+            <div class="welcome-container">
                 <h2>WELCOME TO</h2>
                 <h1>MUSEO</h1>
                 <H1>BULAWAN</H1>
@@ -123,45 +92,34 @@
             <div class="white-space">
                 <!-- Blank space do not touch-->
             </div>
-
         </div>
 
     </div>
 
-    <div class="middle">
-        <div class="image-container1">
-            <img src="../source/About.png" alt="">
-        </div>
-        <div class="text-container1">
-            <div class="internal-container">
-                <article id="text-width">
-                    <span style="font-size: 3vw;">Museo Bulawan</span>, known as the “Golden Museum,” is the leading and the most viewer-friendly community museum that serves as the nerve center for education and communication of the rich cultural, artistic and natural heritage and history of Camarines Norte, the ultimate medium for preservation, exhibition of significant objects that strengthen the values of the people and deepen their patriotism and sense of identity.
-                </article>
-
+    <div class="content-wrapper">
+        <div class="about">
+            <div class="about-text">
+                <p class="at-id"><i class="bi bi-dash-lg"></i>&nbsp;&nbsp;About Museo Bulawan</p>
+                <div class="about-content">
+                    <p><span style="font-size: 3vw;">Museo Bulawan</span>, known as the “Golden Museum,” is the leading and the most viewer-friendly community museum that serves as the nerve center for education and communication of the rich cultural, artistic and natural heritage and history of Camarines Norte, the ultimate medium for preservation, exhibition of significant objects that strengthen the values of the people and deepen their patriotism and sense of identity.</p>
+                </div>
+                <p class="at-link"><a href="#" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Learn More&nbsp;&nbsp;<i class="bi bi-arrow-right"></i></a></p>
+            </div>
+            <div class="about-image">
+                <img src="../source/About.png" alt="">
             </div>
         </div>
-
-        <div class="about">
-            <p><i class="bi bi-dash-lg"></i>&nbsp;&nbsp;About Museo Bulawan</p>
-        </div>
-
-    </div>
-
-    <div class="body">
-        <div class="body-img-container">
+        <div class="featured-collections">
             <img src="../source/Body.png" alt="">
         </div>
-        <!-- 
-        <div class="learn-more-link">
-            <p><a href="#" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"><i class="bi bi-dash-lg"></i>&nbsp;&nbsp;Learn More</p>
+        <div class="legs">
+
         </div>
-        -->
+        <div class="legs-extension">
+            
+        </div>
 
     </div>
-    <div class="legs">
-        
-    </div>
-    
 
 </body>
 </html>
