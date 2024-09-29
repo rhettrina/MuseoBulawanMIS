@@ -49,7 +49,100 @@
 }
 
 
-.yawa h1{
-    font-size: 60vw;
-    padding: 10vw;
+/*Russel part*/
+/*Details*/
+.wrap{
+    font-family: "Hina Mincho", serif;
+    position: relative;
+    background-color: #1C1B19;
 }
+
+.art-details{
+    width: 100vw;
+    height: 487px;
+    background-image: url(../source/15766.png);
+    background-size: cover;
+    background-position: center;
+    position: relative; 
+    
+   
+}
+
+h1{
+    position: absolute;
+    top: 50%;
+    left: 42%;
+    color: white;
+    font-size: 50px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+
+}
+
+.details{
+    position: absolute;
+    justify-content: center;
+    align-content: baseline;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    bottom: 0;
+    left: 25%;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+   
+}
+
+.dets {
+    background-color: rgba(173, 173, 173, 0.3);
+    width: 10vw;
+    height: 10vh;
+    border: 1px solid #1C1B19;
+}
+
+/* content */
+
+.content1{
+    position: relative;
+    color: white;
+}
+
+img{
+    position: relative;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
+
+}
+
+.text{
+    width: 100vw;
+    height: 40vh;
+    position: relative;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.text1{
+    font-size: 1.25rem;
+    width: 45%;
+    float: left;
+
+}
+
+.text2{
+    font-size: 2.5rem;
+    width: 50%;
+    float: right;
+    
+}
+
+.text3{
+    font-size: 1.25rem;
+    width: 50%;
+    float: right;
+    clear: right;
+}
+
+  /*Russel part*/
