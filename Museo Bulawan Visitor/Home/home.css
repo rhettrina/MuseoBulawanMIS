@@ -208,80 +208,454 @@ html{
     min-height: 5vh;
   }
 
-.content-wrapper{
-    height: 500vh;
-    width: 100vw;
-}
-
 .about{
     width: 100vw;
     height: 100vh;
-    background-color: #ffffff;
     display: grid;
-    grid-template-columns: 23vw 1fr;
-    grid-template-areas: 
-    "text image"
-    ;
-}
-.about-text{
-    position: relative;
-    z-index: 3;
-    grid-area: text;
-}
-.about-image{
-    grid-area: image;
-}
-.about-image img{
-    height: 105vh;
-    width: auto;
-    padding-right: 0vw;
-    position: relative;
-    z-index: 2;
+    grid-template-columns: 25vw 75vw;
+    grid-template-areas: "text design";
 }
 
-.about-content{
-    padding-left: 10vh;
-    width: 45vw;
+.design-container{
+    grid-area: design;
+    height: 102vh;
+    width: 75vw;
+    background-image: url('../source/panel1.png');
+    background-position: bottom;
+    background-size: cover;
+    position: relative;
+    z-index: 1;
+}
+
+.design-container .internal-container{
+    grid-area: block;
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    bottom: -5vh;
+    height: 90vh;
+    width: 65vw;
+    background-image: url('../source/panel2.png');
+    background-position: bottom;
+    background-size: cover;
+    
+}
+
+.image-container1{
+    width: 85%;
+    height: 85%;
+    position: absolute;
+    z-index: 2;
+    right: 0vh;
+    top: 8vh;
+    bottom: 2vh;
+    overflow-x: hidden;
+    background-color: #000000;
+}
+
+.image-container1 img{
+    width: 100%;
+    height: 100%;
+}
+
+.text-block{
+    padding-top: 20vh;
+    padding-left: 8vw;
+    font-family: Hind;
+    font-size: 1vw;
+}
+
+.content-text{
+    width: 35vw;
+    position: relative;
+    z-index: 2;
+    font-size: 1.9vw;
+    height: auto;
     font-family: Hina Mincho;
-    font-size: 2vw;
     text-align: justify;
     text-justify: inter-word;
-    position: relative;
-    z-index: 2;
-}
-.at-id{
-    padding-top: 20vh;
-    padding-left: 10vh;
-    font-family: hind;
-    font-size: 1vw;
-}
-.at-link{
-    padding-left: 10vh;
-    font-family: hind;
-    font-size: 1vw;
 }
 
-.featured-collections img{
-    width: 110%;
-    height: auto;
-    overflow: visible;
+
+.featured{
+    width: 100vw;
+    height: 100vh;
+    background-color: #867055;
     position: relative;
-    top: -17vh;
+    z-index: 0;
+    display: grid;
+    grid-template-columns: 40vw 60vw;
+    grid-template-rows: 100vh;
+    grid-template-areas: 
+    "left right"
+    ;
+
+}
+.f-block1{
+    grid-area: left;
+    position: relative;
     z-index: 1;
+    overflow: visible;
+}
+.fblock1-bg{
+    position: relative;
+    top: -10vh;
+    bottom: -10vh;
+}
+
+.fblock1-bg img{
+    width: 40vw;
+    height: 120vh;
+}
+
+.f-block2{
+    grid-area: right;
+    position: absolute;
+    
+}
+
+.f-block2{
+    grid-area: right;
+    position: absolute;
+    top: 12vh;
+    
+}
+
+.f-block2 img{
+    height: 82vh;
+    width: 60vw; 
 }
 
 .legs{
     height: 100vh;
     width: 100vw;
-    background-color: #ffffff;
-    position: relative;
-    top: -50vh;
-    z-index: 0;
+    display: grid;
+    grid-template-columns: 40vw 60vw;
+    grid-template-rows: 80vh 20vh;
+    grid-template-areas: 
+    "statue info-text"
+    "bottom bottom "
+    ;
+
 }
-.legs-extension{
-    height: 12vh;
-    width: 100vw;
+
+.legs-bottom{
+    grid-area: bottom;
     background-color: #867055;
-    position: relative;
-    top: -50vh;
+    display: flex;
 }
+.blank-legs{
+    width: 40vw;
+    height: 20vh;
+}
+.legs-text{
+    padding-top: 5vh;
+    padding-left: 9vw;
+    padding-right: 9vw;
+    padding-bottom: 5vh;
+}
+.legs-text p{
+    width: 42vw;
+    font-family: Hina Mincho;
+    color: white;
+    font-size: 1.5vw;
+}
+
+
+.statue-image{
+    grid-area: statue;
+}
+.statue-image img{
+    height: 84vh;
+    width: 30vw;
+    position: relative;
+    bottom: -16.1vh;
+    left: 5vw;
+}
+
+.legs-info{
+    grid-area: info-text;
+    padding: 9vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.head-text{
+    font-family: Hina Mincho;
+    font-size: 3vw;
+    text-align: justify;
+    text-justify: inter-word;
+}
+.body-text{
+    font-family: Hina Mincho;
+    font-size: 1.5vw;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+.news-events{
+    width: 100vw;
+    height: 100vh;
+    background-color: #1C1B19;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nw-container{
+    height: 80vh;
+    width: 80vw;
+    display: flex;
+    flex-direction: column;
+   
+}
+
+.nwc-head{
+    height: 15vh;
+    width: 80vw;
+    display: flex;
+    flex-wrap: wrap;
+    
+}
+
+.nwcb-container{
+    height: 65vh;
+    width: 80vw;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.nwch-content1{
+    width: 22vw;
+    height: 15vh;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.nwch-dont{
+    width: 22vw;
+    height: 5vh;
+}
+.nwch-dont p{
+    font-family: Hind;
+    font-size: 1.3vw;
+    color: #A2A2A2;
+}
+
+.nwch-title{
+    width: 22vw;
+    height: 10vh;
+}
+.nwch-title{
+   font-family: Hind;
+   color: #FFFFFF;
+   font-size: 3vw;
+   padding-left: 1vw;
+}
+
+.nwc-more{
+    width: 58vw;
+    height: 15vh;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+
+.nwc-more p{
+    font-family: Hind;
+    font-size: 1vw;
+}
+
+
+
+.nwcb-container1{
+ width: 38vw;
+ height: 30vh;
+ display: flex;
+ flex-direction: row;
+
+}
+.nwcb1-image {
+    width: 30vw;
+    height: 30vh;
+    overflow: hidden;
+}
+
+.nwcb1-info {
+    width: 40vw;
+    height: 30vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.nwcb1-image img{
+    width: 30vh;
+    height: 30vh;
+}
+
+.nwcb1i-1{
+    font-size: 1.6vw;
+    font-weight: bolder;
+    font-family: inter;
+    color: white;
+}
+.nwcb1i-2{
+    font-size: 0.7vw;
+    font-family: inter;
+    color: white;
+}
+.nwcb1i-3{
+    font-size: 1vw;
+    font-family: inter;
+    color: white;
+}
+
+
+
+.nwcb-container2{
+    width: 38vw;
+    height: 30vh;
+    display: flex;
+    flex-direction: row;
+   
+}
+.nwcb2-image {
+    width: 30vw;
+    height: 30vh;
+    overflow: hidden;
+}
+
+.nwcb2-info {
+    width: 40vw;
+    height: 30vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.nwcb2-image img{
+    width: 30vh;
+    height: 30vh;
+}
+
+.nwcb2i-1{
+    font-size: 1.6vw;
+    font-weight: bolder;
+    font-family: inter;
+    color: white;
+}
+.nwcb2i-2{
+    font-size: 0.7vw;
+    font-family: inter;
+    color: white;
+}
+.nwcb2i-3{
+    font-size: 1vw;
+    font-family: inter;
+    color: white;
+}
+
+
+
+
+
+.nwcb-container3{
+    width: 38vw;
+    height: 30vh;
+    display: flex;
+    flex-direction: row;
+   
+}
+.nwcb3-image {
+    width: 30vw;
+    height: 30vh;
+    overflow: hidden;
+}
+
+.nwcb3-info {
+    width: 40vw;
+    height: 30vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.nwcb3-image img{
+    width: 30vh;
+    height: 30vh;
+}
+
+.nwcb3i-1{
+    font-size: 1.6vw;
+    font-weight: bolder;
+    font-family: inter;
+    color: white;
+}
+.nwcb3i-2{
+    font-size: 0.7vw;
+    font-family: inter;
+    color: white;
+}
+.nwcb3i-3{
+    font-size: 1vw;
+    font-family: inter;
+    color: white;
+}
+
+
+
+
+
+
+
+
+
+
+.nwcb-container4{
+    width: 38vw;
+    height: 30vh;
+    display: flex;
+    flex-direction: row;
+   
+}
+.nwcb4-image {
+    width: 30vw;
+    height: 30vh;
+    overflow: hidden;
+}
+
+.nwcb4-info {
+    width: 40vw;
+    height: 30vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.nwcb4-image img{
+    width: 30vh;
+    height: 30vh;
+}
+
+.nwcb4i-1{
+    font-size: 1.6vw;
+    font-weight: bolder;
+    font-family: inter;
+    color: white;
+}
+.nwcb4i-2{
+    font-size: 0.7vw;
+    font-family: inter;
+    color: white;
+}
+.nwcb4i-3{
+    font-size: 1vw;
+    font-family: inter;
+    color: white;
+}
+
+
