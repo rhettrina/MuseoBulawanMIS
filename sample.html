@@ -3,59 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Navigation with Hover Effect</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .nav-links a {
-            color: white; /* Default link color */
-            text-decoration: none; /* Remove underline */
-        }
-
-        .nav-links a:hover {
-            color: gray; /* Change color to gray on hover */
-        }
-
-        .vr {
-            border-color: white; /* Ensure the vertical rule is visible */
-        }
-    </style>
+    <title>Museo Bulawamn Dashboard</title>
+    <link rel="stylesheet" href="sample.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body style="background-color: #1a1a1a;">
-
-<div class="container ms-5">
-    <div class="row d-flex">
-        <div class="col-12">
-            <ul class="nav-links list-inline">
-                <li class="list-inline-item">
-                    <a href="#">Home</a>
-                </li>
-                <li class="list-inline-item">
-                    <div class="vr border border-1 opacity-100" style="height: 40px;"></div>
-                </li>
-                <li class="list-inline-item">
-                    <a href="#">Collections</a>
-                </li>
-                <li class="list-inline-item">
-                    <div class="vr border border-1 opacity-100" style="height: 40px;"></div>
-                </li>
-                <li class="list-inline-item">
-                    <a href="#">News & Events</a>
-                </li>
-                <li class="list-inline-item">
-                    <div class="vr border border-1 opacity-100" style="height: 40px;"></div>
-                </li>
-                <li class="list-inline-item">
-                    <a href="#">About Us</a>
-                </li>
-            </ul>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <h2>MUSEO BULAWAMN</h2>
+            <p>Management Information System</p>
         </div>
+        <ul>
+            <li><i class="fas fa-home"></i> Dashboard</li>
+            <li><i class="fas fa-hand-holding-heart"></i> Donation</li>
+            <li><i class="fas fa-box"></i> Artifact</li>
+            <li><i class="fas fa-calendar"></i> Appointment</li>
+            <li><i class="fas fa-map"></i> Artifact Layout</li>
+            <li><i class="fas fa-bell"></i> Notifications</li>
+        </ul>
+        <button><i class="fas fa-sign-out-alt"></i> Logout</button>
     </div>
-</div>
-
-<!-- Bootstrap JS and dependencies -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+    <div class="main-content">
+        <div class="header">
+            <h1>Donation</h1>
+            <div class="stats">
+                <div class="stat-box">Total Forms <span>271</span></div>
+                <div class="stat-box">Accepted Forms <span>255</span></div>
+                <div class="stat-box">Rejected Forms <span>16</span></div>
+                <div class="stat-box">Donation Forms <span>256</span></div>
+                <div class="stat-box">Lending Forms <span>15</span></div>
+            </div>
+        </div>
+        <div class="table-controls">
+            <input type="text" placeholder="Search">
+            <button>By Status</button>
+            <button>By Date</button>
+        </div>
+        <table class="donation-table">
+            <thead>
+                <tr>
+                    <th>Name/Title</th>
+                    <th>Donator</th>
+                    <th>Type</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Edit Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Perlas ng silanganan</td>
+                    <td>Olivia Harper</td>
+                    <td>Lend</td>
+                    <td>02-19-2024</td>
+                    <td class="accepted">Accepted</td>
+                    <td>02-19-2024</td>
+                    <td>
+                        <i class="fas fa-eye"></i>
+                        <i class="fas fa-edit"></i>
+                        <i class="fas fa-trash-alt"></i>
+                    </td>
+                </tr>
+                <!-- More rows as needed -->
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
