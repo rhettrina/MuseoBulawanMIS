@@ -116,33 +116,35 @@ img{
 
 }
 
-.text{
-    width: 100vw;
-    height: 40vh;
+.text {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 90%;
+    height: 45vh;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    box-sizing: border-box;
     position: relative;
-    margin-left: 5%;
-    margin-right: 5%;
 }
 
-.text1{
+.text1, .text2, .text3 {
     font-size: 1.25rem;
-    width: 45%;
-    float: left;
-
-}
-
-.text2{
-    font-size: 2.5rem;
-    width: 50%;
-    float: right;
+    flex: 1 1 45%;
+    margin: 10px;
     
 }
 
-.text3{
-    font-size: 1.25rem;
+.text2 {
+    font-size: 2.5rem;
+}
+
+.text3 {
+    position: absolute;
     width: 50%;
-    float: right;
-    clear: right;
+    right: 0;
+    bottom: 0;
 }
 
   /*Russel part*/
