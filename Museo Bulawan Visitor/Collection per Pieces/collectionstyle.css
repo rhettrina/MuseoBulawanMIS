@@ -73,35 +73,37 @@ body {
 /* header end */
 
 
-/*Russel part*/
-/*Details*/
-.wrap{
+/* Russel part */
+
+/* Details */
+
+.wrap {
     font-family: "Hina Mincho", serif;
     position: relative;
     background-color: #1C1B19;
 }
 
-.art-details{
-    width: 100vw; 
-    height: 487px; 
+.art-details {
+    width: 100vw;
+    height: 487px;
     background-image: url(../source/15766.png);
     background-size: cover;
     background-position: center;
-    position: relative; 
-    margin: 0 auto; 
+    position: relative;
+    margin: 0 auto;
 }
 
-h1{
+h1 {
     position: absolute;
     top: 50%;
-    left: 50%; 
-    transform: translate(-50%, -50%); 
+    left: 50%;
+    transform: translate(-50%, -50%);
     color: white;
-    font-size: 3rem; 
+    font-size: 3rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
-.details{
+.details {
     position: absolute;
     justify-content: center;
     align-content: baseline;
@@ -112,7 +114,7 @@ h1{
     left: 25%;
     color: white;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-    width: 50%; 
+    width: 50%;
 }
 
 .dets {
@@ -122,14 +124,16 @@ h1{
     border: 1px solid #1C1B19;
 }
 
-/* content */
-/* first art */
-.content1{
+/* Content */
+
+/* First Art */
+
+.content1 {
     position: relative;
     color: white;
 }
 
-img{
+img {
     position: relative;
     display: block;
     margin-left: auto;
@@ -142,87 +146,75 @@ img{
     display: flex;
     width: 90%;
     height: auto;
-    margin: 20px auto; 
+    margin: 20px auto;
     padding: 20px;
-    
     position: relative;
 }
 
-
-.text1{
+.text1 {
     position: relative;
     font-size: 1.5rem;
     width: 45%;
-    
 }
 
-.text2{
+.text2 {
     width: 50%;
 }
 
-.text2 p{
-    font-size: 2.5rem; 
+.text2 p {
+    font-size: 2.5rem;
 }
 
-.text2 p1{
-    position: relative; 
+.text2 p1 {
+    position: relative;
     font-size: 1.5rem;
-
 }
 
+/* Second Art */
 
-/*Second art */
-
-.content2{
+.content2 {
     position: relative;
     width: auto;
     height: 100vh;
     margin-left: 5%;
     margin-right: 10%;
-    
-   
 }
 
-.textd1{
+.textd1 {
     position: relative;
     width: 45%;
-    font-size: 2.5rem; 
+    font-size: 2.5rem;
     margin-bottom: 20px;
-   
 }
 
-
-.textd2{
+.textd2 {
     position: relative;
     width: 50%;
     padding-left: 10px;
     left: 50%;
-    
-   
-
 }
 
-.textd2 p{
-    font-size: 1.5rem; 
+.textd2 p {
+    font-size: 1.5rem;
 }
+
 .enlarge-letter {
     font-size: 5rem;
     vertical-align: sub;
 }
 
-.textd2 p1{
-    position: relative; 
+.textd2 p1 {
+    position: relative;
     width: 100%;
     margin: 20px;
-    font-size: 1.5rem
-    
+    font-size: 1.5rem;
 }
 
 .box {
     position: absolute;
     display: block;
     bottom: 0;
-    background-color: rgb(134,112,85);
+    background-color: rgb(134, 112, 85);
     width: 35%;
     height: 75vh;
     left: -6rem;
@@ -239,7 +231,7 @@ img{
     z-index: 2;
 }
 
-  /*Russel part*/
+/* Russel part */
 
 
   /* start of footer */
