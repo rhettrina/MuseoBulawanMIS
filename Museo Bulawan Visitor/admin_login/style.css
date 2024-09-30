@@ -1,0 +1,117 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+
+    background-image: url('../source/bg.jpg');
+    background-size: cover;     
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-attachment: fixed; 
+    height: 100vh;               
+    margin: 0;
+}
+
+.back-icon {
+    position: absolute;
+    top: 20px;
+    left: 20px;  
+}
+
+.back-icon img {
+    width: 30px;  
+    cursor: pointer;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+.login-box {
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+}
+
+
+
+.logo img {
+    width: 150px;
+    margin-bottom: 30px;
+}
+
+.login-form .input-group {
+    position: relative; 
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+
+.input-group .input-icon {
+    position: absolute;
+    top: 50%;
+    left: 10px; 
+    transform: translateY(-50%);
+    width: 20px; 
+    height: 20px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 10px 12px 40px; 
+    font-size: 16px;
+    border: 1px solid white;  
+    border-radius: 4px;      
+    background-color: transparent;  
+    color: white;            
+}
+
+.input-group input::placeholder {
+    color: white;  
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: black; 
+}
+
+.login-btn {
+    background-color: white;
+    color: black;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.login-btn:hover {
+    background-color: #524433;
+}
+
+.forgot-password {
+    color: white;
+    display: block;
+    margin-top: 15px;
+    font-size: 15px;
+    padding-left: 70%;
+}
+
+
+/* responsive haiyaa */
+@media (max-width: 600px) {
+    .login-box {
+        padding: 20px;
+    }
+
+    .login-btn {
+        padding: 10px;
+        font-size: 14px;
+    }
+}
