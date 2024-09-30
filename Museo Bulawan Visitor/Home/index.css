@@ -1,335 +1,819 @@
-html{
-  background-color: black
-}
 body{
-  padding: 0;
-  margin: 0;
-  overflow-x: hidden;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    background-color: #000000;
+}
+html{
+    background-color: #000000;
 }
 
-.front{
-  color: white;
-  height: 100vh;
-  width: 100vw;
-  background-image: url('../source/backgroundimg.png');
-  background-position: bottom;
-  background-size: cover;
-  display: grid;
-  grid-template-columns: 4vw 1fr 4vw;
-  grid-template-rows: auto 1fr;
-  grid-template-areas: 
-  "left nav handle2"
-  "left content handle2"
-  ;
+* {
+    box-sizing: border-box;
+}
+::-webkit-scrollbar { 
+    display: none;
+  }
+
+/*Top bar start*/
+.bar{
+    height: auto;
+    width: 100vw;
+    background-color: #1C1B19;
+    box-shadow: 0px 0.1vh 0.2vh 1vh #1C1B19;
+    z-index: 2;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }
 
-.nav{
-  grid-area: nav;
-  padding: 2vw;
-  display: grid;
-  grid-template-columns: auto 1vw 1vw;
-  grid-template-areas: 
-  "logo text-logo"
-  ;
+
+.bar p{
+    font-size: 0.8rem;
+    font-family: hind;
+    height: 100% ;
+    width: fit-content;
+    color: #EDE2CD;
+    position: relative;
+    top: 0.8rem;
+    padding-left: 3rem;
+
 }
 
-.handler1{
-  grid-area: left;
-  display: flex;
-  justify-content: space-evenly;
-  flex-direction: column;
-  font-size: 1vw;
+.bar-button-wrapper{
+    display: flex;
+    flex-direction: row;
+    padding-right: 3rem;
+    flex-wrap: wrap;
+ 
 }
 
-.handler2{
-  grid-area: handle2;
-  display: flex;
-  justify-content: space-evenly;
-  flex-direction: column;
-  font-size: 1vw;
+.bar-blank-space{
+    flex-grow: 1;
 }
 
-.details{
-  font-size: 1vw;
+.bar-button-wrapper a{
+    font-size: 0.5rem;
+    color: #EDE2CD;
+    text-decoration: none;
+    padding-left: 1rem;
+    position: relative;
+    top: 0.4rem;
+    overflow: hidden;
 }
 
-.content{
-  grid-area: content;
+/*Top bar end*/
+.handle{
+    transform: rotate(270deg);
+    white-space: nowrap; /* Prevents the text from wrapping to the next line */
+  }
+
+.front-page{
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../source/backgroundimg.png');
+    background-position: bottom;
+    background-size: cover;
+    display: grid;
+    grid-template-columns: 4vw 1fr 4vw;
+    grid-template-rows: auto 1fr;
+    grid-template-areas: 
+    "socials-left nav socials-right"
+    "socials-left info socials-right"
+    ;
 }
 
-.flex-container{
-  height: auto;
-  width: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: left;
+.socials-left{
+    grid-area: socials-left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    font-size: 1vw;
+    text-align: center;
 }
 
-.flex-container h2{
-  color: #DAB765;
-  font-family: hind;
-  font-weight: bold;
-  font-size: 3.4vw;
-  line-height: 200%;
-  text-shadow: 3px 3px #000000;
+.socials-right{
+    grid-area: socials-right;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    font-size: 1vw;
 }
-.flex-container h1{
-  font-family: hind;
-  font-weight: bold;
-  color: white;
-  line-height: 65%;
-  font-size: 6vw;
-  text-shadow: 3px 3px #000000;
+
+.fp-nav{
+    display: grid;
+    grid-template-columns: 20vw 15vw 1fr 10vw;
+    grid-template-areas: "brand space buttons search";
+    height: fit-content;
+    width: auto;
+    padding-top: 2vh;
+    border-bottom: 0.4vh solid rgb(255, 255, 255); /* Adds a black bottom border */
+    padding-bottom: 2vh; /* Optional: Adds space between text and border */
+
+}
+.fp-brand{
+    grid-template-areas: brand;
+    display: flex;
+    flex-direction: row;
+    padding-left: 1vw;
+}
+
+.fp-buttons{
+    grid-area: buttons;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.fp-buttons p{
+   padding-left: 3vw;
+   padding-top: 3vh;
+   font-size: 1.5vw;
+}
+
+.fp-search{
+    grid-area: search;
+}
+.fp-search p{
+    padding-left: 5vw;
+    padding-top: 3vh;
+    font-size: 1.5vw;
+    color: white;
 }
 
 
 .logo img{
-  grid-area: logo;
-  width: 5vw;
-  height: auto;
-  margin-right: 4vw;
-}
-
-/* Vertical line and text styling */
-
-.logo-container{
-  grid-area: text-logo;
-  display: flex;
-  align-content: center;
-
-}
-.logo-text {
-  display: flex;
-  align-items: center; /* Vertically center the text */
-  color: white; /* Text color */
-  font-family: Arial, sans-serif; /* Adjust font */
-  font-size: 1.5vw; /* Adjust size */
-  font-weight: bold;
+    grid-area: logo;
+    width: 5vw;
+    height: auto;
+    margin-right: 4vw;
+  }
   
+  /* Vertical line and text styling */
+  
+  .logo-container{
+    grid-area: text-logo;
+    display: flex;
+    align-content: center;
+  
+  }
+  .logo-text {
+    display: flex;
+    align-items: center; /* Vertically center the text */
+    color: white; /* Text color */
+    font-family: Arial, sans-serif; /* Adjust font */
+    font-size: 1.5vw; /* Adjust size */
+    font-weight: bold;
+    
+  }
+  
+  /* Vertical line */
+  .logo-text::before {
+    content: '';
+    display: inline-block;
+    width: 0.3vw; /* Line thickness */
+    height: 4vw; /* Line height */
+    background-color: white; /* Line color */
+    margin-right: 1vw; /* Space between line and text */
+  }
+  
+  
+  
+  
+  /* Text alignment */
+  .logo-text span {
+    display: block;
+    line-height: 100%; /* Adjust line height */
+  }
+
+  .fp-info{
+    grid-area: info;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    
+  }
+
+  .fp-info h2{
+    color: #DAB765;
+    font-family: hind;
+    font-weight: bold;
+    font-size: 3.4vw;
+    line-height: 200%;
+    text-shadow: 3px 3px #000000;
+  }
+  .fp-info h1{
+    font-family: hind;
+    font-weight: bold;
+    color: white;
+    line-height: 65%;
+    font-size: 6vw;
+    text-shadow: 3px 3px #000000;
+  }
+
+  .details{
+    font-size: 1vw;
+    color: #ffffff;
+  }
+
+  #learn-button{
+    font-size: 0.8vw;
+    width: 8vw;
+    min-height: 5vh;
+    overflow: hidden;
+  }
+  
+  #book-button{
+    font-size: 0.8vw;
+    overflow: hidden;
+    width: 8vw;
+    min-height: 5vh;
+  }
+
+.about{
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 25vw 75vw;
+    grid-template-areas: "text design";
 }
 
-/* Vertical line */
-.logo-text::before {
-  content: '';
-  display: inline-block;
-  width: 0.5vw; /* Line thickness */
-  height: 4vw; /* Line height */
-  background-color: white; /* Line color */
-  margin-right: 1vw; /* Space between line and text */
+.design-container{
+    grid-area: design;
+    height: 102vh;
+    width: 75vw;
+    background-image: url('../source/panel1.png');
+    background-position: bottom;
+    background-size: cover;
+    position: relative;
+    z-index: 1;
 }
 
-
-
-
-/* Text alignment */
-.logo-text span {
-  display: block;
-  line-height: 100%; /* Adjust line height */
+.design-container .internal-container{
+    grid-area: block;
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    bottom: -5vh;
+    height: 90vh;
+    width: 65vw;
+    background-image: url('../source/panel2.png');
+    background-position: bottom;
+    background-size: cover;
+    
 }
-
-.handle{
-  transform: rotate(270deg);
-  white-space: nowrap; /* Prevents the text from wrapping to the next line */
-}
-
-.line{
-  display: inline-block; /* This makes the width of the div adjust to its content */
-  border-top: 0.2vw solid rgb(255, 255, 255); /* Adds a 2px black underline */
-  width: 92vw ; /* Custom width for the underline */
-
-}
-
-::-webkit-scrollbar { 
-  display: none;
-}
-
-#learn-button{
-  font-size: 0.8vw;
-  width: 8vw;
-  min-height: 5vh;
-  overflow: hidden;
-}
-
-#book-button{
-  font-size: 0.8vw;
-  overflow: hidden;
-  width: 8vw;
-  min-height: 5vh;
-}
-
-
-
-/*start nav bar css here*/
-
-
-/* header up */
-
-
-.navbar {
-  text-align: center;
-  padding: 0%;
-}
-
-.navbar-nav {
-  color: white;
-  text-shadow: 5%;
-}
-
-#open {
-  color: white;
-  padding-left: 3vw;
-  padding-top: 0.5vw;
-}
-
-.wrapper {
-  background-color: #1C1B19;
-  position: relative;
-  z-index: 2;
-}
-
-#container1 {
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
-  font-size: small;
-}
-
-
-
-.nav-link {
-  color: white;
-}
-
-
-.dropdownicon {
-  height: fit-content;
-  width: 15px;
-}
-
-/* header end */
-
-
-
-
-/*end nav bar css here*/
-
-.middle{
-  width: 100vw;
-  height: 100vh;
-  background-color: white;
-  display: grid;
-  grid-template-columns: 35vw 65vw;
-  grid-template-rows: 30vh auto;
-  grid-template-areas: 
-  "about image"
-  "text image"
-  ;
-
-} 
 
 .image-container1{
-  width: 100vw;
-  height: 110%;
-  grid-area: image;
+    width: 85%;
+    height: 85%;
+    position: absolute;
+    z-index: 2;
+    right: 0vh;
+    top: 8vh;
+    bottom: 2vh;
+    overflow-x: hidden;
+    background-color: #000000;
 }
 
 .image-container1 img{
-  width: 65vw;
-  height: 105vh;
-  overflow: clip;
-  position: relative;
-  z-index: 5;
-
+    width: 100%;
+    height: 100%;
 }
 
-.text-container1{
-  grid-area: text;
+.text-block{
+    padding-top: 20vh;
+    padding-left: 8vw;
+    font-family: Hind;
+    font-size: 1vw;
 }
 
-#text-width{
-  font-family: Hina Mincho;
-  font-size: 2vw;
-  width: 45vw;
-  height: auto;
-  text-align: justify;
-  text-justify: inter-word;
-}
-
-.internal-container{
-  position: relative;
-  z-index: 2;
-  padding-top: 0vh;
-  padding-left: 10vw;
-}
-
-.about{
-  grid-area: about;
-  padding-top: 20vh;
-  padding-left: 10vw;
-  font-size: 1vw;
-  font-family: Hind;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-}
-
-body{
-  padding: 0;
-  margin: 0;
-  overflow-x: hidden;
+.content-text{
+    width: 35vw;
+    position: relative;
+    z-index: 2;
+    font-size: 1.9vw;
+    height: auto;
+    font-family: Hina Mincho;
+    text-align: justify;
+    text-justify: inter-word;
 }
 
 
-/*start nav bar items css here*/
+.featured{
+    width: 100vw;
+    height: 100vh;
+    background-color: #867055;
+    position: relative;
+    z-index: 0;
+    display: grid;
+    grid-template-columns: 40vw 60vw;
+    grid-template-rows: 25vh 75vh;
+    grid-template-areas: 
+    "topper topper"
+    "left right"
+    ;
 
-/*end nav bar items css here*/
+}
+.f-block1{
+    grid-area: left;
+    position: relative;
+    z-index: 1;
+    overflow: visible;
+}
+.fblock1-bg{
+    position: relative;
+    top: -35vh;
+    bottom: -10vh;
+}
 
+.fblock1-bg img{
+    width: 40vw;
+    height: 120vh;
+}
 
-.body{
-  width: 100vw;
-  height: 100vh;
+.f-block2{
+    grid-area: right;
+    position: absolute;
+    
+}
 
+.f-block2{
+    grid-area: right;
+    position: absolute;
+    top: -13vh;
+    
+}
+
+.f-block2 img{
+    height: 82vh;
+    width: 60vw; 
+}
+
+.featured-topper{
+    width: 100vw;
+    position: relative;
+    z-index: 5;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.ft-ct1{
+    display: flex;
+    flex-direction: column;
+    padding: 4vw;
+}
+
+.ft-ct2{
+    display: flex;
+    flex-direction: column-reverse;
+    font-size: 1vw;
+    padding: 4vw;
+}
+
+.ft-head{
+    font-family: Hina Mincho;
+    font-size: 4vw;
+    color: rgb(255, 255, 255);
+    text-shadow: 0.3vw 0.3vw 0.2vw #00000093;
+}
+
+.ft-what{
+    font-family: Hind;
+    font-size: 1vw;
 }
 
 
-.body-img-container img{
-  position: relative;
-  z-index: 2;
-  top: -15.15vh;
-  width: 100vw;
-  height: auto;
-}
+
+
+
+
 .legs{
-  width: 100vw;
-  height: 100vh;
-  display: grid;
-  position: relative;
-  top: 0vh;
-  z-index: 1;
-  background-color: white;
-  grid-template-columns: 40vw 1fr;
-  grid-template-rows: 1fr 20vh;
-  grid-template-areas: 
-    "statur text"
-    "bar bar"
-  ;
-}
-
-.legs-img-container{
-  padding-top: 16.1vh;
-  padding-left: 6vw;
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 40vw 60vw;
+    grid-template-rows: 80vh 20vh;
+    grid-template-areas: 
+    "statue info-text"
+    "bottom bottom "
+    ;
 
 }
-.legs-img-container img{
-  height: 90vh;
-  width: auto;
-  position: absolute;
-  bottom: -0.1vh;
-  z-index: 2;
+
+.legs-bottom{
+    grid-area: bottom;
+    background-color: #867055;
+    display: flex;
+}
+.blank-legs{
+    width: 40vw;
+    height: 20vh;
+}
+.legs-text{
+    padding-top: 5vh;
+    padding-left: 9vw;
+    padding-right: 9vw;
+    padding-bottom: 5vh;
+}
+.legs-text p{
+    width: 42vw;
+    font-family: Hina Mincho;
+    color: white;
+    font-size: 1.5vw;
 }
 
-.legs-banner-bottom{
-  grid-area: bar;
-  height: 20vh;
-  width: 100vw;
-  background-color: #867055;
 
+.statue-image{
+    grid-area: statue;
+}
+.statue-image img{
+    height: 84vh;
+    width: 30vw;
+    position: relative;
+    bottom: -16.1vh;
+    left: 5vw;
+}
+
+.legs-info{
+    grid-area: info-text;
+    padding: 9vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.head-text{
+    font-family: Hina Mincho;
+    font-size: 3vw;
+    text-align: justify;
+    text-justify: inter-word;
+}
+.body-text{
+    font-family: Hina Mincho;
+    font-size: 1.5vw;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+.news-events{
+    width: 100vw;
+    height: 100vh;
+    background-color: #1C1B19;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nw-container{
+    height: 80vh;
+    width: 80vw;
+    display: flex;
+    flex-direction: column;
+   
+}
+
+.nwc-head{
+    height: 15vh;
+    width: 80vw;
+    display: flex;
+    flex-wrap: wrap;
+    
+}
+
+.nwcb-container{
+    height: 65vh;
+    width: 80vw;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.nwch-content1{
+    width: 22vw;
+    height: 15vh;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.nwch-dont{
+    width: 22vw;
+    height: 5vh;
+}
+.nwch-dont p{
+    font-family: Hind;
+    font-size: 1.3vw;
+    color: #A2A2A2;
+}
+
+.nwch-title{
+    width: 22vw;
+    height: 10vh;
+}
+.nwch-title{
+   font-family: Hind;
+   color: #FFFFFF;
+   font-size: 3vw;
+   padding-left: 1vw;
+}
+
+.nwc-more{
+    width: 58vw;
+    height: 15vh;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+
+.nwc-more p{
+    font-family: Hind;
+    font-size: 1vw;
+}
+
+
+
+.nwcb-container1{
+ width: 38vw;
+ height: 30vh;
+ display: flex;
+ flex-direction: row;
+
+}
+.nwcb1-image {
+    width: 30vw;
+    height: 30vh;
+    overflow: hidden;
+}
+
+.nwcb1-info {
+    width: 40vw;
+    height: 30vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.nwcb1-image img{
+    width: 30vh;
+    height: 30vh;
+}
+
+.nwcb1i-1{
+    font-size: 1.6vw;
+    font-weight: bolder;
+    font-family: inter;
+    color: white;
+}
+.nwcb1i-2{
+    font-size: 0.7vw;
+    font-family: inter;
+    color: white;
+}
+.nwcb1i-3{
+    font-size: 1vw;
+    font-family: inter;
+    color: white;
+}
+
+
+
+.nwcb-container2{
+    width: 38vw;
+    height: 30vh;
+    display: flex;
+    flex-direction: row;
+   
+}
+.nwcb2-image {
+    width: 30vw;
+    height: 30vh;
+    overflow: hidden;
+}
+
+.nwcb2-info {
+    width: 40vw;
+    height: 30vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.nwcb2-image img{
+    width: 30vh;
+    height: 30vh;
+}
+
+.nwcb2i-1{
+    font-size: 1.6vw;
+    font-weight: bolder;
+    font-family: inter;
+    color: white;
+}
+.nwcb2i-2{
+    font-size: 0.7vw;
+    font-family: inter;
+    color: white;
+}
+.nwcb2i-3{
+    font-size: 1vw;
+    font-family: inter;
+    color: white;
+}
+
+
+
+
+
+.nwcb-container3{
+    width: 38vw;
+    height: 30vh;
+    display: flex;
+    flex-direction: row;
+   
+}
+.nwcb3-image {
+    width: 30vw;
+    height: 30vh;
+    overflow: hidden;
+}
+
+.nwcb3-info {
+    width: 40vw;
+    height: 30vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.nwcb3-image img{
+    width: 30vh;
+    height: 30vh;
+}
+
+.nwcb3i-1{
+    font-size: 1.6vw;
+    font-weight: bolder;
+    font-family: inter;
+    color: white;
+}
+.nwcb3i-2{
+    font-size: 0.7vw;
+    font-family: inter;
+    color: white;
+}
+.nwcb3i-3{
+    font-size: 1vw;
+    font-family: inter;
+    color: white;
+}
+
+
+
+
+
+
+
+
+
+
+.nwcb-container4{
+    width: 38vw;
+    height: 30vh;
+    display: flex;
+    flex-direction: row;
+   
+}
+.nwcb4-image {
+    width: 30vw;
+    height: 30vh;
+    overflow: hidden;
+}
+
+.nwcb4-info {
+    width: 40vw;
+    height: 30vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.nwcb4-image img{
+    width: 30vh;
+    height: 30vh;
+}
+
+.nwcb4i-1{
+    font-size: 1.6vw;
+    font-weight: bolder;
+    font-family: inter;
+    color: white;
+}
+.nwcb4i-2{
+    font-size: 0.7vw;
+    font-family: inter;
+    color: white;
+}
+.nwcb4i-3{
+    font-size: 1vw;
+    font-family: inter;
+    color: white;
+}
+
+
+/* start of footer */
+
+.side-footer {
+    background-color: #1C1B19;
+    color: white;
+    margin: 10px;
+}
+
+.side-footer img {
+    width: 60px;
+    height: 60px;
+    max-width: 100%;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+
+.museo-bulawan-cmp h2 {
+    text-align: center;
+    margin: auto .5rem;
+    font-weight: bold;
+    font-size: 40px;
+}
+
+
+.lowercontainer .navbar {
+    display: flex;
+    flex-direction: row-reverse;
+    height: 15vh;
+    width: 20vw;
+}
+
+
+.nav-links {
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.nav-links li {
+    display: flex;
+    align-items: center;
+    padding: 0em .5em;
+}
+
+
+.text-light {
+    color: #fff;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none; 
+}
+
+.nav-links a:hover {
+    color: #ccc;
+}
+
+.wrapper{
+    background-color: #1C1B19;
+}
+
+/* end of footer */
+
+.booking{
+    height: 100vh;
+    width: 100vw;
+    background-image: url('../source/booking-button.png');
+    background-position: bottom;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.booking button{
+    width: 17vw;
+    height: 9vh;
+    font-size: 2vw;
+    font-family: hind;
+    border-width:0.3vw !important;
+}
+
+.spacer{
+    width: 100vw;
+    height: 5vh;
+    background-color: #1C1B19;
 }

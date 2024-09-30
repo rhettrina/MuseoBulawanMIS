@@ -17,106 +17,221 @@
 </head>
 
 <body>
+<!-- header start -->
 
-    <div class="wrapper">
-    
+<div class="wrapper">
+
     <div id="container1">
-        <nav class="navbar navbar-expand-md navbar-dark">
+        <nav class="navbar navbar-expand-lg navbar-dark me-3">
             <p id="open">Open Daily 9:00am-5:00pm, Monday- Friday, Close During Holidays</p>
-            <ul class="navbar-nav py-0 ms-auto px-5">
-                <li class="nav-item">
-                    <a class="nav-link" href="">About Us</a>
-                </li>
-                <li class="nav-item"></li>
-                <a class="nav-link" href="">Visit Us</a>
-                </li>
-                <li class="nav-item"></li>
-                <a class="nav-link" href="">Log In</a>
-                </li>
-            </ul>
-            </ul>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#morebtn"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="fa-solid fa-caret-down"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="morebtn">
+
+
+
+                <ul class="navbar-nav ms-auto px-4">
+                    <li class="nav-item">
+                        <a class="nav-link" href="">About Us</a>
+                    </li>
+                    <li class="nav-item"></li>
+                    <a class="nav-link" href="">Visit Us</a>
+                    </li>
+                    <li class="nav-item"></li>
+                    <a class="nav-link" href="">Log In</a>
+                    </li>
+                </ul>
+            </div>
         </nav>
     </div>
 
 
     <div id="container2">
-        <nav class="navbar navbar-expand-md navbar-dark">
-            <img src="../source/LOGO.png" alt="" id="logo">
-            <a id="brand" class="navbar-brand" href="">Museo Bulawan</a>
-            <ul class="navbar-nav py-0 ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="">Home</a>
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="logowrapper">
+                <img src="../source/LOGO.png" alt="" id="logo">
+                <div class="vr border border-4 ms-5 border-light opacity-100" style="height: 85;"></div>
+                <a id="brand" class="navbar-brand text-start" href="">Museo<br>Bulawan</a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#burgerbtn"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="burgerbtn">
 
-                </li>
-                <li class="nav-item"></li>
-                <a class="nav-link" href="">Collections</a>
-                </li>
-                <li class="nav-item"></li>
-                <a class="nav-link" href="">News and Events</a>
-                </li>
-                <li class="nav-item"></li>
-                <a class="nav-link" href="">About Us</a>
-                </li>
-            </ul>
+
+
+                <ul id="list" class="navbar-nav fs-5">
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Home <img class="dropdownicon" src="../source/dropdown.png"
+                                alt=""></a>
+
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Collections <img class="dropdownicon"
+                                src="../source/dropdown.png" alt=""></a>
+
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">News and Events <img class="dropdownicon"
+                                src="../source/dropdown.png" alt=""></a>
+
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">About Us <img class="dropdownicon" src="../source/dropdown.png"
+                                alt=""></a>
+
+                    </li>
+                </ul>
+                <button class="btn ms-auto"><img src="../source/search.png" alt="" id="searchbtn"></button>
+            </div>
+
+
+
 
         </nav>
+        <hr class="border border-1 border-light opacity-100">
     </div>
 
-</div>
+
+    <!-- header end -->
 
 <!-- Russel Code -->
-<div class="image-container">
-    <img src="../source/15766.png" alt="bgIMG" class="img-fluid">
-    <h1>Girl with Jar</h1>
+<div class="wrap">
+    <div class="art-details">
+        <h1 class="art-name">Girl with Jar</h1>
 
-    <div class="image-details">
-        <div class="category">Category</div>
-        <div class="artist">Artist</div>
-        <div class="date">Date</div>
-        <div class="period">Period</div>
-        <div class="dimension">Dimension</div>
-    </div>
-</div>
-
-<div class="content">
-    <div class="first-art">
-        <img src="../source/FERNANDO CUETO AMORSOLO (PHILIPPINES, 1892-1972), Girl with Jar _ Christie's.png" alt="GirlWithJar">
-
-        <div class="info">
-            <div class="brief">
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            </div>
-            <div class="head">
-                Discovered at Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
-            </div>
-            <div class="details">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-            </div>
+        <div class="details">
+            <ul class="dets category">Category</ul>
+            <ul class="dets artist">Artist</ul>
+            <ul class="dets date">Date</ul>
+            <ul class="dets period">Period</ul>
+            <ul class="dets dimension">Dimension</ul>
         </div>
     </div>
-
-    <div class="second-art">
-        <div class="info1">
-            <div class="brief1">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+    <div class="content1">
+        <img src="../source/FERNANDO CUETO AMORSOLO (PHILIPPINES, 1892-1972), Girl with Jar _ Christie's.png" alt="GirlwithJar">
+            <div class="textup">
+                <div class="text1">
+                    <p>
+                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </p>
+                </div>
+                <div class="text2">
+                    <p>
+                        Discovered at Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
+                    </p>
+                    <p1>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                    </p1>
+                </div>
+               
             </div>
+        
+            <div class="content2">
+                <div class="textd1">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad </p>
+                </div>
 
-            <div class="head1">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud quis
+                    <div class="textd2">
+                        <p>
+                            <span class="enlarge-letter">L</span>orem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad 
+                        </p>
+                        <p1>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. 
+                        </p1>
+                    </div>
+                    <div class="box">
+                        <img src="../source/Gen.-Vicente-R.-Lukban-Bust-3.png" alt="Gen.-Lukban">
+                            </div>
+                
             </div>
-
-            <div class="details1">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </div>
-
-            <img src="../source/Gen.-Vicente-R.-Lukban-Bust-3.png" alt="2ndImg">
-        </div>
-    </div>
 </div>
+
+
   <!-- Russel Code -->
-    <div class="yawa">
-  <h1>pakyu</h1>
+    
+
+  <!-- start of footer -->
+  <div class="wrapper">
+
+    <div class="lowercontainer ms-5">
+        <div class="row d-flex">
+            <div class="col-12">
+                <ul class="nav-links">
+                    <li><a class="text-decoration-none" href="">Home</a></li>
+                    <div class="vr border border-1 border-light opacity-100" style="height: 40px;"></div>
+                    <li><a class="text-decoration-none" href="">Collections</a></li>
+                    <div class="vr border border-1 border-light opacity-100" style="height: 40px;"></div>
+                    <li><a class="text-decoration-none" href="">News & Events</a></li>
+                    <div class="vr border border-1 border-light opacity-100" style="height: 40px;"></div>
+                    <li><a class="text-decoration-none" href="">About Us</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+
+    <hr class="border border-1 border-light opacity-100 mx-4">
+
+    <div class="side-footer mx-5 mb-3">
+        <div class="row d-flex justify-content-between">
+            <div class="col-lg-7 col-sm-12">
+                <div class="museo-bulawan-cmp d-flex justify-content-start mb-3">
+                    <img src="/Museo Bulawan Visitor/source/LOGO.png" alt="">
+                    <h2>Museo Bulawan</h2>
+                </div>
+                <p class="lead">Helping us raise awareness regarding Camnortenos identity is crucial, and
+                    your
+                    support can make a significant difference.</p>
+                <div class="container-fluid d-flex flex-wrap p-0 pb-4">
+                    <p class="me-3">We gratefully accept donations or just lending of your artifact will greatly
+                        help us.
+                    </p>
+                    <button type="button" class="btn btn-light btn-lg">Support Us</button>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-sm-12 mb-4">
+                <nav class="navbar">
+                    <ul class="navbar-nav text-start navbar-dark">
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Visit Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Book a Tour</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Contact Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Map View</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div class="col-lg-3 col-sm-12">
+                <h5>Opening Hours</h5>
+                <p>Camarines Norte Provincial Capitol Grounds,
+                    Daet Philippines</p>
+                <p>Open Daily 9:00am-5:00pm,
+                    Monday- Friday,</p>
+            </div>
+
+        </div>
+    </div>
 </div>
+
+<!-- end of footer -->
 </body>
 
 </html>

@@ -1,27 +1,28 @@
+/* header up */
+
+body {
+    margin: 0%;
+}
+
 .navbar {
-    
     text-align: center;
     padding: 0%;
 }
 
 .navbar-nav {
-    
     color: white;
     text-shadow: 5%;
 }
 
 #open {
     color: white;
-    padding-left: 5%;
-    padding-top: 1%;
-}
-
-#brand {
-    padding-left: 5%;
+    padding-left: 3rem;
+    padding-top: 1rem;
 }
 
 .wrapper {
     background-color: #1C1B19;
+    padding-bottom: 10px;
 }
 
 #container1 {
@@ -29,27 +30,273 @@
     font-size: small;
 }
 
-
-
 #container2 {
-    margin-top: 1em;
-    padding: 1rem;
+    padding: 1em 3em .1em 3em;
 }
 
 #logo {
     height: fit-content;
-    width: 70px;
-    margin-left: 50px;
+    width: 5rem;
+    margin-left: 5%;
 }
 
 #brand {
     text-transform: uppercase;
     font-family: Noto Sans;
     font-weight: bold;
+    font-size: 1.5em;
+    padding-left: .5em;
+}
+
+.logowrapper {
+    display: flex;
+    align-items: center;
+    margin-right: 20%;
+}
+
+#searchbtn {
+    height: fit-content;
+    width: 2.5em;
+    position: relative;
+}
+
+.nav-link {
+    color: white;
 }
 
 
-.yawa h1{
-    font-size: 60vw;
-    padding: 10vw;
+.dropdownicon {
+    height: fit-content;
+    width: 15px;
+}
+
+/* header end */
+
+
+/* Russel part */
+
+/* Details */
+
+.wrap {
+    font-family: "Hina Mincho", serif;
+    position: relative;
+    background-color: #1C1B19;
+}
+
+.art-details {
+    width: 100vw;
+    height: 487px;
+    background-image: url(../source/15766.png);
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    margin: 0 auto;
+}
+
+h1 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 3rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.details {
+    position: absolute;
+    justify-content: center;
+    align-content: baseline;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    bottom: 0;
+    left: 25%;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    width: 50%;
+}
+
+.dets {
+    background-color: rgba(173, 173, 173, 0.3);
+    width: 10vw;
+    height: 10vh;
+    border: 1px solid #1C1B19;
+}
+
+/* Content */
+
+/* First Art */
+
+.content1 {
+    position: relative;
+    color: white;
+}
+
+img {
+    position: relative;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.textup {
+    display: flex;
+    width: 90%;
+    height: auto;
+    margin: 20px auto;
+    padding: 20px;
+    position: relative;
+}
+
+.text1 {
+    position: relative;
+    font-size: 1.5rem;
+    width: 45%;
+}
+
+.text2 {
+    width: 50%;
+}
+
+.text2 p {
+    font-size: 2.5rem;
+}
+
+.text2 p1 {
+    position: relative;
+    font-size: 1.5rem;
+}
+
+/* Second Art */
+
+.content2 {
+    position: relative;
+    width: auto;
+    height: 100vh;
+    margin-left: 5%;
+    margin-right: 10%;
+}
+
+.textd1 {
+    position: relative;
+    width: 45%;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.textd2 {
+    position: relative;
+    width: 50%;
+    padding-left: 10px;
+    left: 50%;
+}
+
+.textd2 p {
+    font-size: 1.5rem;
+}
+
+.enlarge-letter {
+    font-size: 5rem;
+    vertical-align: sub;
+}
+
+.textd2 p1 {
+    position: relative;
+    width: 100%;
+    margin: 20px;
+    font-size: 1.5rem;
+}
+
+.box {
+    position: absolute;
+    display: block;
+    bottom: 0;
+    background-color: rgb(134, 112, 85);
+    width: 35%;
+    height: 75vh;
+    left: -6rem;
+}
+
+.box img {
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: fill;
+    top: 2rem;
+    right: -7rem;
+    z-index: 2;
+}
+
+/* Russel part */
+
+
+  /* start of footer */
+
+.side-footer {
+    background-color: #1C1B19;
+    color: white;
+    margin: 10px;
+}
+
+.side-footer img {
+    width: 60px;
+    height: 60px;
+    max-width: 100%;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+
+.museo-bulawan-cmp h2 {
+    text-align: center;
+    margin: auto .5rem;
+    font-weight: bold;
+    font-size: 40px;
+}
+
+
+.lowercontainer .navbar {
+    display: flex;
+    flex-direction: row-reverse;
+    height: 15vh;
+    width: 20vw;
+}
+
+
+.nav-links {
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.nav-links li {
+    display: flex;
+    align-items: center;
+    padding: 0em .5em;
+}
+
+
+.text-light {
+    color: #fff;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none; 
+}
+
+.nav-links a:hover {
+    color: #ccc;
+}
+
+/* end of footer */
+
+@media (max-width: 720px) {
+    
 }
