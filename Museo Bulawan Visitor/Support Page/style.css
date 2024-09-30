@@ -1,0 +1,353 @@
+body {
+    margin: 0%;
+    background-color: #EAEADA;
+}
+
+.navbar {
+    text-align: center;
+    padding: 0%;
+}
+
+/* Changes for Header, Top, and Footer Links */
+.header-nav .nav-link {
+    color: black;
+}
+
+.top-nav .nav-link {
+    color:  white;
+}
+
+.footer-nav .nav-link {
+    color: white;
+}
+
+.navbar-nav {
+    color: white;
+    text-shadow: 5%;
+}
+
+#open {
+    color: white;
+    padding-left: 3rem;
+    padding-top: 1rem;
+}
+
+.wrapper {
+    background-color: #1C1B19;
+}
+
+.wr {
+    background-color: #EAEADA;
+}
+
+#container1 {
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
+    font-size: small;
+}
+
+#container2 {
+    padding: 1em 3em .1em 3em;
+}
+
+#logo {
+    height: fit-content;
+    width: 5rem;
+    margin-left: 5%;
+}
+
+#brand {
+    text-transform: uppercase;
+    font-family: Noto Sans;
+    font-weight: bold;
+    font-size: 1.5em;
+    padding-left: .5em;
+    color: black;
+}
+
+.logowrapper {
+    display: flex;
+    align-items: center;
+    margin-right: 20%;
+}
+
+#searchbtn {
+    height: fit-content;
+    width: 2.5em;
+    position: relative;
+}
+
+.nav-link {
+    color: white;
+}
+
+.dropdownicon {
+    height: fit-content;
+    width: 10px;
+}
+/* header end */
+
+.searchcontainer {
+    margin: 0px;
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+}
+
+.searchcontainer img {
+    max-width: 100%;
+    width: 200em;
+    height: 20rem;
+    object-fit: cover;
+    object-position: 10% 20%;
+    filter: blur(2px) grayscale(50%) opacity(80%);
+    display: block;
+}
+
+
+
+.form-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    font-size: large;
+}
+
+.form-control,
+.btn-search {
+    border-radius: 10;
+    border: 1px solid #000;
+}
+
+#features {
+    padding: 5%;
+    background-color: #1C1B19;
+}
+
+.feature-box {
+    text-align: center;
+}
+
+.feature-box img {
+    object-fit: cover;
+    max-width: 100%;
+    height: 400px;
+    width: 400px;
+}
+
+.feature-box img:hover {
+    filter: blur(2px) grayscale(50%) opacity(80%);
+}
+
+.feature-box h5 {
+    color: #BD8049;
+}
+
+.feature-box h2 {
+    color: #FCE6BC;
+    font-family: Hina Mincho;
+    font-size: 2.5em;
+}
+
+.feature-box h4 {
+    color: #B1AEAB;
+    font-size: 1em;
+}
+
+.feature-box h4 h5 {
+    font-family: Nota Sans;
+}
+
+.feature-box .textarea {
+    margin: 20px;
+}
+
+.lowercontainer {
+    background-color: #1C1B19;
+}
+
+.footer {
+    background-color: #1C1B19;
+    height: 100%;
+    color: white;
+}
+
+.footer-box img{
+    margin-left: 3em;
+    height: 60px;
+    width: 60px;
+}
+
+
+.group img{
+    width: 100%;  
+    height: auto;
+
+}
+.side-footer {
+    background-color: #1C1B19;
+    color: white;
+    margin: 10px;
+}
+
+.side-footer img {
+    width: 60px;
+    height: 60px;
+    max-width: 100%;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+
+.museo-bulawan-cmp h2 {
+    text-align: center;
+    margin: auto .5rem;
+    font-weight: bold;
+    font-size: 40px;
+}
+
+
+.lowercontainer .navbar {
+    display: flex;
+    flex-direction: row-reverse;
+    height: 15vh;
+    width: 20vw;
+}
+
+
+.nav-links {
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.nav-links li {
+    display: flex;
+    align-items: center;
+    padding: 0em .5em;
+}
+
+
+.text-light {
+    color: #fff;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none; 
+}
+
+.nav-links a:hover {
+    color: #ccc;
+}
+
+/* end of footer */
+
+/* Support Us Start */
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 10%;
+}
+
+/* left sec */
+.left-section {
+    width: 60%;
+    padding-right: 2%;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.info-header {
+    display: flex;
+    align-items: center;
+    width: 48%;
+    font-family: hina mincho;
+}
+
+.info-header img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.support-message {
+    margin-top: 100px;
+    font-size: 1rem;
+    line-height: 2;
+    text-align: justify;
+    font-family: hina mincho;
+}
+
+/* right sec */
+.right-section {
+    width: 35%;
+}
+
+.lorem {
+    padding: 15px;
+    margin-bottom: 30px;
+}
+
+.lorem p {
+    font-size: 1.3rem;
+    color: #333;
+    font-family: Hina Mincho;
+    text-align: justify;
+}
+
+/* contact */
+.contact-box {
+    background-color: #E8E4D8;
+    padding: 20px;
+    text-align: left;
+}
+
+.contact-box h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    font-family: hina mincho;
+}
+
+.contact-box p {
+    font-size: 1rem;
+    margin: 10px 0;
+}
+
+.contact-box button {
+    background-color: white;
+    border: 1px solid black;
+    padding: 12px 40px; 
+    cursor: pointer;
+    font-size: 1rem;
+    width: 100%; 
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.contact-box button:hover {
+    background-color: #F4F2E6;
+    border-color: #555;
+}
+
+/* Media Queries for Responsive Layout */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .left-section,
+    .right-section {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}
