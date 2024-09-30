@@ -1,7 +1,16 @@
-/* header up */
+
+.wrapperwhite {
+    background: #FDFDEC;
+}
+
+.wrapper {
+    background-color: #1C1B19;
+}
 
 body {
+    background: #FDFDEC;
     margin: 0%;
+    padding: 0%;
 }
 
 .navbar {
@@ -9,12 +18,28 @@ body {
     padding: 0%;
 }
 
-.navbar-nav {
+#container1 .nav-link {
     color: white;
+    font-family: Noto Sans;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    font-weight: 500;
-    font-family: 'Hind', sans-serif;
 }
+
+#container1 .nav-link:hover {
+    color: gray;
+}
+
+#container2 .nav-link {
+    color: black;
+    font-family: Inter;
+    font-weight: 500;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#container2 .nav-link:hover {
+    color: gray;
+}
+
+
 
 #open {
     color: white;
@@ -22,10 +47,7 @@ body {
     padding-top: 1rem;
 }
 
-.wrapper {
-    background-color: #1C1B19;
-    padding-bottom: 10px;
-}
+
 
 #container1 {
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
@@ -44,10 +66,11 @@ body {
 
 #brand {
     text-transform: uppercase;
-    font-family: 'Hind', sans-serif;
+    font-family: Noto Sans;
     font-weight: bold;
     font-size: 1.5em;
     padding-left: .5em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .logowrapper {
@@ -62,101 +85,52 @@ body {
     position: relative;
 }
 
-.nav-link {
-    color: white;
-}
-
 
 .dropdownicon {
     height: fit-content;
     width: 15px;
 }
 
-/* header end */
-
-.searchcontainer {
-    margin: 0px;
-    position: relative;
-    width: 100%;
+.donationtitle {
+    background: white;
+    box-shadow: #1C1B19;
     max-width: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    font-family: Hina Mincho, sans-serif;
 }
 
-.searchcontainer img {
-    max-width: 100%;
-    width: 200em;
-    height: 20rem;
-    object-fit: cover;
-    object-position: 10% 20%;
-    filter: blur(2px) grayscale(50%) opacity(80%);
-    display: block;
+.intro {
+    background: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
-
-
-.form-overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 60%;
-    font-size: large;
+.intro p {
+    text-align: justify;
+    font-family: 'Hind Kochi', sans-serif;
 }
 
-.form-control,
-.btn-search {
-    border-radius: 10;
-    border: 1px solid #000;
+.form-control {
+    border: 2px solid black;
+    border-radius: 20px;
 }
-
-#features {
-    padding: 5%;
-    background-color: #1C1B19;
+.form-control::placeholder {
+    font-size: 0.9rem;
+    color: #999;
 }
-
-.feature-box {
-    text-align: center;
+label {
+    font-weight: bold;
 }
-
-.feature-box img {
-    object-fit: cover;
-    max-width: 100%;
-    height: 400px;
-    width: 400px;
+.text-danger {
+    color: red;
 }
-
-.feature-box img:hover {
-    filter: blur(2px) grayscale(50%) opacity(80%);
+.section-title {
+    font-size: 1.25rem;
+    font-weight: bold;
 }
-
-.feature-box h5 {
-    color: #BD8049;
-}
-
-.feature-box h2 {
-    color: #FCE6BC;
-    font-family: Hina Mincho;
-    font-size: 2.5em;
-}
-
-.feature-box h4 {
-    color: #B1AEAB;
-    font-size: 1em;
-}
-
-.feature-box h4 h5 {
-    font-family: Nota Sans;
-}
-
-.feature-box .textarea {
-    margin: 20px;
-}
-
-/* start of footer */
 
 .side-footer {
     background-color: #1C1B19;
     color: white;
-    margin: 10px;
 }
 
 .side-footer img {
@@ -212,8 +186,12 @@ body {
     color: #ccc;
 }
 
-/* end of footer */
 
-@media (max-width: 720px) {
-    
+.side-footer .nav-link {
+    color: white;
 }
+
+.side-footer .nav-link:hover {
+    color: gray;
+}
+
