@@ -9,6 +9,19 @@ body {
     padding: 0%;
 }
 
+/* Changes for Header, Top, and Footer Links */
+.header-nav .nav-link {
+    color: black;
+}
+
+.top-nav .nav-link {
+    color: white;
+}
+
+.footer-nav .nav-link {
+    color: white;
+}
+
 .navbar-nav {
     color: white;
     text-shadow: 5%;
@@ -24,10 +37,13 @@ body {
     background-color: #1C1B19;
 }
 
+.wr {
+    background-color: white;
+}
+
 #container1 {
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
     font-size: small;
-
 }
 
 #container2 {
@@ -46,6 +62,7 @@ body {
     font-weight: bold;
     font-size: 1.5em;
     padding-left: .5em;
+    color: black;
 }
 
 .logowrapper {
@@ -64,12 +81,10 @@ body {
     color: white;
 }
 
-
 .dropdownicon {
     height: fit-content;
-    width: 15px;
+    width: 10px;
 }
-
 /* header end */
 
 .searchcontainer {
@@ -173,19 +188,15 @@ body {
 }
 
 /*  about us */
-
 .sec {
-
     margin-top: 8%;
     margin-left: 13%;
     margin-right: 6%;
     max-width: auto;
     height: auto;
     display: flex;  
-    justify-content: space-between;  
-    
+    justify-content: space-between;     
 }
-
 .sec .leftside {
     height: auto;
     width: 40%; 
@@ -193,25 +204,19 @@ body {
     box-sizing: border-box; 
     overflow: hidden; 
 }
-
 .sec .rightside {
     height: auto;
     width: 57%; 
     box-sizing: border-box; 
-
 }
-
 .sec .leftside .tl {
-
     width: auto;
     padding-top: 25px;
     padding-bottom: 35px;
     position: relative;
-    height: auto;
-            
+    height: auto;           
 }
 .sec .leftside .tl h6{
-
     font-family: Hina Mincho;
     font-size: 1.05vw;           
     line-height: 2;            
@@ -219,19 +224,14 @@ body {
     text-align: justify; 
     overflow-wrap: break-word;         
 }
-
 #pic1 img {
     width: 100%; 
     height: auto; 
-
-
 }
-
 .sec .rightside .tr{
     width: auto;
     padding-bottom: 10px;
 }
-
 .sec .rightside .tr h3{
     font-family: Hina Mincho;
     font-size: 2.7vw;             
@@ -239,13 +239,10 @@ body {
     color: black;  
     text-align: justify;    
     overflow-wrap: break-word;
-
 }
-
 .sec .rightside .sbr {
     width: auto;
 }
-
 .sec .rightside .sbr h6{
     font-family: Hina Mincho;
     font-size: 1.43vw;            
@@ -254,35 +251,23 @@ body {
     text-align: justify;  
     overflow-wrap: break-word;  
 }
-
-
 .sec2{
-
     width: auto;
     height: auto;
-
     margin-left: 13%;
     margin-right: 5%;
     margin-top: 5%;
-    
 }
-
 .sec2 .topsec {
-
     position: relative;
     padding-right: 40%;
-
-  
-
 }
-
 .sec2 .topsec h1 {
     font-family: Hina Mincho;
     font-size: 2.5vw;
     line-height: 1.5;
     color: black;
 }
-
 .sec2 .botsec2{
     display: flex;
     justify-content: space-between;
@@ -291,15 +276,12 @@ body {
     margin: 20px;
     padding: 20px;
     box-sizing: border-box;
-    
 }
-
 .bsl {
     width: 45%;                  
     display: flex;
     justify-content: flex-end;        
 }
-
 .bsr {
     width: 50%;                   
     display: flex;
@@ -307,26 +289,22 @@ body {
     justify-content: flex-start;      
     gap: 20px;                       
 }
-
 #pic2 img {
     width: 100%;                     
     height: auto; 
     margin-left: -8%;
 }
-
 .con {
     font-family: Hina Mincho;
     display: flex;
     align-items: center;  /* Vertically center align the "L" and the "orem" text */
     gap: 10px;            /* Add some spacing between "L" and "orem" */
 }
-
 .L h1{
 
     font-size: 8vw;
     color: black;
 }
-
 .orem h6 {
     font-family: Hina Mincho;
     font-size: 1.6vw;
@@ -336,7 +314,6 @@ body {
     overflow-wrap: break-word;
     padding-top: 20px;
 }
-
 .lorem h6 {
     margin-top: -20px;
     font-family: Hina Mincho;
@@ -346,10 +323,7 @@ body {
     color: black;
     overflow-wrap: break-word;
 }
-
-
 .sec3{
-
     width: auto;
     height: auto;
     margin-left: 13%;
@@ -357,19 +331,12 @@ body {
     overflow: hidden;
     margin-top: 5%;
 }
-
-
-
 .sec3 .topsec{
     margin-bottom: 3%;
     width: auto;
     height: auto;
     display: flex;
-
 }
-
-
-
 .sec3 .topsec .tl{
     width: 500px;
     text-align: justify;
@@ -377,38 +344,27 @@ body {
     height: auto;
     overflow: hidden;
 }
-
 .sec3 .topsec .tl h6{
     line-height: 1.8;
     color: black;
     font-size: 1.34vw;  
     overflow-wrap: break-word;
 }
-
-
-
 #pic3 img{
     width: 100%;
     height: auto;
     padding-left: 10%;
-
 }
-
-
-
 .sec3 .botsec{
     width: auto;
     height: auto;
     display: flex;
 }
-
-
 .sec3 .botsec .leftsec3{
     width: 60%;
     height: auto;
     overflow: hidden;
 }
-
 .sec3 .botsec .rightsec3{
     width: 40%;
     height: auto;
@@ -417,16 +373,13 @@ body {
     text-align: justify;
     font-family: Hina Mincho;
     padding-left: 2%;
-
 }
-
 .sec3 .botsec .rightsec3 h6{
     line-height: 1.8;
     font-size: 1.2vw;
     overflow-wrap: break-word;
     color: black;
 }
-
 .sec3 .botsec .leftsec3 h1{
     text-align: justify;
     font-family: Hina Mincho;
@@ -434,7 +387,6 @@ body {
     font-size: 3vw;
     color: black;
 }
-
 .sec3 .botsec .leftsec3 h6{
     text-align: justify;
     font-family: Hina Mincho;
@@ -442,26 +394,19 @@ body {
     line-height: 1.5;
     padding-top: 3%;
     color: black;
-
 }
-
-
 .map .text{
     width: auto;
     height: fit-content;
-
     margin-top: 8%;
     margin-bottom: 5%;
     padding-left: 13%;
-
 }
-
 .map .text h1{
     font-weight: bold;
     font-family: Hind Kochi;
     color: black;
 }
-
 #frame{
     display: flex;
     width: 100%;
@@ -475,6 +420,68 @@ body {
     max-width: 100%;
     height: auto;
     object-fit: contain;  
-
+}
+.side-footer {
+    background-color: #1C1B19;
+    color: white;
+    margin: 10px;
 }
 
+.side-footer img {
+    width: 60px;
+    height: 60px;
+    max-width: 100%;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+
+.museo-bulawan-cmp h2 {
+    text-align: center;
+    margin: auto .5rem;
+    font-weight: bold;
+    font-size: 40px;
+}
+
+
+.lowercontainer .navbar {
+    display: flex;
+    flex-direction: row-reverse;
+    height: 15vh;
+    width: 20vw;
+}
+
+
+.nav-links {
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.nav-links li {
+    display: flex;
+    align-items: center;
+    padding: 0em .5em;
+}
+
+
+.text-light {
+    color: #fff;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none; 
+}
+
+.nav-links a:hover {
+    color: #ccc;
+}
+
+/* end of footer */
+
+@media (max-width: 720px) {
+    
+}
