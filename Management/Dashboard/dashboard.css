@@ -1,0 +1,195 @@
+body{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    background-color: #000000;
+}
+/*html{
+    background-color: #000000;
+}*/
+
+* {
+    box-sizing: border-box;
+}
+::-webkit-scrollbar { 
+    display: none;
+  }
+
+
+
+
+  .header{
+    background-color: #1C1B19;
+    height: 10vh;
+    width: 100vw;
+    box-shadow: 0vw 0.1vh 0.5vw 0vw #1c1b19fb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 3;
+
+}
+
+.head-wrapper{
+    flex-basis: 98%;
+    height: 7vh;
+    display: flex;
+    position: relative;
+}
+
+.head-wrapper::after {
+    content: "";
+    position: absolute;
+    width: 96%;
+    bottom: -0.4vw; /* Adjust this value to move the border higher */
+    left: 4%;
+    transform: translateX(-2%);
+    right: 0;
+    height: 0.1vw; /* Border thickness */
+    background-color: white; /* Border color */
+}
+
+.brand-wrapper{
+    flex-basis: 22%;
+    height: 7vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+.brand-wrapper img{
+    width: 3.6vw;
+    height: 3.6vw;
+    margin: 0;
+}
+
+.brand-wrapper .line-spacer{
+    width: 0.5vw;
+    height: 7vh;
+    background-color: white;
+}
+
+.text-wrapper{
+    height: 6vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.text-wrapper h1{
+    font-family: hind;
+    font-size: 1.9vw;
+    font-weight: bolder;
+    color: white;
+    margin: 0;
+}
+.text-wrapper h2{
+    line-height: 0%;
+    color: white;
+    font-family: hind;
+    font-size: 0.9vw;
+    font-weight: bolder;   
+    margin: 0;
+}
+
+.display-wrapper{
+    width: 100vw;
+    height: 90vh;
+    background-color: #bcbc31;
+
+}
+
+.navigation-panel{
+    width: 24vw;
+    height: 90vh;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-button{
+    width: 18vw;
+    height: 70vh;
+    background-color: rgb(95, 71, 42);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.button-container{
+    width: 18vw;
+    height: 32vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+
+
+
+
+
+.logout-button{
+    height: 5vh;
+    width: 18vw;
+    background-color: cadetblue;
+    cursor: pointer;
+}
+
+.dashboard-button{
+    height: 5vh;
+    width: 18vw;
+    background-color: chocolate;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.dashboard-button p{
+    font-size: 1.5vw;
+    font-family: hind;
+    font-weight: bold;
+    color: white;
+    
+}
+
+.donation-button{
+    height: 5vh;
+    width: 18vw;
+    background-color: chocolate;
+    cursor: pointer;
+}
+.artifact-button{
+    height: 5vh;
+    width: 18vw;
+    background-color: chocolate;
+    cursor: pointer;
+}
+
+.appointment-button{
+    height: 5vh;
+    width: 18vw;
+    background-color: chocolate;
+    cursor: pointer;
+}
+
+.layout-button{
+    height: 5vh;
+    width: 18vw;
+    background-color: chocolate;
+    cursor: pointer;
+}
+
+.article-button{
+    height: 5vh;
+    width: 18vw;
+    background-color: chocolate;
+    cursor: pointer;
+}
