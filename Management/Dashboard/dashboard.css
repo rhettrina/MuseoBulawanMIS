@@ -115,16 +115,15 @@ body{
 }
 
 .nav-button{
-    width: 18vw;
+    width: 14vw;
     height: 70vh;
-    background-color: rgb(95, 71, 42);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
 .button-container{
-    width: 18vw;
+    width: 14vw;
     height: 32vh;
     display: flex;
     flex-direction: column;
@@ -138,58 +137,82 @@ body{
 
 .logout-button{
     height: 5vh;
-    width: 18vw;
+    width: 14vw;
     background-color: cadetblue;
     cursor: pointer;
 }
 
+
+/*dashboard button css start*/
 .dashboard-button{
     height: 5vh;
-    width: 18vw;
-    background-color: chocolate;
+    width: 14vw;
+    background-color: #524433;
     cursor: pointer;
     display: flex;
-    justify-content: space-around;
     align-items: center;
+    border-radius: 0.5vw;
 }
 .dashboard-button p{
     font-size: 1.5vw;
     font-family: hind;
-    font-weight: bold;
     color: white;
-    
+    margin: 0;   
 }
+
+.dashboard-button .button-text{
+    width: auto;
+    height: 5vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dashboard-button .dashboard-img{
+    flex-basis: 40%;
+    padding-left: 10%;
+}
+
+
+/*dashboard button css end*/
+
+
 
 .donation-button{
     height: 5vh;
-    width: 18vw;
-    background-color: chocolate;
+    width: 14vw;
+    background-color: rgb(255, 255, 255);
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-radius: 0.5vw;
 }
+
+
 .artifact-button{
     height: 5vh;
-    width: 18vw;
+    width: 14vw;
     background-color: chocolate;
     cursor: pointer;
 }
 
 .appointment-button{
     height: 5vh;
-    width: 18vw;
+    width: 14vw;
     background-color: chocolate;
     cursor: pointer;
 }
 
 .layout-button{
     height: 5vh;
-    width: 18vw;
+    width: 14vw;
     background-color: chocolate;
     cursor: pointer;
 }
 
 .article-button{
     height: 5vh;
-    width: 18vw;
+    width: 14vw;
     background-color: chocolate;
     cursor: pointer;
 }
