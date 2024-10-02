@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const buttons = document.querySelectorAll('.button-container button, .logout-button');
+    const buttons = document.querySelectorAll('.button-container button');
     
     buttons.forEach(button => {
       button.addEventListener('click', function() {
