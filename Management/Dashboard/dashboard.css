@@ -141,54 +141,72 @@ body{
 .logout-button{
     height: 5vh;
     width: 14vw;
-    background-color: cadetblue;
+    display: flex;
+    align-items: center;
+    border-radius: 0.5vw;
     outline: none;
     border: none;
-    border-radius: 0.5vw;
 }
 
+.log-icon{
+    flex-basis: 10%;
+    padding-left: 3%;
+    position: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.log-icon img{
+    width: 2vw;
+    height: 2vw;
+}
+
+.log-text{
+    font-family: Hind;
+    font-size: 1.5vw;
+    font-weight: 550;
+    padding-left: 10%;
+}
 
 /*dashboard button css start*/
 .dashboard-button{
     height: 5vh;
     width: 14vw;
-    background-color: chocolate;
-    cursor: pointer;
     display: flex;
     align-items: center;
     border-radius: 0.5vw;
     outline: none;
     border: none;
 }
-.dashboard-button p{
-    font-size: 1.5vw;
-    font-family: hind;
-    color: white;
-    margin: 0;   
-}
 
-.dashboard-button .button-text{
-    width: auto;
-    height: 5vh;
-    display: flex;
-    align-items: center;
+.db-icon{
+    flex-basis: 10%;
+    padding-left: 3%;
+    position: flex;
     justify-content: center;
+    align-items: center;
 }
 
-.dashboard-button .dashboard-img{
-    flex-basis: 40%;
+.db-icon img{
+    width: 2vw;
+    height: 2vw;
+}
+
+.db-text{
+    font-family: Hind;
+    font-size: 1.5vw;
+    font-weight: 550;
     padding-left: 10%;
 }
 
 
 /*dashboard button css end*/
 
-
+/*donation button css start*/
 
 .donation-button{
     height: 5vh;
     width: 14vw;
-    background-color: chocolate;
     display: flex;
     align-items: center;
     border-radius: 0.5vw;
@@ -196,53 +214,208 @@ body{
     border: none;
 }
 
+.dob-icon{
+    flex-basis: 10%;
+    padding-left: 3%;
+    position: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dob-icon img{
+    width: 2vw;
+    height: 2vw;
+}
+
+.dob-text{
+    font-family: Hind;
+    font-size: 1.5vw;
+    font-weight: 550;
+    padding-left: 10%;
+}
+
+
+
+
+/*donation button css end*/
+
+
+/*artifact button css start*/
 
 .artifact-button{
     height: 5vh;
     width: 14vw;
-    background-color: chocolate;
+    display: flex;
+    align-items: center;
     border-radius: 0.5vw;
     outline: none;
     border: none;
 }
 
+.ar-icon{
+    flex-basis: 10%;
+    padding-left: 3%;
+    position: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ar-icon img{
+    width: 2vw;
+    height: 2vw;
+}
+
+.ar-text{
+    font-family: Hind;
+    font-size: 1.5vw;
+    font-weight: 550;
+    padding-left: 10%;
+}
+
+/*artifact button css end*/
+
+
+/*appointment button css start*/
 .appointment-button{
     height: 5vh;
     width: 14vw;
-    background-color: chocolate;
+    display: flex;
+    align-items: center;
     border-radius: 0.5vw;
     outline: none;
     border: none;
 }
 
+.ap-icon{
+    flex-basis: 10%;
+    padding-left: 3%;
+    position: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ap-icon img{
+    width: 2vw;
+    height: 2vw;
+}
+
+.ap-text{
+    font-family: Hind;
+    font-size: 1.5vw;
+    font-weight: 550;
+    padding-left: 10%;
+}
+/*appointment button css end*/
+
+
+/*layout button css start*/
 .layout-button{
     height: 5vh;
     width: 14vw;
-    background-color: chocolate;
+    display: flex;
+    align-items: center;
     border-radius: 0.5vw;
     outline: none;
     border: none;
 }
 
+.lt-icon{
+    flex-basis: 10%;
+    padding-left: 3%;
+    position: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.lt-icon img{
+    width: 2vw;
+    height: 2vw;
+}
+
+.lt-text{
+    font-family: Hind;
+    font-size: 1.5vw;
+    font-weight: 550;
+    padding-left: 10%;
+}
+
+/*layout button css end*/
+
+
+/*article button css start*/
 .article-button{
     height: 5vh;
     width: 14vw;
-    background-color: chocolate;
+    display: flex;
+    align-items: center;
     border-radius: 0.5vw;
     outline: none;
     border: none;
 }
 
+.at-icon{
+    flex-basis: 10%;
+    padding-left: 3%;
+    position: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.at-icon img{
+    width: 2vw;
+    height: 2vw;
+}
+
+.at-text{
+    font-family: Hind;
+    font-size: 1.5vw;
+    font-weight: 550;
+    padding-left: 10%;
+}
+/*article button css end*/
 
 
 .active{
     background-color: #524433;
     color: white;
-
 }
+
+.active img {
+    filter: invert(100%);
+}
+  
+
+
+
+
 
 .content-container{
     width: 76vw;
     height: 90vh;
-    
+    display: flex;
+    flex-direction: column;
+}
+
+.notification-container{
+    width: 76vw;
+    height: 5vh;
+
+    display: flex;
+    flex-direction: row-reverse;
+    align-content: center;
+}
+
+.notification-button{
+    padding: 0.5vw;
+    outline: none;
+    border: none;
+    background: none;
+    border: none;
+}
+
+/*this is the css container of the content*/
+.actual-content{
+    width: 76vw;
+    height: 85vh;
+
 }
