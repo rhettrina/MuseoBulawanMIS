@@ -456,10 +456,7 @@ body{
     filter: none; 
 }
 
-.tab:not(.active) {
-    color: #999;
-    filter: blur(1px); 
-}
+
 
 
 

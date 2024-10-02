@@ -165,7 +165,7 @@
                         <div class="nav-bar">
                             <div class="tab active" id="forms-tab">Forms</div>
                             <div class="tab " id="transfer-tab" onclick="showPage('transfer')">Transfer Status</div>
-                            <div class="tab" id="donators-tab">Donators Records</div>
+                            <div class="tab" id="donators-tab" onclick="showPage('donators-records')">Donators Records</div>
         
                             <!-- Sorting on the right -->
                             <div class="sort-container">
@@ -320,7 +320,7 @@
                     </div>
         
 
-                    <div id="transfer" class="page-content">
+                    <div id="transfer" class="page-content" style="display: none;">
 
                         <h2 class="donation-title">Donation</h2>
                         <div class="donation-header">
@@ -365,10 +365,74 @@
                                 </div>
                             </div>
                         </div>
+                       
                     
                         <div class="nav-bar">
                             <div class="tab " id="forms-tab" onclick="showPage('forms')">Forms</div>
                             <div class="tab active" id="transfer" >Transfer Status</div>
+                            <div class="tab" id="donators-tab" onclick="showPage('donators-records')">Donators Records</div>
+        
+                            <!-- Sorting on the right -->
+                            <div class="sort-container">
+                                <label for="sort"> Sort By:</label>
+                                <select id="sort">
+                                    <option value="date">Newest</option>
+                                    <option value="name">Oldest</option>
+                                </select>
+                            </div>
+                        </div>
+                        <p>TRANSFERRR test</p>
+                    </div>
+
+        
+                    <div id="donators-records" class="page-content" style="display: none;">
+                        <h2 class="donation-title">Donation</h2>
+                        <div class="donation-header">
+                            <div class="summary-box total">
+                                <div class="summary-left">
+                                    <span class="summary-title">Total Forms</span>
+                                </div>
+                                <div class="summary-right">
+                                    <span class="summary-number">271</span>
+                                </div>
+                            </div>
+                            <div class="summary-box accepted">
+                                <div class="summary-left">
+                                    <span class="summary-title">Accepted Forms</span>
+                                </div>
+                                <div class="summary-right">
+                                    <span class="summary-number">255</span>
+                                </div>
+                            </div>
+                            <div class="summary-box rejected">
+                                <div class="summary-left">
+                                    <span class="summary-title">Rejected Forms</span>
+                                </div>
+                                <div class="summary-right">
+                                    <span class="summary-number">16</span>
+                                </div>
+                            </div>
+                            <div class="summary-box donation">
+                                <div class="summary-left">
+                                    <span class="summary-title">Donations Forms</span>
+                                </div>
+                                <div class="summary-right">
+                                    <span class="summary-number">256</span>
+                                </div>
+                            </div>
+                            <div class="summary-box lending">
+                                <div class="summary-left">
+                                    <span class="summary-title">Lending Forms</span>
+                                </div>
+                                <div class="summary-right">
+                                    <span class="summary-number">15</span>
+                                </div>
+                            </div>                        
+                        </div>
+                             
+                        <div class="nav-bar">
+                            <div class="tab " id="forms-tab" onclick="showPage('forms')">Forms</div>
+                            <div class="tab active" id="transfer" onclick="showPage('transfer')" >Transfer Status</div>
                             <div class="tab" id="donators-tab">Donators Records</div>
         
                             <!-- Sorting on the right -->
@@ -380,13 +444,7 @@
                                 </select>
                             </div>
                         </div>
-                        
-                        
-                    </div>
-        
-                    <div id="donators-records" class="page-content" style="display: none;">
-                        <h2>Donators Records Page</h2>
-                        <p>Donator information will be displayed here.</p>
+                        <p> DONATEEE test</p>
                     </div>
         
                 </div>
