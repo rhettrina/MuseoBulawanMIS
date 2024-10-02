@@ -422,6 +422,7 @@ body{
     align-items: center;
     padding: 20px;
     overflow-y: auto; /* Add this line to prevent overflow */
+    background-color: #F9F8E6;
 }
 
 .dbContent {
@@ -574,7 +575,6 @@ body{
     padding: 10px;
 }
 
-
 .deta.Ap {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -584,56 +584,200 @@ body{
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 50vw;
-}
-
-.appoint {
-    grid-column: 1 / 2;
-    grid-row: 1 / 2;
-    display: flex;
-    flex-direction: column;
-    
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #f7f7f7;
-    width: 45vw;
+    background-color: #624B29; /* Your color for .deta.Ap */ 
 }
 
 .today {
     grid-column: 2 / 3;
     grid-row: 1 / 2;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #f7f7f7;
+    background-color: #B4C187; /* Your color for .today */
     justify-self: end;
+    width: 100%;
+    margin-bottom: 20px; /* Add margin to create gap */
 }
 
-.thisMonth {
-    grid-column: 1 / 2;
-    grid-row: 2 / 3;
+.today .thisMonth {
     display: flex;
     flex-direction: column;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #f7f7f7;
+    background-color: #8C5C2B; /* Your color for .thisMonth */ 
+    width: 50%;
+    margin-left: auto;
 }
 
 .summary {
-    grid-column: 2 / 3;
+    grid-column: 1 / 3;
     grid-row: 2 / 3;
     display: flex;
     flex-direction: column;
-    
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #f7f7f7;
+    background-color: #F9F8E6; 
+}
+
+.sumBar {
+    width: 100%;
+    height: 50px;
+    background-color: #ccc;
+    border-radius: 5px;
+    position: relative;
+}
+
+.sumBar::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(523 / 593 * 100%);
+    height: 100%;
+    background-color: #624A29; /* Past Record color */
+    border-radius: 5px 0 0 5px;
+}
+
+.sumBar::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: calc(523 / 593 * 100%);
+    width: calc(59 / 593 * 100%);
+    height: 100%;
+    background-color: #8C5C2B; /* This Month color */
+    border-radius: 0 5px 5px 0;
+}
+
+.sumBar .todayBar {
+    position: absolute;
+    top: 0;
+    left: calc((523 + 59) / 593 * 100%);
+    width: calc(11 / 593 * 100%);
+    height: 100%;
+    background-color: #B4C187; /* Today color */
+    border-radius: 0 5px 5px 0;
+}
+
+.thisMonth {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #8C5C2B; /* Your color for .thisMonth */ 
+    width: 50%;
+    justify-self: end;
+}
+
+
+.deta.AV {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 50vw;
+    background-color: #ffffff; /* Your color for .deta.Ap */ 
+}
+
+.todayVisit {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #B4C187; /* Your color for .today */
+    justify-self: end;
+    width: 100%;
+    margin-bottom: 20px; /* Add margin to create gap */
+}
+
+.todayVisit .thisMonthVisit {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #8C5C2B; /* Your color for .thisMonth */ 
+    width: 50%;
+    margin-left: auto;
+}
+
+.summaryVisit {
+    grid-column: 1 / 3;
+    grid-row: 2 / 3;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #F9F8E6; 
+}
+
+.sumBarVisit {
+    width: 100%;
+    height: 50px;
+    background-color: #ccc;
+    border-radius: 5px;
+    position: relative;
+}
+
+.sumBarVisit::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(523 / 593 * 100%);
+    height: 100%;
+    background-color: #624A29; /* Past Record color */
+    border-radius: 5px 0 0 5px;
+}
+
+.sumBarVisit::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: calc(523 / 593 * 100%);
+    width: calc(59 / 593 * 100%);
+    height: 100%;
+    background-color: #8C5C2B; /* This Month color */
+    border-radius: 0 5px 5px 0;
+}
+
+.sumBarVisit .todayBarVisit {
+    position: absolute;
+    top: 0;
+    left: calc((523 + 59) / 593 * 100%);
+    width: calc(11 / 593 * 100%);
+    height: 100%;
+    background-color: #B4C187; /* Today color */
+    border-radius: 0 5px 5px 0;
+}
+
+.thisMonthVisit {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #8C5C2B; /* Your color for .thisMonth */ 
+    width: 50%;
+    justify-self: end;
 }
