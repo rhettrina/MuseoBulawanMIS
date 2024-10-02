@@ -101,7 +101,7 @@ body{
 .display-wrapper{
     width: 100vw;
     height: 90vh;
-    background-color: #bcbc31;
+    background-color: #E8D2B6;
 
 }
 
@@ -140,6 +140,7 @@ body{
     width: 14vw;
     background-color: cadetblue;
     cursor: pointer;
+    border-radius: 0.5vw;
 }
 
 
@@ -147,11 +148,13 @@ body{
 .dashboard-button{
     height: 5vh;
     width: 14vw;
-    background-color: #524433;
+    background-color: chocolate;
     cursor: pointer;
     display: flex;
     align-items: center;
     border-radius: 0.5vw;
+    outline: none;
+    border: none;
 }
 .dashboard-button p{
     font-size: 1.5vw;
@@ -181,11 +184,12 @@ body{
 .donation-button{
     height: 5vh;
     width: 14vw;
-    background-color: rgb(255, 255, 255);
-    cursor: pointer;
+    background-color: chocolate;
     display: flex;
     align-items: center;
     border-radius: 0.5vw;
+    outline: none;
+    border: none;
 }
 
 
@@ -193,26 +197,42 @@ body{
     height: 5vh;
     width: 14vw;
     background-color: chocolate;
-    cursor: pointer;
+    border-radius: 0.5vw;
+    outline: none;
+    border: none;
 }
 
 .appointment-button{
     height: 5vh;
     width: 14vw;
     background-color: chocolate;
-    cursor: pointer;
+    border-radius: 0.5vw;
+    outline: none;
+    border: none;
 }
 
 .layout-button{
     height: 5vh;
     width: 14vw;
     background-color: chocolate;
-    cursor: pointer;
+    border-radius: 0.5vw;
+    outline: none;
+    border: none;
 }
 
 .article-button{
     height: 5vh;
     width: 14vw;
     background-color: chocolate;
-    cursor: pointer;
+    border-radius: 0.5vw;
+    outline: none;
+    border: none;
+}
+
+
+
+.active{
+    background-color: #524433;
+    color: white;
+
 }
