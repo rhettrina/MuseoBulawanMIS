@@ -18,7 +18,7 @@ function showPage(pageId) {
     // Add 'active' class to the clicked tab
     var activeTab = pageId === 'forms' ? 'forms-tab' :
                     pageId === 'transfer' ? 'transfer-tab' :
-                    pageId === 'donators-tab';
+                    'donators-tab';
     document.getElementById(activeTab).classList.add('active');
 }
 

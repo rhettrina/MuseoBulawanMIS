@@ -394,6 +394,7 @@ body{
     height: 90vh;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 .notification-container{
@@ -688,4 +689,7 @@ body{
     font-weight: 500;
     font-family: hina mincho;
     color: #333;
+}
+#forms{
+    padding-bottom: 60px;
 }
