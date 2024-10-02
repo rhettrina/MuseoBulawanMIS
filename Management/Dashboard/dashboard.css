@@ -414,8 +414,226 @@ body{
 }
 
 /*this is the css container of the content*/
-.actual-content{
+.actual-content {
     width: 76vw;
     height: 85vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    overflow-y: auto; /* Add this line to prevent overflow */
+}
 
+.dbContent {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.boxes {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 20px; /* Add this line to add space between rows */
+}
+
+.row1, .row2 {
+    width: 100%;
+    height: calc(50% - 20px); /* Subtract the margin-bottom value from the height */
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.deta {
+    padding: 20px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.EV {
+    display: grid;
+    grid-template-columns: 65% 35%;
+    grid-template-rows: 1fr 1fr;
+    grid-column-gap: 10px;
+    padding: 20px;
+    margin: 10px;
+    border: none; /* Remove the border */
+    border-radius: 0; /* Remove the border-radius */
+    box-shadow: none; /* Remove the box-shadow */
+    flex-basis: 40%;
+    height: 100%;
+}
+
+.expVisit {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a shadow to the container */
+}
+
+.expVisit p{
+    font-size: 0.7rem;
+}
+.expVisit p1{
+    font-size: 0.5rem;
+}
+
+.expVisit img {
+    position: relative;
+    width: 75%;
+    height: 75%;
+    margin-left: 27px;
+    justify-content: center;
+    object-fit: contain;
+    
+}
+
+.present {
+    color: white;
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #44331A;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a shadow to the container */
+}
+
+.absent {
+    color: white;
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #A9875A;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a shadow to the container */
+}
+
+.AR {
+    background-color: #524433;
+    flex-basis: 60%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+}
+
+.AR h1 {
+    font-size: 1.3rem; /* Change the font size to 2.4rem */
+    color: white;
+}
+
+.AR img {
+    width: 100%;
+    height: 90%;
+    object-fit: contain;
+}
+
+
+
+.Ap, .AV {
+    flex-basis: 50%;
+    height: 100%;
+}
+
+.deta div {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.deta div:last-child {
+    border-bottom: none;
+}
+
+.expVisit, .present, .absent {
+    border-radius: 10px; /* Increase the value to make the corners more rounded */
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+
+.deta.Ap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 50vw;
+}
+
+.appoint {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    display: flex;
+    flex-direction: column;
+    
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f7f7f7;
+    width: 45vw;
+}
+
+.today {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f7f7f7;
+    justify-self: end;
+}
+
+.thisMonth {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f7f7f7;
+}
+
+.summary {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    display: flex;
+    flex-direction: column;
+    
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f7f7f7;
 }
