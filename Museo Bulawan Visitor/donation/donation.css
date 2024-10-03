@@ -5,15 +5,13 @@ body{
     width: 100%;
     height: 100%;
     overflow-x: hidden;
-    background-color: #000000;
+
 }
 /*html{
     background-color: #000000;
 }*/
 
-* {
-    box-sizing: border-box;
-}
+
 ::-webkit-scrollbar { 
     display: none;
   }
@@ -442,20 +440,20 @@ body{
     border-radius: 5px;
     margin-right: 10px;
     font-weight: bold;
-    transition: border 0.3s ease; 
+    transition: border 0.3s ease, filter 0.3s ease; /* Added filter transition */
+    filter: blur(1px); /* Apply blur effect to inactive tabs */
 }
 
 .tab:hover {
     border: 2px solid #000; 
+    filter: blur(0px); /* Remove blur on hover for better visibility */
 }
 
 .tab.active {
     background-color: #e8d2b6; 
-    border: 2px solid #000; 
     color: black; 
-    filter: none; 
+    filter: none; /* Remove blur effect for the active tab */
 }
-
 
 
 
@@ -589,37 +587,48 @@ body{
     cursor: pointer;
 }
 
+/* Evenly size the status buttons */
+.status {
+    color: #fff;
+    padding: 5px;
+    border-radius: 4px;
+    text-align: center;
+    width: 100px; /* Set a fixed width */
+    height: 25px;  /* Set a fixed height */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center the text */
+}
+
+.transfer-status {
+    color: #fff;
+    padding: 5px;
+    border-radius: 4px;
+    text-align: center;
+    width: 100px; /* Set a fixed width */
+    height: 25px;  /* Set a fixed height */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center the text */
+}
+
+/* Specific Background Colors */
 .status.accepted {
     background-color: #b29061;
-    color: #fff;
-    padding: 5px;
-    border-radius: 4px;
-    text-align: center;
 }
+
 .status.review {
     background-color: #361C07;
-    color: #fff;
-    padding: 5px;
-    border-radius: 4px;
-    text-align: center;
 }
 
 .transfer-status.acquire {
     background-color: #d39b72;
-    color: #fff;
-    padding: 5px;
-    border-radius: 4px;
-    text-align: center;
 }
 
 .transfer-status.pending {
     background-color: #8C5C2B;
-    color: #fff;
-    padding: 5px;
-    border-radius: 4px;
-    text-align: center;
-    
 }
+
 
 .tab-head {
 
@@ -658,16 +667,15 @@ body{
     margin-left: 95px;
 }
 #upd{
-    margin-left: 75px;
+    margin-left: 65px;
 
 }
 /* Scrollable Table */
-
-
 .table-container {
     max-height: 320px;
     overflow-y: auto; 
-    overflow: scroll;}
+    overflow: scroll;
+}
 
 .donation-table {
     width: 100%;
@@ -690,3 +698,127 @@ body{
 #forms{
     padding-bottom: 100%;
 }
+
+.dropdown-icon {
+    width: 16px;
+    height: 16px;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+#ddate{
+    margin-left: 4%;
+}
+
+#dnds{
+    margin-left: 27%;
+}
+#dupd{
+    margin-left: 21.5%;
+}
+
+.arrow {
+    font-size: 10px;
+    cursor: pointer;
+    
+}
+.arrow.down::before {
+    content: '▼';
+}
+.arrow.up::before {
+    content: '▲';
+}
+
+.table-container {
+    max-height: 320px;
+    overflow-y: auto; 
+    overflow: scroll;
+}
+
+
+    .donation-list {
+        width: 100%;
+        margin: auto;
+        
+    }
+    .donation-row {
+        background-color: #fff;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .donation-row:hover {
+        background-color: #f1f1f1;
+    }
+    .donation-row.active {
+        background-color: #f0f0e0;
+    }
+    .donation-details {
+        display: none;
+        margin: 10px;
+        padding-left: 0%;
+        
+    }
+    .donation-details.active {
+        display: block;
+    }
+    .arrow {
+        font-size: 20px;
+        cursor: pointer;
+    }
+    .arrow.down::before {
+        content: '▼';
+    }
+    .arrow.up::before {
+        content: '▲';
+    }
+    .details-table {
+        background-color: white;
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;   
+    }
+    .details-table th, .details-table td {
+        padding: 8px 12px;
+        color: black;
+    }   
+
+
+    .details-table th {
+        background-color: #8C5C2B;
+    }
+    
+    .ts, .sts {
+        color: white;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding-top: 10px;
+        padding: 5px;
+        border-radius: 4px;
+        text-align: center;
+        width: 100px; /* Set a fixed width */
+        height: 25px;  /* Set a fixed height */
+        display: inline-flex; /* Inline-flex to stay in the same line */
+        align-items: center;
+        justify-content: center; /* Center the text */
+    }
+    
+    .sts.accepted{
+        background-color: #9C7744;
+    }
+    .ts.acquired{
+        background-color: #EAC39C;
+    }
+
+    .sts.rejected{
+        background-color: #361C07;
+    }
+
+    .ts.rejected{
+        background-color: #616161;
+    }
+
+    

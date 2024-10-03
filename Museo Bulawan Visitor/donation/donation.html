@@ -161,16 +161,17 @@
         
                         <!-- Navigation Tabs -->
                         <div class="nav-bar">
-                            <div class="tab active" id="forms-tab">Forms</div>
+                            <div class="tab active" id="forms-tab"onclick="showPage('forms')">Forms</div>
                             <div class="tab " id="transfer-tab" onclick="showPage('transfer')">Transfer Status</div>
-                            <div class="tab" id="donators-tab" onclick="showPage('donators-records')">Donators Records</div>
+                            <div class="tab " id="donators-tab" onclick="showPage('donators-records')">Donators Records</div>
         
                             <!-- Sorting on the right -->
                             <div class="sort-container">
-                                <label for="sort"> Sort By:</label>
+                                <label for="sort"> By Date:</label>
                                 <select id="sort">
-                                    <option value="name">Newest</option>
-                                    <option value="date">Oldest</option>
+
+                                    <option value="date-newest">Newest</option>
+                                    <option value="date-oldest">Oldest</option>
                                 </select>
                             </div>
                         </div>
@@ -316,7 +317,6 @@
                             </table>
                         </div>
                     </div>
-        
 
                     <div id="transfer" class="page-content">
 
@@ -366,23 +366,188 @@
                        
                     
                         <div class="nav-bar">
-                            <div class="tab " id="forms-tab" onclick="showPage('forms')">Forms</div>
-                            <div class="tab active" id="transfer" >Transfer Status</div>
+                            <div class="tab" id="forms-tab" onclick="showPage('forms')">Forms</div>
+                            <div class="tab active" id="transfer-tab"  onclick="showPage('transfer')" >Transfer Status</div>
                             <div class="tab" id="donators-tab" onclick="showPage('donators-records')">Donators Records</div>
         
                             <!-- Sorting on the right -->
                             <div class="sort-container">
-                                <label for="sort"> Sort By:</label>
+                                <label for="sort"> By Date:</label>
                                 <select id="sort">
                                     <option value="date">Newest</option>
                                     <option value="name">Oldest</option>
                                 </select>
                             </div>
                         </div>
-                        <p>TRANSFERRR test</p>
-                    </div>
+                        <div class="tab-head">
+                            <div id="date" >
+                                <p>Date</p>
+                            </div>
+                            <div id="nds">
+                                <p>Name of Donor/Sender</p>
+                            </div>
+                            <div id="ttl">
+                                <p>Title</p>
+                            </div>
+                            <div id="sta">
+                                <p>Status</p>
+                            </div>
+                            <div id="transta">
+                                <p>Transfer Status</p>
+                            </div>
+                            <div id="upd" class="acq">
+                                <p>Acquisition Date</p>
+                            </div>
+                        </div>       
+                        
 
-        
+                        <!-- Scrollable Table -->
+                            <div class="table-container">
+                             <table class="donation-table" id="donationTable">
+                        
+                        <tbody>
+                            <tr>
+                                <td>02-01-2024</td>
+                                <td>Olivia Harper</td>
+                                <td>Perlas ng silanganan</td>
+                                <td><span class="status accepted">Accepted</span></td>
+                                <td><span class="transfer-status acquire">Transferred
+                                    <img src="../source/dropdown.png" alt="Dropdown Icon" class="dropdown-icon">
+                                </span></td>
+                                <td>02-19-2024</td>
+                            </tr>
+                            <tr>
+                                <td>02-02-2024</td>
+                                <td>Ethan Bennett</td>
+                                <td>Kutsara</td>
+                                <td><span class="status accepted">Accepted</span></td>
+                                <td><span class="transfer-status acquire">Transferred
+                                    <img src="../source/dropdown.png" alt="Dropdown Icon" class="dropdown-icon">
+                                </span></td>
+                                <td>02-19-2024</td>
+                            </tr>
+                            <tr>
+                                <td>02-03-2024</td>
+                                <td>Isabella Reed</td>
+                                <td>Statue</td>
+                                <td><span class="status review">Rejected</span></td>
+                                <td><span class="transfer-status pending">Pending
+                                    <img src="../source/dropdown.png" alt="Dropdown Icon" class="dropdown-icon">
+                                </span></td>
+                                <td>02-19-2024</td>
+                            </tr>
+                            <tr>
+                                <td>02-04-2024</td>
+                                <td>Noah Collins</td>
+                                <td>Statue of a Great Grandfather</td>
+                                <td><span class="status accepted">Accepted</span></td>
+                                <td><span class="transfer-status acquire">Transferred
+                                    <img src="../source/dropdown.png" alt="Dropdown Icon" class="dropdown-icon">
+                                </span></td>
+                                <td>02-19-2024</td>
+                            </tr><tr>
+                                <td>02-05-2024</td>
+                                <td>Olivia Harper</td>
+                                <td>Perlas ng silanganan</td>
+                                <td><span class="status accepted">Accepted</span></td>
+                                <td><span class="transfer-status acquire">Transferred
+                                    <img src="../source/dropdown.png" alt="Dropdown Icon" class="dropdown-icon">
+                                </span></td>
+                                <td>02-19-2024</td>
+                            </tr>
+                            <tr>
+                                <td>02-06-2024</td>
+                                <td>Isabella Reed</td>
+                                <td>Statue</td>
+                                <td><span class="status review">Rejected</span></td>
+                                <td><span class="transfer-status pending">Pending
+                                    <img src="../source/dropdown.png" alt="Dropdown Icon" class="dropdown-icon">
+                                </span></td>
+                                <td>02-19-2024</td>
+                            </tr>
+                            <tr>
+                                <td>02-07-2024</td>
+                                <td>Noah Collins</td>
+                                <td>Statue of a Great Grandfather</td>
+                                <td><span class="status accepted">Accepted</span></td>
+                                <td><span class="transfer-status acquire">Transferred
+                                    <img src="../source/dropdown.png" alt="Dropdown Icon" class="dropdown-icon">
+                                </span></td>
+                                <td>02-19-2024</td>
+                            </tr><tr>
+                                <td>02-08-2024</td>
+                                <td>Olivia Harper</td>
+                                <td>Perlas ng silanganan</td>
+                                <td><span class="status accepted">Accepted</span></td>
+                                <td><span class="transfer-status acquire">Transferred
+                                    <img src="../source/dropdown.png" alt="Dropdown Icon" class="dropdown-icon">
+                                </span></td>
+                                <td>02-19-2024</td>
+                            </tr>
+                            <tr>
+                                <td>02-09-2024</td>
+                                <td>Isabella Reed</td>
+                                <td>Statue</td>
+                                <td><span class="status review">Rejected</span></td>
+                                <td><span class="transfer-status pending">Pending
+                                    <img src="../source/dropdown.png" alt="Dropdown Icon" class="dropdown-icon">
+                                </span></td>
+                                <td>02-19-2024</td>
+                            </tr>
+                            <tr>
+                                <td>02-10-2024</td>
+                                <td>Noah Collins</td>
+                                <td>Statue of a Great Grandfather</td>
+                                <td><span class="status accepted">Accepted</span></td>
+                                <td><span class="transfer-status acquire">Transferred
+                                    <img src="../source/dropdown.png" alt="Dropdown Icon" class="dropdown-icon">
+                                </span></td>
+                                <td>02-19-2024</td>
+                            </tr><tr>
+                                <td>02-11-2024</td>
+                                <td>Olivia Harper</td>
+                                <td>Perlas ng silanganan</td>
+                                <td><span class="status accepted">Accepted</span></td>
+                                <td><span class="transfer-status acquire">Transferred
+                                    <img src="../source/dropdown.png" alt="Dropdown Icon" class="dropdown-icon">
+                                </span></td>
+                                <td>02-19-2024</td>
+                            </tr>
+                            <!-- More dummy rows to demonstrate scrolling -->
+                            <tr>
+                                <td>02-12-2024</td>
+                                <td>Isabella Reed</td>
+                                <td>Statue</td>
+                                <td><span class="status review">Rejected</span></td>
+                                <td><span class="transfer-status pending">Pending
+                                    <img src="../source/dropdown.png" alt="Dropdown Icon" class="dropdown-icon">
+                                </span></td>
+                                <td>02-19-2024</td>
+                            </tr>
+                            <tr>
+                                <td>02-13-2024</td>
+                                <td>Noah Collins</td>
+                                <td>Statue of a Great Grandfather</td>
+                                <td><span class="status accepted">Accepted</span></td>
+                                <td><span class="transfer-status acquire">Transferred
+                                    <img src="../source/dropdown.png" alt="Dropdown Icon" class="dropdown-icon">
+                                </span></td>
+                                <td>02-19-2024</td>
+                            </tr><tr>
+                                <td>02-14-2024</td>
+                                <td>Olivia Harper</td>
+                                <td>Perlas ng silanganan</td>
+                                <td><span class="status accepted">Accepted</span></td>
+                                <td><span class="transfer-status acquire">Transferred 
+                                    <img src="../source/dropdown.png" alt="Dropdown Icon" class="dropdown-icon">
+                                </span></td>
+                                <td>02-19-2024</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                        </div>    
+                    </div>
+                 
                     <div id="donators-records" class="page-content" style="display: none;">
                         <h2 class="donation-title">Donation</h2>
                         <div class="donation-header">
@@ -430,27 +595,385 @@
                              
                         <div class="nav-bar">
                             <div class="tab " id="forms-tab" onclick="showPage('forms')">Forms</div>
-                            <div class="tab active" id="transfer" onclick="showPage('transfer')" >Transfer Status</div>
-                            <div class="tab" id="donators-tab">Donators Records</div>
+                            <div class="tab " id="transfer-tab" onclick="showPage('transfer')" >Transfer Status</div>
+                            <div class="tab active" id="donators-tab" onclick="showPage('donators-records')">Donators Records</div>
         
                             <!-- Sorting on the right -->
                             <div class="sort-container">
-                                <label for="sort"> Sort By:</label>
+                                <label for="sort"> By Date:</label>
                                 <select id="sort">
                                     <option value="date">Newest</option>
                                     <option value="name">Oldest</option>
                                 </select>
                             </div>
                         </div>
-                        <p> DONATEEE test</p>
-                    </div>
-        
-                </div>
+                        <div class="tab-head">
+                            <div id="ddate" >
+                                <p>Date</p>
+                            </div>
+                            <div id="dnds">
+                                <p>Name of Donor/Sender</p>
+                            </div>
+                            <div id="dupd">
+                                <p>Donation</p>
+                            </div>
+                        </div>       
+                        
 
-
+                        <!-- Scrollable Table -->
+                          <div class="table-container">
+                            <div class="donation-list">
+                                <div class="donation-row" onclick="toggleDetails(this)">
+                                    <div>02-01-2024</div>
+                                    <div>Olivia Harper</div>
+                                    <div>1</div>
+                                    <div class="arrow down"></div>
+                                </div>
+                                <div class="donation-details">
+                                    <table class="details-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Title</th>
+                                                <th>Status</th>
+                                                <th>Transfer Status</th>
+                                                <th>Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>160 years old filipiniana</td>
+                                                <td>
+                                                    <span class="sts rejected">Rejected</span>
+                                                  </td>
+                                                  <td>
+                                                    <span class="ts rejected">Rejected</span>
+                                                  </td>
+                                                <td>02-19-2024</td>
+                                            </tr>
+                                            <tr>
+                                                <td>160 years old filipiniana</td>
+                                                <td>
+                                                    <span class="sts accepted">Accepted</span>
+                                                  </td>
+                                                  <td>
+                                                    <span class="ts acquired">Acquired</span>
+                                                  </td>
+                                                <td>02-19-2024</td>
+                                            </tr>
+                                            <tr>
+                                                <td>160 years old filipiniana</td>
+                                                <td>
+                                                    <span class="sts accepted">Accepted</span>
+                                                  </td>
+                                                  <td>
+                                                    <span class="ts acquired">Acquired</span>
+                                                  </td>
+                                                <td>02-19-2024</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div><div class="donation-row" onclick="toggleDetails(this)">
+                                    <div>02-01-2024</div>
+                                    <div>Olivia Harper</div>
+                                    <div>1</div>
+                                    <div class="arrow down"></div>
+                                </div>
+                                <div class="donation-details">
+                                    <table class="details-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Title</th>
+                                                <th>Status</th>
+                                                <th>Transfer Status</th>
+                                                <th>Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>160 years old filipiniana</td>
+                                                <td>
+                                                    <span class="sts rejected">Rejected</span>
+                                                  </td>
+                                                  <td>
+                                                    <span class="ts rejected">Rejected</span>
+                                                  </td>
+                                                <td>02-19-2024</td>
+                                            </tr>
+                                            <tr>
+                                                <td>160 years old filipiniana</td>
+                                                <td>
+                                                    <span class="sts accepted">Accepted</span>
+                                                  </td>
+                                                  <td>
+                                                    <span class="ts acquired">Acquired</span>
+                                                  </td>
+                                                <td>02-19-2024</td>
+                                            </tr>
+                                            <tr>
+                                                <td>160 years old filipiniana</td>
+                                                <td>
+                                                    <span class="sts accepted">Accepted</span>
+                                                  </td>
+                                                  <td>
+                                                    <span class="ts acquired">Acquired</span>
+                                                  </td>
+                                                <td>02-19-2024</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div><div class="donation-row" onclick="toggleDetails(this)">
+                                    <div>02-01-2024</div>
+                                    <div>Olivia Harper</div>
+                                    <div>1</div>
+                                    <div class="arrow down"></div>
+                                </div>
+                                <div class="donation-details">
+                                    <table class="details-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Title</th>
+                                                <th>Status</th>
+                                                <th>Transfer Status</th>
+                                                <th>Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>160 years old filipiniana</td>
+                                                <td>
+                                                    <span class="sts rejected">Rejected</span>
+                                                  </td>
+                                                  <td>
+                                                    <span class="ts rejected">Rejected</span>
+                                                  </td>
+                                                <td>02-19-2024</td>
+                                            </tr>
+                                            <tr>
+                                                <td>160 years old filipiniana</td>
+                                                <td>
+                                                    <span class="sts accepted">Accepted</span>
+                                                  </td>
+                                                  <td>
+                                                    <span class="ts acquired">Acquired</span>
+                                                  </td>
+                                                <td>02-19-2024</td>
+                                            </tr>
+                                            <tr>
+                                                <td>160 years old filipiniana</td>
+                                                <td>
+                                                    <span class="sts accepted">Accepted</span>
+                                                  </td>
+                                                  <td>
+                                                    <span class="ts acquired">Acquired</span>
+                                                  </td>
+                                                <td>02-19-2024</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div><div class="donation-row" onclick="toggleDetails(this)">
+                                    <div>02-01-2024</div>
+                                    <div>Olivia Harper</div>
+                                    <div>1</div>
+                                    <div class="arrow down"></div>
+                                </div>
+                                <div class="donation-details">
+                                    <table class="details-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Title</th>
+                                                <th>Status</th>
+                                                <th>Transfer Status</th>
+                                                <th>Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>160 years old filipiniana</td>
+                                                <td>
+                                                    <span class="sts rejected">Rejected</span>
+                                                  </td>
+                                                  <td>
+                                                    <span class="ts rejected">Rejected</span>
+                                                  </td>
+                                                <td>02-19-2024</td>
+                                            </tr>
+                                            <tr>
+                                                <td>160 years old filipiniana</td>
+                                                <td>
+                                                    <span class="sts accepted">Accepted</span>
+                                                  </td>
+                                                  <td>
+                                                    <span class="ts acquired">Acquired</span>
+                                                  </td>
+                                                <td>02-19-2024</td>
+                                            </tr>
+                                            <tr>
+                                                <td>160 years old filipiniana</td>
+                                                <td>
+                                                    <span class="sts accepted">Accepted</span>
+                                                  </td>
+                                                  <td>
+                                                    <span class="ts acquired">Acquired</span>
+                                                  </td>
+                                                <td>02-19-2024</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div><div class="donation-row" onclick="toggleDetails(this)">
+                                    <div>02-01-2024</div>
+                                    <div>Olivia Harper</div>
+                                    <div>1</div>
+                                    <div class="arrow down"></div>
+                                </div>
+                                <div class="donation-details">
+                                    <table class="details-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Title</th>
+                                                <th>Status</th>
+                                                <th>Transfer Status</th>
+                                                <th>Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>160 years old filipiniana</td>
+                                                <td>
+                                                    <span class="sts rejected">Rejected</span>
+                                                  </td>
+                                                  <td>
+                                                    <span class="ts rejected">Rejected</span>
+                                                  </td>
+                                                <td>02-19-2024</td>
+                                            </tr>
+                                            <tr>
+                                                <td>160 years old filipiniana</td>
+                                                <td>
+                                                    <span class="sts accepted">Accepted</span>
+                                                  </td>
+                                                  <td>
+                                                    <span class="ts acquired">Acquired</span>
+                                                  </td>
+                                                <td>02-19-2024</td>
+                                            </tr>
+                                            <tr>
+                                                <td>160 years old filipiniana</td>
+                                                <td>
+                                                    <span class="sts accepted">Accepted</span>
+                                                  </td>
+                                                  <td>
+                                                    <span class="ts acquired">Acquired</span>
+                                                  </td>
+                                                <td>02-19-2024</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div><div class="donation-row" onclick="toggleDetails(this)">
+                                    <div>02-01-2024</div>
+                                    <div>Olivia Harper</div>
+                                    <div>1</div>
+                                    <div class="arrow down"></div>
+                                </div>
+                                <div class="donation-details">
+                                    <table class="details-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Title</th>
+                                                <th>Status</th>
+                                                <th>Transfer Status</th>
+                                                <th>Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>160 years old filipiniana</td>
+                                                <td>
+                                                    <span class="sts rejected">Rejected</span>
+                                                  </td>
+                                                  <td>
+                                                    <span class="ts rejected">Rejected</span>
+                                                  </td>
+                                                <td>02-19-2024</td>
+                                            </tr>
+                                            <tr>
+                                                <td>160 years old filipiniana</td>
+                                                <td>
+                                                    <span class="sts accepted">Accepted</span>
+                                                  </td>
+                                                  <td>
+                                                    <span class="ts acquired">Acquired</span>
+                                                  </td>
+                                                <td>02-19-2024</td>
+                                            </tr>
+                                            <tr>
+                                                <td>160 years old filipiniana</td>
+                                                <td>
+                                                    <span class="sts accepted">Accepted</span>
+                                                  </td>
+                                                  <td>
+                                                    <span class="ts acquired">Acquired</span>
+                                                  </td>
+                                                <td>02-19-2024</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                    <div class="donation-row" onclick="toggleDetails(this)">
+                                        <div>02-01-2024</div>
+                                        <div>Olivia Harper</div>
+                                        <div>1</div>
+                                        <div class="arrow down"></div>
+                                    </div>
+                                    <div class="donation-details">
+                                        <table class="details-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Title</th>
+                                                    <th>Status</th>
+                                                    <th>Transfer Status</th>
+                                                    <th>Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                <td>160 years old filipiniana</td>
+                                                <td>
+                                                    <span class="sts rejected">Rejected</span>
+                                                  </td>
+                                                  <td>
+                                                    <span class="ts rejected">Rejected</span>
+                                                  </td>
+                                                <td>02-19-2024</td>
+                                            </tr>
+                                            <tr>
+                                                <td>160 years old filipiniana</td>
+                                                <td>
+                                                    <span class="sts accepted">Accepted</span>
+                                                  </td>
+                                                  <td>
+                                                    <span class="ts acquired">Acquired</span>
+                                                  </td>
+                                                <td>02-19-2024</td>
+                                            </tr>
+                                            <tr>
+                                                <td>160 years old filipiniana</td>
+                                                <td>
+                                                    <span class="sts accepted">Accepted</span>
+                                                  </td>
+                                                  <td>
+                                                    <span class="ts acquired">Acquired</span>
+                                                  </td>
+                                                <td>02-19-2024</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                          
+                            </div>
+                </div>       
         </div>
-
     </div>
+
     
     <script src="donation.js"></script>
 
