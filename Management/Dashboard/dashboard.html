@@ -103,10 +103,19 @@
 
         <div class="content-container">
             <div class="notification-container">
-                <button class="notification-button">
+                <button onclick="showNotification()" class="notification-button">
                     <img src="../../Museo Bulawan Visitor/source/notifiaction-icon.png" alt="">
                 </button>
-                
+                <div class="notif-wrapper">
+                    <dialog  id="notification" class="position-custom">
+                        <div class="notfication-form">
+                            <button class="button-close" onclick="hideNotification()">Close</button>
+                            <div class="notification-within">
+
+                            </div>
+                        </div>
+                    </dialog>
+                </div>
                 
             </div>
 
