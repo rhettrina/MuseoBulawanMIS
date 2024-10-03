@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Donation Form</title>
+    <title>Lending Form</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
@@ -21,7 +21,7 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <!-- Custom Stylesheet -->
-    <link href="donatestyle.css" rel="stylesheet">
+    <link href="lendstyle.css" rel="stylesheet">
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -107,17 +107,17 @@
     </div>
 
     <div class="donationtitle container mt-4 mx-0">
-        <h1 class="ms-5 py-3">Donation Form</h1>
+        <h1 class="ms-5 py-3">Lending Form</h1>
     </div>
-    <form>
-        <div class="intro container p-5 mt-4">
-            <p>In addition to preserving your historic objects it is important to remember to preserve the history or
-                story that goes with them. For example, the uniform worn by your great grand father is just a uniform if
-                the story is lost. Take the time to write down the story that goes with your objects; include any
-                background details that would help our team understand the significance of the item.</p>
 
-            <h3>Tell us about yourself.</h3>
+    <div class="intro container p-5 mt-4">
+        <p>In addition to preserving your historic objects it is important to remember to preserve the history or
+            story that goes with them. For example, the uniform worn by your great grand father is just a uniform if
+            the story is lost. Take the time to write down the story that goes with your objects; include any
+            background details that would help our team understand the significance of the item.</p>
 
+        <h3>Tell us about yourself.</h3>
+        <form>
             <!-- Name Section -->
             <div class="form-group row align-items-center mt-4 gap-1">
                 <label for="firstName" class="col-sm-2 col-form-label fs-5"><b>Name</b> <span
@@ -144,7 +144,7 @@
                 </div>
                 <label class="col-sm-1 col-form-label fs-5"><b>Sex</b></label>
 
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="sex" id="male" value="male">
                         <label class="form-check-label" for="male">Male</label>
@@ -219,98 +219,138 @@
                     <input type="text" class="form-control border-2 border-dark" id="street" placeholder="Street">
                 </div>
             </div>
+        </form>
 
 
+    </div>
 
+    <div class="intro container p-5 my-4">
+        <div class="lending-details container mt-4 mx-0">
+            <h3>Lending Details</h3>
+
+            <div class="form-group row align-items-center mt-4">
+                <label for="loanDuration" class="col-sm-4 col-form-label fs-5"><b>Proposed duration of the loan?</b>
+                    <span class="text-danger">*</span></label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control border-2 border-dark" id="loanDuration"
+                        placeholder="Specific duration (ex. 5 years), Month yyyy - Month dd, yyyy" required>
+                </div>
+            </div>
+
+            <div class="form-group row align-items-center mt-4">
+                <label for="displayConditions" class="col-sm-4 col-form-label fs-5"><b>Specific conditions or
+                        requirements for the display or handling of the artifact?</b> <span
+                        class="text-danger">*</span></label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control border-2 border-dark" id="displayConditions" required>
+                </div>
+            </div>
+
+            <div class="form-group row align-items-center mt-4">
+                <label for="liabilityConcerns" class="col-sm-4 col-form-label fs-5"><b>Specific liability concerns or
+                        requirements you have regarding the artifact?</b> <span class="text-danger">*</span></label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control border-2 border-dark" id="liabilityConcerns" required>
+                </div>
+            </div>
+
+            <div class="form-group row align-items-center mt-4">
+                <label for="lendingReason" class="col-sm-4 col-form-label fs-5"><b>Reason for lending.</b> <span
+                        class="text-danger">*</span></label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control border-2 border-dark" id="lendingReason" required>
+                </div>
+            </div>
         </div>
 
-        <div class="intro container p-5 my-4">
-            <h3>About the artifact.</h3>
+    </div>
 
-            <div class="form-group row align-items-center  mt-4">
-                <label for="artifactTitle" class="col-sm-3 col-form-label fs-5"><b>Title/Name of the Artifact.</b> <span
-                        class="text-danger">*</span></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control border-2 border-dark" id="artifactTitle"
-                        placeholder="Title/Name of the Artifact" required>
-                </div>
-            </div>
+    <div class="intro container p-5 my-4">
+        <h3>About the artifact.</h3>
 
-            <div class="form-group row align-items-center mt-4">
-                <label for="artifactDescription" class="col-sm-3 col-form-label fs-5"><b>Artifact Description</b> <span
-                        class="text-danger">*</span></label>
-                <div class="col-sm-9">
-                    <textarea class="form-control border-2 border-dark" id="artifactDescription"
-                        placeholder="Artifact Description" required></textarea>
-                </div>
-            </div>
-
-            <div class="form-group row align-items-center mt-4">
-                <label for="acquisition" class="col-sm-3 col-form-label fs-5"><b>How and where did you acquire the
-                        artifact?</b> <span class="text-danger">*</span></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control border-2 border-dark" id="acquisition"
-                        placeholder="Acquisition Details" required>
-                </div>
-            </div>
-
-            <div class="form-group row align-items-center mt-4">
-                <label for="additionalInfo" class="col-sm-3 col-form-label fs-5"><b>Additional Information</b></label>
-                <div class="col-sm-9">
-                    <textarea class="form-control border-2 border-dark" id="additionalInfo"
-                        placeholder="Is there any other information about the artifact that the museum should know?"></textarea>
-                </div>
-            </div>
-
-            <div class="form-group row align-items-center mt-4">
-                <label for="narrative" class="col-sm-3 col-form-label fs-5"><b>Brief Narrative or Story</b></label>
-                <div class="col-sm-9">
-                    <textarea class="form-control border-2 border-dark" id="narrative"
-                        placeholder="Would you like to provide a brief narrative or story related to the artifact?"></textarea>
-                </div>
-            </div>
-
-            <div class="form-group row align-items-center mt-5 justify-content-between">
-                <label for="artifactImages" class="col-sm-3 col-form-label fs-5"><b>Images of the artifact</b> <span
-                        class="text-danger">*</span></label>
-                <div class="col-sm-2"></div>
-                <div class="col-sm-6">
-                    <input type="text" class="form-control border-2 border-dark mb-2" id="artifactImages"
-                        placeholder="Paste Link" required>
-                    <input type="file" class="form-control border-2 border-dark" id="artifactFiles" multiple>
-                </div>
-            </div>
-
-            <div class="form-group row align-items-center mt-4 justify-content-between">
-                <div class="col-sm-5">
-                    <label for="documentation" class="col-form-label fs-5"><b>Relevant Documentation</b></label>
-                    <p>Such as Provenance Documents, Historical Records, Research Papers, Certificates of Authenticity,
-                        Catalogs or Inventories.</p>
-                </div>
-                <div class="col-sm-6">
-                    <input type="text" class="form-control border-2 border-dark mb-2" id="documentation"
-                        placeholder="Paste Link">
-                    <input type="file" class="form-control border-2 border-dark" id="documentationFiles" multiple>
-                </div>
-            </div>
-
-            <div class="form-group row align-items-center mt-4 justify-content-between">
-                <div class="col-sm-5">
-                    <label for="relatedImages" class="col-form-label fs-5"><b>Any related images</b></label>
-                    <p>For example an image of your grandfather wearing the clothes, of image of an artifact while being
-                        used.</p>
-                </div>
-                <div class="col-sm-6">
-                    <input type="text" class="form-control border-2 border-dark mb-2" id="relatedImages"
-                        placeholder="Paste Link">
-                    <input type="file" class="form-control border-2 border-dark" id="relatedFiles" multiple>
-                </div>
-            </div>
-            <div class="col-md-12 d-flex justify-content-end mt-5">
-                <button type="submit" class="btn btn-light px-5 py-2">Submit</button>
+        <div class="form-group row align-items-center  mt-4">
+            <label for="artifactTitle" class="col-sm-3 col-form-label fs-5"><b>Title/Name of the Artifact.</b> <span
+                    class="text-danger">*</span></label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control border-2 border-dark" id="artifactTitle"
+                    placeholder="Title/Name of the Artifact" required>
             </div>
         </div>
-    </form>
+
+        <div class="form-group row align-items-center mt-4">
+            <label for="artifactDescription" class="col-sm-3 col-form-label fs-5"><b>Artifact Description</b> <span
+                    class="text-danger">*</span></label>
+            <div class="col-sm-9">
+                <textarea class="form-control border-2 border-dark" id="artifactDescription"
+                    placeholder="Artifact Description" required></textarea>
+            </div>
+        </div>
+
+        <div class="form-group row align-items-center mt-4">
+            <label for="acquisition" class="col-sm-3 col-form-label fs-5"><b>How and where did you acquire the
+                    artifact?</b> <span class="text-danger">*</span></label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control border-2 border-dark" id="acquisition"
+                    placeholder="Acquisition Details" required>
+            </div>
+        </div>
+
+        <div class="form-group row align-items-center mt-4">
+            <label for="additionalInfo" class="col-sm-3 col-form-label fs-5"><b>Additional Information</b></label>
+            <div class="col-sm-9">
+                <textarea class="form-control border-2 border-dark" id="additionalInfo"
+                    placeholder="Is there any other information about the artifact that the museum should know?"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group row align-items-center mt-4">
+            <label for="narrative" class="col-sm-3 col-form-label fs-5"><b>Brief Narrative or Story</b></label>
+            <div class="col-sm-9">
+                <textarea class="form-control border-2 border-dark" id="narrative"
+                    placeholder="Would you like to provide a brief narrative or story related to the artifact?"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group row align-items-center mt-5 justify-content-between">
+            <label for="artifactImages" class="col-sm-3 col-form-label fs-5"><b>Images of the artifact</b> <span
+                    class="text-danger">*</span></label>
+            <div class="col-sm-2"></div>
+            <div class="col-sm-6">
+                <input type="text" class="form-control border-2 border-dark mb-2" id="artifactImages"
+                    placeholder="Paste Link" required>
+                <input type="file" class="form-control border-2 border-dark" id="artifactFiles" multiple>
+            </div>
+        </div>
+
+        <div class="form-group row align-items-center mt-4 justify-content-between">
+            <div class="col-sm-5">
+                <label for="documentation" class="col-form-label fs-5"><b>Relevant Documentation</b></label>
+                <p>Such as Provenance Documents, Historical Records, Research Papers, Certificates of Authenticity,
+                    Catalogs or Inventories.</p>
+            </div>
+            <div class="col-sm-6">
+                <input type="text" class="form-control border-2 border-dark mb-2" id="documentation"
+                    placeholder="Paste Link">
+                <input type="file" class="form-control border-2 border-dark" id="documentationFiles" multiple>
+            </div>
+        </div>
+
+        <div class="form-group row align-items-center mt-4 justify-content-between">
+            <div class="col-sm-5">
+                <label for="relatedImages" class="col-form-label fs-5"><b>Any related images</b></label>
+                <p>For example an image of your grandfather wearing the clothes, of image of an artifact while being
+                    used.</p>
+            </div>
+            <div class="col-sm-6">
+                <input type="text" class="form-control border-2 border-dark mb-2" id="relatedImages"
+                    placeholder="Paste Link">
+                <input type="file" class="form-control border-2 border-dark" id="relatedFiles" multiple>
+            </div>
+        </div>
+        <div class="col-md-12 d-flex justify-content-end mt-5">
+            <button type="submit" class="btn btn-light px-5 py-2">Submit</button>
+        </div>
+    </div>
 
     <div class="wrapper">
 

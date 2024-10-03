@@ -1,100 +1,41 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Preservation Form</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f9f7f4;
-            margin: 20px;
-        }
-        .container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h2 {
-            color: #333;
-            margin-top: 20px;
-        }
-    </style>
+    <title>Document</title>
 </head>
 <body>
+    
+    <script>
 
-<div class="container">
-    <p>In addition to preserving your historic objects, it is important to remember to preserve the history or story that goes with them. For example, the uniform worn by your great grandfather is just a uniform if the story is lost. Take the time to write down the story that goes with your objects; include any background details that would help our team understand the significance of the item.</p>
+        // task1
+        const arr = [10,16,20,50,100];
+        console.log(arr);
+        let a = arr.reverse();
+        console.log(a);
 
-    <h2>Tell us about yourself.</h2>
-    <form>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="firstName">Name *</label>
-                <input type="text" class="form-control" id="firstName" placeholder="First Name" required>
-            </div>
-            <div class="form-group col-md-6">
-                <label for="lastName">&nbsp;</label>
-                <input type="text" class="form-control" id="lastName" placeholder="Last Name" required>
-            </div>
-        </div>
+        // task2
+        let b = Math.min.apply(null, arr);
+        console.log(b)
+        let c = Math.max.apply(null, arr);
+        console.log(c)
 
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="age">Age *</label>
-                <input type="number" class="form-control" id="age" required>
-            </div>
-            <div class="form-group col-md-6">
-                <label for="sex">Sex</label>
-                <input type="text" class="form-control" id="sex">
-            </div>
-        </div>
 
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="email">Email *</label>
-                <input type="email" class="form-control" id="email" placeholder="example@gmail.com" required>
-            </div>
-            <div class="form-group col-md-6">
-                <label for="phone">Phone Number *</label>
-                <input type="text" class="form-control" id="phone" required>
-            </div>
-        </div>
+        // task3
+        let d = arr.includes(5);
+        console.log(d);
 
-        <div class="form-group">
-            <label for="organization">Organization</label>
-            <input type="text" class="form-control" id="organization" placeholder="School/Institution/etc">
-        </div>
+        // task4
+        let e = 0;
+        for (let x of arr) {
+            e += x;
+        }
+        console.log(e);
 
-        <h2>Where do you live?</h2>
+        let ave = e / arr.length;
+        console.log(ave);
 
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="province">Province *</label>
-                <input type="text" class="form-control" id="province" required>
-            </div>
-            <div class="form-group col-md-6">
-                <label for="city">City *</label>
-                <input type="text" class="form-control" id="city" required>
-            </div>
-        </div>
+    </script>
 
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="barangay">Barangay *</label>
-                <input type="text" class="form-control" id="barangay" required>
-            </div>
-            <div class="form-group col-md-6">
-                <label for="street">Street</label>
-                <input type="text" class="form-control" id="street">
-            </div>
-        </div>
-    </form>
-</div>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

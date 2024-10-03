@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Donation Form</title>
-
+    <title>Appointment Form</title>
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
@@ -21,12 +20,14 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <!-- Custom Stylesheet -->
-    <link href="donatestyle.css" rel="stylesheet">
+    <link href="appointstyle.css" rel="stylesheet">
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+
+
 
 </head>
 
@@ -60,7 +61,6 @@
             </nav>
         </div>
     </div>
-
     <div class="wrapperwhite mt-3">
         <div id="container2">
             <nav class="navbar navbar-expand-lg navbar-light">
@@ -106,19 +106,34 @@
         </div>
     </div>
 
-    <div class="donationtitle container mt-4 mx-0">
-        <h1 class="ms-5 py-3">Donation Form</h1>
+    <div class="appointmenttitle container mt-4 mx-0">
+        <h1 class="ms-5 py-3">Appointment Form</h1>
     </div>
-    <form>
-        <div class="intro container p-5 mt-4">
-            <p>In addition to preserving your historic objects it is important to remember to preserve the history or
-                story that goes with them. For example, the uniform worn by your great grand father is just a uniform if
-                the story is lost. Take the time to write down the story that goes with your objects; include any
-                background details that would help our team understand the significance of the item.</p>
 
-            <h3>Tell us about yourself.</h3>
+    <div class="container mt-3 ms-5">
+        <div class="row">
+            <div class="col-4 hours-section d-flex align-items-center">
+                <img src="../source/hours.png" alt="" class="iconintro">
+                <div>
+                    <strong>Museum Hours</strong><br>
+                    Open Daily 9:00am-5:00pm, Monday-Friday,
+                </div>
+            </div>
+            <div class="col-5 hours-section d-flex align-items-center">
+                <img src="../source/location.png" alt="" class="iconintro">
+                <div>
+                    <strong>Museum Location</strong><br>
+                    Camarines Norte Provincial Capitol Grounds, Daet Philippines
+                </div>
+            </div>
+        </div>
 
+    </div>
+
+    <div class="intro container p-5 mt-4 mb-5">
+        <form>
             <!-- Name Section -->
+            <h3 class="mt-4">Personal Information</h3>
             <div class="form-group row align-items-center mt-4 gap-1">
                 <label for="firstName" class="col-sm-2 col-form-label fs-5"><b>Name</b> <span
                         class="text-danger">*</span></label>
@@ -132,37 +147,6 @@
                 </div>
             </div>
 
-            <!-- Age and Gender Section -->
-            <div class="form-group row align-items-center mt-4">
-                <label for="age" class="col-sm-2 col-form-label fs-5"><b>Age</b> <span
-                        class="text-danger">*</span></label>
-                <div class="col-sm-2">
-                    <input type="number" class="form-control border-2 border-dark" id="age" placeholder="Age" required>
-                </div>
-                <div class="col-2">
-
-                </div>
-                <label class="col-sm-1 col-form-label fs-5"><b>Sex</b></label>
-
-                <div class="col-sm-4">
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="sex" id="male" value="male">
-                        <label class="form-check-label" for="male">Male</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="sex" id="female" value="female">
-                        <label class="form-check-label" for="female">Female</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="sex" id="others" value="others">
-                        <label class="form-check-label" for="others">Others</label>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- Contact Information Section -->
             <div class="form-group row align-items-center mt-4">
                 <label for="email" class="col-sm-2 col-form-label fs-5"><b>Email</b> <span
                         class="text-danger">*</span></label>
@@ -177,18 +161,6 @@
                         required>
                 </div>
             </div>
-
-            <!-- Organization Section -->
-            <div class="form-group row align-items-center mt-4">
-                <label for="organization" class="col-sm-2 col-form-label fs-5"><b>Organization</b></label>
-                <div class="col-sm-5">
-                    <input type="text" class="form-control border-2 border-dark" id="organization"
-                        placeholder="School/Institution/etc">
-                </div>
-            </div>
-
-            <!-- Address Section -->
-            <h3 class="mt-4">Where do you live.</h3>
             <div class="form-group row align-items-center mt-4">
                 <label for="province" class="col-sm-2 col-form-label fs-5"><b>Province</b> <span
                         class="text-danger">*</span></label>
@@ -219,100 +191,58 @@
                     <input type="text" class="form-control border-2 border-dark" id="street" placeholder="Street">
                 </div>
             </div>
-
-
-
-        </div>
-
-        <div class="intro container p-5 my-4">
-            <h3>About the artifact.</h3>
-
-            <div class="form-group row align-items-center  mt-4">
-                <label for="artifactTitle" class="col-sm-3 col-form-label fs-5"><b>Title/Name of the Artifact.</b> <span
-                        class="text-danger">*</span></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control border-2 border-dark" id="artifactTitle"
-                        placeholder="Title/Name of the Artifact" required>
-                </div>
-            </div>
-
             <div class="form-group row align-items-center mt-4">
-                <label for="artifactDescription" class="col-sm-3 col-form-label fs-5"><b>Artifact Description</b> <span
-                        class="text-danger">*</span></label>
-                <div class="col-sm-9">
-                    <textarea class="form-control border-2 border-dark" id="artifactDescription"
-                        placeholder="Artifact Description" required></textarea>
-                </div>
-            </div>
-
-            <div class="form-group row align-items-center mt-4">
-                <label for="acquisition" class="col-sm-3 col-form-label fs-5"><b>How and where did you acquire the
-                        artifact?</b> <span class="text-danger">*</span></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control border-2 border-dark" id="acquisition"
-                        placeholder="Acquisition Details" required>
-                </div>
-            </div>
-
-            <div class="form-group row align-items-center mt-4">
-                <label for="additionalInfo" class="col-sm-3 col-form-label fs-5"><b>Additional Information</b></label>
-                <div class="col-sm-9">
-                    <textarea class="form-control border-2 border-dark" id="additionalInfo"
-                        placeholder="Is there any other information about the artifact that the museum should know?"></textarea>
-                </div>
-            </div>
-
-            <div class="form-group row align-items-center mt-4">
-                <label for="narrative" class="col-sm-3 col-form-label fs-5"><b>Brief Narrative or Story</b></label>
-                <div class="col-sm-9">
-                    <textarea class="form-control border-2 border-dark" id="narrative"
-                        placeholder="Would you like to provide a brief narrative or story related to the artifact?"></textarea>
-                </div>
-            </div>
-
-            <div class="form-group row align-items-center mt-5 justify-content-between">
-                <label for="artifactImages" class="col-sm-3 col-form-label fs-5"><b>Images of the artifact</b> <span
-                        class="text-danger">*</span></label>
-                <div class="col-sm-2"></div>
-                <div class="col-sm-6">
-                    <input type="text" class="form-control border-2 border-dark mb-2" id="artifactImages"
-                        placeholder="Paste Link" required>
-                    <input type="file" class="form-control border-2 border-dark" id="artifactFiles" multiple>
-                </div>
-            </div>
-
-            <div class="form-group row align-items-center mt-4 justify-content-between">
+                <label for="organization" class="col-sm-2 col-form-label fs-5"><b>Organization</b></label>
                 <div class="col-sm-5">
-                    <label for="documentation" class="col-form-label fs-5"><b>Relevant Documentation</b></label>
-                    <p>Such as Provenance Documents, Historical Records, Research Papers, Certificates of Authenticity,
-                        Catalogs or Inventories.</p>
+                    <input type="text" class="form-control border-2 border-dark" id="organization"
+                        placeholder="School/Institution/etc">
                 </div>
-                <div class="col-sm-6">
-                    <input type="text" class="form-control border-2 border-dark mb-2" id="documentation"
-                        placeholder="Paste Link">
-                    <input type="file" class="form-control border-2 border-dark" id="documentationFiles" multiple>
+                <label for="age" class="col-sm-2 col-form-label fs-5"><b>Attendees</b> <span
+                        class="text-danger">*</span></label>
+                <div class="col-sm-2">
+                    <input type="number" class="form-control border-2 border-dark" id="age" placeholder="Count"
+                        required>
                 </div>
             </div>
+            <div class="form-group row align-items-center mt-4">
+                <label class="col-sm-2 col-form-label fs-5"><b>Select your preferred Date</b> <span
+                        class="text-danger">*</span></label>
+                <div class="col-sm-4">
+                    <input type="date" class="form-control border-2 border-dark" required>
+                </div>
 
-            <div class="form-group row align-items-center mt-4 justify-content-between">
-                <div class="col-sm-5">
-                    <label for="relatedImages" class="col-form-label fs-5"><b>Any related images</b></label>
-                    <p>For example an image of your grandfather wearing the clothes, of image of an artifact while being
-                        used.</p>
+                <label class="col-sm-2 col-form-label fs-5"><b>Select your preferred Time</b> <span
+                        class="text-danger">*</span></label>
+                <div class="col-sm-4">
+                    <div class="btn-group" role="group">
+                        <input type="radio" class="btn-check" name="time" id="time1" autocomplete="off" required>
+                        <label class="btn btn-outline-dark" for="time1">09:00-10:29</label>
+
+                        <input type="radio" class="btn-check" name="time" id="time2" autocomplete="off" required>
+                        <label class="btn btn-outline-dark" for="time2">10:30-11:59</label>
+
+                        <input type="radio" class="btn-check" name="time" id="time3" autocomplete="off" required>
+                        <label class="btn btn-outline-dark" for="time3">01:00-02:29</label>
+
+                        <input type="radio" class="btn-check" name="time" id="time4" autocomplete="off" required>
+                        <label class="btn btn-outline-dark" for="time4">02:30-04:00</label>
+                    </div>
                 </div>
-                <div class="col-sm-6">
-                    <input type="text" class="form-control border-2 border-dark mb-2" id="relatedImages"
-                        placeholder="Paste Link">
-                    <input type="file" class="form-control border-2 border-dark" id="relatedFiles" multiple>
-                </div>
+
+            </div>
+
+            <div class="form-group mt-4">
+                <label for="notes" class="fs-5"><b>Notes</b></label>
+                <textarea class="form-control border-2 border-dark" id="notes" rows="4"></textarea>
             </div>
             <div class="col-md-12 d-flex justify-content-end mt-5">
-                <button type="submit" class="btn btn-light px-5 py-2">Submit</button>
+                <button type="submit" class="btn btn-light px-5 py-2" id="submit">Submit</button>
             </div>
-        </div>
-    </form>
+        </form>
 
-    <div class="wrapper">
+        
+    </div>
+    <div class="wrapper"> 
 
         <div class="lowercontainer ms-5 pt-4">
             <div class="row d-flex">
