@@ -1,73 +1,143 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Page</title>
-    <style>
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: none; /* Initially hidden */
-            justify-content: center;
-            align-items: center;
-        }
-
-        .popup {
-            background-color: white;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 80%;
-            max-width: 500px;
-        }
-
-        .close-button {
-            float: right;
-            cursor: pointer;
-        }
-
-        iframe {
-            width: 100%;
-            height: 300px; /* Adjust height based on your content */
-            border: none;
-        }
-    </style>
-</head>
-<body>
-
-<button id="openPopup">Show Popup</button>
-
-<div class="overlay" id="overlay">
-    <div class="popup">
-        <span class="close-button" id="closePopup">&times;</span>
-        <iframe src="../MuseoBulawanMIS/Museo Bulawan Visitor/Donation Form View/"></iframe> <!-- Load the external popup content page -->
-    </div>
-</div>
-
-<script>
-    const openButton = document.getElementById('openPopup');
-    const closeButton = document.getElementById('closePopup');
-    const overlay = document.getElementById('overlay');
-
-    openButton.addEventListener('click', function() {
-        overlay.style.display = 'flex'; // Show the popup with the iframe
-    });
-
-    closeButton.addEventListener('click', function() {
-        overlay.style.display = 'none'; // Hide the popup
-    });
-
-    // Also close when clicking outside of the popup
-    window.onclick = function(event) {
-        if (event.target == overlay) {
-            overlay.style.display = 'none';
-        }
-    }
-</script>
-
-</body>
-</html>
+<tbody>
+    <tr>
+        <td>02-01-2024</td>
+        <td>Olivia Harper</td>
+        <td>Perlas ng silanganan</td>
+        <td><span class="status accepted">Accepted</span></td>
+        <td><span class="transfer-status acquire">Transferred
+                <img src="../source/dropdown.png" alt="Dropdown Icon" class="dropdown-icon">
+            </span></td>
+        <td>02-19-2024</td>
+    </tr>
+    <tr>
+        <td>02-02-2024</td>
+        <td>Ethan Bennett</td>
+        <td>Kutsara</td>
+        <td><span class="status accepted">Accepted</span></td>
+        <td><span class="transfer-status acquire">Transferred
+                <img src="../source/dropdown.png" alt="Dropdown Icon" class="dropdown-icon">
+            </span></td>
+        <td>02-19-2024</td>
+    </tr>
+    <tr>
+        <td>02-03-2024</td>
+        <td>Isabella Reed</td>
+        <td>Statue</td>
+        <td><span class="status review">Rejected</span></td>
+        <td><span class="transfer-status pending">Pending
+                <img src="../source/dropdown.png" alt="Dropdown Icon" class="dropdown-icon">
+            </span></td>
+        <td>02-19-2024</td>
+    </tr>
+    <tr>
+        <td>02-04-2024</td>
+        <td>Noah Collins</td>
+        <td>Statue of a Great Grandfather</td>
+        <td><span class="status accepted">Accepted</span></td>
+        <td><span class="transfer-status acquire">Transferred
+                <img src="../source/dropdown.png" alt="Dropdown Icon" class="dropdown-icon">
+            </span></td>
+        <td>02-19-2024</td>
+    </tr>
+    <tr>
+        <td>02-05-2024</td>
+        <td>Olivia Harper</td>
+        <td>Perlas ng silanganan</td>
+        <td><span class="status accepted">Accepted</span></td>
+        <td><span class="transfer-status acquire">Transferred
+                <img src="../source/dropdown.png" alt="Dropdown Icon" class="dropdown-icon">
+            </span></td>
+        <td>02-19-2024</td>
+    </tr>
+    <tr>
+        <td>02-06-2024</td>
+        <td>Isabella Reed</td>
+        <td>Statue</td>
+        <td><span class="status review">Rejected</span></td>
+        <td><span class="transfer-status pending">Pending
+                <img src="../source/dropdown.png" alt="Dropdown Icon" class="dropdown-icon">
+            </span></td>
+        <td>02-19-2024</td>
+    </tr>
+    <tr>
+        <td>02-07-2024</td>
+        <td>Noah Collins</td>
+        <td>Statue of a Great Grandfather</td>
+        <td><span class="status accepted">Accepted</span></td>
+        <td><span class="transfer-status acquire">Transferred
+                <img src="../source/dropdown.png" alt="Dropdown Icon" class="dropdown-icon">
+            </span></td>
+        <td>02-19-2024</td>
+    </tr>
+    <tr>
+        <td>02-08-2024</td>
+        <td>Olivia Harper</td>
+        <td>Perlas ng silanganan</td>
+        <td><span class="status accepted">Accepted</span></td>
+        <td><span class="transfer-status acquire">Transferred
+                <img src="../source/dropdown.png" alt="Dropdown Icon" class="dropdown-icon">
+            </span></td>
+        <td>02-19-2024</td>
+    </tr>
+    <tr>
+        <td>02-09-2024</td>
+        <td>Isabella Reed</td>
+        <td>Statue</td>
+        <td><span class="status review">Rejected</span></td>
+        <td><span class="transfer-status pending">Pending
+                <img src="../source/dropdown.png" alt="Dropdown Icon" class="dropdown-icon">
+            </span></td>
+        <td>02-19-2024</td>
+    </tr>
+    <tr>
+        <td>02-10-2024</td>
+        <td>Noah Collins</td>
+        <td>Statue of a Great Grandfather</td>
+        <td><span class="status accepted">Accepted</span></td>
+        <td><span class="transfer-status acquire">Transferred
+                <img src="../source/dropdown.png" alt="Dropdown Icon" class="dropdown-icon">
+            </span></td>
+        <td>02-19-2024</td>
+    </tr>
+    <tr>
+        <td>02-11-2024</td>
+        <td>Olivia Harper</td>
+        <td>Perlas ng silanganan</td>
+        <td><span class="status accepted">Accepted</span></td>
+        <td><span class="transfer-status acquire">Transferred
+                <img src="../source/dropdown.png" alt="Dropdown Icon" class="dropdown-icon">
+            </span></td>
+        <td>02-19-2024</td>
+    </tr>
+    <!-- More dummy rows to demonstrate scrolling -->
+    <tr>
+        <td>02-12-2024</td>
+        <td>Isabella Reed</td>
+        <td>Statue</td>
+        <td><span class="status review">Rejected</span></td>
+        <td><span class="transfer-status pending">Pending
+                <img src="../source/dropdown.png" alt="Dropdown Icon" class="dropdown-icon">
+            </span></td>
+        <td>02-19-2024</td>
+    </tr>
+    <tr>
+        <td>02-13-2024</td>
+        <td>Noah Collins</td>
+        <td>Statue of a Great Grandfather</td>
+        <td><span class="status accepted">Accepted</span></td>
+        <td><span class="transfer-status acquire">Transferred
+                <img src="../source/dropdown.png" alt="Dropdown Icon" class="dropdown-icon">
+            </span></td>
+        <td>02-19-2024</td>
+    </tr>
+    <tr>
+        <td>02-14-2024</td>
+        <td>Olivia Harper</td>
+        <td>Perlas ng silanganan</td>
+        <td><span class="status accepted">Accepted</span></td>
+        <td><span class="transfer-status acquire">Transferred
+                <img src="../source/dropdown.png" alt="Dropdown Icon" class="dropdown-icon">
+            </span></td>
+        <td>02-19-2024</td>
+    </tr>
+</tbody>
