@@ -2,11 +2,6 @@ body {
     background-color: #F9F8E6;
 }
 
-.header {
-    font-family: 'Hina Mincho', sans-serif;
-}
-
-
 
 .custom-card {
     border: 2px solid #000;
@@ -40,20 +35,6 @@ body {
     width: 100%;
 }
 
-.image-gallery {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-}
-
-.artifact-image {
-    width: 150px;
-    height: auto;
-    border: 1px solid #ccc;
-    margin-bottom: 10px;
-}
-
 .custom-btn-yes, .custom-btn-no {
     color: #000; /* Black text */
     border: 2px solid #000; /* Black border */
@@ -70,4 +51,3 @@ body {
   .custom-btn-no {
     background-color: #fff; /* White background for 'No' button */
   }
-  
