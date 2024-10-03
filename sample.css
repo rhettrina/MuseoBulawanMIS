@@ -1,99 +1,42 @@
-body {
-    font-family: Arial, sans-serif;
-    display: flex;
+/* styles.css */
+body, html {
     margin: 0;
-}
-
-.sidebar {
-    background-color: #333;
-    color: #fff;
-    width: 250px;
-    padding: 20px;
-    height: 100vh;
-}
-
-.sidebar ul {
-    list-style: none;
     padding: 0;
+    font-family: Arial, sans-serif;
 }
 
-.sidebar li {
-    margin: 20px 0;
+.dashboard {
     display: flex;
-    align-items: center;
-}
-
-.sidebar button {
-    margin-top: 20px;
-    width: 100%;
-    padding: 10px;
-    background-color: #444;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-}
-
-.main-content {
-    flex-grow: 1;
+    flex-wrap: wrap;
+    gap: 10px;
     padding: 20px;
-    background-color: #f9f9f9;
 }
 
-.header {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
+.card {
+    flex: 1;
+    background: #f0f0f0;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 .stats {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 10px;
+    font-size: 20px;
 }
 
-.stat-box {
-    background-color: #eee;
-    padding: 10px;
-    text-align: center;
-    border-radius: 5px;
+.stats h2, .stats p {
+    margin: 0;
 }
 
-.table-controls {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 10px;
-}
-
-.table-controls input,
-.table-controls button {
-    margin: 0 5px;
-    padding: 5px;
-}
-
-.donation-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.donation-table th, .donation-table td {
-    border: 1px solid #ccc;
-    padding: 10px;
-    text-align: left;
-}
-
-.donation-table .accepted {
+.stats span {
+    font-size: 16px;
     color: green;
 }
 
-.donation-table .rejected {
-    color: red;
+.horizontal {
+    display: flex;
+    justify-content: space-around;
 }
 
-.donation-table .pending {
-    color: orange;
-}
-
-.donation-table i {
-    margin: 0 5px;
-    cursor: pointer;
+.horizontal .today, .horizontal .month {
+    text-align: center;
 }
