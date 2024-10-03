@@ -801,3 +801,37 @@ body{
     width: 50%;
     justify-self: end;
 }
+
+
+
+
+
+dialog{
+    width: 15vw;
+    height: 70vh;
+    padding: 0;
+    border: 0.1vw solid black;
+    position: absolute;
+    
+}
+
+dialog.position-custom{
+    right: -84vw;
+    top: -10vh;
+    transform: none;
+}
+dialog .notification-container{
+    padding: 10vw;
+ 
+}
+
+dialog .notification-within{
+    width: 15vw;
+    height: 100%;
+    background-color: #000000;
+}
+
+.button-close{
+
+    margin: 0.2vw;
+}

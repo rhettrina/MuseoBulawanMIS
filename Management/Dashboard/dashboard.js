@@ -11,4 +11,28 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
   });
-  
+  if(window.onload){
+    hideNotification();
+  }
+
+  const dialog = document.getElementById("notification")
+
+  const wrapper =document.querySelector(".notif-wrapper")
+
+
+  function showNotification(){
+    dialog.showModal();
+
+  }
+
+  function hideNotification(){
+    dialog.close();
+
+  }
+
+dialog.addEventListener("click", (e) => {
+  if(!wrapper.contains(e.target)){
+    hideNotification();
+  }
+
+})
