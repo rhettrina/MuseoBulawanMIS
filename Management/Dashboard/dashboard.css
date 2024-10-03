@@ -1,0 +1,783 @@
+body{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    background-color: #000000;
+}
+/*html{
+    background-color: #000000;
+}*/
+
+* {
+    box-sizing: border-box;
+}
+::-webkit-scrollbar { 
+    display: none;
+  }
+
+
+
+
+  .header{
+    background-color: #1C1B19;
+    height: 10vh;
+    width: 100vw;
+    box-shadow: 0vw 0.1vh 0.5vw 0vw #1c1b19fb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 3;
+
+}
+
+.head-wrapper{
+    flex-basis: 98%;
+    height: 7vh;
+    display: flex;
+    position: relative;
+}
+
+.head-wrapper::after {
+    content: "";
+    position: absolute;
+    width: 96%;
+    bottom: -0.4vw; /* Adjust this value to move the border higher */
+    left: 4%;
+    transform: translateX(-2%);
+    right: 0;
+    height: 0.1vw; /* Border thickness */
+    background-color: white; /* Border color */
+}
+
+.brand-wrapper{
+    flex-basis: 22%;
+    height: 7vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+.brand-wrapper img{
+    width: 3.6vw;
+    height: 3.6vw;
+    margin: 0;
+}
+
+.brand-wrapper .line-spacer{
+    width: 0.5vw;
+    height: 7vh;
+    background-color: white;
+}
+
+.text-wrapper{
+    height: 6vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.text-wrapper h1{
+    font-family: hind;
+    font-size: 1.9vw;
+    font-weight: bolder;
+    color: white;
+    margin: 0;
+}
+.text-wrapper h2{
+    line-height: 0%;
+    color: white;
+    font-family: hind;
+    font-size: 0.9vw;
+    font-weight: bolder;   
+    margin: 0;
+}
+
+.display-wrapper{
+    width: 100vw;
+    height: 90vh;
+    background-color: #E8D2B6;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+.navigation-panel{
+    width: 24vw;
+    height: 90vh;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-button{
+    width: 14vw;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.button-container{
+    width: 14vw;
+    height: 32vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+
+
+
+
+
+.logout-button{
+    height: 5vh;
+    width: 14vw;
+    display: flex;
+    align-items: center;
+    border-radius: 0.5vw;
+    outline: none;
+    border: none;
+}
+
+.log-icon{
+    flex-basis: 10%;
+    padding-left: 3%;
+    position: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.log-icon img{
+    width: 2vw;
+    height: 2vw;
+}
+
+.log-text{
+    font-family: Hind;
+    font-size: 1.5vw;
+    font-weight: 550;
+    padding-left: 10%;
+}
+
+/*dashboard button css start*/
+.dashboard-button{
+    height: 5vh;
+    width: 14vw;
+    display: flex;
+    align-items: center;
+    border-radius: 0.5vw;
+    outline: none;
+    border: none;
+}
+
+.db-icon{
+    flex-basis: 10%;
+    padding-left: 3%;
+    position: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.db-icon img{
+    width: 2vw;
+    height: 2vw;
+}
+
+.db-text{
+    font-family: Hind;
+    font-size: 1.5vw;
+    font-weight: 550;
+    padding-left: 10%;
+}
+
+
+/*dashboard button css end*/
+
+/*donation button css start*/
+
+.donation-button{
+    height: 5vh;
+    width: 14vw;
+    display: flex;
+    align-items: center;
+    border-radius: 0.5vw;
+    outline: none;
+    border: none;
+}
+
+.dob-icon{
+    flex-basis: 10%;
+    padding-left: 3%;
+    position: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dob-icon img{
+    width: 2vw;
+    height: 2vw;
+}
+
+.dob-text{
+    font-family: Hind;
+    font-size: 1.5vw;
+    font-weight: 550;
+    padding-left: 10%;
+}
+
+
+
+
+/*donation button css end*/
+
+
+/*artifact button css start*/
+
+.artifact-button{
+    height: 5vh;
+    width: 14vw;
+    display: flex;
+    align-items: center;
+    border-radius: 0.5vw;
+    outline: none;
+    border: none;
+}
+
+.ar-icon{
+    flex-basis: 10%;
+    padding-left: 3%;
+    position: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ar-icon img{
+    width: 2vw;
+    height: 2vw;
+}
+
+.ar-text{
+    font-family: Hind;
+    font-size: 1.5vw;
+    font-weight: 550;
+    padding-left: 10%;
+}
+
+/*artifact button css end*/
+
+
+/*appointment button css start*/
+.appointment-button{
+    height: 5vh;
+    width: 14vw;
+    display: flex;
+    align-items: center;
+    border-radius: 0.5vw;
+    outline: none;
+    border: none;
+}
+
+.ap-icon{
+    flex-basis: 10%;
+    padding-left: 3%;
+    position: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ap-icon img{
+    width: 2vw;
+    height: 2vw;
+}
+
+.ap-text{
+    font-family: Hind;
+    font-size: 1.5vw;
+    font-weight: 550;
+    padding-left: 10%;
+}
+/*appointment button css end*/
+
+
+/*layout button css start*/
+.layout-button{
+    height: 5vh;
+    width: 14vw;
+    display: flex;
+    align-items: center;
+    border-radius: 0.5vw;
+    outline: none;
+    border: none;
+}
+
+.lt-icon{
+    flex-basis: 10%;
+    padding-left: 3%;
+    position: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.lt-icon img{
+    width: 2vw;
+    height: 2vw;
+}
+
+.lt-text{
+    font-family: Hind;
+    font-size: 1.5vw;
+    font-weight: 550;
+    padding-left: 10%;
+}
+
+/*layout button css end*/
+
+
+/*article button css start*/
+.article-button{
+    height: 5vh;
+    width: 14vw;
+    display: flex;
+    align-items: center;
+    border-radius: 0.5vw;
+    outline: none;
+    border: none;
+}
+
+.at-icon{
+    flex-basis: 10%;
+    padding-left: 3%;
+    position: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.at-icon img{
+    width: 2vw;
+    height: 2vw;
+}
+
+.at-text{
+    font-family: Hind;
+    font-size: 1.5vw;
+    font-weight: 550;
+    padding-left: 10%;
+}
+/*article button css end*/
+
+
+.active{
+    background-color: #524433;
+    color: white;
+}
+
+.active img {
+    filter: invert(100%);
+}
+  
+
+
+
+
+
+.content-container{
+    width: 76vw;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.notification-container{
+    width: 76vw;
+    height: 5vh;
+
+    display: flex;
+    flex-direction: row-reverse;
+    align-content: center;
+}
+
+.notification-button{
+    padding: 0.5vw;
+    outline: none;
+    border: none;
+    background: none;
+    border: none;
+}
+
+/*this is the css container of the content*/
+.actual-content {
+    width: 76vw;
+    height: 85vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    overflow-y: auto; /* Add this line to prevent overflow */
+    background-color: #F9F8E6;
+}
+
+.dbContent {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.boxes {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 20px; /* Add this line to add space between rows */
+}
+
+.row1, .row2 {
+    width: 100%;
+    height: calc(50% - 20px); /* Subtract the margin-bottom value from the height */
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.deta {
+    padding: 20px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.EV {
+    display: grid;
+    grid-template-columns: 65% 35%;
+    grid-template-rows: 1fr 1fr;
+    grid-column-gap: 10px;
+    padding: 20px;
+    margin: 10px;
+    border: none; /* Remove the border */
+    border-radius: 0; /* Remove the border-radius */
+    box-shadow: none; /* Remove the box-shadow */
+    flex-basis: 40%;
+    height: 100%;
+}
+
+.expVisit {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a shadow to the container */
+}
+
+.expVisit p{
+    font-size: 0.7rem;
+}
+.expVisit p1{
+    font-size: 0.5rem;
+}
+
+.expVisit img {
+    position: relative;
+    width: 75%;
+    height: 75%;
+    margin-left: 27px;
+    justify-content: center;
+    object-fit: contain;
+    
+}
+
+.present {
+    color: white;
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #44331A;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a shadow to the container */
+}
+
+.absent {
+    color: white;
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #A9875A;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a shadow to the container */
+}
+
+.AR {
+    background-color: #524433;
+    flex-basis: 60%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+}
+
+.AR h1 {
+    font-size: 1.3rem; /* Change the font size to 2.4rem */
+    color: white;
+}
+
+.AR img {
+    width: 100%;
+    height: 90%;
+    object-fit: contain;
+}
+
+
+
+.Ap, .AV {
+    flex-basis: 50%;
+    height: 100%;
+}
+
+.deta div {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.deta div:last-child {
+    border-bottom: none;
+}
+
+.expVisit, .present, .absent {
+    border-radius: 10px; /* Increase the value to make the corners more rounded */
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.deta.Ap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 50vw;
+    background-color: #624B29; /* Your color for .deta.Ap */ 
+}
+
+.today {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #B4C187; /* Your color for .today */
+    justify-self: end;
+    width: 100%;
+    margin-bottom: 20px; /* Add margin to create gap */
+}
+
+.today .thisMonth {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #8C5C2B; /* Your color for .thisMonth */ 
+    width: 50%;
+    margin-left: auto;
+}
+
+.summary {
+    grid-column: 1 / 3;
+    grid-row: 2 / 3;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #F9F8E6; 
+}
+
+.sumBar {
+    width: 100%;
+    height: 50px;
+    background-color: #ccc;
+    border-radius: 5px;
+    position: relative;
+}
+
+.sumBar::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(523 / 593 * 100%);
+    height: 100%;
+    background-color: #624A29; /* Past Record color */
+    border-radius: 5px 0 0 5px;
+}
+
+.sumBar::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: calc(523 / 593 * 100%);
+    width: calc(59 / 593 * 100%);
+    height: 100%;
+    background-color: #8C5C2B; /* This Month color */
+    border-radius: 0 5px 5px 0;
+}
+
+.sumBar .todayBar {
+    position: absolute;
+    top: 0;
+    left: calc((523 + 59) / 593 * 100%);
+    width: calc(11 / 593 * 100%);
+    height: 100%;
+    background-color: #B4C187; /* Today color */
+    border-radius: 0 5px 5px 0;
+}
+
+.thisMonth {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #8C5C2B; /* Your color for .thisMonth */ 
+    width: 50%;
+    justify-self: end;
+}
+
+
+.deta.AV {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 50vw;
+    background-color: #ffffff; /* Your color for .deta.Ap */ 
+}
+
+.todayVisit {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #B4C187; /* Your color for .today */
+    justify-self: end;
+    width: 100%;
+    margin-bottom: 20px; /* Add margin to create gap */
+}
+
+.todayVisit .thisMonthVisit {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #8C5C2B; /* Your color for .thisMonth */ 
+    width: 50%;
+    margin-left: auto;
+}
+
+.summaryVisit {
+    grid-column: 1 / 3;
+    grid-row: 2 / 3;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #F9F8E6; 
+}
+
+.sumBarVisit {
+    width: 100%;
+    height: 50px;
+    background-color: #ccc;
+    border-radius: 5px;
+    position: relative;
+}
+
+.sumBarVisit::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(523 / 593 * 100%);
+    height: 100%;
+    background-color: #624A29; /* Past Record color */
+    border-radius: 5px 0 0 5px;
+}
+
+.sumBarVisit::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: calc(523 / 593 * 100%);
+    width: calc(59 / 593 * 100%);
+    height: 100%;
+    background-color: #8C5C2B; /* This Month color */
+    border-radius: 0 5px 5px 0;
+}
+
+.sumBarVisit .todayBarVisit {
+    position: absolute;
+    top: 0;
+    left: calc((523 + 59) / 593 * 100%);
+    width: calc(11 / 593 * 100%);
+    height: 100%;
+    background-color: #B4C187; /* Today color */
+    border-radius: 0 5px 5px 0;
+}
+
+.thisMonthVisit {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #8C5C2B; /* Your color for .thisMonth */ 
+    width: 50%;
+    justify-self: end;
+}
