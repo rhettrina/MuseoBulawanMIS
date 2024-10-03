@@ -85,18 +85,18 @@ body {
     position: relative;
 }
 
-
-.dropdownicon {
-    height: fit-content;
-    width: 15px;
-}
-
-.donationtitle {
+.appointmenttitle {
     background: white;
     box-shadow: #1C1B19;
     max-width: 100%;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     font-family: Hina Mincho, sans-serif;
+}
+
+.iconintro {
+    height: 2em;
+    width: 2em;
+    margin: 1em;
 }
 
 .intro {
@@ -126,6 +126,25 @@ label {
 .section-title {
     font-size: 1.25rem;
     font-weight: bold;
+}
+
+#submit {
+    background-color: #E8D2B6;
+}
+
+.btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.btn-check {
+    display: none;
+}
+
+.btn-group .btn {
+    width: calc(50% - 10px);
+    text-align: center;
 }
 
 .side-footer {
@@ -193,8 +212,4 @@ label {
 
 .side-footer .nav-link:hover {
     color: gray;
-}
-
-.intro .btn {
-    background-color: #E8D2B6;
 }

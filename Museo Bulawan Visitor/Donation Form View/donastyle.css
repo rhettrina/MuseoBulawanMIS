@@ -1,0 +1,54 @@
+body {
+    background-color: #F9F8E6;
+}
+
+.header {
+    font-family: 'Hina Mincho', sans-serif;
+}
+
+
+
+.custom-card {
+    border: 2px solid #000;
+    border-radius: 12px;
+    background-color: #ffffff;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.custom-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 100%; /* Ensure it doesn't overflow its parent */
+}
+
+.custom-text {
+    word-wrap: break-word;
+    text-align: center;
+    margin: 0;
+    max-width: 100%; /* Adjust as necessary to control wrapping */
+}
+
+.custom-hr {
+    border: none;
+    border-top: 2px solid #000;
+    opacity: 1;
+    width: 100%;
+}
+
+.image-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.artifact-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
