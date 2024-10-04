@@ -1,6 +1,6 @@
 # MuseoBulawanMIS
 
-Group 1 - Museo Bulawan Management Information System <br>
+Group 1 - Museo Bulawan Management Information System <br><br>
 Leader: <br> Delos Santos, Chrisshane Mirr Hillary F. <br><br>
 Developer: <br>
           Guiwan, John Russel A. aka JoroDesu <br>
