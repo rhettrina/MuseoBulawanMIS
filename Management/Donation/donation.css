@@ -429,9 +429,8 @@ body{
     padding: 10px;
     border-bottom: 2px solid black; 
     position: relative; 
+    font-size: 0.9rem;
 }
-
-
 
 
 /* Navigation Tabs */
@@ -441,7 +440,7 @@ body{
     margin-right: 10px;
     font-weight: bold;
     transition: border 0.3s ease, filter 0.3s ease; /* Added filter transition */
-    filter: blur(1px); /* Apply blur effect to inactive tabs */
+    filter: opacity(0.5); /* Apply blur effect to inactive tabs */
 }
 
 .tab:hover {
