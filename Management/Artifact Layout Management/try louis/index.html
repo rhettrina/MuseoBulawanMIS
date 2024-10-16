@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Head content remains the same -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Museum Floor Plan Designer</title>
+    <!-- Include the external stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Include Material Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+<body>
+    <!-- Sidebar for selecting objects -->
+    <div class="sidebar">
+        <h2>Objects</h2>
+        <!-- Object list using canvas elements for symbols -->
+        <div class="object">
+            <canvas class="symbol" id="wall-artifacts-symbol" width="40" height="40"></canvas>
+            <span>Wall Artifacts</span>
+        </div>
+        <div class="object">
+            <canvas class="symbol" id="artifacts-artworks-symbol" width="40" height="40"></canvas>
+            <span>Artifacts/Artworks</span>
+        </div>
+        <div class="object">
+            <canvas class="symbol" id="boundaries-symbol" width="40" height="40"></canvas>
+            <span>Boundaries</span>
+        </div>
+        <div class="object">
+            <canvas class="symbol" id="container-symbol" width="40" height="40"></canvas>
+            <span>Container</span>
+        </div>
+        <div class="object">
+            <canvas class="symbol" id="door-symbol" width="40" height="40"></canvas>
+            <span>Door</span>
+        </div>
+        <div class="object">
+            <canvas class="symbol" id="restricted-symbol" width="40" height="40"></canvas>
+            <span>Restricted Area</span>
+        </div>
+        <!-- Add new objects as needed -->
+    </div>
+
+    <!-- Main section with toolbar and canvas -->
+    <div class="main">
+        <div class="toolbar">
+            <!-- Toolbar buttons with icons -->
+            <button>
+                <span class="material-icons">undo</span>
+            </button>
+            <button>
+                <span class="material-icons">redo</span>
+            </button>
+            <button>
+                <span class="material-icons">pan_tool</span>
+            </button>
+            <button class="active">
+                <span class="material-icons">mouse</span>
+            </button>
+            <button>
+                <span class="material-icons">show_chart</span>
+            </button>
+            <button>
+                <span class="material-icons">title</span>
+            </button>
+        </div>
+
+        <div class="canvas">
+            <!-- Placeholder for the interactive grid -->
+        </div>
+    </div>
+
+    <!-- JavaScript for drawing symbols on canvas and interactivity -->
+    <script>
+        // Function to draw the wall artifact symbol
+        function drawWallArtifactSymbol() {
+            const canvas = document.getElementById('wall-artifacts-symbol');
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#8b5a2b'; // Brown color
+            ctx.fillRect(15, 5, 10, 30); // Vertical rectangle
+        }
+
+        // Function to draw the artifacts/artworks symbol
+        function drawArtifactSymbol() {
+            const canvas = document.getElementById('artifacts-artworks-symbol');
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#d2b48c'; // Tan color
+            ctx.beginPath();
+            ctx.arc(20, 20, 15, 0, Math.PI * 2); // Circle
+            ctx.fill();
+        }
+
+        // Function to draw the boundaries symbol (wall)
+        function drawBoundarySymbol() {
+            const canvas = document.getElementById('boundaries-symbol');
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#000'; // Black color
+            ctx.fillRect(5, 18, 30, 4); // Horizontal line
+        }
+
+        // Function to draw the container symbol
+        function drawContainerSymbol() {
+            const canvas = document.getElementById('container-symbol');
+            const ctx = canvas.getContext('2d');
+            ctx.strokeStyle = '#8b5a2b'; // Brown color
+            ctx.lineWidth = 2;
+            ctx.strokeRect(10, 10, 20, 20); // Rectangle
+        }
+
+        // Function to draw the door symbol
+        function drawDoorSymbol() {
+            const canvas = document.getElementById('door-symbol');
+            const ctx = canvas.getContext('2d');
+            ctx.strokeStyle = '#8b5a2b'; // Brown color
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(10, 30);
+            ctx.lineTo(10, 10);
+            ctx.arc(10, 10, 20, 0, Math.PI / 2, false); // Quarter circle
+            ctx.stroke();
+        }
+
+        // Function to draw the restricted area symbol
+        function drawRestrictedSymbol() {
+            const canvas = document.getElementById('restricted-symbol');
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#444'; // Dark gray color
+            ctx.fillRect(5, 5, 30, 30);
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(10, 10);
+            ctx.lineTo(30, 30);
+            ctx.moveTo(30, 10);
+            ctx.lineTo(10, 30);
+            ctx.stroke(); // Cross lines
+        }
+
+        // Call the functions to draw symbols
+        drawWallArtifactSymbol();
+        drawArtifactSymbol();
+        drawBoundarySymbol();
+        drawContainerSymbol();
+        drawDoorSymbol();
+        drawRestrictedSymbol();
+
+        // Toolbar interactivity
+        const buttons = document.querySelectorAll('.toolbar button');
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                buttons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
