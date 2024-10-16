@@ -5,13 +5,15 @@ body{
     width: 100%;
     height: 100%;
     overflow-x: hidden;
-
+    background-color: #000000;
 }
 /*html{
     background-color: #000000;
 }*/
 
-
+* {
+    box-sizing: border-box;
+}
 ::-webkit-scrollbar { 
     display: none;
   }
@@ -429,8 +431,9 @@ body{
     padding: 10px;
     border-bottom: 2px solid black; 
     position: relative; 
-    font-size: 0.9rem;
 }
+
+
 
 
 /* Navigation Tabs */
@@ -439,20 +442,20 @@ body{
     border-radius: 5px;
     margin-right: 10px;
     font-weight: bold;
-    transition: border 0.3s ease, filter 0.3s ease; /* Added filter transition */
-    filter: opacity(0.5); /* Apply blur effect to inactive tabs */
+    transition: border 0.3s ease; 
 }
 
 .tab:hover {
     border: 2px solid #000; 
-    filter: blur(0px); /* Remove blur on hover for better visibility */
 }
 
 .tab.active {
     background-color: #e8d2b6; 
+    border: 2px solid #000; 
     color: black; 
-    filter: none; /* Remove blur effect for the active tab */
+    filter: none; 
 }
+
 
 
 
@@ -474,36 +477,44 @@ body{
 /* Donation Header */
 .donation-header {
     display: flex;
+    position: relative;
+    
+    justify-content: center;
+    gap: 5rem;
     margin-bottom: 20px;
-    gap: 20px; /* Closer gap between boxes */
+    
+    
 }
 
 .summary-box {
     display: flex;
     width: 180px;
-    height: 80px;
+    height: 100px;
     border-radius: 8px;
     overflow: hidden;
-    background-color: #e8dfca;
-    border: 2px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1);
+    flex-wrap: wrap;
+    
+    
 }
 
 .summary-left {
     width: 40%;
-    background-color: #d0b68b;
     padding: 5px;
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: center;
+    
 }
 
 .summary-right {
-    width: 60%;
+    width: 100%;
+    height: 75%;
     background-color: #f3ecd5;
     display: flex;
+    position: relative;
     align-items: center;
     justify-content: center;
+    border-radius: 10px;
     
 }
 
@@ -515,309 +526,178 @@ body{
 }
 
 .summary-number {
-    font-size: 28px;
-    font-weight: bold;
+    font-size: 1rem;
+   
     color: #000;
 }
 
 
-/* Specific Background Colors */
-
-/* ----- TOTAL ----- */
-.summary-box.total .summary-left {
-    background-color: #705d3a;
-}
-
-.summary-box.total .summary-right {
-    border: 10px solid #705d3a;
-
-}
-
-/* ----- ACCEPTED ----- */
-
-.summary-box.accepted .summary-left {
-    background-color: #b29061;
-}
-.summary-box.accepted .summary-right {
-    border: 10px solid #b29061;
-}
-
-/* ----- REJECTED ----- */
-
-.summary-box.rejected .summary-left {
-    background-color: #c08b5d;
-}
-.summary-box.rejected .summary-right {
-    border: 10px solid #c08b5d;
-}
-
-/* ----- DONATION ----- */
-
-.summary-box.donation .summary-left {
-    background-color: #d39b72;
-}
-.summary-box.donation .summary-right {
-    border: 10px solid #d39b72;
-}
-
-/* ----- LENDING ----- */
-
-.summary-box.lending .summary-left {
-    background-color: #f1c7a2;
-}
-.summary-box.lending .summary-right {
-    border: 10px solid #f1c7a2;
-}
-
-/* Sort by Date - aligned to the right */
-.sort-container {
-    text-align: right;
-    margin-bottom: 10px;
-    margin-left: auto; /* This pushes the sort container to the right */
-    background-color: white;
-    padding-left: 5px;
-}
-
-.sort-container select {
-    padding: 5px;
-    background-color: white;
-    border: none;
-    color: #000; 
-    cursor: pointer;
-}
-
-/* Evenly size the status buttons */
-.status {
-    color: #fff;
-    padding: 5px;
-    border-radius: 4px;
-    text-align: center;
-    width: 100px; /* Set a fixed width */
-    height: 25px;  /* Set a fixed height */
-    display: flex;
-    align-items: center;
-    justify-content: center; /* Center the text */
-}
-
-.transfer-status {
-    color: #fff;
-    padding: 5px;
-    border-radius: 4px;
-    text-align: center;
-    width: 100px; /* Set a fixed width */
-    height: 25px;  /* Set a fixed height */
-    display: flex;
-    align-items: center;
-    justify-content: center; /* Center the text */
-}
-
-/* Specific Background Colors */
-.status.accepted {
-    background-color: #b29061;
-}
-
-.status.review {
-    background-color: #361C07;
-}
-
-.transfer-status.acquire {
-    background-color: #d39b72;
-}
-
-.transfer-status.pending {
-    background-color: #8C5C2B;
-}
 
 
-.tab-head {
-
-    padding-top: 30px;
-    padding-bottom: 20px;
-    height: 23px;
-    width: 100%;
-    left: auto;
-    display: flex; 
-}
-
-.tab-head p {
-
-    border: none; 
-    text-align: left;
-    font-weight: bold; 
-    font-size: 12px;
-}
 
 
-#date{
+
+
+/* russels part */
+.wrap {
+    font-family: "Hina Mincho", serif;
+    position: relative;
+    background-color: #1C1B19;
+    width: 75vw;
+    overflow: scroll;
     margin-left: 10px;
 }
 
-#nds{
-    margin-left: 105px;
-}
-#ttl{
-    margin-left: 22px;
-}
-#sta{
-    margin-left: 275px;
-
-}
-#transta{
-    margin-left: 95px;
-}
-#upd{
-    margin-left: 65px;
-
-}
-/* Scrollable Table */
-.table-container {
-    max-height: 320px;
-    overflow-y: auto; 
-    overflow: scroll;
+.art-details {
+    width: 80vw;
+    height: 30vh;
+    position: relative;
+    
+    color: white;
 }
 
-.donation-table {
+h1 {
+    position: absolute;
+    top: 50%;
+    left: 46%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 3rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  
+}
+
+
+
+.dets {
+    background-color: rgba(173, 173, 173, 0.3);
+    width: 10vw;
+    height: 10vh;
+    border: 1px solid #1C1B19;
+    
+}
+
+/* Content */
+
+/* First Art */
+
+.content1 {
+    position: relative;
+    color: rgb(0, 0, 0);
+}
+
+.content1 img {
+    position: relative;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50vw;
+    height: auto;
+  
+}
+
+.textup {
+    display: flex;
+    width: 90%;
+    height: auto;
+    margin: 20px auto;
+    padding: 20px;
+    position: relative;
+    gap: 1rem;
+    
+   
+}
+
+.text1 {
+    position: relative;
+    font-size: 1.5rem;
+    width: 45%;
+    height: 10%;
+    border: 1px solid white;
+    
+    background-color: white;
+}
+
+.text2 {
+    width: 50%;
+   
+}
+.text2 {
+    background-color: white;
+    border: 1px solid white;
+}
+
+.text2 p {
+    font-size: 2.5rem;
+}
+
+.text2 p1 {
+    position: relative;
+    font-size: 1.5rem;
+}
+
+/* Second Art */
+
+.content2 {
+    position: relative;
+    width: auto;
+    height: 100vh;
+    margin-left: 5%;
+    margin-right: 10%;
+}
+
+.textd1 {
+    position: relative;
+    width: 45%;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    border: 1px solid white;
+    background-color: white;
+}
+
+.textd2 {
+    position: relative;
+    width: 50%;
+    padding-left: 10px;
+    left: 50%;
+    border: 1px solid white;
+    background-color: white;
+}
+
+.textd2 p {
+    font-size: 1.5rem;
+}
+
+.enlarge-letter {
+    font-size: 5rem;
+    vertical-align: sub;
+    background-color: white;
+}
+
+.textd2 p1 {
+    position: relative;
     width: 100%;
-    border-collapse: collapse;
+    margin: 20px;
+    font-size: 1.5rem;
 }
 
-.donation-table th, .donation-table td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-    background-color: #fff; /* Ensure rows have a background */
+.box {
+    position: absolute;
+    display: block;
+    bottom: 0;
+    background-color: rgb(134, 112, 85);
+    width: 35%;
+    height: 75vh;
+    left: -6rem;
 }
 
-
-.donation-table tr{
-    font-weight: 500;
-    font-family: hina mincho;
-    color: #333;
+.box img {
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: fill;
+    top: 2rem;
+    right: -7rem;
+    z-index: 2;
 }
-#forms{
-    padding-bottom: 100%;
-}
-
-.dropdown-icon {
-    width: 16px;
-    height: 16px;
-    margin-left: 5px;
-    vertical-align: middle;
-}
-
-#ddate{
-    margin-left: 4%;
-}
-
-#dnds{
-    margin-left: 27%;
-}
-#dupd{
-    margin-left: 21.5%;
-}
-
-.arrow {
-    font-size: 10px;
-    cursor: pointer;
-    
-}
-.arrow.down::before {
-    content: '▼';
-}
-.arrow.up::before {
-    content: '▲';
-}
-
-.table-container {
-    max-height: 320px;
-    overflow-y: auto; 
-    overflow: scroll;
-}
-
-
-    .donation-list {
-        width: 100%;
-        margin: auto;
-        
-    }
-    .donation-row { 
-        background-color: #fff;
-        margin-bottom: 10px;
-        border-radius: 5px;
-        padding: 10px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .donation-row:hover {
-        background-color: #f1f1f1;
-    }
-    .donation-row.active {
-        background-color: #f0f0e0;
-    }
-    .donation-details {
-        display: none;
-        margin: 10px;
-        padding-left: 0%;
-        
-    }
-    .donation-details.active {
-        display: block;
-    }
-    .arrow {
-        font-size: 20px;
-        cursor: pointer;
-    }
-    .arrow.down::before {
-        content: '▼';
-    }
-    .arrow.up::before {
-        content: '▲';
-    }
-    .details-table {
-        background-color: white;
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 10px;   
-    }
-    .details-table th, .details-table td {
-        padding: 8px 12px;
-        color: black;
-    }   
-
-
-    .details-table th {
-        background-color: #8C5C2B;
-    }
-    
-    .ts, .sts {
-        color: white;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        padding-top: 10px;
-        padding: 5px;
-        border-radius: 4px;
-        text-align: center;
-        width: 100px; /* Set a fixed width */
-        height: 25px;  /* Set a fixed height */
-        display: inline-flex; /* Inline-flex to stay in the same line */
-        align-items: center;
-        justify-content: center; /* Center the text */
-    }
-    
-    .sts.accepted{
-        background-color: #9C7744;
-    }
-    .ts.acquired{
-        background-color: #EAC39C;
-    }
-
-    .sts.rejected{
-        background-color: #361C07;
-    }
-
-    .ts.rejected{
-        background-color: #616161;
-    }
-
-    

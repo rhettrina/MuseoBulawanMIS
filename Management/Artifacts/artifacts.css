@@ -382,11 +382,6 @@ body{
     filter: invert(100%);
 }
   
-
-
-
-
-
 .content-container{
     width: 76vw;
     height: 90vh;
@@ -412,6 +407,7 @@ body{
     border: none;
 }
 
+
 /*this is the css container of the content*/
 .main-content{
     width: 76vw;
@@ -420,8 +416,8 @@ body{
     padding-left: 90px;
     padding-right: 90px;
     background-color: #E8D2B6;
-
 }
+
 .nav-bar {
     display: flex;
     align-items: center;
@@ -429,9 +425,7 @@ body{
     padding: 10px;
     border-bottom: 2px solid black; 
     position: relative; 
-    font-size: 0.9rem;
 }
-
 
 /* Navigation Tabs */
 .tab {
@@ -440,14 +434,12 @@ body{
     margin-right: 10px;
     font-weight: bold;
     transition: border 0.3s ease, filter 0.3s ease; /* Added filter transition */
-    filter: opacity(0.5); /* Apply blur effect to inactive tabs */
+    filter: blur(1px); /* Apply blur effect to inactive tabs */
 }
-
 .tab:hover {
     border: 2px solid #000; 
     filter: blur(0px); /* Remove blur on hover for better visibility */
 }
-
 .tab.active {
     background-color: #e8d2b6; 
     color: black; 
@@ -455,14 +447,12 @@ body{
 }
 
 
-
-
 /* Donation Header */
-.donation-section {
+.artifacts-section {
     margin-bottom: 20px;
 }
 
-.donation-title {
+.artifacts-title {
     font-size: 30px;
     font-weight: bolder;
     color: black;
@@ -472,7 +462,7 @@ body{
 }
 
 /* Donation Header */
-.donation-header {
+.artifacts-header {
     display: flex;
     margin-bottom: 20px;
     gap: 20px; /* Closer gap between boxes */
@@ -533,7 +523,7 @@ body{
 
 }
 
-/* ----- ACCEPTED ----- */
+/* ----- ACQUIRED ----- */
 
 .summary-box.accepted .summary-left {
     background-color: #b29061;
@@ -542,7 +532,7 @@ body{
     border: 10px solid #b29061;
 }
 
-/* ----- REJECTED ----- */
+/* ----- BORROWING ----- */
 
 .summary-box.rejected .summary-left {
     background-color: #c08b5d;
@@ -551,7 +541,7 @@ body{
     border: 10px solid #c08b5d;
 }
 
-/* ----- DONATION ----- */
+/* ----- UNFINISHED EDIT ----- */
 
 .summary-box.donation .summary-left {
     background-color: #d39b72;
@@ -560,7 +550,7 @@ body{
     border: 10px solid #d39b72;
 }
 
-/* ----- LENDING ----- */
+/* ----- ON DISPLAY ----- */
 
 .summary-box.lending .summary-left {
     background-color: #f1c7a2;
@@ -572,8 +562,8 @@ body{
 /* Sort by Date - aligned to the right */
 .sort-container {
     text-align: right;
-    margin-bottom: 10px;
-    margin-left: auto; /* This pushes the sort container to the right */
+    margin-bottom: 2px;
+    margin-left: auto; 
     background-color: white;
     padding-left: 5px;
 }
@@ -586,47 +576,29 @@ body{
     cursor: pointer;
 }
 
-/* Evenly size the status buttons */
-.status {
-    color: #fff;
-    padding: 5px;
-    border-radius: 4px;
-    text-align: center;
-    width: 100px; /* Set a fixed width */
-    height: 25px;  /* Set a fixed height */
-    display: flex;
-    align-items: center;
-    justify-content: center; /* Center the text */
-}
 
-.transfer-status {
-    color: #fff;
-    padding: 5px;
-    border-radius: 4px;
-    text-align: center;
-    width: 100px; /* Set a fixed width */
-    height: 25px;  /* Set a fixed height */
+
+/* Evenly size the status buttons */
+.status, .transfer-status {
     display: flex;
     align-items: center;
-    justify-content: center; /* Center the text */
+    justify-content: center; /* Center align text inside the buttons */
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-align: center;
+    width: 110px;
+    height: 30px;
 }
 
 /* Specific Background Colors */
-.status.accepted {
-    background-color: #b29061;
+.status.posted {
+    background-color: #9C7744;
 }
 
-.status.review {
-    background-color: #361C07;
+.status.pending {
+    background-color: #CD9F6E;
 }
 
-.transfer-status.acquire {
-    background-color: #d39b72;
-}
-
-.transfer-status.pending {
-    background-color: #8C5C2B;
-}
 
 
 .tab-head {
@@ -640,184 +612,79 @@ body{
 }
 
 .tab-head p {
-
     border: none; 
     text-align: left;
     font-weight: bold; 
     font-size: 12px;
+
 }
 
 
 #date{
-    margin-left: 10px;
+    margin-left: 8%;
 }
 
-#nds{
-    margin-left: 105px;
-}
 #ttl{
-    margin-left: 22px;
+    margin-left: 18%;
 }
-#sta{
-    margin-left: 275px;
-
+#type{
+    margin-left: 16%;
 }
-#transta{
-    margin-left: 95px;
+#dpsts{
+margin-left: 15%;
 }
 #upd{
-    margin-left: 65px;
-
+margin-left: 12%;
 }
+
+
+
 /* Scrollable Table */
+
 .table-container {
     max-height: 320px;
-    overflow-y: auto; 
     overflow: scroll;
-}
-
-.donation-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.donation-table th, .donation-table td {
     padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-    background-color: #fff; /* Ensure rows have a background */
 }
 
+.artifacts-list {
+    width: 100%;
+    margin: auto;
+    }
 
-.donation-table tr{
-    font-weight: 500;
-    font-family: hina mincho;
-    color: #333;
+.artifacts-row {
+    background-color: #fff;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
-#forms{
+
+.artifacts-row div {
+    flex: 1;
+    text-align: center; 
+}
+.artifacts-row:hover {
+    background-color: #f1f1f1;
+}
+
+#artifacts{
     padding-bottom: 100%;
 }
 
-.dropdown-icon {
-    width: 16px;
-    height: 16px;
+.page-content {
+    display: none;
+}
+
+.page-content.active {
+    display: block;
+}
+
+.edit-icon {
+    width: 25px;
+    height: 25px;
     margin-left: 5px;
     vertical-align: middle;
 }
-
-#ddate{
-    margin-left: 4%;
-}
-
-#dnds{
-    margin-left: 27%;
-}
-#dupd{
-    margin-left: 21.5%;
-}
-
-.arrow {
-    font-size: 10px;
-    cursor: pointer;
-    
-}
-.arrow.down::before {
-    content: '▼';
-}
-.arrow.up::before {
-    content: '▲';
-}
-
-.table-container {
-    max-height: 320px;
-    overflow-y: auto; 
-    overflow: scroll;
-}
-
-
-    .donation-list {
-        width: 100%;
-        margin: auto;
-        
-    }
-    .donation-row { 
-        background-color: #fff;
-        margin-bottom: 10px;
-        border-radius: 5px;
-        padding: 10px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .donation-row:hover {
-        background-color: #f1f1f1;
-    }
-    .donation-row.active {
-        background-color: #f0f0e0;
-    }
-    .donation-details {
-        display: none;
-        margin: 10px;
-        padding-left: 0%;
-        
-    }
-    .donation-details.active {
-        display: block;
-    }
-    .arrow {
-        font-size: 20px;
-        cursor: pointer;
-    }
-    .arrow.down::before {
-        content: '▼';
-    }
-    .arrow.up::before {
-        content: '▲';
-    }
-    .details-table {
-        background-color: white;
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 10px;   
-    }
-    .details-table th, .details-table td {
-        padding: 8px 12px;
-        color: black;
-    }   
-
-
-    .details-table th {
-        background-color: #8C5C2B;
-    }
-    
-    .ts, .sts {
-        color: white;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        padding-top: 10px;
-        padding: 5px;
-        border-radius: 4px;
-        text-align: center;
-        width: 100px; /* Set a fixed width */
-        height: 25px;  /* Set a fixed height */
-        display: inline-flex; /* Inline-flex to stay in the same line */
-        align-items: center;
-        justify-content: center; /* Center the text */
-    }
-    
-    .sts.accepted{
-        background-color: #9C7744;
-    }
-    .ts.acquired{
-        background-color: #EAC39C;
-    }
-
-    .sts.rejected{
-        background-color: #361C07;
-    }
-
-    .ts.rejected{
-        background-color: #616161;
-    }
-
-    
