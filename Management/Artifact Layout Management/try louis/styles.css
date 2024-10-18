@@ -1,0 +1,124 @@
+/* General styling */
+body {
+    display: flex;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+}
+
+/* Sidebar styling */
+.sidebar {
+    width: 220px;
+    background-color: #f4f4f4;
+    padding: 10px;
+    overflow-y: auto;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    background-color: #ffe0b2;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+/* Object styles */
+.object {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 15px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.object:hover {
+    background-color: #e0e0e0;
+}
+
+.symbol {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+}
+
+.object span {
+    font-size: 16px;
+    flex-grow: 1;
+}
+
+/* Main section */
+.main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* Toolbar styling */
+.toolbar {
+    background-color: #f4f4f4;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.toolbar button {
+    background-color: transparent;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toolbar button.active {
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.toolbar button .material-icons {
+    font-size: 24px;
+    color: inherit;
+}
+
+.toolbar button:hover {
+    background-color: #e0e0e0;
+    border-radius: 5px;
+}
+
+/* Canvas styling */
+.canvas {
+    flex-grow: 1;
+    background-color: #f9f9f9;
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(40, 20px);
+    grid-template-rows: repeat(40, 20px);
+    gap: 1px;
+    background-image: linear-gradient(to right, #e0e0e0 1px, transparent 1px),
+                      linear-gradient(to bottom, #e0e0e0 1px, transparent 1px);
+    background-size: 21px 21px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 180px;
+    }
+    .symbol {
+        width: 30px;
+        height: 30px;
+    }
+    .object span {
+        font-size: 14px;
+    }
+}
