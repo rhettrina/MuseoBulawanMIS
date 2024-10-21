@@ -27,10 +27,7 @@
             <canvas class="symbol" id="artifacts-artworks-symbol" width="40" height="40"></canvas>
             <span>Artifacts/Artworks</span>
         </div>
-        <div class="object" id="boundaries" draggable="true">
-            <canvas class="symbol" id="boundaries-symbol" width="40" height="40"></canvas>
-            <span>Boundaries</span>
-        </div>
+
         <div class="object" id="container" draggable="true">
             <canvas class="symbol" id="container-symbol" width="40" height="40"></canvas>
             <span>Container</span>
@@ -93,12 +90,6 @@
             drawArtifactSymbolOnCanvas(ctx, canvas.width, canvas.height);
         }
 
-        // Function to draw the boundaries symbol
-        function drawBoundarySymbol() {
-            const canvas = document.getElementById('boundaries-symbol');
-            const ctx = canvas.getContext('2d');
-            drawBoundarySymbolOnCanvas(ctx, canvas.width, canvas.height);
-        }
 
         // Function to draw the container symbol
         function drawContainerSymbol() {
@@ -124,7 +115,7 @@
         // Call the functions to draw symbols in the sidebar
         drawWallArtifactSymbol();
         drawArtifactSymbol();
-        drawBoundarySymbol();
+
         drawContainerSymbol();
         drawDoorSymbol();
         drawRestrictedSymbol();
@@ -171,6 +162,9 @@
             createSymbol(id, x, y);
         });
 
+
+
+        // Function to create and place the symbol on the canvas
         // Function to create and place the symbol on the canvas
         function createSymbol(id, x, y) {
             // Create a container div
@@ -188,13 +182,17 @@
 
             container.style.left = x + 'px';
             container.style.top = y + 'px';
+
+            // Set initial dimensions
+
             container.style.width = '40px';
             container.style.height = '40px';
 
+
             // Create the canvas element for the symbol
             const canvas = document.createElement('canvas');
-            canvas.width = 40;
-            canvas.height = 40;
+            canvas.width = parseInt(container.style.width);
+            canvas.height = parseInt(container.style.height);
             canvas.classList.add('symbol');
 
             const ctx = canvas.getContext('2d');
@@ -219,13 +217,11 @@
             container.appendChild(rotateHandle);
 
             // Add resize handles
-            // Add resize handles
-            let directions = [];
-            if (id === 'boundaries') {
-                directions = ['w', 'e']; // Only left and right handles for boundaries
-            } else {
-                directions = ['nw', 'n', 'ne', 'e', 'se', 's', 'sw', 'w'];
-            }
+            let directions;
+
+            directions = ['nw', 'n', 'ne', 'e', 'se', 's', 'sw', 'w'];
+
+
             directions.forEach(dir => {
                 const handle = document.createElement('div');
                 handle.classList.add('resize-handle', dir);
@@ -237,7 +233,11 @@
 
             // Initialize Interact.js interactions
             initializeInteractJS(container);
+
+
         }
+
+
 
         // Function to draw symbol based on id
         function drawSymbolByIdOnCanvas(id, ctx, width, height) {
@@ -248,9 +248,7 @@
                 case 'artifacts-artworks':
                     drawArtifactSymbolOnCanvas(ctx, width, height);
                     break;
-                case 'boundaries':
-                    drawBoundarySymbolOnCanvas(ctx, width, height);
-                    break;
+
                 case 'container':
                     drawContainerSymbolOnCanvas(ctx, width, height);
                     break;
@@ -376,7 +374,11 @@
             });
 
             // Selection handling
+            // Selection handling
             element.addEventListener('mousedown', (e) => {
+                // Prevent event from propagating to the canvasArea
+                e.stopPropagation();
+
                 // Remove 'selected' class from other elements
                 document.querySelectorAll('.symbol-container').forEach(el => el.classList.remove('selected'));
                 // Add 'selected' class to the current element
@@ -494,13 +496,7 @@
             ctx.fill();
         }
 
-        function drawBoundarySymbolOnCanvas(ctx, width, height) {
-            ctx.fillStyle = '#000'; // Black color
-            ctx.clearRect(0, 0, width, height);
-            const lineHeight = height * 0.1;
-            const y = (height - lineHeight) / 2;
-            ctx.fillRect(0, y, width, lineHeight); // Horizontal line
-        }
+
 
         function drawContainerSymbolOnCanvas(ctx, width, height) {
             ctx.strokeStyle = '#8b5a2b'; // Brown color

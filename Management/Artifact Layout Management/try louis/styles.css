@@ -30,7 +30,7 @@ h2 {
     padding: 10px;
     margin-bottom: 15px;
     background-color: #fff;
-    border: 1px solid #ddd;
+    /* border: 1px solid #ddd; */
     border-radius: 5px;
     cursor: grab;
     transition: background-color 0.2s;
@@ -130,7 +130,6 @@ h2 {
 /* Resizing handles (blue circles) */
 .symbol-container.resizable {
     position: relative;
-    border: 1px dashed #000;
 }
 
 /* Resizing handles (blue circles) */
@@ -261,6 +260,7 @@ h2 {
 .symbol-container.selected .size-tooltip {
     display: block;
 }
+
 
 
 /* Responsive adjustments */
