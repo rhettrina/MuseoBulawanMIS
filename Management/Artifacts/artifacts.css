@@ -1,4 +1,4 @@
-body {
+body{
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -7,45 +7,96 @@ body {
     overflow-x: hidden;
 
 }
-
 /*html{
     background-color: #000000;
 }*/
 
 
-::-webkit-scrollbar {
+::-webkit-scrollbar { 
     display: none;
-}
+  }
 
 
 
 
-.header {
+  .header{
     background-color: #1C1B19;
+    height: 10vh;
+    width: 100vw;
+    box-shadow: 0vw 0.1vh 0.5vw 0vw #1c1b19fb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 3;
+
 }
 
-.brand-wrapper img {
-    width: 3.5vw ;
-    height: auto ;
+.head-wrapper{
+    flex-basis: 98%;
+    height: 7vh;
+    display: flex;
+    position: relative;
 }
 
-.text-wrapper h1 {
+.head-wrapper::after {
+    content: "";
+    position: absolute;
+    width: 96%;
+    bottom: -0.4vw; /* Adjust this value to move the border higher */
+    left: 4%;
+    transform: translateX(-2%);
+    right: 0;
+    height: 0.1vw; /* Border thickness */
+    background-color: white; /* Border color */
+}
+
+.brand-wrapper{
+    flex-basis: 22%;
+    height: 7vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+.brand-wrapper img{
+    width: 3.6vw;
+    height: 3.6vw;
+    margin: 0;
+}
+
+.brand-wrapper .line-spacer{
+    width: 0.5vw;
+    height: 7vh;
+    background-color: white;
+}
+
+.text-wrapper{
+    height: 6vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.text-wrapper h1{
     font-family: hind;
     font-size: 1.9vw;
     font-weight: bolder;
     color: white;
     margin: 0;
 }
-
-.text-wrapper h2 {
+.text-wrapper h2{
+    line-height: 0%;
     color: white;
     font-family: hind;
     font-size: 0.9vw;
-    font-weight: bolder;
+    font-weight: bolder;   
     margin: 0;
 }
 
-.display-wrapper {
+.display-wrapper{
     width: 100vw;
     height: 90vh;
     background-color: #E8D2B6;
@@ -55,7 +106,7 @@ body {
 
 }
 
-.navigation-panel {
+.navigation-panel{
     width: 24vw;
     height: 90vh;
     background-color: rgb(255, 255, 255);
@@ -64,7 +115,7 @@ body {
     align-items: center;
 }
 
-.nav-button {
+.nav-button{
     width: 14vw;
     height: 70vh;
     display: flex;
@@ -72,7 +123,7 @@ body {
     justify-content: space-between;
 }
 
-.button-container {
+.button-container{
     width: 14vw;
     height: 32vh;
     display: flex;
@@ -85,7 +136,7 @@ body {
 
 
 
-.logout-button {
+.logout-button{
     height: 5vh;
     width: 14vw;
     display: flex;
@@ -95,7 +146,7 @@ body {
     border: none;
 }
 
-.log-icon {
+.log-icon{
     flex-basis: 10%;
     padding-left: 3%;
     position: flex;
@@ -103,12 +154,12 @@ body {
     align-items: center;
 }
 
-.log-icon img {
+.log-icon img{
     width: 2vw;
     height: 2vw;
 }
 
-.log-text {
+.log-text{
     font-family: Hind;
     font-size: 1.5vw;
     font-weight: 550;
@@ -116,7 +167,7 @@ body {
 }
 
 /*dashboard button css start*/
-.dashboard-button {
+.dashboard-button{
     height: 5vh;
     width: 14vw;
     display: flex;
@@ -126,7 +177,7 @@ body {
     border: none;
 }
 
-.db-icon {
+.db-icon{
     flex-basis: 10%;
     padding-left: 3%;
     position: flex;
@@ -134,12 +185,12 @@ body {
     align-items: center;
 }
 
-.db-icon img {
+.db-icon img{
     width: 2vw;
     height: 2vw;
 }
 
-.db-text {
+.db-text{
     font-family: Hind;
     font-size: 1.5vw;
     font-weight: 550;
@@ -151,7 +202,7 @@ body {
 
 /*donation button css start*/
 
-.donation-button {
+.donation-button{
     height: 5vh;
     width: 14vw;
     display: flex;
@@ -161,7 +212,7 @@ body {
     border: none;
 }
 
-.dob-icon {
+.dob-icon{
     flex-basis: 10%;
     padding-left: 3%;
     position: flex;
@@ -169,12 +220,12 @@ body {
     align-items: center;
 }
 
-.dob-icon img {
+.dob-icon img{
     width: 2vw;
     height: 2vw;
 }
 
-.dob-text {
+.dob-text{
     font-family: Hind;
     font-size: 1.5vw;
     font-weight: 550;
@@ -189,7 +240,7 @@ body {
 
 /*artifact button css start*/
 
-.artifact-button {
+.artifact-button{
     height: 5vh;
     width: 14vw;
     display: flex;
@@ -199,7 +250,7 @@ body {
     border: none;
 }
 
-.ar-icon {
+.ar-icon{
     flex-basis: 10%;
     padding-left: 3%;
     position: flex;
@@ -207,12 +258,12 @@ body {
     align-items: center;
 }
 
-.ar-icon img {
+.ar-icon img{
     width: 2vw;
     height: 2vw;
 }
 
-.ar-text {
+.ar-text{
     font-family: Hind;
     font-size: 1.5vw;
     font-weight: 550;
@@ -223,7 +274,7 @@ body {
 
 
 /*appointment button css start*/
-.appointment-button {
+.appointment-button{
     height: 5vh;
     width: 14vw;
     display: flex;
@@ -233,7 +284,7 @@ body {
     border: none;
 }
 
-.ap-icon {
+.ap-icon{
     flex-basis: 10%;
     padding-left: 3%;
     position: flex;
@@ -241,23 +292,22 @@ body {
     align-items: center;
 }
 
-.ap-icon img {
+.ap-icon img{
     width: 2vw;
     height: 2vw;
 }
 
-.ap-text {
+.ap-text{
     font-family: Hind;
     font-size: 1.5vw;
     font-weight: 550;
     padding-left: 10%;
 }
-
 /*appointment button css end*/
 
 
 /*layout button css start*/
-.layout-button {
+.layout-button{
     height: 5vh;
     width: 14vw;
     display: flex;
@@ -267,7 +317,7 @@ body {
     border: none;
 }
 
-.lt-icon {
+.lt-icon{
     flex-basis: 10%;
     padding-left: 3%;
     position: flex;
@@ -275,12 +325,12 @@ body {
     align-items: center;
 }
 
-.lt-icon img {
+.lt-icon img{
     width: 2vw;
     height: 2vw;
 }
 
-.lt-text {
+.lt-text{
     font-family: Hind;
     font-size: 1.5vw;
     font-weight: 550;
@@ -291,7 +341,7 @@ body {
 
 
 /*article button css start*/
-.article-button {
+.article-button{
     height: 5vh;
     width: 14vw;
     display: flex;
@@ -301,7 +351,7 @@ body {
     border: none;
 }
 
-.at-icon {
+.at-icon{
     flex-basis: 10%;
     padding-left: 3%;
     position: flex;
@@ -309,22 +359,21 @@ body {
     align-items: center;
 }
 
-.at-icon img {
+.at-icon img{
     width: 2vw;
     height: 2vw;
 }
 
-.at-text {
+.at-text{
     font-family: Hind;
     font-size: 1.5vw;
     font-weight: 550;
     padding-left: 10%;
 }
-
 /*article button css end*/
 
 
-.active {
+.active{
     background-color: #524433;
     color: white;
 }
@@ -332,6 +381,8 @@ body {
 .active img {
     filter: invert(100%);
 }
+  
+
 
 .content-container {
     width: 76vw;
