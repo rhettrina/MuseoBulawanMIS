@@ -131,41 +131,34 @@
     </div>
 
     <div class="intro container p-5 mt-4 mb-5">
-        <form>
+        <form action="process_form.php" method="post">
             <!-- Name Section -->
             <h3 class="mt-4">Personal Information</h3>
             <div class="form-group row align-items-center mt-4 gap-1">
-                <label for="firstName" class="col-sm-2 col-form-label fs-5"><b>Name</b> <span
-                        class="text-danger">*</span></label>
+                <label for="firstName" class="col-sm-2 col-form-label fs-5"><b>Name</b> <span class="text-danger">*</span></label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control border-2 border-dark" id="firstName" placeholder="First Name"
-                        required>
+                    <input type="text" class="form-control border-2 border-dark" id="firstName" name="firstName" placeholder="First Name" required>
                 </div>
                 <div class="col-sm-5">
-                    <input type="text" class="form-control border-2 border-dark" id="lastName" placeholder="Last Name"
-                        required>
+                    <input type="text" class="form-control border-2 border-dark" id="lastName" name="lastName" placeholder="Last Name" required>
                 </div>
             </div>
-
+    
             <div class="form-group row align-items-center mt-4">
-                <label for="email" class="col-sm-2 col-form-label fs-5"><b>Email</b> <span
-                        class="text-danger">*</span></label>
+                <label for="email" class="col-sm-2 col-form-label fs-5"><b>Email</b> <span class="text-danger">*</span></label>
                 <div class="col-sm-5">
-                    <input type="email" class="form-control border-2 border-dark" id="email"
-                        placeholder="example@gmail.com" required>
+                    <input type="email" class="form-control border-2 border-dark" id="email" name="email" placeholder="example@gmail.com" required>
                 </div>
-                <label for="phone" class="col-sm-2 col-form-label fs-5"><b>Phone Number</b> <span
-                        class="text-danger">*</span></label>
+                <label for="phone" class="col-sm-2 col-form-label fs-5"><b>Phone Number</b> <span class="text-danger">*</span></label>
                 <div class="col-sm-2">
-                    <input type="tel" class="form-control border-2 border-dark" id="phone" placeholder="+6309123456789"
-                        required>
+                    <input type="tel" class="form-control border-2 border-dark" id="phone" name="phone" placeholder="+6309123456789" required>
                 </div>
             </div>
+    
             <div class="form-group row align-items-center mt-4">
-                <label for="province" class="col-sm-2 col-form-label fs-5"><b>Province</b> <span
-                        class="text-danger">*</span></label>
+                <label for="province" class="col-sm-2 col-form-label fs-5"><b>Province</b> <span class="text-danger">*</span></label>
                 <div class="col-sm-4">
-                    <select class="form-control border-2 border-dark" id="province" required>
+                    <select class="form-control border-2 border-dark" id="province" name="province" required>
                         <option selected disabled>Select Province</option>
                         <option>Camarines Norte</option>
                         <option>Province 1</option>
@@ -173,75 +166,69 @@
                         <option>Province 3</option>
                     </select>
                 </div>
-                <label for="city" class="col-sm-1 col-form-label fs-5"><b>City</b> <span
-                        class="text-danger">*</span></label>
+                <label for="city" class="col-sm-1 col-form-label fs-5"><b>City</b> <span class="text-danger">*</span></label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control border-2 border-dark" id="city" placeholder="City" required>
+                    <input type="text" class="form-control border-2 border-dark" id="city" name="city" placeholder="City" required>
                 </div>
             </div>
+    
             <div class="form-group row align-items-center mt-4">
-                <label for="barangay" class="col-sm-2 col-form-label fs-5"><b>Barangay</b> <span
-                        class="text-danger">*</span></label>
+                <label for="barangay" class="col-sm-2 col-form-label fs-5"><b>Barangay</b> <span class="text-danger">*</span></label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control border-2 border-dark" id="barangay" placeholder="Barangay"
-                        required>
+                    <input type="text" class="form-control border-2 border-dark" id="barangay" name="barangay" placeholder="Barangay" required>
                 </div>
                 <label for="street" class="col-sm-1 col-form-label fs-5"><b>Street</b></label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control border-2 border-dark" id="street" placeholder="Street">
+                    <input type="text" class="form-control border-2 border-dark" id="street" name="street" placeholder="Street">
                 </div>
             </div>
+    
             <div class="form-group row align-items-center mt-4">
                 <label for="organization" class="col-sm-2 col-form-label fs-5"><b>Organization</b></label>
                 <div class="col-sm-5">
-                    <input type="text" class="form-control border-2 border-dark" id="organization"
-                        placeholder="School/Institution/etc">
+                    <input type="text" class="form-control border-2 border-dark" id="organization" name="organization" placeholder="School/Institution/etc">
                 </div>
-                <label for="age" class="col-sm-2 col-form-label fs-5"><b>Attendees</b> <span
-                        class="text-danger">*</span></label>
+                <label for="age" class="col-sm-2 col-form-label fs-5"><b>Attendees</b> <span class="text-danger">*</span></label>
                 <div class="col-sm-2">
-                    <input type="number" class="form-control border-2 border-dark" id="age" placeholder="Count"
-                        required>
+                    <input type="number" class="form-control border-2 border-dark" id="age" name="age" placeholder="Count" required>
                 </div>
             </div>
+    
             <div class="form-group row align-items-center mt-4">
-                <label class="col-sm-2 col-form-label fs-5"><b>Select your preferred Date</b> <span
-                        class="text-danger">*</span></label>
+                <label class="col-sm-2 col-form-label fs-5"><b>Select your preferred Date</b> <span class="text-danger">*</span></label>
                 <div class="col-sm-4">
-                    <input type="date" class="form-control border-2 border-dark" required>
+                    <input type="date" class="form-control border-2 border-dark" name="preferred_date" required>
                 </div>
-
-                <label class="col-sm-2 col-form-label fs-5"><b>Select your preferred Time</b> <span
-                        class="text-danger">*</span></label>
+    
+                <label class="col-sm-2 col-form-label fs-5"><b>Select your preferred Time</b> <span class="text-danger">*</span></label>
                 <div class="col-sm-4">
                     <div class="btn-group" role="group">
-                        <input type="radio" class="btn-check" name="time" id="time1" autocomplete="off" required>
+                        <input type="radio" class="btn-check" name="time" id="time1" value="09:00-10:29" autocomplete="off" required>
                         <label class="btn btn-outline-dark" for="time1">09:00-10:29</label>
-
-                        <input type="radio" class="btn-check" name="time" id="time2" autocomplete="off" required>
+    
+                        <input type="radio" class="btn-check" name="time" id="time2" value="10:30-11:59" autocomplete="off" required>
                         <label class="btn btn-outline-dark" for="time2">10:30-11:59</label>
-
-                        <input type="radio" class="btn-check" name="time" id="time3" autocomplete="off" required>
+    
+                        <input type="radio" class="btn-check" name="time" id="time3" value="01:00-02:29" autocomplete="off" required>
                         <label class="btn btn-outline-dark" for="time3">01:00-02:29</label>
-
-                        <input type="radio" class="btn-check" name="time" id="time4" autocomplete="off" required>
+    
+                        <input type="radio" class="btn-check" name="time" id="time4" value="02:30-04:00" autocomplete="off" required>
                         <label class="btn btn-outline-dark" for="time4">02:30-04:00</label>
                     </div>
                 </div>
-
             </div>
-
+    
             <div class="form-group mt-4">
                 <label for="notes" class="fs-5"><b>Notes</b></label>
-                <textarea class="form-control border-2 border-dark" id="notes" rows="4"></textarea>
+                <textarea class="form-control border-2 border-dark" id="notes" name="notes" rows="4"></textarea>
             </div>
+    
             <div class="col-md-12 d-flex justify-content-end mt-5">
                 <button type="submit" class="btn btn-light px-5 py-2" id="submit">Submit</button>
             </div>
         </form>
-
-        
     </div>
+    
     <div class="wrapper"> 
 
         <div class="lowercontainer ms-5 pt-4">
