@@ -97,7 +97,7 @@ body{
 
 .display-wrapper{
     width: 100vw;
-    height: 90vh;
+    min-height: 90vh;
     background-color: #E8D2B6;
     display: flex;
     flex-direction: row;
@@ -384,7 +384,7 @@ body{
 
 .content-container {
     width: 76vw;
-    height: 90vh;
+    min-height: 90vh;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -407,298 +407,135 @@ body{
     border: none;
 }
 
-
-/*this is the css container of the content*/
-.main-content {
-    width: 76vw;
-    height: 85vh;
-    flex: 1;
-    padding-left: 90px;
-    padding-right: 90px;
-    background-color: #E8D2B6;
-}
-
-.nav-bar {
+.main-content{
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 10px;
-    border-bottom: 2px solid black;
-    position: relative;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
+    width: 100%;
 }
 
-/* Navigation Tabs */
-.tab {
-    cursor: pointer;
-    border-radius: 5px;
-    margin-right: 10px;
-    font-weight: bold;
-    transition: border 0.3s ease, filter 0.3s ease;
-    /* Added filter transition */
-    filter: blur(1px);
-    /* Apply blur effect to inactive tabs */
-}
-
-.tab:hover {
-    border: 2px solid #000;
-    filter: blur(0px);
-    /* Remove blur on hover for better visibility */
-}
-
-.tab.active {
-    background-color: #e8d2b6;
-    color: black;
-    filter: none;
-    /* Remove blur effect for the active tab */
-}
-
-
-/* Donation Header */
-.artifacts-section {
-    margin-bottom: 20px;
-}
-
-.artifacts-title {
-    font-size: 30px;
-    font-weight: bolder;
-    color: black;
-    margin-bottom: 10px;
-    text-align: left;
-
-}
-
-/* Donation Header */
-.artifacts-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    gap: 20px;
-    /* Closer gap between boxes */
-}
-
-.summary-box {
-    display: flex;
-    width: 180px;
-    height: 80px;
-    border-radius: 8px;
-    overflow: hidden;
-    background-color: #e8dfca;
-    border: 2px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1);
-}
-
-.summary-left {
-    width: 40%;
-    background-color: #d0b68b;
-    padding: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.summary-right {
-    width: 60%;
-    background-color: #f3ecd5;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-}
-
-.summary-title {
-    font-size: 13px;
-    color: #3a2d16;
-    font-weight: bold;
-    text-align: center;
-}
-
-.summary-number {
-    font-size: 28px;
-    font-weight: bold;
-    color: #000;
-}
-
-
-/* Specific Background Colors */
-
-/* ----- TOTAL ----- */
-.summary-box.total .summary-left {
-    background-color: #705d3a;
-}
-
-.summary-box.total .summary-right {
-    border: 10px solid #705d3a;
-
-}
-
-/* ----- ACQUIRED ----- */
-
-.summary-box.accepted .summary-left {
-    background-color: #b29061;
-}
-
-.summary-box.accepted .summary-right {
-    border: 10px solid #b29061;
-}
-
-/* ----- BORROWING ----- */
-
-.summary-box.rejected .summary-left {
-    background-color: #c08b5d;
-}
-
-.summary-box.rejected .summary-right {
-    border: 10px solid #c08b5d;
-}
-
-/* ----- UNFINISHED EDIT ----- */
-
-.summary-box.donation .summary-left {
-    background-color: #d39b72;
-}
-
-.summary-box.donation .summary-right {
-    border: 10px solid #d39b72;
-}
-
-/* ----- ON DISPLAY ----- */
-
-.summary-box.lending .summary-left {
-    background-color: #f1c7a2;
-}
-
-.summary-box.lending .summary-right {
-    border: 10px solid #f1c7a2;
-}
-
-/* Sort by Date - aligned to the right */
-.sort-container {
-    text-align: right;
-    margin-bottom: 2px;
-    margin-left: auto;
+.builder{
+    width: 90%;
+    height: 8vh;
     background-color: white;
-    padding-left: 5px;
+    border-radius: 0.5vw;
+}
+.builder h1{
+    font-family: Hind;
+    font-weight: bold;
+    padding: 0.8vw;
+    padding-left: 2vw;
 }
 
-.sort-container select {
-    padding: 5px;
+.metdata-wrapper{
+    width: 90%;
+    height: 18.3vh;
     background-color: white;
+    border-radius: 0.5vw;
+    display: flex;
+    flex-direction: column;
+    font-family: Hind;
+    font-size: 1.5vw;
+    font-weight: 500;
+    padding: 2vw;
+}
+
+.title-wrapper{
+    display: flex;
+    height: 4vh;
+    width: 100%;
+}
+#ttl-tx{
+    padding: 0.1vw;
+    padding-right: 4vw;
+}
+#art-type{
+    padding: 0.1vw;
+    padding-left: 5vw;
+}
+
+.content-wrapper{
+    width: 90%;
+    height: 50vh;
+    background-color: white;
+    border-radius: 0.5vw;
+    display: flex;
+    flex-direction: column;
+    font-family: Hind;
+    font-size: 1.5vw;
+    font-weight: 500;
+    padding: 2vw;
+}
+
+#article-title{
+    border-radius: 0.4vw;
+    width: 50%;
+    font-family: Hind; 
+    font-size: 0.9vw;                 
+    color: #333;                     
+    text-align: left;             
+    padding: 1vw;                   
+    border: 0.2vw solid #ccc;          
+    border-radius: 0.5vw;  
+}
+
+#art-typ{
+    padding: 0.1vw;
+    padding-left: 2vw;
+    padding-right: 4vw;
+}
+
+#article-type{
+    border-radius: 0.4vw;
+    width: 15%;
+    font-family: Hind; 
+    font-size: 0.9vw;                 
+    color: #333;  
+    background-color: transparent;                      
+    text-align: center;                             
+    border: 0.2vw solid #ccc;          
+    border-radius: 0.5vw;  
+}
+
+#lcn-tx{
+    padding: 0.1vw;
+    padding-left: 0.1vw;
+    padding-right: 1.2vw;
+}
+
+.location-wrapper{
+    display: flex;
+    height: 4vh;
+    width: 100%;
+    padding-top: 2vh;
+}
+
+#location{
+    border-radius: 0.4vw;
+    width: 50%;
+    font-family: Hind; 
+    font-size: 0.9vw;                 
+    color: #333;                     
+    text-align: left;             
+    padding: 1vw;                   
+    border: 0.2vw solid #ccc;          
+    border-radius: 0.5vw;  
+}
+
+.upload-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    color: white;
+    background-color: #333; /* Green button */
     border: none;
-    color: #000;
+    border-radius: 5px;
     cursor: pointer;
 }
 
-
-
-/* Evenly size the status buttons */
-.status,
-.transfer-status {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* Center align text inside the buttons */
-    padding: 5px 10px;
-    border-radius: 5px;
-    text-align: center;
-    width: 110px;
-    height: 30px;
-}
-
-/* Specific Background Colors */
-.status.posted {
-    background-color: #9C7744;
-}
-
-.status.pending {
-    background-color: #CD9F6E;
-}
-
-
-
-.tab-head {
-
-    padding-top: 30px;
-    padding-bottom: 20px;
-    height: 23px;
-    width: 100%;
-    display: flex;
-   
-}
-
-.tab-head p {
-    border: none;
-    text-align: left;
-    font-weight: bold;
-    font-size: 12px;
-
-}
-
-
-#date {
-    margin-left: 10%;
-}
-
-#ttl {
-    margin-left: 17%;
-}
-
-#type {
-    margin-left: 16%;
-}
-
-#upd {
-    margin-left: 16%;
-}
-
-
-
-/* Scrollable Table */
-
-.table-container {
-    max-height: 320px;
-    overflow: scroll;
-    padding: 10px;
-}
-
-.articles-list {
-    width: 100%;
-    margin: auto;
-}
-
-.articles-row {
-    background-color: #fff;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.articles-row div {
-    flex: 1;
-    text-align: center;
-}
-
-.articles-row:hover {
-    background-color: #f1f1f1;
-}
-
-#articles {
-    padding-bottom: 100%;
-}
-
-.page-content {
-    display: none;
-}
-
-.page-content.active {
-    display: block;
-}
-
-.edit-icon {
-    width: 25px;
-    height: 25px;
-    margin-left: 5px;
-    vertical-align: middle;
+.upload-button:hover {
+    background-color: #45a049; /* Darker green on hover */
 }

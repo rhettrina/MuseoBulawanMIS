@@ -179,45 +179,112 @@ html{
     text-align: justify;
     justify-content: space-around;
     margin: 5vw;
+    min-height: 10vh;
 }
 .text-container{
     width: 43vw;
     height: 100%;
     font-family: "Hina Mincho", serif;
     font-size: 2vw;
-}
-
-
-.image-info1{
-    display: flex;
-    width: 100vw;
-    height: 60vh;
-}
-.img-cont{
-    width: 48vw;
-    display: flex;
-}
-
-.offset-ii1{
-    width: 60vw;
-    height: 100%;
-    position: relative;
-    left: -10vw;
-}
-
-.img-cont img{
-    height: 80%;
-    position: relative;
-    left: -15vw;
-    top: 10%;
     
 }
 
+.img-container2{
+    width: 100vw;
+    display: flex;
 
-.img-bg{
-    border: #1C1B19 dotted 1px;
-    width: 25vw;
+}
+
+
+.img-background1{
+    width: 40vw;
+    height: 75vh;
     background-color: rgb(134, 112, 85);
+    position: relative;
+    z-index: 0;
+}
+
+
+.img-container2 p{
+    width: 61vw;
+    margin-right: 6vw;
+    margin-left: 16vw;
+    text-align: justify;
+    font-family: "Hina Mincho", serif;
+    font-size: 2vw;
+    min-height: 75vh;
+    height: 100%;
+}
+
+.img-holder1{
+    width: 10vw;
+}
+
+.img-holder1 img{
+    margin-top: 5vh;
+    width: 500%;
+    position: relative;
+    z-index: 2;
+    left: -20vw;
+}
+
+
+
+.img-container3{
+    padding-top: 10vh;
+    width: 100vw;
+    display: flex;
+
+}
+
+
+.img-background2{
+    width: 40vw;
+    height: 75vh;
+    background-color: rgb(134, 112, 85);
+    position: relative;
+    z-index: 0;
+}
+
+
+.img-container3 p{
+    width: 61vw;
+    margin-right: 16vw;
+    margin-left: 6vw;
+    text-align: justify;
+    font-family: "Hina Mincho", serif;
+    font-size: 2vw;
+    min-height: 75vh;
+    height: 100%;
+}
+
+.img-holder2{
+    width: 10vw;
+}
+
+.img-holder2 img{
+    margin-top: 5vh;
+    width: 500%;
+    position: relative;
+    z-index: 2;
+    right: 8vw;
+}
+
+.last-modified{
+    width: 100vw;
+    height: 10vh;
+    display: flex;
+    justify-content: flex-end;
+    font-family: Hina Mincho;
+    font-size: 1vw;
+    padding-right: 2vw;
+}
+
+
+.buffer{
+    width: 100vw;
+    height: 2vh;
+    background-color: #1C1B19;
 }
 
 /* Start of Footer */
