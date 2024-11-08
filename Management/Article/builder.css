@@ -148,7 +148,7 @@ body{
 .log-icon{
     flex-basis: 10%;
     padding-left: 3%;
-    position: flex;
+    display: flex;
     justify-content: center;
     align-items: center;
 }
@@ -179,7 +179,7 @@ body{
 .db-icon{
     flex-basis: 10%;
     padding-left: 3%;
-    position: flex;
+    display: flex;
     justify-content: center;
     align-items: center;
 }
@@ -214,7 +214,7 @@ body{
 .dob-icon{
     flex-basis: 10%;
     padding-left: 3%;
-    position: flex;
+    display: flex;
     justify-content: center;
     align-items: center;
 }
@@ -252,7 +252,7 @@ body{
 .ar-icon{
     flex-basis: 10%;
     padding-left: 3%;
-    position: flex;
+    display: flex;
     justify-content: center;
     align-items: center;
 }
@@ -286,7 +286,7 @@ body{
 .ap-icon{
     flex-basis: 10%;
     padding-left: 3%;
-    position: flex;
+    display: flex;
     justify-content: center;
     align-items: center;
 }
@@ -319,7 +319,7 @@ body{
 .lt-icon{
     flex-basis: 10%;
     padding-left: 3%;
-    position: flex;
+    display: flex;
     justify-content: center;
     align-items: center;
 }
@@ -353,7 +353,7 @@ body{
 .at-icon{
     flex-basis: 10%;
     padding-left: 3%;
-    position: flex;
+    display: flex;
     justify-content: center;
     align-items: center;
 }
@@ -412,8 +412,9 @@ body{
     align-items: center;
     flex-direction: column;
     justify-content: space-around;
-    height: 100%;
+    height: 80vh;
     width: 100%;
+ 
 }
 
 .builder{
@@ -421,8 +422,10 @@ body{
     height: 8vh;
     background-color: white;
     border-radius: 0.5vw;
+    border: #1C1B19 solid 0.1vw;
 }
 .builder h1{
+    font-size: 2.3vw;
     font-family: Hind;
     font-weight: bold;
     padding: 0.8vw;
@@ -440,6 +443,7 @@ body{
     font-size: 1.5vw;
     font-weight: 500;
     padding: 2vw;
+    border: #1C1B19 solid 0.1vw;
 }
 
 .title-wrapper{
@@ -461,12 +465,15 @@ body{
     height: 50vh;
     background-color: white;
     border-radius: 0.5vw;
-    display: flex;
+    display: block;
     flex-direction: column;
+    justify-content: space-around;
     font-family: Hind;
     font-size: 1.5vw;
     font-weight: 500;
     padding: 2vw;
+    border: #1C1B19 solid 0.1vw;
+    overflow-y: auto;
 }
 
 #article-title{
@@ -478,7 +485,7 @@ body{
     text-align: left;             
     padding: 1vw;                   
     border: 0.2vw solid #ccc;          
-    border-radius: 0.5vw;  
+   
 }
 
 #art-typ{
@@ -505,11 +512,22 @@ body{
     padding-right: 1.2vw;
 }
 
+#atr-tx{
+    padding: 0.1vw;
+    padding-left: 2vw;
+    padding-right: 7.2vw;
+
+}
+
+
 .location-wrapper{
     display: flex;
     height: 4vh;
     width: 100%;
     padding-top: 2vh;
+    font-family: Hind;
+    font-size: 1.5vw;
+    font-weight: 500;
 }
 
 #location{
@@ -524,18 +542,128 @@ body{
     border-radius: 0.5vw;  
 }
 
-.upload-button {
-    display: inline-block;
-    padding: 10px 20px;
-    font-family: Arial, sans-serif;
-    font-size: 16px;
-    color: white;
-    background-color: #333; /* Green button */
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+#author{
+    border-radius: 0.4vw;
+    width: 15%;
+    font-family: Hind; 
+    font-size: 0.9vw;                 
+    color: #333;                     
+    text-align: left;             
+    padding: 1vw;                   
+    border: 0.2vw solid #ccc;          
+    border-radius: 0.5vw;  
 }
 
-.upload-button:hover {
-    background-color: #45a049; /* Darker green on hover */
+
+.imgu1-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 9vh;
+    width: 100%;
+    border: #1C1B19 solid 0.1vw;
+    border-radius: 1vw;
+    
+}
+
+#imgu1-button{
+    border-radius: 0.4vw;
+    border: 0.2vw solid #ccc;
+    font-family: Hind;
+    font-size: 1vw;
+    cursor: pointer;
+    padding: 0.4vw;
+
+}
+
+#imgu1-button:hover{
+    background-color: #ccc;
+}
+
+#imgu1-text{
+    margin-left: 1vw;
+    font-family: Hind;
+    font-size: 1.3vw;
+    color: #aaa;
+    
+}
+
+#imgu1-details{
+    border-radius: 0.4vw;
+    width: 25%;
+    font-family: Hind; 
+    font-size: 0.9vw;                 
+    color: #333;                     
+    text-align: left;             
+    padding: 0.4vw;                  
+    border: 0.2vw solid #ccc;          
+    border-radius: 0.5vw;  
+}
+
+#img-dts1{
+    padding: 0.1vw;
+    padding-left: 0.1vw;
+    padding-right: 1.2vw;
+    margin-top: 1vw;
+    margin-left: 2vw;
+}
+
+.paragraph1-wrapper{
+    width: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 20vh;
+    width: 100%;
+
+    border-radius: 1vw;
+}
+
+.p1-container{
+    width: 49.5%;
+    height: 100%;
+}
+
+.p1box{
+    border-radius: 0.4vw;
+    width: 100%;
+    height: 100%;
+    font-family: Hind; 
+    font-size: 0.9vw;                 
+    color: #333;                     
+    text-align: left;             
+    padding: 0.4vw;                  
+    border: 0.2vw solid #ccc;          
+    border-radius: 0.5vw;  
+    resize: none;
+}
+
+.paragraph1-wrapper label{
+    font-size: 1.5vw;
+}
+
+.pgimg1-wrapper{
+    width: 100%;
+    height: 30%;
+    border: #1C1B19 solid 0.1vw;
+    border-radius: 1vw;
+}
+
+.spacer{
+    width: 100%;
+    height: 2vw;
+}
+
+.pgimg2-wrapper{
+    width: 100%;
+    height: 30%;
+    border: #1C1B19 solid 0.1vw;
+    border-radius: 1vw;
+}
+
+.action-buttons{
+    width: 100%;
+    height: 30%;
+    border: #1C1B19 solid 0.1vw;
+    border-radius: 1vw;
 }

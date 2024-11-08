@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Option 1: Include in HTML -->
@@ -137,12 +138,57 @@
                     <div class="location-wrapper">
                         <p id="lcn-tx">Location:</p>
                         <input type="text" name="location" id="location" placeholder="general place/location of article/event" required>
+                        <p id="atr-tx">Author:</p>
+                        <input type="text" name="author" id="author" placeholder="writer of article" required>
                     </div>
                 </div>
 
                 <div class="content-wrapper">
-                    <label for="imageUpload" class="upload-button">Upload Image</label>
-<input type="file" id="imageUpload" accept="image/*" style="display: none;" />
+                    <div class="imgu1-wrapper">
+                        <input type="file" accept="image/*" id="imgu1" hidden="hidden">
+                        <button type="button" id="imgu1-button">Insert Image</button>
+                        <span id="imgu1-text">No image inserted, yet.</span>
+                        <p id="img-dts1">Image Details:</p>
+                        <input type="text" name="imgu1-details" id="imgu1-details" placeholder="Image Details" required>
+                    </div>
+
+                    <div class="spacer">
+
+                    </div>
+                    <div class="paragraph1-wrapper">
+                        <div class="p1-container">
+                            
+                            <textarea name="pbox1-left" class="p1box" id="p1box-left" placeholder="Paragraph Box Left"></textarea>
+                        </div>
+                        <div class="p1-container">
+                         
+                            <textarea name="pbox1-left" class="p1box" id="p1box-right" placeholder="Paragraph Box Right"></textarea>
+                        </div>
+                    </div>
+                    <div class="spacer">
+                        
+                    </div>
+
+                    <div class="pgimg1-wrapper">
+                        
+                    </div>
+                    <div class="spacer">
+                        
+                    </div>
+                    <div class="pgimg2-wrapper">
+                        
+                    </div>
+
+                    <div class="spacer">
+
+                    </div>
+                    
+                    <div class="action-buttons">
+                        
+                    </div>
+                    
+
+                      
                 </div>
 
                 
@@ -150,7 +196,7 @@
 
 
 
-            <script src="script.js"></script>
+            <script src="builder.js"></script>
 
 </body>
 
