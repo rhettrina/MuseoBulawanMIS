@@ -566,7 +566,7 @@ body{
     
 }
 
-#imgu1-button{
+#imgu1-button, #imgu2-button, #imgu3-button, #button{
     border-radius: 0.4vw;
     border: 0.2vw solid #ccc;
     font-family: Hind;
@@ -576,11 +576,11 @@ body{
 
 }
 
-#imgu1-button:hover{
+#imgu1-button:hover, #imgu2-button:hover, #imgu3-button:hover, #button:hover{
     background-color: #ccc;
 }
 
-#imgu1-text{
+#imgu1-text, #imgu2-text, #imgu3-text{
     margin-left: 1vw;
     font-family: Hind;
     font-size: 1.3vw;
@@ -645,8 +645,11 @@ body{
 .pgimg1-wrapper{
     width: 100%;
     height: 30%;
-    border: #1C1B19 solid 0.1vw;
+
     border-radius: 1vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .spacer{
@@ -663,7 +666,37 @@ body{
 
 .action-buttons{
     width: 100%;
-    height: 30%;
+    height: 18%;
+    border: #1C1B19 solid 0.1vw;
+    border-radius: 1vw;
+    font-size: 1vw;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 2vw;
+}
+
+.p2box, .p3box{
+
+    border-radius: 0.4vw;
+    width: 49.5%;
+    height: 100%;
+    font-family: Hind; 
+    font-size: 0.9vw;                 
+    color: #333;                     
+    text-align: left;             
+    padding: 0.4vw;                  
+    border: 0.2vw solid #ccc;          
+    border-radius: 0.5vw;  
+    resize: none;
+}
+
+.input-wrapper1, .input-wrapper2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 49.5%;
+    height: 100%;
     border: #1C1B19 solid 0.1vw;
     border-radius: 1vw;
 }
