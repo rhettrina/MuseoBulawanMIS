@@ -62,8 +62,52 @@ function img3(){
 }
 
 
-function save(){
+function save() {
+    // Collect form data
+    const title = document.getElementById('article-title').value;
+    const articleType = document.getElementById('article-type').value;
+    const location = document.getElementById('location').value;
+    const author = document.getElementById('author').value;
+    const p1Left = document.getElementById('p1box-left').value;
+    const p1Right = document.getElementById('p1box-right').value;
+    const p2 = document.getElementById('p2box').value;
+    const p3 = document.getElementById('p3box').value;
+    const img1Details = document.getElementById('imgu1-details').value;
 
+    // Collect file inputs
+    const img1 = document.getElementById('imgu1').files[0];
+    const img2 = document.getElementById('imgu2').files[0];
+    const img3 = document.getElementById('imgu3').files[0];
+
+    // FormData object to hold all data
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('articleType', articleType);
+    formData.append('location', location);
+    formData.append('author', author);
+    formData.append('p1Left', p1Left);
+    formData.append('p1Right', p1Right);
+    formData.append('p2', p2);
+    formData.append('p3', p3);
+    formData.append('img1Details', img1Details);
+
+    // Append images if they exist
+    if (img1) formData.append('img1', img1);
+    if (img2) formData.append('img2', img2);
+    if (img3) formData.append('img3', img3);
+
+    // Send data to the PHP script using POST method
+    fetch('Management/Article/save2db.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .then(result => {
+        console.log('Save successful:', result);
+        alert('Article saved successfully!');
+    })
+    .catch(error => {
+        console.error('Error saving article:', error);
+        alert('Failed to save article.');
+    });
 }
-
-
