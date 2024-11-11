@@ -20,6 +20,7 @@ while ($row = $result->fetch_assoc()) {
     $articles[] = $row;
 }
 
+
 echo json_encode($articles);
 
 $result->free();
