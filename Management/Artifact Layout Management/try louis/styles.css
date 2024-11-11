@@ -4,6 +4,7 @@ body {
     margin: 0;
     font-family: Noto Sans, sans-serif;
     height: 100vh;
+    overflow: hidden; /* Prevent body scroll */
 }
 
 /* Sidebar styling */
@@ -15,7 +16,7 @@ body {
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
-h2 {
+.sidebar h2 {
     text-align: center;
     background-color: #ffe0b2;
     padding: 10px;
@@ -30,7 +31,6 @@ h2 {
     padding: 10px;
     margin-bottom: 15px;
     background-color: #fff;
-    /* border: 1px solid #ddd; */
     border-radius: 5px;
     cursor: grab;
     transition: background-color 0.2s;
@@ -48,7 +48,6 @@ h2 {
     width: 40px;
     height: 40px;
     margin-right: 10px;
-    border: 1px solid #ccc;
 }
 
 .object span {
@@ -61,6 +60,7 @@ h2 {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
+    overflow: hidden; /* Prevent main area scroll */
 }
 
 /* Toolbar styling */
@@ -101,22 +101,36 @@ h2 {
 /* Canvas styling */
 .canvas {
     flex-grow: 1;
-    background-color: #f9f9f9;
     position: relative;
-    display: grid;
-    grid-template-columns: repeat(40, 20px);
-    grid-template-rows: repeat(40, 20px);
-    gap: 1px;
-    background-image: linear-gradient(to right, #e0e0e0 1px, transparent 1px),
-        linear-gradient(to bottom, #e0e0e0 1px, transparent 1px);
-    background-size: 21px 21px;
+    background-color: #f0f0f0;
+    overflow: auto;
+    cursor: default;
+    display: flex;
+    justify-content: center; /* Center the canvas */
+    align-items: center;     /* Center the canvas */
 }
 
-/* Styles for symbol-container */
-.symbol-container {
+.canvas svg {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+}
+
+/* Styles for symbol-container and text-container */
+.symbol-container,
+.text-container {
     position: absolute;
-    touch-action: none;
     transform-origin: center;
+    z-index: 20; /* Higher z-index */
+    min-width: 50px; /* Set a minimum width */
+    min-height: 50px; /* Set a minimum height */
+    padding: 5px; /* Add padding around the content */
+    box-sizing: content-box; /* Include padding in the element's total size */
+    display: block; /* Ensure the container is a block-level element */
+    width: auto; /* Allow the width to adjust */
+    height: auto; /* Allow the height to adjust */
+    pointer-events: auto;
 }
 
 /* Adjust the symbol inside the container */
@@ -126,142 +140,300 @@ h2 {
     pointer-events: none;
 }
 
-/* Resizing handles (8 dots) */
-/* Resizing handles (blue circles) */
-.symbol-container.resizable {
-    position: relative;
+/* Text container styles */
+.text-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Resizing handles (blue circles) */
+.text-container span {
+    font-size: 16px;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
 .resize-handle {
     position: absolute;
     width: 10px;
     height: 10px;
     background-color: #007bff;
-    /* Blue color */
     border: 1px solid #fff;
     border-radius: 50%;
-    z-index: 2;
+    z-index: 30; /* Ensure resize handles are above other elements */
+    display: none;
+    pointer-events: all; /* Allow resize handles to capture mouse events */
+    touch-action: none; /* Prevent default touch behavior on resize handles */
 }
 
-.resize-handle.nw {
-    top: -5px;
-    left: -5px;
-    cursor: nwse-resize;
-}
-
+/* Side handles */
 .resize-handle.n {
-    top: -5px;
+    top: 0;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
     cursor: ns-resize;
-}
-
-.resize-handle.ne {
-    top: -5px;
-    right: -5px;
-    cursor: nesw-resize;
 }
 
 .resize-handle.e {
-    right: -5px;
+    right: 0;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translate(50%, -50%);
     cursor: ew-resize;
-}
-
-.resize-handle.se {
-    bottom: -5px;
-    right: -5px;
-    cursor: nwse-resize;
 }
 
 .resize-handle.s {
-    bottom: -5px;
+    bottom: 0;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, 50%);
     cursor: ns-resize;
 }
 
-.resize-handle.sw {
-    bottom: -5px;
-    left: -5px;
-    cursor: nesw-resize;
-}
-
 .resize-handle.w {
-    left: -5px;
+    left: 0;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translate(-50%, -50%);
     cursor: ew-resize;
 }
 
-/* Rotate handle (above the object) */
-.rotate-handle {
-    position: absolute;
-    left: 50%;
-    top: -30px;
-    /* Position above the object */
-    transform: translateX(-50%);
-    cursor: pointer;
-    z-index: 3;
-    /* Remove background, width, height, border-radius */
-    /* Adjust padding to center the icon */
-    padding: 5px;
-    background-color: transparent;
+/* Corner handles */
+.resize-handle.nw {
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    cursor: nwse-resize;
 }
 
-.rotate-handle .material-icons {
-    font-size: 24px;
-    color: #007bff;
-    /* Blue color */
+.resize-handle.ne {
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+    cursor: nesw-resize;
 }
 
-/* Size tooltip */
-.size-tooltip {
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: #fff;
-    padding: 5px 10px;
-    font-size: 12px;
-    border-radius: 3px;
-    white-space: nowrap;
-    pointer-events: none;
-    z-index: 10;
-    transform: translate(-50%, -100%);
-    top: -25px;
-    /* Position above the object */
-    left: 50%;
+.resize-handle.sw {
+    bottom: 0;
+    left: 0;
+    transform: translate(-50%, 50%);
+    cursor: nesw-resize;
+}
+
+.resize-handle.se {
+    bottom: 0;
+    right: 0;
+    transform: translate(50%, 50%);
+    cursor: nwse-resize;
 }
 
 /* Highlight selected object */
-.symbol-container.selected {
-    border: 1px dashed black;
+.symbol-container.selected,
+.text-container.selected {
+    outline: 1px dashed black;
 }
 
-/* Show tooltip only when selected */
-.symbol-container.selected .size-tooltip {
+/* Show all handles when a symbol container is selected, not locked, and not being dragged */
+.symbol-container.selected:not(.locked):not(.dragging) .resize-handle {
     display: block;
 }
 
-
-/* styles.css */
-
-/* Hide handles and tooltip by default */
-.symbol-container .resize-handle,
-.symbol-container .rotate-handle,
-.symbol-container .size-tooltip {
+/* Hide all resize handles for text containers by default */
+.text-container .resize-handle {
     display: none;
 }
 
-/* Show handles and tooltip only when the object is selected */
-.symbol-container.selected .resize-handle,
-.symbol-container.selected .rotate-handle,
-.symbol-container.selected .size-tooltip {
+/* Show only the bottom-right corner handle for text containers when selected, not locked, and not being dragged */
+.text-container.selected:not(.locked):not(.dragging) .resize-handle.se {
     display: block;
 }
 
+/* Hide other handles for text elements */
+.text-container .resize-handle.n,
+.text-container .resize-handle.e,
+.text-container .resize-handle.s,
+.text-container .resize-handle.w,
+.text-container .resize-handle.nw,
+.text-container .resize-handle.ne,
+.text-container .resize-handle.sw {
+    display: none;
+}
 
+/* Hide resize handles when dragging */
+.symbol-container.dragging .resize-handle,
+.text-container.dragging .resize-handle {
+    display: none;
+}
+
+/* Remove the selection outline when dragging */
+.symbol-container.dragging.selected,
+.text-container.dragging.selected {
+    outline: none;
+}
+
+/* Properties panel */
+.properties-panel {
+    width: 220px;
+    background-color: #fff;
+    border-left: 1px solid #ddd;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.properties-panel h3 {
+    margin-top: 0;
+    text-align: center;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+.properties-panel fieldset {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.properties-panel legend {
+    font-weight: bold;
+    padding: 0 5px;
+}
+
+.properties-panel label {
+    display: block;
+    margin-top: 10px;
+    font-weight: 500;
+}
+
+.properties-panel input[type="number"],
+.properties-panel input[type="color"],
+.properties-panel input[type="range"],
+.properties-panel input[type="text"],
+.properties-panel select {
+    width: 100%;
+    padding: 5px;
+    margin-top: 5px;
+    box-sizing: border-box;
+}
+
+.properties-panel input[type="range"] {
+    -webkit-appearance: none;
+    height: 5px;
+    background: #ddd;
+    border-radius: 5px;
+    outline: none;
+}
+
+.properties-panel input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    background: #007bff;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.properties-panel input[type="range"]::-moz-range-thumb {
+    width: 15px;
+    height: 15px;
+    background: #007bff;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.properties-panel button {
+    margin-top: 10px;
+    padding: 8px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.properties-panel button .material-icons {
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+/* Text Style Buttons */
+.text-style-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.text-style-buttons button {
+    flex: 1;
+    margin-right: 5px;
+    padding: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #e0e0e0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.text-style-buttons button:last-child {
+    margin-right: 0;
+}
+
+.text-style-buttons button.active {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+.text-style-buttons button:hover {
+    background-color: #d0d0d0;
+}
+
+.text-style-buttons button .material-icons {
+    vertical-align: middle;
+    font-size: 18px;
+    margin-right: 5px;
+}
+
+.properties-panel #width-value,
+.properties-panel #height-value,
+.properties-panel #rotation-value,
+.properties-panel #text-size-value,
+.properties-panel #text-rotation-value {
+    display: inline-block;
+    width: 30px;
+    text-align: right;
+    margin-left: 5px;
+}
+
+#no-selection {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Lock buttons */
+#lock-button,
+#lock-button-text {
+    margin-top: 10px;
+    padding: 8px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    width: 100%;
+    font-size: 16px;
+}
+
+#lock-button .material-icons,
+#lock-button-text .material-icons {
+    vertical-align: middle;
+    margin-right: 5px;
+}
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
@@ -276,5 +448,9 @@ h2 {
 
     .object span {
         font-size: 14px;
+    }
+
+    .properties-panel {
+        width: 180px;
     }
 }

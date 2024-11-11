@@ -2,32 +2,29 @@
 <html lang="en">
 
 <head>
-    <!-- Head content -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Museum Floor Plan Designer</title>
-    <!-- Include the external stylesheet -->
+    <!-- Link to CSS -->
     <link rel="stylesheet" href="styles.css">
-    <!-- Include Material Icons -->
+    <!-- Material Icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <!-- Include Interact.js from CDN -->
+    <!-- InteractJS Library -->
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
 </head>
 
 <body>
-    <!-- Sidebar for selecting objects -->
     <div class="sidebar">
         <h2>Objects</h2>
-        <!-- Object list using canvas elements for symbols -->
-        <div class="object" id="wall-artifacts" draggable="true">
-            <canvas class="symbol" id="wall-artifacts-symbol" width="40" height="40"></canvas>
-            <span>Wall Artifacts</span>
+        <!-- Object List -->
+        <div class="object" id="wall-artifact" draggable="true">
+
+            <canvas class="symbol" id="wall-artifact-symbol" width="40" height="40"></canvas>
+            <span>Wall Artifact</span>
         </div>
         <div class="object" id="artifacts-artworks" draggable="true">
             <canvas class="symbol" id="artifacts-artworks-symbol" width="40" height="40"></canvas>
             <span>Artifacts/Artworks</span>
         </div>
-
         <div class="object" id="container" draggable="true">
             <canvas class="symbol" id="container-symbol" width="40" height="40"></canvas>
             <span>Container</span>
@@ -40,502 +37,153 @@
             <canvas class="symbol" id="restricted-symbol" width="40" height="40"></canvas>
             <span>Restricted Area</span>
         </div>
-        <!-- Add new objects as needed -->
+        <div class="object" id="information-desk" draggable="true">
+            <canvas class="symbol" id="information-desk-symbol" width="40" height="40"></canvas>
+            <span>Information Desk</span>
+        </div>
+        <div class="object" id="statue" draggable="true">
+            <canvas class="symbol" id="statue-symbol" width="40" height="40"></canvas>
+            <span>Statue</span>
+        </div>
+        <div class="object" id="panels" draggable="true">
+            <canvas class="symbol" id="panels-symbol" width="40" height="40"></canvas>
+            <span>Panels</span>
+        </div>
+        <div class="object" id="wall-picture" draggable="true">
+            <canvas class="symbol" id="wall-picture-symbol" width="40" height="40"></canvas>
+            <span>Wall Picture</span>
+        </div>
+        <div class="object" id="rest-area" draggable="true">
+            <canvas class="symbol" id="rest-area-symbol" width="40" height="40"></canvas>
+            <span>Rest Area</span>
+        </div>
     </div>
 
-    <!-- Main section with toolbar and canvas -->
     <div class="main">
         <div class="toolbar">
-            <!-- Toolbar buttons with icons -->
-            <button>
+            <button id="undo-button" title="Undo">
                 <span class="material-icons">undo</span>
             </button>
-            <button>
+            <button id="redo-button" title="Redo">
                 <span class="material-icons">redo</span>
             </button>
-            <button>
-                <span class="material-icons">pan_tool</span>
+            <button id="delete-button" title="Delete Selected">
+                <span class="material-icons">delete</span>
             </button>
-            <button class="active">
-                <span class="material-icons">mouse</span>
-            </button>
-            <button>
-                <span class="material-icons">show_chart</span>
-            </button>
-            <button>
+            <button id="text-button" title="Add Text">
                 <span class="material-icons">title</span>
             </button>
         </div>
 
-        <div class="canvas">
-            <!-- Placeholder for the interactive grid -->
+        <div class="canvas" id="canvas-area">
+            <svg width="800" height="600" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet">
+                <!-- Outer Walls -->
+                <rect x="20" y="20" width="760" height="560" stroke="black" fill="none" stroke-width="8"></rect>
+
+                <!-- Inner Rooms -->
+                <line x1="220" y1="20" x2="220" y2="580" stroke="black" stroke-width="8"></line>
+                <!-- Vertical line separating left section -->
+                <line x1="220" y1="300" x2="780" y2="300" stroke="black" stroke-width="8"></line>
+                <!-- Horizontal line in the right section -->
+                <line x1="500" y1="300" x2="500" y2="580" stroke="black" stroke-width="8"></line>
+                <!-- Inner vertical line in right section -->
+
+                <!-- Doors/Openings -->
+                <line x1="220" y1="150" x2="220" y2="200" stroke="white" stroke-width="8"></line>
+                <!-- Opening in the left vertical wall -->
+                <line x1="360" y1="300" x2="440" y2="300" stroke="white" stroke-width="8"></line>
+                <!-- Opening in the horizontal wall -->
+            </svg>
+
         </div>
     </div>
 
-    <!-- JavaScript for drawing symbols on canvas and interactivity -->
-    <script>
-        // --- Drawing Functions for Sidebar Symbols ---
-
-        // Function to draw the wall artifact symbol
-        function drawWallArtifactSymbol() {
-            const canvas = document.getElementById('wall-artifacts-symbol');
-            const ctx = canvas.getContext('2d');
-            drawWallArtifactSymbolOnCanvas(ctx, canvas.width, canvas.height);
-        }
-
-        // Function to draw the artifacts/artworks symbol
-        function drawArtifactSymbol() {
-            const canvas = document.getElementById('artifacts-artworks-symbol');
-            const ctx = canvas.getContext('2d');
-            drawArtifactSymbolOnCanvas(ctx, canvas.width, canvas.height);
-        }
-
-
-        // Function to draw the container symbol
-        function drawContainerSymbol() {
-            const canvas = document.getElementById('container-symbol');
-            const ctx = canvas.getContext('2d');
-            drawContainerSymbolOnCanvas(ctx, canvas.width, canvas.height);
-        }
-
-        // Function to draw the door symbol
-        function drawDoorSymbol() {
-            const canvas = document.getElementById('door-symbol');
-            const ctx = canvas.getContext('2d');
-            drawDoorSymbolOnCanvas(ctx, canvas.width, canvas.height);
-        }
-
-        // Function to draw the restricted area symbol
-        function drawRestrictedSymbol() {
-            const canvas = document.getElementById('restricted-symbol');
-            const ctx = canvas.getContext('2d');
-            drawRestrictedSymbolOnCanvas(ctx, canvas.width, canvas.height);
-        }
-
-        // Call the functions to draw symbols in the sidebar
-        drawWallArtifactSymbol();
-        drawArtifactSymbol();
-
-        drawContainerSymbol();
-        drawDoorSymbol();
-        drawRestrictedSymbol();
-
-        // Toolbar interactivity
-        const buttons = document.querySelectorAll('.toolbar button');
-        buttons.forEach(button => {
-            button.addEventListener('click', () => {
-                buttons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-            });
-        });
-
-        // --- Drag-and-Drop Functionality ---
-
-        // Make the .object elements draggable
-        const objects = document.querySelectorAll('.object');
-        objects.forEach(object => {
-            object.addEventListener('dragstart', (e) => {
-                // Set the data being dragged
-                e.dataTransfer.setData('text/plain', object.id);
-            });
-        });
-
-        // Get the canvas area
-        const canvasArea = document.querySelector('.canvas');
-
-        // Add dragover event listener
-        canvasArea.addEventListener('dragover', (e) => {
-            e.preventDefault(); // Necessary to allow dropping
-        });
-
-        // Add drop event listener
-        canvasArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            const id = e.dataTransfer.getData('text/plain');
-
-            // Get the drop position
-            const rect = canvasArea.getBoundingClientRect();
-            const x = e.clientX - rect.left; // x position within the canvas
-            const y = e.clientY - rect.top;  // y position within the canvas
-
-            // Create a new symbol at the drop location
-            createSymbol(id, x, y);
-        });
-
-
-
-        // Function to create and place the symbol on the canvas
-        // Function to create and place the symbol on the canvas
-        function createSymbol(id, x, y) {
-            // Create a container div
-            const container = document.createElement('div');
-            container.classList.add('symbol-container', 'resizable', 'selectable');
-            container.style.position = 'absolute';
-
-            // Adjust x and y to align with the grid
-            const cellSize = 21; // 20px cell + 1px gap
-            const col = Math.round(x / cellSize);
-            const row = Math.round(y / cellSize);
-
-            x = col * cellSize;
-            y = row * cellSize;
-
-            container.style.left = x + 'px';
-            container.style.top = y + 'px';
-
-            // Set initial dimensions
-
-            container.style.width = '40px';
-            container.style.height = '40px';
-
-
-            // Create the canvas element for the symbol
-            const canvas = document.createElement('canvas');
-            canvas.width = parseInt(container.style.width);
-            canvas.height = parseInt(container.style.height);
-            canvas.classList.add('symbol');
-
-            const ctx = canvas.getContext('2d');
-            drawSymbolByIdOnCanvas(id, ctx, canvas.width, canvas.height);
-
-            // Save the symbol's ID on the container for later reference
-            container.setAttribute('data-symbol-id', id);
-
-            // Append the canvas to the container
-            container.appendChild(canvas);
-
-            // Create a rotate handle with Google Material Icon
-            const rotateHandle = document.createElement('div');
-            rotateHandle.classList.add('rotate-handle');
-
-            // Add the Material Icon to the rotate handle
-            const rotateIcon = document.createElement('span');
-            rotateIcon.classList.add('material-icons');
-            rotateIcon.textContent = 'rotate_right'; // Use 'rotate_right' or any preferred icon
-            rotateHandle.appendChild(rotateIcon);
-
-            container.appendChild(rotateHandle);
-
-            // Add resize handles
-            let directions;
-
-            directions = ['nw', 'n', 'ne', 'e', 'se', 's', 'sw', 'w'];
-
-
-            directions.forEach(dir => {
-                const handle = document.createElement('div');
-                handle.classList.add('resize-handle', dir);
-                container.appendChild(handle);
-            });
-
-            // Append the container to the canvasArea
-            canvasArea.appendChild(container);
-
-            // Initialize Interact.js interactions
-            initializeInteractJS(container);
-
-
-        }
-
-
-
-        // Function to draw symbol based on id
-        function drawSymbolByIdOnCanvas(id, ctx, width, height) {
-            switch (id) {
-                case 'wall-artifacts':
-                    drawWallArtifactSymbolOnCanvas(ctx, width, height);
-                    break;
-                case 'artifacts-artworks':
-                    drawArtifactSymbolOnCanvas(ctx, width, height);
-                    break;
-
-                case 'container':
-                    drawContainerSymbolOnCanvas(ctx, width, height);
-                    break;
-                case 'door':
-                    drawDoorSymbolOnCanvas(ctx, width, height);
-                    break;
-                case 'restricted':
-                    drawRestrictedSymbolOnCanvas(ctx, width, height);
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        // Function to update transformations
-        function updateTransform(element) {
-            const x = parseFloat(element.dataset.x) || 0;
-            const y = parseFloat(element.dataset.y) || 0;
-            const rotation = parseFloat(element.dataset.rotation) || 0;
-            element.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg)`;
-        }
-
-        // Deselect objects when clicking outside any symbol
-        canvasArea.addEventListener('mousedown', (e) => {
-            if (e.target === canvasArea) {
-                // Remove 'selected' class from all elements
-                document.querySelectorAll('.symbol-container.selected').forEach(el => el.classList.remove('selected'));
-            }
-        });
-
-        // Initialize Interact.js on the symbol container
-        function initializeInteractJS(element) {
-            // Draggable
-            interact(element)
-                .draggable({
-                    // Disable inertia to prevent "throwing" effect
-                    inertia: false,
-                    modifiers: [
-                        interact.modifiers.snap({
-                            targets: [
-                                interact.snappers.grid({ x: 21, y: 21 })
-                            ],
-                            range: Infinity,
-                            relativePoints: [{ x: 0, y: 0 }]
-                        }),
-                        interact.modifiers.restrictRect({
-                            restriction: canvasArea, // Ensure this restricts within canvasArea
-                            endOnly: false
-                        })
-                    ],
-                    listeners: {
-                        move: dragMoveListener
-                    }
-                })
-                // Resizable with all edges and corners
-                .resizable({
-                    edges: {
-                        left: '.resize-handle.w',
-                        right: '.resize-handle.e',
-                        bottom: '.resize-handle.s',
-                        top: '.resize-handle.n',
-                        topLeft: '.resize-handle.nw',
-                        topRight: '.resize-handle.ne',
-                        bottomLeft: '.resize-handle.sw',
-                        bottomRight: '.resize-handle.se'
-                    },
-                    modifiers: [
-                        interact.modifiers.snapSize({
-                            targets: [
-                                interact.snappers.grid({ width: 21, height: 21 })
-                            ]
-                        }),
-                        interact.modifiers.restrictEdges({
-                            outer: canvasArea, // Restrict within canvasArea during resizing
-                            endOnly: true
-                        }),
-                        interact.modifiers.restrictSize({
-                            min: { width: 40, height: 40 }
-                        })
-                    ],
-                    listeners: {
-                        move: resizeMoveListener
-                    }
-                });
-
-            // Rotatable
-            interact(element.querySelector('.rotate-handle')).draggable({
-                onstart(event) {
-                    const element = event.target.parentElement;
-                    const rect = element.getBoundingClientRect();
-                    const centerX = rect.left + rect.width / 2;
-                    const centerY = rect.top + rect.height / 2;
-
-                    // Store the starting angle between center and mouse
-                    const startAngle = Math.atan2(event.clientY - centerY, event.clientX - centerX);
-                    element.dataset.rotateStartAngle = startAngle;
-
-                    // Store the initial rotation
-                    element.dataset.startRotation = parseFloat(element.dataset.rotation) || 0;
-                },
-                onmove(event) {
-                    const element = event.target.parentElement;
-                    const rect = element.getBoundingClientRect();
-                    const centerX = rect.left + rect.width / 2;
-                    const centerY = rect.top + rect.height / 2;
-
-                    const startAngle = parseFloat(element.dataset.rotateStartAngle);
-                    const currentAngle = Math.atan2(event.clientY - centerY, event.clientX - centerX);
-
-                    // Calculate the angle difference
-                    const angleDiff = (currentAngle - startAngle) * (180 / Math.PI);
-
-                    const newRotation = parseFloat(element.dataset.startRotation) + angleDiff;
-
-                    element.dataset.rotation = newRotation;
-                    updateTransform(element);
-                },
-                onend(event) {
-                    const element = event.target.parentElement;
-                    delete element.dataset.rotateStartAngle;
-                    delete element.dataset.startRotation;
-                }
-            });
-
-            // Selection handling
-            // Selection handling
-            element.addEventListener('mousedown', (e) => {
-                // Prevent event from propagating to the canvasArea
-                e.stopPropagation();
-
-                // Remove 'selected' class from other elements
-                document.querySelectorAll('.symbol-container').forEach(el => el.classList.remove('selected'));
-                // Add 'selected' class to the current element
-                element.classList.add('selected');
-
-                // Update tooltip content
-                const tooltip = element.querySelector('.size-tooltip');
-                if (tooltip) {
-                    tooltip.innerHTML = `W: ${parseInt(element.style.width)}px, H: ${parseInt(element.style.height)}px`;
-                }
-            });
-
-            // Create a tooltip for size display
-            const tooltip = document.createElement('div');
-            tooltip.className = 'size-tooltip';
-            element.appendChild(tooltip);
-        }
-
-        // Drag move listener
-        function dragMoveListener(event) {
-            var target = event.target,
-                x = (parseFloat(target.dataset.x) || 0) + event.dx,
-                y = (parseFloat(target.dataset.y) || 0) + event.dy;
-
-            target.dataset.x = x;
-            target.dataset.y = y;
-
-            updateTransform(target);
-
-            // Update tooltip position
-            const tooltip = target.querySelector('.size-tooltip');
-            if (tooltip) {
-                tooltip.style.left = `${parseInt(target.style.width) / 2}px`;
-            }
-        }
-
-        // Resize move listener
-        function resizeMoveListener(event) {
-            var target = event.target,
-                x = parseFloat(target.dataset.x) || 0,
-                y = parseFloat(target.dataset.y) || 0;
-
-            // Update the element's style
-            target.style.width = event.rect.width + 'px';
-            target.style.height = event.rect.height + 'px';
-
-            x += event.deltaRect.left;
-            y += event.deltaRect.top;
-
-            // Constrain x and y to prevent object from moving outside the container
-            x = Math.max(0, x);
-            y = Math.max(0, y);
-
-            // Get the maximum allowed position based on canvas size
-            const maxX = canvasArea.clientWidth - parseFloat(target.style.width);
-            const maxY = canvasArea.clientHeight - parseFloat(target.style.height);
-
-            x = Math.min(x, maxX);
-            y = Math.min(y, maxY);
-
-            target.dataset.x = x;
-            target.dataset.y = y;
-
-            updateTransform(target);
-
-            // Adjust canvas dimensions to prevent blurring
-            const canvas = target.getElementsByTagName('canvas')[0];
-            if (canvas) {
-                canvas.width = parseFloat(target.style.width);
-                canvas.height = parseFloat(target.style.height);
-
-                canvas.style.width = '100%';
-                canvas.style.height = '100%';
-
-                const ctx = canvas.getContext('2d');
-                drawSymbolByIdOnCanvas(target.getAttribute('data-symbol-id'), ctx, canvas.width, canvas.height);
-            }
-
-            // Update tooltip position and content
-            const tooltip = target.querySelector('.size-tooltip');
-            if (tooltip) {
-                tooltip.innerHTML = `W: ${parseInt(target.style.width)}px, H: ${parseInt(target.style.height)}px`;
-                tooltip.style.left = `${parseFloat(target.style.width) / 2}px`;
-                tooltip.style.top = `-25px`;
-            }
-        }
-
-        // Add keydown event listener to delete selected element
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Delete' || e.key === 'Backspace') {
-                const selectedElement = document.querySelector('.symbol-container.selected');
-                if (selectedElement) {
-                    selectedElement.remove();
-                }
-            }
-        });
-
-        // Drawing functions for symbols on a given canvas context
-        function drawWallArtifactSymbolOnCanvas(ctx, width, height) {
-            ctx.fillStyle = '#8b5a2b'; // Brown color
-            // Calculate dimensions based on canvas size
-            const rectWidth = width * 0.25;
-            const rectHeight = height * 0.8;
-            const x = (width - rectWidth) / 2;
-            const y = (height - rectHeight) / 2;
-            ctx.clearRect(0, 0, width, height);
-            ctx.fillRect(x, y, rectWidth, rectHeight); // Vertical rectangle
-        }
-
-        function drawArtifactSymbolOnCanvas(ctx, width, height) {
-            ctx.fillStyle = '#d2b48c'; // Tan color
-            ctx.clearRect(0, 0, width, height);
-            ctx.beginPath();
-            ctx.arc(width / 2, height / 2, Math.min(width, height) * 0.4, 0, Math.PI * 2); // Circle
-            ctx.fill();
-        }
-
-
-
-        function drawContainerSymbolOnCanvas(ctx, width, height) {
-            ctx.strokeStyle = '#8b5a2b'; // Brown color
-            ctx.lineWidth = Math.min(width, height) * 0.05;
-            ctx.clearRect(0, 0, width, height);
-            ctx.strokeRect(width * 0.1, height * 0.1, width * 0.8, height * 0.8); // Rectangle
-        }
-
-        function drawDoorSymbolOnCanvas(ctx, width, height) {
-            ctx.clearRect(0, 0, width, height);
-            ctx.fillStyle = '#8b5a2b'; // Brown color
-
-            // Draw a curve resembling a shark fin
-            ctx.beginPath();
-            ctx.moveTo(width * 0.2, height * 0.8); // Start at bottom-left
-            ctx.quadraticCurveTo(width * 0.5, height * 0.2, width * 0.8, height * 0.8); // Control point at top center
-            ctx.closePath();
-            ctx.fill();
-
-            // Optional: outline the shape
-            ctx.strokeStyle = '#000';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-        }
-
-        function drawRestrictedSymbolOnCanvas(ctx, width, height) {
-            ctx.fillStyle = '#444'; // Dark gray color
-            ctx.clearRect(0, 0, width, height);
-            ctx.fillRect(0, 0, width, height);
-            ctx.strokeStyle = '#fff';
-            ctx.lineWidth = Math.min(width, height) * 0.05;
-            ctx.beginPath();
-            ctx.moveTo(width * 0.2, height * 0.2);
-            ctx.lineTo(width * 0.8, height * 0.8);
-            ctx.moveTo(width * 0.8, height * 0.2);
-            ctx.lineTo(width * 0.2, height * 0.8);
-            ctx.stroke(); // Cross lines
-        }
-    </script>
+    <!-- Properties Panel -->
+    <div class="properties-panel active" id="properties-panel">
+        <h3>Properties</h3>
+
+        <!-- No Selection Message -->
+        <div id="no-selection">
+            <p>No object selected.</p>
+        </div>
+
+        <!-- Object Properties -->
+        <div id="object-properties" style="display: none;">
+            <fieldset>
+                <legend>Size & Rotation</legend>
+                <label for="width-input">Width (px):</label>
+                <input type="range" id="width-input" min="20" max="800" value="100">
+                <span id="width-value">100</span> px
+
+                <label for="height-input">Height (px):</label>
+                <input type="range" id="height-input" min="20" max="800" value="100">
+                <span id="height-value">100</span> px
+
+                <label for="rotation-input">Rotation:</label>
+                <input type="range" id="rotation-input" min="0" max="315" step="45" value="0">
+                <span id="rotation-value">0°</span>
+            </fieldset>
+
+
+
+            <button id="lock-button" title="Lock/Unlock">
+                <span class="material-icons">lock_open</span> Unlock
+            </button>
+        </div>
+
+        <!-- Text Properties -->
+        <div id="text-properties" style="display: none;">
+            <fieldset>
+                <legend>Text Settings</legend>
+                <label for="text-content-input">Text:</label>
+                <input type="text" id="text-content-input" placeholder="Enter text here">
+
+                <label for="text-color-input">Text Color:</label>
+                <input type="color" id="text-color-input" value="#000000" list="preset-text-colors">
+                <datalist id="preset-text-colors">
+                    <option value="#000000"></option>
+                    <option value="#ff0000"></option>
+                    <option value="#00ff00"></option>
+                    <option value="#0000ff"></option>
+                    <option value="#ffff00"></option>
+                    <option value="#ff00ff"></option>
+                    <option value="#00ffff"></option>
+                </datalist>
+
+                <label for="text-size-input">Text Size (px):</label>
+                <input type="range" id="text-size-input" min="10" max="100" value="16">
+                <span id="text-size-value">16</span> px
+
+                <label for="text-rotation-input">Rotation:</label>
+                <input type="range" id="text-rotation-input" min="0" max="315" step="45" value="0">
+                <span id="text-rotation-value">0°</span>
+            </fieldset>
+
+            <!-- Inside the Text Properties section -->
+            <fieldset>
+                <legend>Style</legend>
+                <div class="text-style-buttons">
+                    <button id="bold-button" title="Bold">
+                        <span class="material-icons">format_bold</span>
+                    </button>
+                    <button id="italic-button" title="Italic">
+                        <span class="material-icons">format_italic</span>
+                    </button>
+                    <button id="underline-button" title="Underline">
+                        <span class="material-icons">format_underlined</span>
+                    </button>
+                </div>
+            </fieldset>
+
+            <button id="lock-button-text" title="Lock/Unlock">
+                <span class="material-icons">lock_open</span> Unlock
+            </button>
+        </div>
+    </div>
+
+    <!-- Include the JavaScript files -->
+    <script src="drawing.js"></script>
+    <script src="main.js"></script>
 </body>
 
 </html>
