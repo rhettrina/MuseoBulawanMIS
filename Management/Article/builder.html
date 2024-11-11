@@ -120,7 +120,6 @@
             </div>
 
             <div class="main-content">
-                <!-- builder -->
                 <div class="builder">
                     <h1>Article Builder</h1>
                 </div>
@@ -130,9 +129,8 @@
                         <input type="text" name="title" id="article-title" placeholder="title or name of article/event" required>
                         <p id="art-typ">Article Type: </p>
                         <select id="article-type" required>
-                            <option value="placeholder"></option>
-                            <option value="option2">Event</option>
-                            <option value="option3">News</option>
+                            <option value="Event">Event</option>
+                            <option value="Event">News</option>
                         </select>
                     </div>
                     <div class="location-wrapper">
@@ -152,70 +150,48 @@
                         <input type="text" name="imgu1-details" id="imgu1-details" placeholder="Image Details" required>
                     </div>
 
-                    <div class="spacer">
-
-                    </div>
+                    <div class="spacer"></div>
                     <div class="paragraph1-wrapper">
                         <div class="p1-container">
-                            
                             <textarea name="pbox1-left" class="p1box" id="p1box-left" placeholder="Paragraph Box Left" required></textarea>
                         </div>
                         <div class="p1-container">
-                         
                             <textarea name="pbox1-left" class="p1box" id="p1box-right" placeholder="Paragraph Box Right" required></textarea>
                         </div>
                     </div>
-                    <div class="spacer">
-                        
-                    </div>
+
+                    <div class="spacer"></div>
 
                     <div class="pgimg1-wrapper">
                         <div class="input-wrapper1">
                             <input type="file" accept="image/*" id="imgu2" hidden="hidden">
-                        <button onclick="img2()" type="button" id="imgu2-button">Insert Image</button>
-                        <span id="imgu2-text">No image inserted, yet.</span>
+                            <button onclick="img2()" type="button" id="imgu2-button">Insert Image</button>
+                            <span id="imgu2-text">No image inserted, yet.</span>
                         </div>
 
                         <textarea name="pbox2" class="p2box" id="p2box" placeholder="Paragraph Box" required></textarea>
-
-
                     </div>
-                    <div class="spacer">
-                        
-                    </div>
+
+                    <div class="spacer"></div>
+
                     <div class="pgimg1-wrapper">
-
-                        
                         <textarea name="pbox3" class="p3box" id="p3box" placeholder="Paragraph Box" required></textarea>
                         <div class="input-wrapper2">
                             <input type="file" accept="image/*" id="imgu3" hidden="hidden">
-                        <button onclick="img3()" type="button" id="imgu3-button">Insert Image</button>
-                        <span id="imgu3-text">No image inserted, yet.</span>
+                            <button onclick="img3()" type="button" id="imgu3-button">Insert Image</button>
+                            <span id="imgu3-text">No image inserted, yet.</span>
                         </div>
-
-
-
                     </div>
 
-                    <div class="spacer">
-
-                    </div>
+                    <div class="spacer"></div>
                     
                     <div class="action-buttons">
                         <div class="button-wrapper">
                             <button onclick="save()" type="button" id="button">Save</button>
-
                             <button onclick="clear()" type="button" id="button">Clear Input</button>
-
                         </div>
-                        
                     </div>
-                    
-                    
-                      
                 </div>
-
-                
             </div>
 
 

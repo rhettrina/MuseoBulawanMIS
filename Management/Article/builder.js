@@ -1,113 +1,126 @@
-//imgu1 button input js
-
-
-function img1(){
-    const imgu1_input = document.getElementById("imgu1")
-    const imgu1_button = document.getElementById("imgu1-button")
-    const imgu1_text = document.getElementById("imgu1-text")
+// img1 button input JS
+function img1() {
+    const imgu1_input = document.getElementById("imgu1");
+    const imgu1_button = document.getElementById("imgu1-button");
+    const imgu1_text = document.getElementById("imgu1-text");
 
     imgu1_button.addEventListener("click", function() {
         imgu1_input.click();
     });
 
     imgu1_input.addEventListener("change", function() {
-        if(imgu1_input.value){
-            imgu1_text.innerHTML = imgu1_input.value.match( /[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
-        }
-        else{
+        if (imgu1_input.value) {
+            imgu1_text.innerHTML = imgu1_input.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
+        } else {
             imgu1_text.innerHTML = "No image inserted, yet";
         }
     });
-
 }
 
-function img2(){
-    const imgu2_input = document.getElementById("imgu2")
-    const imgu2_button = document.getElementById("imgu2-button")
-    const imgu2_text = document.getElementById("imgu2-text")
+// img2 button input JS
+function img2() {
+    const imgu2_input = document.getElementById("imgu2");
+    const imgu2_button = document.getElementById("imgu2-button");
+    const imgu2_text = document.getElementById("imgu2-text");
 
     imgu2_button.addEventListener("click", function() {
         imgu2_input.click();
     });
 
     imgu2_input.addEventListener("change", function() {
-        if(imgu2_input.value){
-            imgu2_text.innerHTML = imgu2_input.value.match( /[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
-        }
-        else{
+        if (imgu2_input.value) {
+            imgu2_text.innerHTML = imgu2_input.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
+        } else {
             imgu2_text.innerHTML = "No image inserted, yet";
         }
     });
-
 }
 
-function img3(){
-    const imgu3_input = document.getElementById("imgu3")
-    const imgu3_button = document.getElementById("imgu3-button")
-    const imgu3_text = document.getElementById("imgu3-text")
+// img3 button input JS
+function img3() {
+    const imgu3_input = document.getElementById("imgu3");
+    const imgu3_button = document.getElementById("imgu3-button");
+    const imgu3_text = document.getElementById("imgu3-text");
 
     imgu3_button.addEventListener("click", function() {
         imgu3_input.click();
     });
 
     imgu3_input.addEventListener("change", function() {
-        if(imgu3_input.value){
-            imgu3_text.innerHTML = imgu3_input.value.match( /[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
-        }
-        else{
+        if (imgu3_input.value) {
+            imgu3_text.innerHTML = imgu3_input.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
+        } else {
             imgu3_text.innerHTML = "No image inserted, yet";
         }
     });
-
 }
 
-
 function save() {
-    // Collect form data
-    const title = document.getElementById('article-title').value;
-    const articleType = document.getElementById('article-type').value;
-    const location = document.getElementById('location').value;
-    const author = document.getElementById('author').value;
-    const p1Left = document.getElementById('p1box-left').value;
-    const p1Right = document.getElementById('p1box-right').value;
-    const p2 = document.getElementById('p2box').value;
-    const p3 = document.getElementById('p3box').value;
-    const img1Details = document.getElementById('imgu1-details').value;
-
-    // Collect file inputs
-    const img1 = document.getElementById('imgu1').files[0];
-    const img2 = document.getElementById('imgu2').files[0];
-    const img3 = document.getElementById('imgu3').files[0];
-
-    // FormData object to hold all data
+    // Create a new FormData object to send form data
     const formData = new FormData();
-    formData.append('title', title);
-    formData.append('articleType', articleType);
-    formData.append('location', location);
-    formData.append('author', author);
-    formData.append('p1Left', p1Left);
-    formData.append('p1Right', p1Right);
-    formData.append('p2', p2);
-    formData.append('p3', p3);
-    formData.append('img1Details', img1Details);
 
-    // Append images if they exist
-    if (img1) formData.append('img1', img1);
-    if (img2) formData.append('img2', img2);
-    if (img3) formData.append('img3', img3);
+    // Get all the input data
+    const articleTitle = document.getElementById("article-title").value;
+    const articleType = document.getElementById("article-type").value;
+    const location = document.getElementById("location").value;
+    const author = document.getElementById("author").value;
+    const imgu1_details = document.getElementById("imgu1-details").value; // This is the imgu1 details field
+    const p1boxLeft = document.getElementById("p1box-left").value;
+    const p1boxRight = document.getElementById("p1box-right").value;
+    const p2box = document.getElementById("p2box").value;
+    const p3box = document.getElementById("p3box").value;
+    
+    // Add text fields to FormData
+    formData.append("article_title", articleTitle);
+    formData.append("article_type", articleType);
+    formData.append("location", location);
+    formData.append("author", author);
+    formData.append("imgu1_details", imgu1_details); // Add the imgu1-details field here
+    formData.append("p1box_left", p1boxLeft);
+    formData.append("p1box_right", p1boxRight);
+    formData.append("p2box", p2box);
+    formData.append("p3box", p3box);
 
-    // Send data to the PHP script using POST method
-    fetch('Management/Article/save2db.php', {
+    // Add image files to FormData
+    const imgu1 = document.getElementById("imgu1").files[0];
+    const imgu2 = document.getElementById("imgu2").files[0];
+    const imgu3 = document.getElementById("imgu3").files[0];
+
+    formData.append("imgu1", imgu1);
+    formData.append("imgu2", imgu2);
+    formData.append("imgu3", imgu3);
+
+    // Log the form data
+    console.log("Form data being sent:");
+    for (let pair of formData.entries()) {
+        console.log(pair[0]+ ': ' + pair[1]);
+    }
+
+    // Send the data using fetch
+    fetch('http://localhost/MuseoBulawanMIS/Management/Article/builder_DBconnection.php', {
         method: 'POST',
         body: formData
     })
-    .then(response => response.text())
-    .then(result => {
-        console.log('Save successful:', result);
-        alert('Article saved successfully!');
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+        if (data.success) {
+            clear(); // Clear the form if successful
+        }
     })
-    .catch(error => {
-        console.error('Error saving article:', error);
-        alert('Failed to save article.');
-    });
+    .catch(error => console.error('Error:', error));
+}
+
+
+// Clear input fields
+function clear() {
+    document.getElementById("article-title").value = '';
+    document.getElementById("article-type").value = 'placeholder';
+    document.getElementById("location").value = '';
+    document.getElementById("author").value = '';
+    document.getElementById("imgu1-details").value = '';
+    document.getElementById("p1box-left").value = '';
+    document.getElementById("p1box-right").value = '';
+    document.getElementById("p2box").value = '';
+    document.getElementById("p3box").value = '';
 }
