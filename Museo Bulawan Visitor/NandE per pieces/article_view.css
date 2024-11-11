@@ -1,0 +1,355 @@
+/* header up */
+
+body {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+}
+html{
+    margin: 0%;
+    padding: 0;
+
+}
+.navbar {
+    text-align: center;
+    padding: 0%;
+}
+
+.navbar-nav {
+    color: white;
+    text-shadow: 5%;
+}
+
+#open {
+    color: white;
+    padding-left: 3rem;
+    padding-top: 1rem;
+}
+
+.wrapper {
+    background-color: #1C1B19;
+    padding-bottom: 10px;
+}
+
+#container1 {
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
+    font-size: small;
+}
+
+#container2 {
+    padding: 1em 3em .1em 3em;
+}
+
+#logo {
+    height: fit-content;
+    width: 5rem;
+    margin-left: 5%;
+}
+
+#brand {
+    text-transform: uppercase;
+    font-family: Noto Sans;
+    font-weight: bold;
+    font-size: 1.5em;
+    padding-left: .5em;
+}
+
+.logowrapper {
+    display: flex;
+    align-items: center;
+    margin-right: 20%;
+}
+
+#searchbtn {
+    height: fit-content;
+    width: 2.5em;
+    position: relative;
+}
+
+.nav-link {
+    color: white;
+}
+
+
+.dropdownicon {
+    height: fit-content;
+    width: 15px;
+}
+
+/* header end */
+
+
+/* Russel part */
+
+.wrap{
+    width: 100vw;
+    background-color: white;
+}
+.title{
+    display: flex;
+    justify-content: center;
+}
+
+.title p{
+    padding-top: 15vh;
+    padding-bottom: 10vh;
+    font-size: 6rem;
+    text-shadow: 2px 2px 4px rgba(133, 133, 133, 0.8);
+    font-family: "Hina Mincho", serif;
+}
+
+.metadata{
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    font-family: "Hina Mincho", serif;
+    padding-bottom: 7vh;
+    font-size: 1vw;
+}
+
+
+.author{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 13vw;
+    height: 13vh;
+    border: 1px solid #1C1B19;
+    text-align: center;
+    font-size: 1.5vw;
+}
+.date{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 13vw;
+    height: 13vh;
+    border: 1px solid #1C1B19;
+    font-size: 1.5vw;
+}
+.location{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 13vw;
+    height: 13vh;
+    border: 1px solid #1C1B19;
+    font-size: 1.5vw;
+}
+.type{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 13vw;
+    height: 13vh;
+    border: 1px solid #1C1B19;
+    font-size: 1.5vw;
+}
+
+
+
+.img-container1{
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.im-container img{
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+
+
+.img-details1{
+    text-align: center;
+    font-family: "Hina Mincho", serif;
+    font-size: 1.2vw;
+    
+}
+
+
+
+.text-content1{
+    display: flex;
+    text-align: justify;
+    justify-content: space-around;
+    margin: 5vw;
+    min-height: 10vh;
+}
+.text-container{
+    width: 43vw;
+    height: 100%;
+    font-family: "Hina Mincho", serif;
+    font-size: 2vw;
+    
+}
+
+.img-container2{
+    width: 100vw;
+    display: flex;
+
+}
+
+
+.img-background1{
+    width: 40vw;
+    height: 75vh;
+    background-color: rgb(134, 112, 85);
+    position: relative;
+    z-index: 0;
+}
+
+
+.img-container2 p{
+    width: 61vw;
+    margin-right: 6vw;
+    margin-left: 16vw;
+    text-align: justify;
+    font-family: "Hina Mincho", serif;
+    font-size: 2vw;
+    min-height: 75vh;
+    height: 100%;
+}
+
+.img-holder1{
+    width: 10vw;
+}
+
+.img-holder1 img{
+    margin-top: 5vh;
+    width: 500%;
+    position: relative;
+    z-index: 2;
+    left: -20vw;
+}
+
+
+
+.img-container3{
+    padding-top: 10vh;
+    width: 100vw;
+    display: flex;
+
+}
+
+
+.img-background2{
+    width: 40vw;
+    height: 75vh;
+    background-color: rgb(134, 112, 85);
+    position: relative;
+    z-index: 0;
+}
+
+
+.img-container3 p{
+    width: 61vw;
+    margin-right: 16vw;
+    margin-left: 6vw;
+    text-align: justify;
+    font-family: "Hina Mincho", serif;
+    font-size: 2vw;
+    min-height: 75vh;
+    height: 100%;
+}
+
+.img-holder2{
+    width: 10vw;
+}
+
+.img-holder2 img{
+    margin-top: 5vh;
+    width: 500%;
+    position: relative;
+    z-index: 2;
+    right: 8vw;
+}
+
+.last-modified{
+    width: 100vw;
+    height: 10vh;
+    display: flex;
+    justify-content: flex-end;
+    font-family: Hina Mincho;
+    font-size: 1vw;
+    padding-right: 2vw;
+}
+
+
+.buffer{
+    width: 100vw;
+    height: 2vh;
+    background-color: #1C1B19;
+}
+
+/* Start of Footer */
+
+.side-footer {
+    background-color: #1C1B19;
+    color: white;
+    margin: 10px;
+}
+
+.side-footer img {
+    width: 60px;
+    height: 60px;
+    max-width: 100%;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+
+.museo-bulawan-cmp h2 {
+    text-align: center;
+    margin: auto .5rem;
+    font-weight: bold;
+    font-size: 40px;
+}
+
+
+.lowercontainer .navbar {
+    display: flex;
+    flex-direction: row-reverse;
+    height: 15vh;
+    width: 20vw;
+}
+
+
+.nav-links {
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.nav-links li {
+    display: flex;
+    align-items: center;
+    padding: 0em .5em;
+}
+
+
+.text-light {
+    color: #fff;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none; 
+}
+
+.nav-links a:hover {
+    color: #ccc;
+}
+
+/* end of footer */
+
+@media (max-width: 720px) {
+    
+}

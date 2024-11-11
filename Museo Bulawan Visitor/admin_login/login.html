@@ -19,22 +19,30 @@
             <div class="logo">
                 <img src="../source/LOGO.png" alt="Museo Bulawan Camarines Norte">
             </div>
-            <form class="login-form">
-                <form class="login-form">
+            <form class="login-form" action="loginphp.php" method="post">
                 <div class="input-group">
                     <img src="../source/user.png" alt="User Icon" class="input-icon">
-                    <input type="text" id="username" placeholder="USERNAME">
+                    <input type="text" id="username" placeholder="USERNAME" name="username" required>
                 </div>
                 <div class="input-group">
                     <img src="../source/pass.png" alt="Lock Icon" class="input-icon">
-                    <input type="password" id="password" placeholder="PASSWORD">
+                    <input type="password" id="password" placeholder="PASSWORD" name="password" required>
                 </div>
-               
-                    <a href="/Management/Dashboard/dashboard.html" class="login-btn">LOGIN</a>
-                
+                <input type="submit" name="submit" id="submit" class="login-btn" value="Login">
                 <a href="#" class="forgot-password">Forgot password?</a>
             </form>
         </div>
     </div>
+    
+    <script>
+    // Check for error parameter in the URL
+    if (new URLSearchParams(window.location.search).has('error')) {
+        // Display popup alert if credentials are invalid
+        alert("Invalid username or password. Please try again.");
+    }
+    </script>
+    
+    
+    
 </body>
 </html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Option 1: Include in HTML -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Hind:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Builder</title>
+    <link rel="stylesheet" href="builder.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="header">
+        <div class="head-wrapper">
+            <div class="brand-wrapper">
+                <img src="../../Museo Bulawan Visitor/source/LOGO.png" alt="" width="280px" height="280px">
+                <div class="line-spacer">
+
+                </div>
+                <div class="text-wrapper">
+                    <h1>
+                        MUSEO BULAWAN
+                    </h1>
+                    <h2>
+                        MANAGEMENT INFORMATION SYSTEM
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="display-wrapper">
+        <div class="navigation-panel">
+            <div class="nav-button">
+                
+                <div class="button-container">
+                   
+                    <button onclick="location.href='../../Management/Dashboard/dashboard.html'" class="dashboard-button">
+                        <div class="db-icon">
+                            <img src="../../Museo Bulawan Visitor/source/donation-button.png" alt="">
+                        </div>
+                        <div class="db-text">
+                            Dashboard
+                        </div>
+                    </button>
+                
+                    
+                    <button onclick="location.href='../../Management/Donation/donation.html'" class="donation-button">
+                        <div class="dob-icon">
+                            <img src="../../Museo Bulawan Visitor/source/donation-button.png" alt="">
+                        </div>
+                        <div class="dob-text">
+                            Donation
+                        </div>
+                    </button>
+                
+
+                    <button onclick="location.href='../../Management/Artifacts/artifacts.html'" class="artifact-button">
+                        <div class="ar-icon">
+                            <img src="../../Museo Bulawan Visitor/source/artifact-icon.png" alt="">
+                        </div>
+                        <div class="ar-text">
+                            Artifact
+                        </div>
+
+                    </button>
+                    <button onclick="location.href='../../Management/Appointment/index.html'" class="appointment-button">
+                        <div class="ap-icon">
+                            <img src="../../Museo Bulawan Visitor/source/appointment-icon.png" alt="">
+                        </div>
+                        <div class="ap-text">
+                            Appointment
+                        </div>
+                    </button>
+                    <button onclick="location.href='../../Management/Artifact Layout Management/artifact-layout.html'" class="layout-button">
+                        <div class="lt-icon">
+                            <img src="../../Museo Bulawan Visitor/source/artifact-layout.png" alt="">
+                        </div>
+                        <div class="lt-text">
+                            Layout
+                        </div>
+
+                        <button onclick="location.href='../../Management/Article/articles.html'" class="article-button active">
+                            <div class="at-icon">
+                                <img src="../../Museo Bulawan Visitor/source/article-icon.png" alt="">
+                            </div>
+                            <div class="at-text">
+                                Article
+                            </div>
+                        </button>
+                </div>
+                <button class="logout-button">
+                    <div class="log-icon">
+                        <img src="../../Museo Bulawan Visitor/source/logout-icon.png" alt="">
+                    </div>
+                    <div class="log-text">
+                        Logout
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <div class="content-container">
+            <div class="notification-container">
+                <button class="notification-button">
+                    <img src="../../Museo Bulawan Visitor/source/notifiaction-icon.png" alt="">
+                </button>
+
+
+            </div>
+
+            <div class="main-content">
+                <div class="builder">
+                    <h1>Article Builder</h1>
+                </div>
+                <div class="metdata-wrapper">
+                    <div class="title-wrapper">
+                        <p id="ttl-tx">Title:</p> 
+                        <input type="text" name="title" id="article-title" placeholder="title or name of article/event" required>
+                        <p id="art-typ">Article Type: </p>
+                        <select id="article-type" required>
+                            <option value="Event">Event</option>
+                            <option value="Event">News</option>
+                        </select>
+                    </div>
+                    <div class="location-wrapper">
+                        <p id="lcn-tx">Location:</p>
+                        <input type="text" name="location" id="location" placeholder="general place/location of article/event" required>
+                        <p id="atr-tx">Author:</p>
+                        <input type="text" name="author" id="author" placeholder="writer of article" required>
+                    </div>
+                </div>
+
+                <div class="content-wrapper">
+                    <div class="imgu1-wrapper">
+                        <input type="file" accept="image/*" id="imgu1" hidden="hidden">
+                        <button onclick="img1()" type="button" id="imgu1-button">Insert Image</button>
+                        <span id="imgu1-text">No image inserted, yet.</span>
+                        <p id="img-dts1">Image Details:</p>
+                        <input type="text" name="imgu1-details" id="imgu1-details" placeholder="Image Details" required>
+                    </div>
+
+                    <div class="spacer"></div>
+                    <div class="paragraph1-wrapper">
+                        <div class="p1-container">
+                            <textarea name="pbox1-left" class="p1box" id="p1box-left" placeholder="Paragraph Box Left" required></textarea>
+                        </div>
+                        <div class="p1-container">
+                            <textarea name="pbox1-left" class="p1box" id="p1box-right" placeholder="Paragraph Box Right" required></textarea>
+                        </div>
+                    </div>
+
+                    <div class="spacer"></div>
+
+                    <div class="pgimg1-wrapper">
+                        <div class="input-wrapper1">
+                            <input type="file" accept="image/*" id="imgu2" hidden="hidden">
+                            <button onclick="img2()" type="button" id="imgu2-button">Insert Image</button>
+                            <span id="imgu2-text">No image inserted, yet.</span>
+                        </div>
+
+                        <textarea name="pbox2" class="p2box" id="p2box" placeholder="Paragraph Box" required></textarea>
+                    </div>
+
+                    <div class="spacer"></div>
+
+                    <div class="pgimg1-wrapper">
+                        <textarea name="pbox3" class="p3box" id="p3box" placeholder="Paragraph Box" required></textarea>
+                        <div class="input-wrapper2">
+                            <input type="file" accept="image/*" id="imgu3" hidden="hidden">
+                            <button onclick="img3()" type="button" id="imgu3-button">Insert Image</button>
+                            <span id="imgu3-text">No image inserted, yet.</span>
+                        </div>
+                    </div>
+
+                    <div class="spacer"></div>
+                    
+                    <div class="action-buttons">
+                        <div class="button-wrapper">
+                            <button onclick="save()" type="button" id="button">Save</button>
+                            <button onclick="clear()" type="button" id="button">Clear Input</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <script src="builder.js"></script>
+
+</body>
+
+</html>
