@@ -21,7 +21,7 @@ $totalLendingForms = $db->query("SELECT COUNT(*) AS total FROM lending_form")->f
 
 
 
-$donationFormData = $db->query("SELECT * FROM donation_form WHERE id = 105");
+$donationFormData = $db->query("SELECT * FROM donation_form WHERE id = ?");
 
 $first_name = '';
 $last_name = '';
