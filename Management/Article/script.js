@@ -90,3 +90,22 @@ document.addEventListener('DOMContentLoaded', () => {
     showPage('artifacts');
     fetch_total();
 });
+
+
+function handleEdit(event) {
+    const articleId = event.currentTarget.getAttribute('data-id');
+    // Add logic to edit the article
+    console.log(`Edit button clicked for article with ID: ${articleId}`);
+    // Redirect to an edit page or open an edit modal, e.g.:
+    // window.location.href = `/path/to/edit/page?id=${articleId}`;
+}
+
+function handleDelete(event) {
+    const articleId = event.currentTarget.getAttribute('data-id');
+    // Add logic to delete the article
+    console.log(`Delete button clicked for article with ID: ${articleId}`);
+    // Optionally, you might want to confirm deletion:
+    // if (confirm('Are you sure you want to delete this article?')) {
+    //     // Perform deletion logic here, e.g., send a delete request to the server
+    // }
+}
