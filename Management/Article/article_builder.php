@@ -1,15 +1,7 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $database_server = "localhost";
-    $database_user = "root";
-    $database_password = "";
-    $database_name = "museo_bulawan";
-    $conn = mysqli_connect($database_server, $database_user, $database_password, $database_name);
 
-    if (!$conn) {
-        echo json_encode(['success' => false, 'message' => 'Database connection failed']);
-        exit();
-    }
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    include "article_db.php";
 
     // Receive the text data
     $article_title = mysqli_real_escape_string($conn, $_POST['article_title']);

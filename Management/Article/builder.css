@@ -566,7 +566,7 @@ body{
     
 }
 
-#imgu1-button, #imgu2-button, #imgu3-button, #button{
+#imgu1-button, #imgu2-button, #imgu3-button{
     border-radius: 0.4vw;
     border: 0.2vw solid #ccc;
     font-family: Hind;
@@ -700,3 +700,4 @@ body{
     border: #1C1B19 solid 0.1vw;
     border-radius: 1vw;
 }
+

@@ -51,7 +51,7 @@ function confirmSave() {
     formData.append("imgu2", imgu2);
     formData.append("imgu3", imgu3);
 
-    fetch('http://localhost/MuseoBulawanMIS/Management/Article/builder_DBconnection.php', {
+    fetch('http://localhost/MuseoBulawanMIS/Management/Article/article_builder.php', {
         method: 'POST',
         body: formData
     })
@@ -124,6 +124,8 @@ function img3() {
 }
 
 // Clear input fields
+// Clear input fields
+// Clear input fields
 function clear() {
     document.getElementById("article-title").value = '';
     document.getElementById("article-type").value = 'placeholder';
@@ -134,8 +136,31 @@ function clear() {
     document.getElementById("p1box-right").value = '';
     document.getElementById("p2box").value = '';
     document.getElementById("p3box").value = '';
+
+    // Clear the multiline textarea content
+    document.getElementById("p1box-left").value = '';
+    document.getElementById("p1box-right").value = '';
+    document.getElementById("p2box").value = '';
+    document.getElementById("p3box").value = '';
+
+    // Optionally clear file inputs
+    document.getElementById("imgu1").value = '';
+    document.getElementById("imgu2").value = '';
+    document.getElementById("imgu3").value = '';
+
+    // Optionally reset the image text if needed
+    document.getElementById("imgu1-text").innerText = 'No image inserted, yet.';
+    document.getElementById("imgu2-text").innerText = 'No image inserted, yet.';
+    document.getElementById("imgu3-text").innerText = 'No image inserted, yet.';
 }
 
+// Add event listener to the clear input button
+document.addEventListener('DOMContentLoaded', () => {
+    const clearButton = document.getElementById('button3'); // Assuming 'button' is the id of your clear button
+    if (clearButton) {
+        clearButton.addEventListener('click', clear);
+    }
+});
 // Add event listener to the confirm save button
 document.getElementById('confirmSaveButton').addEventListener('click', confirmSave);
 

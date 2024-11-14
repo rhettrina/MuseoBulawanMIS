@@ -5,17 +5,18 @@
     <meta charset="UTF-8">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Option 1: Include in HTML -->
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/css2?family=Hind:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Articles</title>
-    <link rel="stylesheet" href="articles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="article.css">
+
 </head>
 
 <body>
@@ -90,7 +91,7 @@
                         </div>
 
                     </button>
-                    <button onclick="location.href='../../Management/Article/articles.html'" class="article-button active">
+                    <button onclick="location.href='../../Management/Article/articles.php'" class="article-button active">
                         <div class="at-icon">
                             <img src="../../Museo Bulawan Visitor/source/article-icon.png" alt="">
                         </div>
@@ -119,70 +120,74 @@
 
             </div>
 
+            <?php
+            include "article_db.php";
+            $sql = "SELECT * FROM articles";
+            $result = $conn->query($sql);
+
+            $total_articles = $result->num_rows;
+            ?>
+
             <div class="main-content">
-                <!-- article -->
-                <div id="artifacts" class="page-content">
-                    <h2 class="article-title">Article</h2>
-                    <div class="artifacts-header">
-                        <div class="summary-box total">
-                            <div class="summary-left">
-                                <span class="summary-title">Total Articles</span>
-                            </div>
-                            <div class="summary-right">
-                                <span id="article_total" class="summary-number">0</span>
+                <div class="head">
+                    <h2>Articles</h2>
+                </div>
+                <div class="head-container">
+                    <div class="article-counter">
+                        <div class="counter-left">
+                            <div class="title-container">
+                                <label for="total-articles">Toal<br>Articles</label>
                             </div>
                         </div>
-                        <div>
-                            <a href="./builder.html">
-                            <button type="button" class="btn btn-light">Create Article <i class="bi bi-plus-square"></i></button>
-                            </a>
+                        <div class="counter-right">
+                            <div class="counter-container">
+                                <span id="total-articles"><?php echo $total_articles; ?></span>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="nav-bar">
-                       
-
-                        <!-- Sorting on the right -->
-                        <div class="sort-container">
-                            <label for="sort"> By Date:</label>
-                            <select id="sort">
-                                <option value="date">Newest</option>
-                                <option value="name">Oldest</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="tab-head">
-                        <div id="date">
-                            <p>Date</p>
-                        </div>
-                        <div id="ttl">
-                            <p>Title</p>
-                        </div>
-                        <div id="type">
-                            <p>Type</p>
-                        </div>
-        
-                        <div id="upd">
-                            <p>Updated</p>
-                        </div>
-                    
-                    </div>
-
-
-                    <!-- Scrollable Table -->
-                    <div class="table-container">
-                        <div class="articles-list" id="articles-list">
-                            <!-- Dynamic rows will be inserted here by JavaScript -->
-                        </div>
+                    <div>
+                        <a href="./builder.html">
+                            <button type="button" class="btn btn-light border-black">Create Article <i class="bi bi-plus-square"></i></button>
+                        </a>
                     </div>
                 </div>
-
+                <div class="tool-bar">
+                    <div class="sort-container">
+                        <label for="sort"> By Date:</label>
+                            <select id="sort">
+                            <option value="newest">Newest</option>
+                            <option value="oldest">Oldest</option>
+                        </select>
+                    </div>
+                </div>
                 
+                <div class="table-head">
+                    <div class="head-block">
+                        <p>Date (yyyy-mm-dd)</p>
+                        </div>
+                        <div class="head-block">
+                            <p>Title</p>
+                        </div>
+                        <div class="head-block">
+                            <p>Type</p>
+                        </div>
+                        <div class="head-block">
+                            <p>Last Updated (yyyy-mm-dd)</p>
+                        </div>
+                        <div class="head-block">
+                            <p>Action Buttons</p>
+                    </div>
+                </div>
+                <div class="article-table">
+                    
+                </div> 
+               
+
+
             </div>
 
 
-
-            <script src="script.js"></script>
+            <script src="articles.js"></script>
 
 </body>
 
