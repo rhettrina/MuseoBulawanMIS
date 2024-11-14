@@ -1,3 +1,6 @@
+
+
+
 <html lang="en">
 
 <head>
@@ -29,6 +32,7 @@
         crossorigin="anonymous"></script>
 
 </head>
+
 
 <body>
     <div class="wrapper">
@@ -65,7 +69,7 @@
         <div id="container2">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <div class="logowrapper">
-                    <img src="../source/LOGO.png" alt="" id="logo">
+                    <img src="LOGO.png" alt="" id="logo">
                     <div class="vr border border-4 ms-5 border-dark opacity-100" style="height: 85;"></div>
                     <a id="brand" class="navbar-brand text-start" href="">Museo<br>Bulawan</a>
                 </div>
@@ -95,7 +99,7 @@
 
                         </li>
                     </ul>
-                    <button class="btn ms-auto"><img src="../source/searchblack.png" alt="" id="searchbtn"></button>
+                    <button class="btn ms-auto"><img src="search.png" alt="" id="searchbtn"></button>
                 </div>
 
 
@@ -109,7 +113,9 @@
     <div class="donationtitle container mt-4 mx-0">
         <h1 class="ms-5 py-3">Donation Form</h1>
     </div>
-    <form>
+    <form action="process_donation.php" method="POST" enctype="multipart/form-data" id="artifactForm">
+    <input type="hidden" name="formType" value="donation"> <!-- Valid example with a set value -->
+
         <div class="intro container p-5 mt-4">
             <p>In addition to preserving your historic objects it is important to remember to preserve the history or
                 story that goes with them. For example, the uniform worn by your great grand father is just a uniform if
@@ -117,18 +123,17 @@
                 background details that would help our team understand the significance of the item.</p>
 
             <h3>Tell us about yourself.</h3>
-
+                
             <!-- Name Section -->
             <div class="form-group row align-items-center mt-4 gap-1">
                 <label for="firstName" class="col-sm-2 col-form-label fs-5"><b>Name</b> <span
                         class="text-danger">*</span></label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control border-2 border-dark" id="firstName" placeholder="First Name"
-                        required>
+                    <input type="text" class="form-control border-2 border-dark" id="firstName" name="firstName" placeholder="First Name" required>
                 </div>
                 <div class="col-sm-5">
-                    <input type="text" class="form-control border-2 border-dark" id="lastName" placeholder="Last Name"
-                        required>
+                    <input type="text" class="form-control border-2 border-dark" id="lastName" name="lastName" placeholder="Last Name" required>
+
                 </div>
             </div>
 
@@ -137,7 +142,7 @@
                 <label for="age" class="col-sm-2 col-form-label fs-5"><b>Age</b> <span
                         class="text-danger">*</span></label>
                 <div class="col-sm-2">
-                    <input type="number" class="form-control border-2 border-dark" id="age" placeholder="Age" required>
+                    <input type="number" class="form-control border-2 border-dark" id="age" name="age" placeholder="Age" min="0" required>
                 </div>
                 <div class="col-2">
 
@@ -167,13 +172,12 @@
                 <label for="email" class="col-sm-2 col-form-label fs-5"><b>Email</b> <span
                         class="text-danger">*</span></label>
                 <div class="col-sm-5">
-                    <input type="email" class="form-control border-2 border-dark" id="email"
-                        placeholder="example@gmail.com" required>
+                    <input type="email" class="form-control border-2 border-dark" id="email" name="email" placeholder="example@gmail.com" required>
                 </div>
                 <label for="phone" class="col-sm-2 col-form-label fs-5"><b>Phone Number</b> <span
                         class="text-danger">*</span></label>
                 <div class="col-sm-2">
-                    <input type="tel" class="form-control border-2 border-dark" id="phone" placeholder="+6309123456789"
+                    <input type="tel" class="form-control border-2 border-dark" id="phone" name="phone" placeholder="+6309123456789"
                         required>
                 </div>
             </div>
@@ -182,7 +186,7 @@
             <div class="form-group row align-items-center mt-4">
                 <label for="organization" class="col-sm-2 col-form-label fs-5"><b>Organization</b></label>
                 <div class="col-sm-5">
-                    <input type="text" class="form-control border-2 border-dark" id="organization"
+                    <input type="text" class="form-control border-2 border-dark" id="organization" name="organization"
                         placeholder="School/Institution/etc">
                 </div>
             </div>
@@ -193,7 +197,7 @@
                 <label for="province" class="col-sm-2 col-form-label fs-5"><b>Province</b> <span
                         class="text-danger">*</span></label>
                 <div class="col-sm-4">
-                    <select class="form-control border-2 border-dark" id="province" required>
+                    <select class="form-control border-2 border-dark" id="province" name="province" required>
                         <option selected disabled>Select Province</option>
                         <option>Camarines Norte</option>
                         <option>Province 1</option>
@@ -204,19 +208,19 @@
                 <label for="city" class="col-sm-1 col-form-label fs-5"><b>City</b> <span
                         class="text-danger">*</span></label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control border-2 border-dark" id="city" placeholder="City" required>
+                    <input type="text" class="form-control border-2 border-dark" id="city" name="city" placeholder="City" required>
                 </div>
             </div>
             <div class="form-group row align-items-center mt-4">
                 <label for="barangay" class="col-sm-2 col-form-label fs-5"><b>Barangay</b> <span
                         class="text-danger">*</span></label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control border-2 border-dark" id="barangay" placeholder="Barangay"
+                    <input type="text" class="form-control border-2 border-dark" id="barangay" name="barangay" placeholder="Barangay"
                         required>
                 </div>
                 <label for="street" class="col-sm-1 col-form-label fs-5"><b>Street</b></label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control border-2 border-dark" id="street" placeholder="Street">
+                    <input type="text" class="form-control border-2 border-dark" id="street" name="street" placeholder="Street">
                 </div>
             </div>
 
@@ -231,8 +235,8 @@
                 <label for="artifactTitle" class="col-sm-3 col-form-label fs-5"><b>Title/Name of the Artifact.</b> <span
                         class="text-danger">*</span></label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control border-2 border-dark" id="artifactTitle"
-                        placeholder="Title/Name of the Artifact" required>
+                    <input type="text" class="form-control border-2 border-dark" id="artifactTitle" name="artifactTitle" placeholder="Title/Name of the Artifact" required>
+
                 </div>
             </div>
 
@@ -240,8 +244,7 @@
                 <label for="artifactDescription" class="col-sm-3 col-form-label fs-5"><b>Artifact Description</b> <span
                         class="text-danger">*</span></label>
                 <div class="col-sm-9">
-                    <textarea class="form-control border-2 border-dark" id="artifactDescription"
-                        placeholder="Artifact Description" required></textarea>
+                    <textarea class="form-control border-2 border-dark" id="artifactDescription" name="artifactDescription" placeholder="Artifact Description" required></textarea>
                 </div>
             </div>
 
@@ -249,7 +252,7 @@
                 <label for="acquisition" class="col-sm-3 col-form-label fs-5"><b>How and where did you acquire the
                         artifact?</b> <span class="text-danger">*</span></label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control border-2 border-dark" id="acquisition"
+                    <input type="text" class="form-control border-2 border-dark" id="acquisition" name="acquisition"
                         placeholder="Acquisition Details" required>
                 </div>
             </div>
@@ -257,7 +260,7 @@
             <div class="form-group row align-items-center mt-4">
                 <label for="additionalInfo" class="col-sm-3 col-form-label fs-5"><b>Additional Information</b></label>
                 <div class="col-sm-9">
-                    <textarea class="form-control border-2 border-dark" id="additionalInfo"
+                    <textarea class="form-control border-2 border-dark" id="additionalInfo" name="additionalInfo"
                         placeholder="Is there any other information about the artifact that the museum should know?"></textarea>
                 </div>
             </div>
@@ -265,7 +268,7 @@
             <div class="form-group row align-items-center mt-4">
                 <label for="narrative" class="col-sm-3 col-form-label fs-5"><b>Brief Narrative or Story</b></label>
                 <div class="col-sm-9">
-                    <textarea class="form-control border-2 border-dark" id="narrative"
+                    <textarea class="form-control border-2 border-dark" id="narrative" name="narrative"
                         placeholder="Would you like to provide a brief narrative or story related to the artifact?"></textarea>
                 </div>
             </div>
@@ -275,9 +278,9 @@
                         class="text-danger">*</span></label>
                 <div class="col-sm-2"></div>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control border-2 border-dark mb-2" id="artifactImages"
+                    <input type="text" class="form-control border-2 border-dark mb-2" id="artifactImages" name="artifactImages"
                         placeholder="Paste Link" required>
-                    <input type="file" class="form-control border-2 border-dark" id="artifactFiles" multiple>
+                    <input type="file" class="form-control border-2 border-dark" id="artifactFiles" name="artifact_img" multiple>
                 </div>
             </div>
 
@@ -288,9 +291,10 @@
                         Catalogs or Inventories.</p>
                 </div>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control border-2 border-dark mb-2" id="documentation"
+                    <input type="text" class="form-control border-2 border-dark mb-2" id="documentation" name="documentation"
                         placeholder="Paste Link">
-                    <input type="file" class="form-control border-2 border-dark" id="documentationFiles" multiple>
+                    <input type="file" class="form-control border-2 border-dark" id="documentationFiles" 
+                    name="documentation_img" multiple>
                 </div>
             </div>
 
@@ -301,16 +305,27 @@
                         used.</p>
                 </div>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control border-2 border-dark mb-2" id="relatedImages"
+                    <input type="text" class="form-control border-2 border-dark mb-2" id="relatedImages" name="relatedImages"
                         placeholder="Paste Link">
-                    <input type="file" class="form-control border-2 border-dark" id="relatedFiles" multiple>
+                    <input type="file" class="form-control border-2 border-dark" id="relatedFiles" name="related_img" multiple>
                 </div>
             </div>
             <div class="col-md-12 d-flex justify-content-end mt-5">
-                <button type="submit" class="btn btn-light px-5 py-2">Submit</button>
+                <button type="submit" class="btn btn-light px-5 py-2" onclick="openModal()" >Submit</button>
             </div>
+            </div>
+   
+           
+        </form> 
+
+    <!-- Modal Structure -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+        <p>Are you sure you want to submit this form?</p>
+        <button onclick="confirmSubmission()">Yes</button>
+        <button onclick="closeModal()">No</button>
         </div>
-    </form>
+    </div>
 
     <div class="wrapper">
 
@@ -338,7 +353,7 @@
             <div class="row d-flex justify-content-between">
                 <div class="col-lg-7 col-sm-12">
                     <div class="museo-bulawan-cmp d-flex justify-content-start">
-                        <img src="/Museo Bulawan Visitor/source/LOGO.png" alt="">
+                        <img src="LOGO.png" alt="">
                         <h2>Museo Bulawan</h2>
                     </div>
                     <p class="lead">Helping us raise awareness regarding Camnortenos identity is crucial, and
@@ -385,6 +400,7 @@
             </div>
         </div>
     </div>
+<<script src="script.js"></script>
 </body>
 
 </html>
