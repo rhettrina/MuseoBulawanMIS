@@ -5,12 +5,16 @@ $username = $_POST['username'];
 $password = $_POST['password'];
 
 // Database connection
-$conn = new mysqli('localhost', 'root', '', 'my_database');
+$database_server = "localhost";
+    $database_user = "u376871621_bomb_squad";
+    $database_password = "Fujiwara000!";
+    $database_name = "u376871621_mb_mis";
+    $db = mysqli_connect($database_server, $database_user, $database_password, $database_name);
 
-// Check connection
-if ($conn->connect_error) {
-    die('Connection Failed: ' . $conn->connect_error);
-} else {
+
+    if ($db->connect_error) {
+        die("Connection failed: " . $db->connect_error);
+    } else {
     // Prepare the SQL statement to retrieve user with matching credentials
     $stmt = $conn->prepare("SELECT * FROM credentials WHERE username = ? AND password = ?");
     $stmt->bind_param("ss", $username, $password);
