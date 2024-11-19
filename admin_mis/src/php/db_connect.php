@@ -20,7 +20,5 @@
     // Check connection
     if ($connextion->connect_error) {
         die("Connection failed: " . $connextion->connect_error);
-    } else {
-        echo "Connected successfully to the database!";
-    };
+    }
 ?>
