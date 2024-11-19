@@ -13,6 +13,8 @@
     $username = "root";       
     $password = "";            
     $dbname = "museo_bulawan";   
+    
+    
 
     // Create connection
     $connextion = new mysqli($servername, $username, $password, $dbname);
