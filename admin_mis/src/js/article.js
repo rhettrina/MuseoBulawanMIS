@@ -5,7 +5,7 @@ function init(){
 }
 
 function fetchTotalArticles() {
-    fetch('http://localhost/MuseoBulawanMIS/admin_mis/src/php/fetchTotalArticles.php')
+    fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchTotalArticles.php')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok: ' + response.statusText);
@@ -28,7 +28,7 @@ function fetchTotalArticles() {
 
 // Fetch and populate the articles table
 function fetchArticles(sort = 'newest') {
-    fetch(`http://localhost/MuseoBulawanMIS/admin_mis/src/php/fetchArticles.php?sort=${sort}`)
+    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchArticles.php?sort=${sort}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok: ' + response.statusText);
