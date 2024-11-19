@@ -6,45 +6,45 @@ document.addEventListener('DOMContentLoaded', () => {
   const savedPage = localStorage.getItem('currentPage') || 'dashboard';
 
   // Function to load content dynamically
-  function loadContent(page) {
-    // Fetch the HTML content dynamically
-    fetch(`src/views/${page}.html`)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`Error loading page: ${response.statusText} (status code: ${response.status})`);
-        }
-        return response.text();
-      })
-      .then(html => {
-        content.innerHTML = html;
-        updateActiveTab(page);  // Update active tab after content is loaded
+// Modified function to load content dynamically
+function loadContent(page) {
+  fetch(`src/views/${page}.html`)  // Use the relative path to your views folder
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Error loading page: ${response.statusText} (status code: ${response.status})`);
+      }
+      return response.text();
+    })
+    .then(html => {
+      content.innerHTML = html;
+      updateActiveTab(page);  // Update active tab after content is loaded
+      
+      // Now load the associated JavaScript file dynamically
+      loadScript(page);
+    })
+    .catch(error => {
+      content.innerHTML = `<p class="text-red-500">Error: ${error.message}</p>`;
+      console.error('Content Load Error:', error);  // Log error to console for debugging
+    });
+}
 
-        // Load the associated JavaScript file if not already loaded
-        loadScript(page);
-      })
-      .catch(error => {
-        content.innerHTML = `<p class="text-red-500">Error: ${error.message}</p>`;
-        console.error('Content Load Error:', error);
-      });
-  }
-
-  // Function to dynamically load associated JavaScript
-  function loadScript(page) {
-    // Check if script is already loaded
-    if (document.querySelector(`script[src="src/js/${page}.js"]`)) {
-      console.log(`${page}.js is already loaded.`);
-      return;
+// Function to dynamically load associated JavaScript
+function loadScript(page) {
+  const script = document.createElement('script');
+  script.src = `src/js/${page}.js`;  // Assume the JS file is named similarly to the HTML page
+  script.onload = () => {
+    console.log(`${page}.js loaded successfully`);
+    
+    if (typeof init === 'function') {
+      init();  
     }
+  };
+  script.onerror = () => {
+    console.error(`Failed to load ${page}.js`);
+  };
+  document.body.appendChild(script);
+}
 
-    const script = document.createElement('script');
-    script.src = `src/js/${page}.js`;  // Assume the JS file is named similarly to the HTML page
-    script.onload = () => console.log(`${page}.js loaded successfully`);
-    script.onerror = () => {
-      console.error(`Failed to load ${page}.js`);
-      content.innerHTML += `<p class="text-red-500">Failed to load JavaScript for ${page}. Please try again.</p>`;
-    };
-    document.body.appendChild(script);
-  }
 
   // Load the saved content or default to Dashboard
   loadContent(savedPage);
@@ -85,19 +85,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Logout button functionality
   const logoutButton = document.getElementById('logout-button');
-  if (logoutButton) {
-    logoutButton.addEventListener('click', () => {
-      localStorage.removeItem('currentPage'); // Clear the stored page on logout
-      window.location.href = '/login'; // Redirect to login page (change URL as necessary)
-    });
-  }
-
+  logoutButton.addEventListener('click', () => {
+    localStorage.removeItem('currentPage'); // Clear the stored page on logout
+    window.location.href = '/login'; // Redirect to login page (change URL as necessary)
+  });
 });
 
 // Function to toggle the sidebar visibility
 function toggleSidebar() {
   const sidebar = document.getElementById('sidebar');
-  if (sidebar) {
-    sidebar.classList.toggle('hidden');
-  }
+  sidebar.classList.toggle('hidden');
 }

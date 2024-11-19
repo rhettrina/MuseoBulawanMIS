@@ -1,3 +1,4 @@
-function test(){
-    console.log("gfsdfsaf");
+function init(){
+    //call the display functions here
+
 }

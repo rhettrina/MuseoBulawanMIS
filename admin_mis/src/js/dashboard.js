@@ -1,4 +1,4 @@
-function test(){
-    
-    console.log("hello world!");
+function init(){
+    //call the display functions here
+
 }
