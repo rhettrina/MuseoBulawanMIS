@@ -10,9 +10,10 @@
     }
 
     $servername = "localhost"; 
-    $username = "root";       
-    $password = "";            
-    $dbname = "museo_bulawan";   
+    $username = "u376871621_bomb_squad";       
+    $password = "Fujiwara000!";            
+    $dbname = "u376871621_mb_mis";   
+    
     
     
 

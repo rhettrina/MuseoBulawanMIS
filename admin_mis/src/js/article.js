@@ -1,6 +1,9 @@
-// Fetch and display the total number of articles
+function test(){
+    console.log("test");
+}
+
 function fetchTotalArticles() {
-    fetch('http://localhost/MuseoBulawanMIS/admin_mis/src/php/fetchTotalArticles.php')
+    fetch('/admin_mis/src/php/fetchTotalArticles.php')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok: ' + response.statusText);
@@ -16,14 +19,14 @@ function fetchTotalArticles() {
             }
         })
         .catch(error => {
-            console.error('Error fetching total articles:', error);
+            console.error('Error fetching total articles:', error.message);
             document.getElementById('total-articles').innerText = "Error fetching data";
         });
 }
 
 // Fetch and populate the articles table
 function fetchArticles(sort = 'newest') {
-    fetch(`http://localhost/MuseoBulawanMIS/admin_mis/src/php/fetchArticles.php?sort=${sort}`)
+    fetch(`/admin_mis/src/php/fetchArticles.php?sort=${sort}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok: ' + response.statusText);
@@ -32,18 +35,19 @@ function fetchArticles(sort = 'newest') {
         })
         .then(data => {
             if (data.error) {
-                console.error(data.error);
+                console.error('Error from PHP:', data.error);
                 displayNoDataMessage();
             } else {
                 populateTable(data);
             }
         })
         .catch(error => {
-            console.error('Error fetching articles:', error);
+            console.error('Error fetching articles:', error.message);
             displayNoDataMessage();
         });
 }
 
+// Populate the articles table
 function populateTable(articles) {
     const tableBody = document.querySelector('tbody');
     tableBody.innerHTML = ''; // Clear existing rows
@@ -112,7 +116,7 @@ function populateTable(articles) {
     });
 }
 
-
+// Handle actions like preview, edit, and delete
 function handleAction(action, articleId) {
     switch (action) {
         case 'preview':
@@ -124,15 +128,15 @@ function handleAction(action, articleId) {
             // Implement edit functionality here
             break;
         case 'delete':
-            console.log(`Delete article with ID: ${articleId}`);
-            // Confirm before deleting
-
+            if (confirm('Are you sure you want to delete this article?')) {
+                console.log(`Delete article with ID: ${articleId}`);
+                // Implement delete functionality here
+            }
             break;
         default:
             console.error('Unknown action:', action);
     }
 }
-
 
 // Display a "No Data" message in the table
 function displayNoDataMessage() {
@@ -147,28 +151,61 @@ function displayNoDataMessage() {
 // Handle sort selection
 document.getElementById("sort").addEventListener("change", function () {
     const sortOption = this.value;
+    localStorage.setItem('sortOption', sortOption); // Save sort option in localStorage
     fetchArticles(sortOption);
 });
 
-// Initialize data on page load
+// On page load, load the saved sort option from localStorage
 document.addEventListener('DOMContentLoaded', () => {
-    fetchTotalArticles();
-    fetchArticles(); // Default to 'newest' sorting
+    const savedSortOption = localStorage.getItem('sortOption') || 'newest';
+    document.getElementById("sort").value = savedSortOption;
+    fetchArticles(savedSortOption);
+    fetchTotalArticles(); // Fetch total articles
 });
-fetchTotalArticles();
-fetchArticles();
 
-// Get the modal and button elements
+// Create article modal functionality
 const createArticleButton = document.getElementById('create-article-button');
 const modal = document.getElementById('create-article-modal');
 const cancelButton = document.getElementById('cancel-button');
 
 // Show the modal when the Create Article button is clicked
 createArticleButton.addEventListener('click', () => {
-  modal.classList.remove('hidden');  // Remove the 'hidden' class to show the modal
+    modal.classList.remove('hidden');  // Show the modal
 });
 
 // Hide the modal when the Cancel button is clicked
 cancelButton.addEventListener('click', () => {
-  modal.classList.add('hidden');  // Add the 'hidden' class to hide the modal
+    modal.classList.add('hidden');  // Hide the modal
+    document.getElementById('create-article-form').reset(); // Reset the form
+});
+
+// Form submission handling
+const createArticleForm = document.getElementById('create-article-form');
+createArticleForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    const formData = new FormData(createArticleForm);
+    // Perform form submission to backend for creating a new article
+    fetch('/admin_mis/src/php/createArticle.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error creating article: ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            alert('Article created successfully!');
+            modal.classList.add('hidden');
+            fetchArticles(); // Refresh the articles table
+        } else {
+            alert('Error: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error creating article:', error.message);
+        alert('An error occurred while creating the article.');
+    });
 });
