@@ -176,100 +176,77 @@
         </div>
    </div>
 
+   <?php
+   include 'db_connect.php'; // Ensure the database connection file is included
+   
+   // Query to fetch articles for the News & Events section
+   $sql = "SELECT article_title, created_at, p1box_left, imgu1 FROM articles LIMIT 4";
+   $result = $conn->query($sql);
+   ?>
+   
    <div class="news-events">
-        <div class="nw-container">
-            <div class="nwc-head">
-                <div class="nwch-content1">
-                    <div class="nwch-dont">
-                        <p><i class="bi bi-dash-lg"></i>&nbsp;&nbsp;DON’T MISS</p>
-                    </div>
-                    <div class="nwch-title">
-                        <p>News & Events</p>
-                    </div>
-                </div>
-                <div class="nwc-more">
-                    
-                    <p><a href="../News and Events/naeindex.html" class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">See all Events&nbsp;&nbsp;<i class="bi bi-arrow-right"></i></a></p>
-                </div>
-            </div>
-            <div class="nwcb-container">
-
-              
-
-                <div onclick="location.href='../NandE per pieces/collctionpagelight.html';" class="nwcb-container1">
-                    <div class="nwcb1-image">
-                        <img src="../source/454351744_122177290772212562_1655261121964959403_n.png" alt="">
-                    </div>
-                    <div class="nwcb1-info">
-                        <div class="nwcb1i-1">
-                            <p>THE TITLE OF THE EVENT WILL BE PLACED HERE</p>
-                        </div>
-                        <div class="nwcb1i-2">
-                            <p>Month DD, YYYY</p>
-                        </div>
-                        <div class="nwcb1i-3">
-                            <p>Brief description of the event will be placed here. Brief description of the event will be placed here</p>
-                        </div>
-                    </div>
-                </div>
-              
-                <div onclick="location.href='../NandE per pieces/collctionpagelight.html';" class="nwcb-container2">
-                    <div class="nwcb2-image">
-                        <img src="../source/440832115_947772303495782_6010038099693171993_n.png" alt="">
-                    </div>
-                    <div class="nwcb2-info">
-                        <div class="nwcb2i-1">
-                            <p>THE TITLE OF THE EVENT WILL BE PLACED HERE</p>
-                        </div>
-                        <div class="nwcb2i-2">
-                            <p>Month DD, YYYY</p>
-                        </div>
-                        <div class="nwcb2i-3">
-                            <p>Brief description of the event will be placed here. Brief description of the event will be placed here</p>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div onclick="location.href='../NandE per pieces/collctionpagelight.html';" class="nwcb-container3">
-                    <div class="nwcb3-image">
-                        <img src="../source/Gen.-Vicente-R.-Lukban-Bust-3.png" alt="">
-                    </div>
-                    <div class="nwcb3-info">
-                        <div class="nwcb3i-1">
-                            <p>THE TITLE OF THE EVENT WILL BE PLACED HERE</p>
-                        </div>
-                        <div class="nwcb3i-2">
-                            <p>Month DD, YYYY</p>
-                        </div>
-                        <div class="nwcb3i-3">
-                            <p>Brief description of the event will be placed here. Brief description of the event will be placed here</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div onclick="location.href='../NandE per pieces/collctionpagelight.html';" class="nwcb-container4">
-                    <div class="nwcb4-image">
-                        <img src="../source/Wenceslao-Q.-Vinzons-Sr.-Bust-2-225x300.png" alt="">
-                    </div>
-                    <div class="nwcb4-info">
-                        <div class="nwcb4i-1">
-                            <p>THE TITLE OF THE EVENT WILL BE PLACED HERE</p>
-                        </div>
-                        <div class="nwcb4i-2">
-                            <p>Month DD, YYYY</p>
-                        </div>
-                        <div class="nwcb4i-3">
-                            <p>Brief description of the event will be placed here. Brief description of the event will be placed here</p>
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
-            
-        </div>
+       <div class="nw-container">
+           <div class="nwc-head">
+               <div class="nwch-content1">
+                   <div class="nwch-dont">
+                       <p><i class="bi bi-dash-lg"></i>&nbsp;&nbsp;DON’T MISS</p>
+                   </div>
+                   <div class="nwch-title">
+                       <p>News & Events</p>
+                   </div>
+               </div>
+               <div class="nwc-more">
+                   <p><a href="../News and Events/naeindex.html" class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">See all Events&nbsp;&nbsp;<i class="bi bi-arrow-right"></i></a></p>
+               </div>
+           </div>
+           <div class="nwcb-container">
+   
+           <?php
+           // Check if the query retrieved any data
+           if ($result && $result->num_rows > 0) {
+               while ($row = $result->fetch_assoc()) {
+                   $articleTitle = htmlspecialchars($row['article_title']); // Sanitize output
+                   $createdAt = date("F d, Y", strtotime($row['created_at'])); // Format the date
+                   $p1boxLeft = htmlspecialchars($row['p1box_left']); // Sanitize content text
+                   $imgPath = $row['imgu1'];
+   
+                   // Ensure the image path is correctly prefixed
+                   if (strpos($imgPath, 'uploads/') === false) {
+                       $imgPath = "../../Management/Article/uploads/" . $imgPath;
+                   } else {
+                       $imgPath = "../../Management/Article/" . $imgPath;
+                   }
+                   ?>
+   
+                   <div onclick="location.href='../NandE per pieces/collctionpagelight.html';" class="nwcb-container1">
+                       <div class="nwcb1-image">
+                           <img src="<?php echo htmlspecialchars($imgPath); ?>" alt="Event Image">
+                       </div>
+                       <div class="nwcb1-info">
+                           <div class="nwcb1i-1">
+                               <p><?php echo $articleTitle; ?></p>
+                           </div>
+                           <div class="nwcb1i-2">
+                               <p><?php echo $createdAt; ?></p>
+                           </div>
+                           <div class="nwcb1i-3">
+                               <p style="overflow-wrap: break-word; overflow: hidden; text-overflow: ellipsis;"><?php echo $p1boxLeft; ?></p>
+                           </div>
+                       </div>
+                   </div>
+   
+                   <?php
+               }
+           } else {
+               echo '<p>No events found</p>';
+           }
+           $conn->close(); // Close the database connection
+           ?>
+   
+           </div>
+       </div>
    </div>
+   
 
 <div class="booking">
     <div class="booking-button">
@@ -313,7 +290,7 @@
             <div class="row d-flex justify-content-between">
                 <div class="col-lg-7 col-sm-12">
                     <div class="museo-bulawan-cmp d-flex justify-content-start mb-3">
-                        <img src="/Museo Bulawan Visitor/source/LOGO.png" alt="">
+                        <img src="../source/LOGO.png" alt="">
                         <h2>Museo Bulawan</h2>
                     </div>
                     <p class="lead">Helping us raise awareness regarding Camnortenos identity is crucial, and

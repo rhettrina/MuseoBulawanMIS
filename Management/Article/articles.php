@@ -116,8 +116,6 @@
                 <button class="notification-button">
                     <img src="../../Museo Bulawan Visitor/source/notifiaction-icon.png" alt="">
                 </button>
-
-
             </div>
 
             <?php
@@ -132,6 +130,7 @@
                 <div class="head">
                     <h2>Articles</h2>
                 </div>
+                
                 <div class="head-container">
                     <div class="article-counter">
                         <div class="counter-left">
@@ -182,7 +181,7 @@
                     
                 </div> 
                
-
+                
 
             </div>
 
