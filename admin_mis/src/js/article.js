@@ -50,7 +50,7 @@ function fetchArticles(sort = 'newest') {
 }
 
 function populateTable(articles) {
-    const tableBody = document.querySelector('tbody');
+    const tableBody = document.getElementById('articles-table').querySelector('tbody');
     tableBody.innerHTML = ''; // Clear existing rows
 
     if (articles.length === 0) {
@@ -104,7 +104,6 @@ function populateTable(articles) {
         actionCell.appendChild(previewButton);
         actionCell.appendChild(editButton);
         actionCell.appendChild(deleteButton);
-
 
         row.appendChild(dateCell);
         row.appendChild(titleCell);

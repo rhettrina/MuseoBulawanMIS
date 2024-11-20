@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const logoutButton = document.getElementById("logout-button");
     logoutButton.addEventListener("click", () => {
         localStorage.removeItem("currentPage"); 
-        window.location.href = "/login"; 
+        window.location.href = "\Museo Bulawan Visitor\admin_login\login.html"; 
     });
 });
   
