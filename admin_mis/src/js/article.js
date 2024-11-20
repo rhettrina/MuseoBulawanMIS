@@ -86,33 +86,32 @@ function populateTable(articles) {
 
         // Add buttons with event listeners
         const previewButton = document.createElement('button');
-        previewButton.classList.add('bg-green-500', 'text-white', 'p-2', 'rounded', 'hover:bg-green-600');
+        previewButton.classList.add('bg-orange-400', 'text-white' , 'p-2', 'rounded', 'hover:bg-orange-300');
         previewButton.innerHTML = `<i class="fas fa-eye"></i>`;
         previewButton.addEventListener('click', () => handleAction('preview', article.id));
 
         const editButton = document.createElement('button');
-        editButton.classList.add('bg-blue-500', 'text-white', 'p-2', 'rounded', 'hover:bg-blue-600');
+        editButton.classList.add('bg-orange-400', 'text-white', 'p-2', 'rounded', 'hover:bg-orange-300');
         editButton.innerHTML = `<i class="fas fa-edit"></i>`;
         editButton.addEventListener('click', () => handleAction('edit', article.id));
 
         const deleteButton = document.createElement('button');
-        deleteButton.classList.add('bg-red-500', 'text-white', 'p-2', 'rounded', 'hover:bg-red-600');
+        deleteButton.classList.add('bg-orange-400', 'text-white', 'p-2', 'rounded', 'hover:bg-orange-300');
         deleteButton.innerHTML = `<i class="fas fa-trash"></i>`;
         deleteButton.addEventListener('click', () => handleAction('delete', article.id));
 
-        // Append buttons to the action cell
+
         actionCell.appendChild(previewButton);
         actionCell.appendChild(editButton);
         actionCell.appendChild(deleteButton);
 
-        // Append cells to the row
+
         row.appendChild(dateCell);
         row.appendChild(titleCell);
         row.appendChild(typeCell);
         row.appendChild(updatedDateCell);
         row.appendChild(actionCell);
 
-        // Append row to the table body
         tableBody.appendChild(row);
     });
 }
@@ -139,7 +138,7 @@ function handleAction(action, articleId) {
 }
 
 
-// Display a "No Data" message in the table
+
 function displayNoDataMessage() {
     const tableBody = document.querySelector('tbody');
     tableBody.innerHTML = `
@@ -149,7 +148,7 @@ function displayNoDataMessage() {
     `;
 }
 
-// Handle sort selection
+
 document.getElementById("sort").addEventListener("change", function () {
     const sortOption = this.value;
     fetchArticles(sortOption);
@@ -157,22 +156,20 @@ document.getElementById("sort").addEventListener("change", function () {
 
 
 
-// Function to show the Create Article Modal
 function showCreateArticleModal() {
     const modal = document.getElementById('create-article-modal');
-    modal.classList.remove('hidden'); // Remove the 'hidden' class to show the modal
+    modal.classList.remove('hidden'); 
   }
   
-  // Add event listener to the Create Article button
   document.getElementById('create-article-button').addEventListener('click', showCreateArticleModal);
 
 
-// Function to hide the Create Article Modal
+
 function hideCreateArticleModal() {
     const modal = document.getElementById('create-article-modal');
-    modal.classList.add('hidden'); // Add the 'hidden' class to hide the modal
+    modal.classList.add('hidden'); 
   }
   
-  // Add event listener to the Cancel button
+
   document.getElementById('cancel-button').addEventListener('click', hideCreateArticleModal);
   
