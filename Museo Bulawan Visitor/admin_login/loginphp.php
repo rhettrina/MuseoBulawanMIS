@@ -34,7 +34,7 @@ if ($result->num_rows > 0) {
     // Save username to the session and redirect to dashboard
     $_SESSION['username'] = $username;
 
-    // Close the statement and connection before redirecting
+
     $stmt->close();
     $conn->close();
 
