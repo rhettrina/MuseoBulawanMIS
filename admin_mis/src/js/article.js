@@ -155,3 +155,24 @@ document.getElementById("sort").addEventListener("change", function () {
     fetchArticles(sortOption);
 });
 
+
+
+// Function to show the Create Article Modal
+function showCreateArticleModal() {
+    const modal = document.getElementById('create-article-modal');
+    modal.classList.remove('hidden'); // Remove the 'hidden' class to show the modal
+  }
+  
+  // Add event listener to the Create Article button
+  document.getElementById('create-article-button').addEventListener('click', showCreateArticleModal);
+
+
+// Function to hide the Create Article Modal
+function hideCreateArticleModal() {
+    const modal = document.getElementById('create-article-modal');
+    modal.classList.add('hidden'); // Add the 'hidden' class to hide the modal
+  }
+  
+  // Add event listener to the Cancel button
+  document.getElementById('cancel-button').addEventListener('click', hideCreateArticleModal);
+  
