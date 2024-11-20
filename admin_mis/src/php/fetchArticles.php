@@ -1,5 +1,13 @@
 <?php
-// Include your database connection
+header("Access-Control-Allow-Origin: *"); 
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS"); 
+header("Access-Control-Allow-Headers: Content-Type, x-requested-with");
+
+    if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+        exit(0); 
+    }
+
+
 include 'db_connect.php';
 
 $sort = $_GET['sort'] ?? 'newest'; // Default sort is 'newest'
