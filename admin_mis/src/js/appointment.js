@@ -1,69 +1,69 @@
 function init() {
-    fetchTotalArticles();
-    fetchArticles();  // Default to 'newest' sort
+    fetchTotalAppointments();
+    fetchAppointments();  // Default to 'newest' sort
 }
 
-function fetchTotalArticles() {
-    fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchTotalArticles.php')
+function fetchTotalAppointments() {
+    fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchTotalAppointments.php')
         .then(response => response.json())
         .then(data => {
             if (data.error) {
-                handleError('Error fetching total articles:', data.error);
-                document.getElementById('total-articles').innerText = "Error fetching data";
+                handleError('Error fetching total appointments:', data.error);
+                document.getElementById('total-appointments').innerText = "Error fetching data";
             } else {
-                document.getElementById('total-articles').innerText = data.total_articles;
+                document.getElementById('total-appointments').innerText = data.total_appointments;
             }
         })
-        .catch(error => handleError('Error fetching total articles:', error));
+        .catch(error => handleError('Error fetching total appointments:', error));
 }
 
-// Fetch and populate the donations table
-function fetchArticles(sort = 'newest') {
-    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchArticles.php?sort=${sort}`)
+// Fetch and populate the appointments table
+function fetchAppointments(sort = 'newest') {
+    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchAppointments.php?sort=${sort}`)
         .then(response => response.json())
         .then(data => {
             if (data.error) {
-                handleError('Error fetching articles:', data.error);
+                handleError('Error fetching appointments:', data.error);
                 displayNoDataMessage();
             } else {
                 populateTable(data);
             }
         })
         .catch(error => {
-            handleError('Error fetching articles:', error);
+            handleError('Error fetching appointments:', error);
             displayNoDataMessage();
         });
 }
 
-function populateTable(articles) {
-    const tableBody = document.getElementById('donation-table-body');
+function populateTable(appointments) {
+    const tableBody = document.getElementById('appointment-table');
     tableBody.innerHTML = ''; // Clear existing rows
 
-    if (articles.length === 0) {
+    if (appointments.length === 0) {
         displayNoDataMessage();
         return;
     }
 
-    articles.forEach(article => {
+    appointments.forEach(appointment => {
         const row = document.createElement('tr');
         row.classList.add('border-t', 'border-gray-300', 'text-center');
 
         // Create cells for each column
         row.innerHTML = `
-            <td class="px-4 py-2">${article.date}</td>
-            <td class="px-4 py-2">${article.donor_name}</td>
-            <td class="px-4 py-2">${article.title}</td>
-            <td class="px-4 py-2">${article.status}</td>
-            <td class="px-4 py-2">${article.transfer_status}</td>
-            <td class="px-4 py-2">${article.updated_date}</td>
+            <td class="px-4 py-2">${appointment.date}</td>
+            <td class="px-4 py-2">${appointment.donor_name}</td>
+            <td class="px-4 py-2">${appointment.title}</td>
+            <td class="px-4 py-2">${appointment.status}</td>
+            <td class="px-4 py-2">${appointment.transfer_status}</td>
+            <td class="px-4 py-2">${appointment.updated_date}</td>
             <td class="px-4 py-2 flex justify-center space-x-2">
-                <button class="bg-green-500 text-white p-2 rounded hover:bg-green-600" onclick="handleAction('preview', ${article.id})">
+                <button class="bg-green-500 text-white p-2 rounded hover:bg-green-600" onclick="handleAction('preview', ${appointment.id})">
                     <i class="fas fa-eye"></i>
                 </button>
-                <button class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600" onclick="handleAction('edit', ${article.id})">
+                <button class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600" onclick="handleAction('edit', ${appointment.id})">
                     <i class="fas fa-edit"></i>
                 </button>
-                <button class="bg-red-500 text-white p-2 rounded hover:bg-red-600" onclick="handleAction('delete', ${article.id})">
+                <button class="bg-red-500 text-white p-2 rounded hover:bg-red-600" onclick="handleAction('delete', ${appointment.id})">
                     <i class="fas fa-trash"></i>
                 </button>
             </td>
@@ -72,16 +72,16 @@ function populateTable(articles) {
     });
 }
 
-function handleAction(action, articleId) {
+function handleAction(action, appointmentId) {
     switch (action) {
         case 'preview':
-            console.log(`Preview article with ID: ${articleId}`);
+            console.log(`Preview appointment with ID: ${appointmentId}`);
             break;
         case 'edit':
-            console.log(`Edit article with ID: ${articleId}`);
+            console.log(`Edit appointment with ID: ${appointmentId}`);
             break;
         case 'delete':
-            console.log(`Delete article with ID: ${articleId}`);
+            console.log(`Delete appointment with ID: ${appointmentId}`);
             break;
         default:
             console.error('Unknown action:', action);
@@ -89,10 +89,10 @@ function handleAction(action, articleId) {
 }
 
 function displayNoDataMessage() {
-    const tableBody = document.getElementById('donation-table-body');
+    const tableBody = document.getElementById('appointment-table');
     tableBody.innerHTML = `
         <tr>
-            <td colspan="7" class="text-center py-4">No donations found or an error occurred.</td>
+            <td colspan="7" class="text-center py-4">No appointments found or an error occurred.</td>
         </tr>
     `;
 }
@@ -102,9 +102,9 @@ function handleError(message, error) {
     alert(message); // Optional: Display a message to the user
 }
 
-document.getElementById("sort-donation").addEventListener("change", function () {
+document.getElementById("sort-appointment").addEventListener("change", function () {
     const sortOption = this.value;
-    fetchArticles(sortOption);
+    fetchAppointments(sortOption);
 });
 
 // Modal toggling
