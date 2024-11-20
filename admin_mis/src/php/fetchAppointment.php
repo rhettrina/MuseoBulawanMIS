@@ -1,10 +1,5 @@
 <?php
-// Database connection
-$conn = new mysqli('localhost', 'root', '', 'my_database');
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include('db_connect.php');
 
 // Sorting logic
 $order = isset($_GET['sort']) && $_GET['sort'] === 'date-oldest' ? 'ASC' : 'DESC';
