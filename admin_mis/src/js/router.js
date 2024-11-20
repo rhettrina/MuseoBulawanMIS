@@ -79,6 +79,51 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.removeItem("currentPage"); 
         window.location.href = "\Museo Bulawan Visitor\admin_login\login.html"; 
     });
+
+
+    const notificationButton = document.getElementById('notification-button');
+    const notificationModal = document.getElementById('notification-modal');
+    const closeNotificationButton = document.getElementById('close-notification');
+    const notificationList = document.getElementById('notification-list');
+    const notificationCounter = document.getElementById('notifaction-counter');
+
+    // Sample notifications
+    const notifications = [
+        'New comment on your post',
+        'New follower',
+        'Your article was published',
+    ];
+
+    // Handle notification button click (Show modal)
+    notificationButton.addEventListener('click', function() {
+        // Clear notification counter
+        notificationCounter.textContent = '';
+
+        // Show the notification modal
+        notificationModal.classList.remove('hidden');
+
+        // Populate the notification list
+        notificationList.innerHTML = ''; // Clear existing notifications
+        notifications.forEach(notification => {
+            const listItem = document.createElement('li');
+            listItem.classList.add('text-sm', 'text-gray-700');
+            listItem.textContent = notification;
+            notificationList.appendChild(listItem);
+        });
+    });
+
+    // Close the notification modal when the close button is clicked
+    closeNotificationButton.addEventListener('click', function() {
+        notificationModal.classList.add('hidden');
+    });
+
+    // Close the modal when clicking outside of it
+    notificationModal.addEventListener('click', function(event) {
+        if (event.target === notificationModal) {
+            notificationModal.classList.add('hidden');
+        }
+    });
+    
 });
   
 function toggleSidebar() {
