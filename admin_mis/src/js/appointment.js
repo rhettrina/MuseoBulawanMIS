@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', () => {
     const sortForm = document.getElementById('sortForm');
     const appointmentData = document.getElementById('appointmentData');

@@ -14,10 +14,8 @@
     $password = "Fujiwara000!";            
     $dbname = "u376871621_mb_mis";   
 
-    // Create connection
     $connextion = new mysqli($servername, $username, $password, $dbname);
 
-    // Check connection
     if ($connextion->connect_error) {
         die("Connection failed: " . $connextion->connect_error);
     }
