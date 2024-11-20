@@ -1,2 +1,94 @@
-<h2 class="text-2xl font-semibold">Appointment</h2>
-<p class="text-gray-600">Welcome to the Appointment!</p>
+<div class="container mx-auto">
+    <h2 class="text-2xl font-semibold">Appointment</h2>
+    <p class="text-gray-600">Manage appointments effectively!</p>
+
+    <!-- Summary Section -->
+    <div class="table-content flex flex-col">
+        <div
+            class="w-full min-h-28 pt-6 rounded-md flex flex-col lg:flex-row md:flex-row justify-center md:justify-between lg:justify-between gap-y-2">
+            <div class="p-2 max-w-44 max-h-24 rounded-md bg-blue-200 flex justify-center items-center">
+                <div class="flex justify-center align-items-center w-20 h-16 rounded-md items-center">
+                    <span class="text-center text-sm font-bold">Total Appointments</span>
+                </div>
+                <div class="flex justify-center align-items-center w-20 h-16 rounded-md bg-white items-center">
+                    <span id="total-appointments" class="text-xl font-bold">0</span>
+                </div>
+            </div>
+            <button
+                id="create-appointment-button"
+                class="p-5 bg-blue-300 text-black font-bold font-medium w-40 h-12 py-2 px-4 rounded-lg shadow-md hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-300">
+                Create Appointment <i class="fa-solid fa-plus"></i>
+            </button>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="w-full h-fit items-center flex justify-end py-2">
+            <div class="sort-container border-1 border-solid border-2 rounded-md">
+                <label for="sort" class="text-gray-700 font-medium mb-2">Sort by Date:</label>
+                <select id="sort" class="w-fit px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300">
+                    <option value="newest">Newest</option>
+                    <option value="oldest">Oldest</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Appointments Table -->
+        <div class="flex justify-center items-start">
+            <table class="min-w-full table-auto">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="px-4 py-2 text-center">Date</th>
+                        <th class="px-4 py-2 text-center">Name</th>
+                        <th class="px-4 py-2 text-center">Time</th>
+                        <th class="px-4 py-2 text-center">Status</th>
+                        <th class="px-4 py-2 text-center">Attendees</th>
+                        <th class="px-4 py-2 text-center">Confirmation Date</th>
+                    </tr>
+                </thead>
+                <tbody class="space-y-4">
+                    <tr>
+                        <td colspan="6" class="text-center py-4">No appointments found.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Create Appointment Modal -->
+    <div id="create-appointment-modal"
+        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50">
+        <div class="bg-white rounded-lg w-4/5 max-w-3xl p-6 shadow-lg">
+            <h2 class="text-xl font-semibold mb-4">Create Appointment</h2>
+            <form id="create-appointment-form">
+                <div class="mb-4">
+                    <label for="appointment-date" class="block text-gray-700 font-medium mb-2">Preferred Date</label>
+                    <input type="date" id="appointment-date" name="appointment_date"
+                        class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
+                        required />
+                </div>
+                <div class="mb-4">
+                    <label for="appointment-time" class="block text-gray-700 font-medium mb-2">Preferred Time</label>
+                    <input type="time" id="appointment-time" name="appointment_time"
+                        class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
+                        required />
+                </div>
+                <div class="mb-4">
+                    <label for="attendees" class="block text-gray-700 font-medium mb-2">Number of Attendees</label>
+                    <input type="number" id="attendees" name="attendees"
+                        class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
+                        required />
+                </div>
+                <div class="flex justify-end space-x-4">
+                    <button type="button" id="cancel-button"
+                        class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">Cancel</button>
+                    <button type="submit"
+                        class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Add JavaScript functionality for modal toggling and dynamic updates here
+</script>
