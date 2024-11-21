@@ -1,10 +1,6 @@
 
 <?php
-if ($_SERVER['HTTP_X_REQUESTED_WITH'] !== 'XMLHttpRequest') {
-    // Return a 403 Forbidden error if the request is not an AJAX call
-    http_response_code(403);
-    die('Access forbidden');
-}
+
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS, DELETE");
