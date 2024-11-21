@@ -1,13 +1,10 @@
 <?php
-$servername = "localhost"; 
-$username = "u376871621_bomb_squad";       
-$password = "Fujiwara000!";            
-$dbname = "u376871621_mb_mis";
-$db = mysqli_connect($database_server, $database_user, $database_password, $database_name);
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS, DELETE, UPDATE");
+header("Access-Control-Allow-Headers: Content-Type, x-requested-with");
+header('Content-Type: application/json');  // Set JSON header for the response
 
-if ($db->connect_error) {
-    die("Connection failed: " . $db->connect_error);
-}
+include('admin_mis\src\php\db_connect.php');
 
 // Check if the form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -54,8 +51,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($art_error === 0) {
             if ($art_img_size > 12500000) {
-                $em = "Sorry, the artifact image is too large.";
-                header("Location: donateindex.php?error=$em");
+                $response = array('success' => false, 'message' => 'Sorry, the artifact image is too large.');
+                echo json_encode($response);
                 exit();
             } else {
                 $art_img_ex_lc = strtolower(pathinfo($art_img_name, PATHINFO_EXTENSION));
@@ -69,14 +66,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     // Insert the sanitized file name into the database
                     $art_img_name = $art_img_name_sanitized;
                 } else {
-                    $em = "You can't upload files of this type for artifact image.";
-                    header("Location: donateindex.php?error=$em");
+                    $response = array('success' => false, 'message' => "You can't upload files of this type for artifact image.");
+                    echo json_encode($response);
                     exit();
                 }
             }
         } else {
-            $em = "Error uploading the artifact image.";
-            header("Location: donateindex.php?error=$em");
+            $response = array('success' => false, 'message' => "Error uploading the artifact image.");
+            echo json_encode($response);
             exit();
         }
     }
@@ -90,8 +87,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($doc_error === 0) {
             if ($doc_img_size > 12500000) {
-                $em = "Sorry, the documentation image is too large.";
-                header("Location: donateindex.php?error=$em");
+                $response = array('success' => false, 'message' => 'Sorry, the documentation image is too large.');
+                echo json_encode($response);
                 exit();
             } else {
                 $doc_img_ex_lc = strtolower(pathinfo($doc_img_name, PATHINFO_EXTENSION));
@@ -103,14 +100,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     // Insert the sanitized file name into the database
                     $linkdocimg = $doc_img_name_sanitized;
                 } else {
-                    $em = "You can't upload files of this type for documentation image.";
-                    header("Location: donateindex.php?error=$em");
+                    $response = array('success' => false, 'message' => "You can't upload files of this type for documentation image.");
+                    echo json_encode($response);
                     exit();
                 }
             }
         } else {
-            $em = "Error uploading the documentation image.";
-            header("Location: donateindex.php?error=$em");
+            $response = array('success' => false, 'message' => "Error uploading the documentation image.");
+            echo json_encode($response);
             exit();
         }
     }
@@ -124,8 +121,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($rel_error === 0) {
             if ($rel_img_size > 12500000) {
-                $em = "Sorry, the related image is too large.";
-                header("Location: donateindex.php?error=$em");
+                $response = array('success' => false, 'message' => 'Sorry, the related image is too large.');
+                echo json_encode($response);
                 exit();
             } else {
                 $rel_img_ex_lc = strtolower(pathinfo($rel_img_name, PATHINFO_EXTENSION));
@@ -137,14 +134,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     // Insert the sanitized file name into the database
                     $linkrelimg = $rel_img_name_sanitized;
                 } else {
-                    $em = "You can't upload files of this type for related image.";
-                    header("Location: donateindex.php?error=$em");
+                    $response = array('success' => false, 'message' => "You can't upload files of this type for related image.");
+                    echo json_encode($response);
                     exit();
                 }
             }
         } else {
-            $em = "Error uploading the related image.";
-            header("Location: donateindex.php?error=$em");
+            $response = array('success' => false, 'message' => "Error uploading the related image.");
+            echo json_encode($response);
             exit();
         }
     }
@@ -167,14 +164,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                           VALUES ('$donation_date', '$donor_name', '$item_name', '$status', '$transfer_status')";
 
         if ($conn->query($sql_donations) === TRUE) {
-            echo "Donation record inserted successfully!";
+            // Respond with a success message
+            $response = array('success' => true, 'message' => 'Donation form submitted successfully.');
+            echo json_encode($response);
         } else {
-            echo "Error: " . $conn->error;
+            // Error in donations table insertion
+            $response = array('success' => false, 'message' => 'Error inserting into donations table: ' . $conn->error);
+            echo json_encode($response);
         }
-
-        header("Location: donateindex.php");  // Redirect after success
     } else {
-        echo "Error: " . $conn->error;
+        // Error in donation_form table insertion
+        $response = array('success' => false, 'message' => 'Error submitting donation form: ' . $conn->error);
+        echo json_encode($response);
     }
+} else {
+    // Invalid request method
+    $response = array('success' => false, 'message' => 'Invalid request method.');
+    echo json_encode($response);
 }
 ?>

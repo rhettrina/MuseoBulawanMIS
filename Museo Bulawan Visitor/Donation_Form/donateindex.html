@@ -1,6 +1,3 @@
-
-
-
 <html lang="en">
 
 <head>
@@ -33,7 +30,6 @@
 
 </head>
 
-
 <body>
     <div class="wrapper">
         <div id="container1">
@@ -46,18 +42,15 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="morebtn">
-
-
-
                     <ul class="navbar-nav ms-auto px-4">
                         <li class="nav-item">
                             <a class="nav-link" href="">About Us</a>
                         </li>
-                        <li class="nav-item"></li>
-                        <a class="nav-link" href="">Visit Us</a>
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Visit Us</a>
                         </li>
-                        <li class="nav-item"></li>
-                        <a class="nav-link" href="">Log In</a>
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Log In</a>
                         </li>
                     </ul>
                 </div>
@@ -78,33 +71,22 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="burgerbtn">
-
-
-
                     <ul class="hovering navbar-nav fs-5 gap-3">
                         <li class="nav-item">
                             <a class="nav-link" href="">Home</a>
-
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="">Collections</a>
-
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="">News and Events</a>
-
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="">About Us</a>
-
                         </li>
                     </ul>
                     <button class="btn ms-auto"><img src="../source/search.png" alt="" id="searchbtn"></button>
                 </div>
-
-
-
-
             </nav>
             <hr class="border border-1 border-dark opacity-100">
         </div>
@@ -113,8 +95,9 @@
     <div class="donationtitle container mt-4 mx-0">
         <h1 class="ms-5 py-3">Donation Form</h1>
     </div>
-    <form action="process_donation.php" method="POST" enctype="multipart/form-data" id="donationForm">
-    <input type="hidden" name="formType" value="donation"> <!-- Valid example with a set value -->
+
+    <form method="POST" action="process_donation.php" enctype="multipart/form-data" id="donationForm">
+        <input type="hidden" name="formType" value="donation"> <!-- Valid example with a set value -->
 
         <div class="intro container p-5 mt-4">
             <p>In addition to preserving your historic objects it is important to remember to preserve the history or
@@ -133,7 +116,6 @@
                 </div>
                 <div class="col-sm-5">
                     <input type="text" class="form-control border-2 border-dark" id="lastName" name="lastName" placeholder="Last Name" required>
-
                 </div>
             </div>
 
@@ -144,11 +126,7 @@
                 <div class="col-sm-2">
                     <input type="number" class="form-control border-2 border-dark" id="age" name="age" placeholder="Age" min="0" required>
                 </div>
-                <div class="col-2">
-
-                </div>
                 <label class="col-sm-1 col-form-label fs-5"><b>Sex</b></label>
-
                 <div class="col-sm-4">
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="sex" id="male" value="male">
@@ -162,9 +140,7 @@
                         <input class="form-check-input" type="radio" name="sex" id="others" value="others">
                         <label class="form-check-label" for="others">Others</label>
                     </div>
-
                 </div>
-
             </div>
 
             <!-- Contact Information Section -->
@@ -186,221 +162,62 @@
             <div class="form-group row align-items-center mt-4">
                 <label for="organization" class="col-sm-2 col-form-label fs-5"><b>Organization</b></label>
                 <div class="col-sm-5">
-                    <input type="text" class="form-control border-2 border-dark" id="organization" name="organization"
-                        placeholder="School/Institution/etc">
+                    <input type="text" class="form-control border-2 border-dark" id="organization" name="organization" placeholder="Organization Name">
                 </div>
             </div>
 
-            <!-- Address Section -->
-            <h3 class="mt-4">Where do you live.</h3>
+            <!-- Location Section -->
             <div class="form-group row align-items-center mt-4">
-                <label for="province" class="col-sm-2 col-form-label fs-5"><b>Province</b> <span
+                <label for="location" class="col-sm-2 col-form-label fs-5"><b>Location</b> <span
                         class="text-danger">*</span></label>
-                <div class="col-sm-4">
-                    <select class="form-control border-2 border-dark" id="province" name="province" required>
-                        <option selected disabled>Select Province</option>
-                        <option>Camarines Norte</option>
-                        <option>Province 1</option>
-                        <option>Province 2</option>
-                        <option>Province 3</option>
-                    </select>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control border-2 border-dark" id="province" name="province" placeholder="Province" required>
                 </div>
-                <label for="city" class="col-sm-1 col-form-label fs-5"><b>City</b> <span
-                        class="text-danger">*</span></label>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <input type="text" class="form-control border-2 border-dark" id="city" name="city" placeholder="City" required>
                 </div>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control border-2 border-dark" id="barangay" name="barangay" placeholder="Barangay" required>
+                </div>
             </div>
+
+            <!-- Artifact Information Section -->
+            <h3>Tell us about the artifact.</h3>
+
             <div class="form-group row align-items-center mt-4">
-                <label for="barangay" class="col-sm-2 col-form-label fs-5"><b>Barangay</b> <span
+                <label for="artifactTitle" class="col-sm-2 col-form-label fs-5"><b>Title of Artifact</b> <span
                         class="text-danger">*</span></label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control border-2 border-dark" id="barangay" name="barangay" placeholder="Barangay"
-                        required>
-                </div>
-                <label for="street" class="col-sm-1 col-form-label fs-5"><b>Street</b></label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control border-2 border-dark" id="street" name="street" placeholder="Street">
-                </div>
-            </div>
-
-
-
-        </div>
-
-        <div class="intro container p-5 my-4">
-            <h3>About the artifact.</h3>
-
-            <div class="form-group row align-items-center  mt-4">
-                <label for="artifactTitle" class="col-sm-3 col-form-label fs-5"><b>Title/Name of the Artifact.</b> <span
-                        class="text-danger">*</span></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control border-2 border-dark" id="artifactTitle" name="artifactTitle" placeholder="Title/Name of the Artifact" required>
-
-                </div>
-            </div>
-
-            <div class="form-group row align-items-center mt-4">
-                <label for="artifactDescription" class="col-sm-3 col-form-label fs-5"><b>Artifact Description</b> <span
-                        class="text-danger">*</span></label>
-                <div class="col-sm-9">
-                    <textarea class="form-control border-2 border-dark" id="artifactDescription" name="artifactDescription" placeholder="Artifact Description" required></textarea>
-                </div>
-            </div>
-
-            <div class="form-group row align-items-center mt-4">
-                <label for="acquisition" class="col-sm-3 col-form-label fs-5"><b>How and where did you acquire the
-                        artifact?</b> <span class="text-danger">*</span></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control border-2 border-dark" id="acquisition" name="acquisition"
-                        placeholder="Acquisition Details" required>
-                </div>
-            </div>
-
-            <div class="form-group row align-items-center mt-4">
-                <label for="additionalInfo" class="col-sm-3 col-form-label fs-5"><b>Additional Information</b></label>
-                <div class="col-sm-9">
-                    <textarea class="form-control border-2 border-dark" id="additionalInfo" name="additionalInfo"
-                        placeholder="Is there any other information about the artifact that the museum should know?"></textarea>
-                </div>
-            </div>
-
-            <div class="form-group row align-items-center mt-4">
-                <label for="narrative" class="col-sm-3 col-form-label fs-5"><b>Brief Narrative or Story</b></label>
-                <div class="col-sm-9">
-                    <textarea class="form-control border-2 border-dark" id="narrative" name="narrative"
-                        placeholder="Would you like to provide a brief narrative or story related to the artifact?"></textarea>
-                </div>
-            </div>
-
-            <div class="form-group row align-items-center mt-5 justify-content-between">
-                <label for="artifactImages" class="col-sm-3 col-form-label fs-5"><b>Images of the artifact</b> <span
-                        class="text-danger">*</span></label>
-                <div class="col-sm-2"></div>
-                <div class="col-sm-6">
-                    <input type="text" class="form-control border-2 border-dark mb-2" id="artifactImages" name="artifactImages"
-                        placeholder="Paste Link" required>
-                    <input type="file" class="form-control border-2 border-dark" id="artifactFiles" name="artifact_img" multiple>
-                </div>
-            </div>
-
-            <div class="form-group row align-items-center mt-4 justify-content-between">
                 <div class="col-sm-5">
-                    <label for="documentation" class="col-form-label fs-5"><b>Relevant Documentation</b></label>
-                    <p>Such as Provenance Documents, Historical Records, Research Papers, Certificates of Authenticity,
-                        Catalogs or Inventories.</p>
-                </div>
-                <div class="col-sm-6">
-                    <input type="text" class="form-control border-2 border-dark mb-2" id="documentation" name="documentation"
-                        placeholder="Paste Link">
-                    <input type="file" class="form-control border-2 border-dark" id="documentationFiles" 
-                    name="documentation_img" multiple>
+                    <input type="text" class="form-control border-2 border-dark" id="artifactTitle" name="artifactTitle" placeholder="Artifact Title" required>
                 </div>
             </div>
 
-            <div class="form-group row align-items-center mt-4 justify-content-between">
+            <div class="form-group row align-items-center mt-4">
+                <label for="artifactDescription" class="col-sm-2 col-form-label fs-5"><b>Artifact Description</b></label>
                 <div class="col-sm-5">
-                    <label for="relatedImages" class="col-form-label fs-5"><b>Any related images</b></label>
-                    <p>For example an image of your grandfather wearing the clothes, of image of an artifact while being
-                        used.</p>
-                </div>
-                <div class="col-sm-6">
-                    <input type="text" class="form-control border-2 border-dark mb-2" id="relatedImages" name="relatedImages"
-                        placeholder="Paste Link">
-                    <input type="file" class="form-control border-2 border-dark" id="relatedFiles" name="related_img" multiple>
+                    <textarea class="form-control border-2 border-dark" id="artifactDescription" name="artifactDescription" rows="4"
+                        placeholder="Describe the artifact"></textarea>
                 </div>
             </div>
-            <div class="col-md-12 d-flex justify-content-end mt-5">
-                <button type="submitDform" class="btn btn-light px-5 py-2" onclick="openModal()" >Submit</button>
-            </div>
-            </div>
-   
-           
-        </form> 
 
-    <!-- Modal Structure -->
-    <div id="confirmationModal" class="modal">
-        <div class="modal-content">
-        <p>Are you sure you want to submit this form?</p>
-        <button onclick="confirmSubmission()">Yes</button>
-        <button onclick="closeModal()">No</button>
-        </div>
-    </div>
-
-    <div class="wrapper">
-
-        <div class="lowercontainer ms-5 pt-4">
-            <div class="row d-flex">
-                <div class="col-12">
-                    <ul class="nav-links">
-                        <li><a class="text-decoration-none" href="">Home</a></li>
-                        <div class="vr border border-1 border-light opacity-100" style="height: 40px;"></div>
-                        <li><a class="text-decoration-none" href="">Collections</a></li>
-                        <div class="vr border border-1 border-light opacity-100" style="height: 40px;"></div>
-                        <li><a class="text-decoration-none" href="">News & Events</a></li>
-                        <div class="vr border border-1 border-light opacity-100" style="height: 40px;"></div>
-                        <li><a class="text-decoration-none" href="">About Us</a></li>
-                    </ul>
+            <!-- File Upload Section -->
+            <div class="form-group row align-items-center mt-4">
+                <label for="artifactImage" class="col-sm-2 col-form-label fs-5"><b>Artifact Image</b></label>
+                <div class="col-sm-5">
+                    <input type="file" class="form-control border-2 border-dark" id="artifactImage" name="artifactImage">
                 </div>
             </div>
         </div>
 
-
-
-        <hr class="border border-1 border-light opacity-100 mx-4">
-
-        <div class="side-footer mx-5">
-            <div class="row d-flex justify-content-between">
-                <div class="col-lg-7 col-sm-12">
-                    <div class="museo-bulawan-cmp d-flex justify-content-start">
-                        <img src="../source/LOGO.png" alt="">
-                        <h2>Museo Bulawan</h2>
-                    </div>
-                    <p class="lead">Helping us raise awareness regarding Camnortenos identity is crucial, and
-                        your
-                        support can make a significant difference.</p>
-                    <div class="container-fluid d-flex flex-wrap p-0 pb-4">
-                        <p class="me-3">We gratefully accept donations or just lending of your artifact will greatly
-                            help us.
-                        </p>
-                        <button type="button" class="btn btn-light btn-lg">Support Us</button>
-                    </div>
-                </div>
-
-                <div class="col-lg-2 col-sm-12">
-                    <nav class="navbar">
-                        <ul class="navbar-nav text-start navbar-dark">
-                            <li class="nav-item">
-                                <a class="nav-link" href=""><b>Visit Us</b></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="">About Us</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="">Book a Tour</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="">Contact Us</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="">Map View</a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-
-                <div class="col-lg-3 col-sm-12 mt-2">
-                    <h5>Opening Hours</h5>
-                    <p>Camarines Norte Provincial Capitol Grounds,
-                        Daet Philippines</p>
-                    <p>Open Daily 9:00am-5:00pm,
-                        Monday- Friday,</p>
-                </div>
-
+        <!-- Form Submit Section -->
+        <div class="form-group row align-items-center mt-4">
+            <div class="col-sm-5"></div>
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-primary btn-block">Submit</button>
             </div>
         </div>
-    </div>
-<script src="../Donation_Form/script.js"></script>
+    </form>
+
 </body>
 
 </html>

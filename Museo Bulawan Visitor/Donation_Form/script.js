@@ -10,10 +10,49 @@ document.addEventListener("DOMContentLoaded", function () {
         modal.setAttribute("aria-hidden", "true");
     }
 
+    // Convert FormData to a plain object
+    function formDataToObject(formData) {
+        const dataObj = {};
+        formData.forEach((value, key) => {
+            dataObj[key] = value;
+        });
+        return dataObj;
+    }
+
     // Confirm and submit form
     function confirmSubmission() {
         closeModal(); // Close the modal
-        form.submit(); // Programmatically submit the form after confirmation
+
+        // Convert form data to an object
+        const formData = new FormData(form);
+        const formObject = formDataToObject(formData);
+
+        // Send a fetch request to submit the form data (assuming it's a POST request to submit data)
+        fetch('https://lightpink-dogfish-795437.hostingersite.com/Museo%20Bulawan%20Visitor/Donation_Form/process_donation.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            
+            body: JSON.stringify(formObject)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to submit form');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                console.log('Form submitted successfully');
+            } else {
+                console.error('Failed to submit form:', data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error submitting form:', error);
+        });
+        
     }
 
     // Event listener for the confirmation button
