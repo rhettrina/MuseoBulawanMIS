@@ -10,31 +10,17 @@ document.addEventListener("DOMContentLoaded", function () {
         modal.setAttribute("aria-hidden", "true");
     }
 
-    // Convert FormData to a plain object
-    function formDataToObject(formData) {
-        const dataObj = {};
-        formData.forEach((value, key) => {
-            dataObj[key] = value;
-        });
-        return dataObj;
-    }
-
     // Confirm and submit form
     function confirmSubmission() {
         closeModal(); // Close the modal
 
-        // Convert form data to an object
+        // Convert form data to a FormData object (for sending via POST)
         const formData = new FormData(form);
-        const formObject = formDataToObject(formData);
 
-        // Send a fetch request to submit the form data (assuming it's a POST request to submit data)
+        // Send a fetch request to submit the form data
         fetch('https://lightpink-dogfish-795437.hostingersite.com/Museo%20Bulawan%20Visitor/Donation_Form/process_donation.php', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            
-            body: JSON.stringify(formObject)
+            body: formData // Send the FormData directly without stringifying it
         })
         .then(response => {
             if (!response.ok) {
