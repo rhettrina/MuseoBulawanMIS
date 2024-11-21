@@ -3,10 +3,10 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
-$host = 'localhost';      // Database host (usually localhost)
-$username = 'root';       // Database username (default for XAMPP is root)
-$password = '';           // Database password (default for XAMPP is empty)
-$database = 'museo_bulawan';  // Database name (replace with your actual database name)
+$host = 'localhost';     
+$username = 'root';       
+$password = '';           
+$database = 'museo_bulawan'; 
 
 // Establish the connection
 $connection = new mysqli($host, $username, $password, $database);
