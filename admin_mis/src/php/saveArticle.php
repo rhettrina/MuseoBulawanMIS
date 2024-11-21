@@ -49,7 +49,6 @@ if ($image1Path && $image2Path && $image3Path) {
 } else {
     echo json_encode(['success' => false, 'error' => 'Image upload failed']);
 }
-
 // Function to handle image upload
 function uploadImage($image) {
     $targetDir = dirname(__DIR__, 1) . "/uploads/articlesUploads/";
@@ -64,10 +63,9 @@ function uploadImage($image) {
         return $errorMessage;
     }
 
-    // Check if the file already exists
+    // If file already exists, use the same path
     if (file_exists($targetFile)) {
-        $errorMessage = "File already exists.";
-        return $errorMessage;
+        return $targetFile; // Return the existing file path
     }
 
     // Check file size (max 3MB)
