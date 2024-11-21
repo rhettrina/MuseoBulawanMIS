@@ -9,27 +9,27 @@ include('admin_mis\src\php\db_connect.php');
 // Check if the form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Collect and sanitize form data
-    $firstName = $conn->real_escape_string($_POST['firstName']);
-    $lastName = $conn->real_escape_string($_POST['lastName']);
+    $firstName = $connextion->real_escape_string($_POST['firstName']);
+    $lastName = $connextion->real_escape_string($_POST['lastName']);
     $age = intval($_POST['age']);
-    $sex = $conn->real_escape_string($_POST['sex']);
-    $email = $conn->real_escape_string($_POST['email']);
-    $phone = $conn->real_escape_string($_POST['phone']);
-    $organization = $conn->real_escape_string($_POST['organization']);
-    $province = $conn->real_escape_string($_POST['province']);
-    $city = $conn->real_escape_string($_POST['city']);
-    $barangay = $conn->real_escape_string($_POST['barangay']);
-    $street = $conn->real_escape_string($_POST['street']);
+    $sex = $connextion->real_escape_string($_POST['sex']);
+    $email = $connextion->real_escape_string($_POST['email']);
+    $phone = $connextion->real_escape_string($_POST['phone']);
+    $organization = $connextion->real_escape_string($_POST['organization']);
+    $province = $connextion->real_escape_string($_POST['province']);
+    $city = $connextion->real_escape_string($_POST['city']);
+    $barangay = $connextion->real_escape_string($_POST['barangay']);
+    $street = $connextion->real_escape_string($_POST['street']);
 
-    $artifactTitle = $conn->real_escape_string($_POST['artifactTitle']);
-    $artifactDescription = $conn->real_escape_string($_POST['artifactDescription']);
-    $acquisition = $conn->real_escape_string($_POST['acquisition']);
-    $additionalInfo = $conn->real_escape_string($_POST['additionalInfo']);
-    $narrative = $conn->real_escape_string($_POST['narrative']);
+    $artifactTitle = $connextion->real_escape_string($_POST['artifactTitle']);
+    $artifactDescription = $connextion->real_escape_string($_POST['artifactDescription']);
+    $acquisition = $connextion->real_escape_string($_POST['acquisition']);
+    $additionalInfo = $connextion->real_escape_string($_POST['additionalInfo']);
+    $narrative = $connextion->real_escape_string($_POST['narrative']);
 
-    $linkartimg = $conn->real_escape_string($_POST['artifactImages']);
-    $linkdocimg = $conn->real_escape_string($_POST['documentation']);
-    $linkrelimg = $conn->real_escape_string($_POST['relatedImages']);
+    $linkartimg = $connextion->real_escape_string($_POST['artifactImages']);
+    $linkdocimg = $connextion->real_escape_string($_POST['documentation']);
+    $linkrelimg = $connextion->real_escape_string($_POST['relatedImages']);
 
     // Initialize image file paths
     $art_img_upload_path = '';
@@ -39,8 +39,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $allowed_exs = array("jpg", "jpeg", "png");
 
     // Collect status options
-    $status = $conn->real_escape_string($_POST['status']);
-    $transfer_status = $conn->real_escape_string($_POST['transfer_status']);
+    $status = $connextion->real_escape_string($_POST['status']);
+    $transfer_status = $connextion->real_escape_string($_POST['transfer_status']);
 
     // Handle artifact image upload
     $art_img_name = $_FILES['artifact_img']['name'];
@@ -136,7 +136,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 } else {
                     $response = array('success' => false, 'message' => "You can't upload files of this type for related image.");
                     echo json_encode($response);
-                    exit();
+                    header("Location: donateindex.html");
+                    exit(); 
+                    
                 }
             }
         } else {
@@ -150,7 +152,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "INSERT INTO donation_form (first_name, last_name, age, sex, email, phone, organization, province, city, barangay, street, artifact_title, artifact_description, acquisition_details, additional_info, narrative, link_art_img, artifact_images, link_doc_img, documentation, link_rel_img, related_images)
             VALUES ('$firstName', '$lastName', '$age', '$sex', '$email', '$phone', '$organization', '$province', '$city', '$barangay', '$street', '$artifactTitle', '$artifactDescription', '$acquisition', '$additionalInfo', '$narrative', '$linkartimg', '$art_img_name_sanitized', '$linkdocimg', '$doc_img_name_sanitized', '$linkrelimg', '$rel_img_name_sanitized')";
 
-    if ($conn->query($sql) === TRUE) {
+    if ($connextion->query($sql) === TRUE) {
         date_default_timezone_set('Asia/Manila'); // Set timezone
 
         // Prepare and insert into donations table
@@ -163,23 +165,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql_donations = "INSERT INTO donations (donation_date, donor_name, item_name, status, transfer_status)
                           VALUES ('$donation_date', '$donor_name', '$item_name', '$status', '$transfer_status')";
 
-        if ($conn->query($sql_donations) === TRUE) {
+        if ($connextion->query($sql_donations) === TRUE) {
             // Respond with a success message
-            $response = array('success' => true, 'message' => 'Donation form submitted successfully.');
+            $response = array('success' => true, 'message' => 'Donation form submitted successfully!');
             echo json_encode($response);
         } else {
-            // Error in donations table insertion
-            $response = array('success' => false, 'message' => 'Error inserting into donations table: ' . $conn->error);
+            $response = array('success' => false, 'message' => 'Error inserting data into donations table.');
             echo json_encode($response);
         }
     } else {
-        // Error in donation_form table insertion
-        $response = array('success' => false, 'message' => 'Error submitting donation form: ' . $conn->error);
+        $response = array('success' => false, 'message' => 'Error inserting data into donation_form table.');
         echo json_encode($response);
     }
-} else {
-    // Invalid request method
-    $response = array('success' => false, 'message' => 'Invalid request method.');
-    echo json_encode($response);
 }
 ?>
