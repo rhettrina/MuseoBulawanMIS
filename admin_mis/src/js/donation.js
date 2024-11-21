@@ -2,7 +2,7 @@ function init() {
     // Call the display functions here
     fetchTotalDonations();
     fetchDonations();
-    deleteDonation(); // Ensure this function is properly called on delete action
+    deleteDonation(); 
 }
 
 function fetchTotalDonations() {
@@ -96,9 +96,26 @@ function populateTable(donations) {
         statusCell.classList.add('px-4', 'py-2');
         statusCell.textContent = donation.status;
 
+        // Dropdown for transfer status
         const transferStatusCell = document.createElement('td');
         transferStatusCell.classList.add('px-4', 'py-2');
-        transferStatusCell.textContent = donation.transfer_status;
+
+        const dropdown = document.createElement('select');
+        dropdown.classList.add('border', 'p-2', 'rounded');
+        const statuses = ['Accepted', 'Failed', 'Rejected'];
+        statuses.forEach(status => {
+            const option = document.createElement('option');
+            option.value = status.toLowerCase();
+            option.textContent = status;
+            option.selected = donation.transfer_status.toLowerCase() === status.toLowerCase();
+            dropdown.appendChild(option);
+        });
+
+        dropdown.addEventListener('change', () => {
+            updateTransferStatus(donation.id, dropdown.value);
+        });
+
+        transferStatusCell.appendChild(dropdown);
 
         const updatedDateCell = document.createElement('td');
         updatedDateCell.classList.add('px-4', 'py-2');
@@ -140,6 +157,7 @@ function populateTable(donations) {
         tableBody.appendChild(row);
     });
 }
+
 
 function handleAction(action, donationId) {
     switch (action) {
@@ -224,3 +242,28 @@ function closeModal(modalId) {
 
 // Initialize data and actions
 document.addEventListener('DOMContentLoaded', init);
+
+function updateTransferStatus(donationId, newStatus) {
+    fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/updateTransferStatus.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: donationId, transfer_status: newStatus })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to update transfer status');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            console.log('Transfer status updated successfully:', data);
+            fetchDonations(); // Refresh the table to reflect updates
+        } else {
+            console.error('Failed to update transfer status:', data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error updating transfer status:', error);
+    });
+}
