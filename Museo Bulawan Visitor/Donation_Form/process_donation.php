@@ -101,7 +101,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($conn->query($donation_sql) === TRUE) {
             echo "Donation submitted successfully!";
-            header("Location: lendindex.html");
+            header("Location: donateindex.html");
         } else {
             echo "Error inserting into donations table: " . $conn->error;
         }
