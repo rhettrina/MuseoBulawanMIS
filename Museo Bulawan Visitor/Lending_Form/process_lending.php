@@ -1,4 +1,8 @@
 <?php
+header("Access-Control-Allow-Origin: *"); 
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS"); 
+header("Access-Control-Allow-Headers: Content-Type, x-requested-with");
+
 // Database configuration
 $servername = "localhost"; 
 $username = "u376871621_bomb_squad";       
@@ -13,6 +17,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
 
 // Check if the form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -67,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($art_error === 0) {
             if ($art_img_size > 12500000) {
                 $em = "Sorry, the artifact image is too large.";
-                header("Location: lendindex.php?error=$em");
+                header("Location: lendindex.html?error=$em");
                 exit();
             } else {
                 // Get file extension and convert to lowercase
@@ -79,13 +84,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     move_uploaded_file($art_tmp_name, $art_img_upload_path);
                 } else {
                     $em = "You can't upload files of this type for artifact image.";
-                    header("Location: lendindex.php?error=$em");
+                    header("Location: lendindex.html?error=$em");
                     exit();
                 }
             }
         } else {
             $em = "Error uploading the artifact image.";
-            header("Location: lendindex.php?error=$em");
+            header("Location: lendindex.html?error=$em");
             exit();
         }
     }
@@ -99,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($doc_error === 0) {
             if ($doc_img_size > 12500000) {
                 $em = "Sorry, the documentation image is too large.";
-                header("Location: lendindex.php?error=$em");
+                header("Location: lendindex.html?error=$em");
                 exit();
             } else {
                 // Get file extension and convert to lowercase
@@ -111,13 +116,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     move_uploaded_file($doc_tmp_name, $doc_img_upload_path);
                 } else {
                     $em = "You can't upload files of this type for documentation image.";
-                    header("Location: lendindex.php?error=$em");
+                    header("Location: lendindex.html?error=$em");
                     exit();
                 }
             }
         } else {
             $em = "Error uploading the documentation image.";
-            header("Location: lendindex.php?error=$em");
+            header("Location: lendindex.html?error=$em");
             exit();
         }
     }
@@ -131,7 +136,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($rel_error === 0) {
             if ($rel_img_size > 12500000) {
                 $em = "Sorry, the related image is too large.";
-                header("Location: lendindex.php?error=$em");
+                header("Location: lendindex.html?error=$em");
                 exit();
             } else {
                 // Get file extension and convert to lowercase
@@ -143,13 +148,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     move_uploaded_file($rel_tmp_name, $rel_img_upload_path);
                 } else {
                     $em = "You can't upload files of this type for related image.";
-                    header("Location: lendindex.php?error=$em");
+                    header("Location: lendindex.html?error=$em");
                     exit();
                 }
             }
         } else {
             $em = "Error uploading the related image.";
-            header("Location: lendindex.php?error=$em");
+            header("Location: lendindex.html?error=$em");
             exit();
         }
     }
@@ -176,7 +181,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($conn->query($donation_sql) === TRUE) {
             echo "Donation submitted successfully!";
-            header("Location: lendindex.php");
+            header("Location: lendindex.html");
         } else {
             echo "Error inserting into donations table: " . $conn->error;
         }
