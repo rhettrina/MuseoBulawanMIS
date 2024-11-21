@@ -40,4 +40,142 @@ function fetchTotalDonations() {
         });
 }
 
+// Fetch and populate the donations table
+function fetchDonations(sort = 'newest') {
+    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchDonations.php?sort=${sort}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.error) {
+                console.error(data.error);
+                displayNoDataMessage();
+            } else {
+                populateTable(data);
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching donations:', error);
+            displayNoDataMessage();
+        });
+}
+
+function populateTable(donations) {
+    const tableBody = document.getElementById('donations-table').querySelector('tbody');
+    tableBody.innerHTML = ''; // Clear existing rows
+
+    if (donations.length === 0) {
+        displayNoDataMessage();
+        return;
+    }
+
+    donations.forEach(donation => {
+        const row = document.createElement('tr');
+        row.classList.add('border-t', 'border-gray-300', 'text-center');
+
+        // Create cells
+        const dateCell = document.createElement('td');
+        dateCell.classList.add('px-4', 'py-2');
+        dateCell.textContent = donation.donation_date;
+
+        const titleCell = document.createElement('td');
+        titleCell.classList.add('px-4', 'py-2');
+        titleCell.textContent = donation.item_name;
+
+        const donorCell = document.createElement('td');
+        donorCell.classList.add('px-4', 'py-2');
+        donorCell.textContent = donation.donor_name;
+
+        const statusCell = document.createElement('td');
+        statusCell.classList.add('px-4', 'py-2');
+        statusCell.textContent = donation.status;
+
+        const transferStatusCell = document.createElement('td');
+        transferStatusCell.classList.add('px-4', 'py-2');
+        transferStatusCell.textContent = donation.transfer_status;
+
+        const updatedDateCell = document.createElement('td');
+        updatedDateCell.classList.add('px-4', 'py-2');
+        updatedDateCell.textContent = donation.updated_date === "Not Edited" || !donation.updated_date
+            ? "Not Edited"
+            : donation.updated_date;
+
+        const actionCell = document.createElement('td');
+        actionCell.classList.add('px-4', 'py-2', 'flex', 'justify-center', 'space-x-2');
+
+        // Add buttons with event listeners
+        const previewButton = document.createElement('button');
+        previewButton.classList.add('bg-orange-400', 'text-white' , 'p-2', 'rounded', 'hover:bg-orange-300');
+        previewButton.innerHTML = `<i class="fas fa-eye"></i>`;
+        previewButton.addEventListener('click', () => handleAction('preview', donation.id));
+
+        const editButton = document.createElement('button');
+        editButton.classList.add('bg-orange-400', 'text-white', 'p-2', 'rounded', 'hover:bg-orange-300');
+        editButton.innerHTML = `<i class="fas fa-edit"></i>`;
+        editButton.addEventListener('click', () => handleAction('edit', donation.id));
+
+        const deleteButton = document.createElement('button');
+        deleteButton.classList.add('bg-orange-400', 'text-white', 'p-2', 'rounded', 'hover:bg-orange-300');
+        deleteButton.innerHTML = `<i class="fas fa-trash"></i>`;
+        deleteButton.addEventListener('click', () => handleAction('delete', donation.id));
+
+        actionCell.appendChild(previewButton);
+        actionCell.appendChild(editButton);
+        actionCell.appendChild(deleteButton);
+
+        row.appendChild(dateCell);
+        row.appendChild(titleCell);
+        row.appendChild(donorCell);
+        row.appendChild(statusCell);
+        row.appendChild(transferStatusCell);
+        row.appendChild(updatedDateCell);
+        row.appendChild(actionCell);
+
+        tableBody.appendChild(row);
+    });
+}
+
+function handleAction(action, donationId) {
+    switch (action) {
+        case 'preview':
+            console.log(`Preview donation with ID: ${donationId}`);
+            // Implement preview functionality here
+            break;
+        case 'edit':
+            console.log(`Edit donation with ID: ${donationId}`);
+            // Implement edit functionality here
+            break;
+        case 'delete':
+            // Show confirmation modal before deleting
+            openDeleteModal((response) => {
+                if (response) {
+                    console.log(`Donation with ID ${donationId} deleted.`);
+                    // Implement delete functionality here
+                    // For example: deleteDonation(donationId);
+                } else {
+                    console.log("Delete action canceled.");
+                }
+            });
+            break;
+        default:
+            console.error('Unknown action:', action);
+    }
+}
+
+function displayNoDataMessage() {
+    const tableBody = document.querySelector('tbody');
+    tableBody.innerHTML = `
+        <tr>
+            <td colspan="7" class="text-center py-4">No donations found or an error occurred.</td>
+        </tr>
+    `;
+}
+
+document.getElementById("sort").addEventListener("change", function () {
+    const sortOption = this.value;
+    fetchDonations(sortOption);
+});
 
