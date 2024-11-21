@@ -36,6 +36,10 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('text-left').innerText = article.p1box_left || 'No left text available';
         document.getElementById('text-right').innerText = article.p1box_right || 'No right text available';
 
+        // Handle additional text content (p2box, p3box)
+        document.getElementById('text-container2').innerText = article.p2box || 'No second text block available';
+        document.getElementById('text-container3').innerText = article.p3box || 'No third text block available';
+
         // Handle last modified date
         document.getElementById('last-modified').innerText = article.updated_date || 'Not modified';
 
