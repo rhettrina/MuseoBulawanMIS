@@ -2,7 +2,7 @@
 <p class="text-gray-600">Welcome to the Donation!</p>
 
 <div class="table-content flex flex-col">
-    <div class="w-full min-h-28 pt-6 rounded-md flex flex-col lg:flex-row md:flex-row justify-center md:justify-between lg:justify-between gap-y-2">
+    <div class="w-full min-h-28 pt-6 rounded-md flex flex-col lg:flex-row md:flex-row justify-center md:justify-between lg:justify-between gap-y-6 mb-5 items-center">
       <div class="p-2 max-w-44 max-h-24 rounded-md bg-orange-200 flex justify-center items-center">
         <div class="flex justify-center align-items-center w-20 h-16 rounded-md items-center">
           <span class="text-center text-sm font-bold">Total Donations</span>
@@ -50,20 +50,21 @@
 
     </div>
 
-    <div class="w-full h-10 items-center flex justify-end py-10">
-    <!--Toolbar-->
-      <div class="sort-container border-1 border-solid border-2 rounded-md">
-        <label for="sort"> By Date:</label>
-            <select id="sort">
-            <option value="newest">Newest</option>
-            <option value="oldest">Oldest</option>
-        </select>
-      </div>
-    </div>
+    <div class="w-full h-fit items-center flex justify-end py-4">
+      <!--Toolbar-->
 
-    <div class="flex justify-center items-start ">
+          <div class="sort-container border-0 outline outline-1 outline-gray-300 rounded-md">
+            <label for="sort" class="text-gray-700 font-medium mb-2">&nbsp&nbspSort</label>
+            <select id="sorts" class="w-fit px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-300">
+                <option value="newest">Newest</option>
+                <option value="oldest">Oldest</option>
+            </select>
+          </div>
+      </div>
+
+    <div class="flex justify-center items-start overflow-y-auto max-h-60">
       <table id="donations-table" class="min-w-full table-auto">
-        <thead class="bg-gray-100">
+        <thead class="bg-gray-100 sticky top-0 z-10">
           <tr>
             <th class="px-4 py-2 text-center">Date</th>
             <th class="px-4 py-2 text-center">Name of Donor</th>
@@ -72,28 +73,38 @@
             <th class="px-4 py-2 text-center">Transfer Status</th>
             <th class="px-4 py-2 text-center">Last Updated</th>
             <th class="px-4 py-2 text-center">Action</th>
-
           </tr>
         </thead>
-        <tbody class="space-y-4">
+        <tbody class="space-y-4 overflow-y-auto max-h-60">
           <tr>
-           <td colspan="7" class="text-center py-4">No articles found.</td>
+            <td colspan="7" class="text-center py-4">No articles found.</td>
           </tr>
         </tbody>
       </table>
     </div>
-  </div>
+    
 
    <!-- Confirmation Modal -->
-<div id="confirmation-modal" class="modal hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 ">
-  <div class="modal-content bg-white p-6 rounded-lg w-96 text-center">
-    <p id="confirmation-message" class="text-lg">Are you sure?</p>
-    <div class="mt-4">
-      <button id="confirm-button" class="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 mr-4">Yes</button>
-      <button id="cancel-button" class="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600">No</button>
+   <div id="transfer-status-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div class="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
+        <h2 class="text-lg font-semibold text-gray-800 mb-4">Confirm Status Change</h2>
+        <!-- Dynamic message will be inserted here -->
+        <p id="status-confirmation-message" class="text-gray-600 mb-6"></p>
+        <div class="flex justify-end space-x-3">
+            
+            <button id="status-confirm-button" 
+                class="px-4 py-2 text-sm text-white bg-orange-400 rounded-lg hover:bg-orange-500">
+                Confirm
+            </button>
+            <button id="status-cancel-button" 
+                class="px-4 py-2 text-sm text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">
+                Cancel
+            </button>
+        </div>
     </div>
-  </div>
 </div>
+
+
 
 <!-- Delete Confirmation Modal -->
 <div id="delete-modal" class="modal hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 ">

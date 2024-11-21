@@ -2,7 +2,7 @@ function init() {
     // Call the display functions here
     fetchTotalDonations();
     fetchDonations();
-    deleteDonation(); 
+    // No need to call deleteDonation here; it's triggered by specific actions
 }
 
 function fetchTotalDonations() {
@@ -15,32 +15,33 @@ function fetchTotalDonations() {
         })
         .then(data => {
             if (data.error) {
-                // Log the error and display it in the console
                 console.error('Error from PHP:', data.error);
-                // Display an error message in the UI
-                document.getElementById('total-donations').innerText = "Error fetching data";
-                document.getElementById('total-accepted').innerText = "Error fetching data";
-                document.getElementById('total-rejected').innerText = "Error fetching data";
-                document.getElementById('total-donform').innerText = "Error fetching data";
-                document.getElementById('total-lendform').innerText = "Error fetching data";
+                displayErrorMessages();
             } else {
-                // Populate data if there are no errors
-                document.getElementById('total-donations').innerText = data.total_donations || 0;
-                document.getElementById('total-accepted').innerText = data.accepted_donations || 0;
-                document.getElementById('total-rejected').innerText = data.rejected_donations || 0;
-                document.getElementById('total-donform').innerText = data.total_donation_forms || 0;
-                document.getElementById('total-lendform').innerText = data.total_lending_forms || 0;
+                populateTotalDonationData(data);
             }
         })
         .catch(error => {
-            // Catch network or other fetch errors
             console.error('Error fetching total donations:', error);
-            document.getElementById('total-donations').innerText = "Error fetching data";
-            document.getElementById('total-accepted').innerText = "Error fetching data";
-            document.getElementById('total-rejected').innerText = "Error fetching data";
-            document.getElementById('total-donform').innerText = "Error fetching data";
-            document.getElementById('total-lendform').innerText = "Error fetching data";
+            displayErrorMessages();
         });
+}
+
+function displayErrorMessages() {
+    const errorMessage = "Error fetching data";
+    document.getElementById('total-donations').innerText = errorMessage;
+    document.getElementById('total-accepted').innerText = errorMessage;
+    document.getElementById('total-rejected').innerText = errorMessage;
+    document.getElementById('total-donform').innerText = errorMessage;
+    document.getElementById('total-lendform').innerText = errorMessage;
+}
+
+function populateTotalDonationData(data) {
+    document.getElementById('total-donations').innerText = data.total_donations || 0;
+    document.getElementById('total-accepted').innerText = data.accepted_donations || 0;
+    document.getElementById('total-rejected').innerText = data.rejected_donations || 0;
+    document.getElementById('total-donform').innerText = data.total_donation_forms || 0;
+    document.getElementById('total-lendform').innerText = data.total_lending_forms || 0;
 }
 
 // Fetch and populate the donations table
@@ -79,73 +80,20 @@ function populateTable(donations) {
         const row = document.createElement('tr');
         row.classList.add('border-t', 'border-gray-300', 'text-center');
 
-        // Create cells
-        const dateCell = document.createElement('td');
-        dateCell.classList.add('px-4', 'py-2');
-        dateCell.textContent = donation.donation_date;
-
-        const titleCell = document.createElement('td');
-        titleCell.classList.add('px-4', 'py-2');
-        titleCell.textContent = donation.item_name;
-
-        const donorCell = document.createElement('td');
-        donorCell.classList.add('px-4', 'py-2');
-        donorCell.textContent = donation.donor_name;
-
-        const statusCell = document.createElement('td');
-        statusCell.classList.add('px-4', 'py-2');
-        statusCell.textContent = donation.status;
+        // Create and populate cells
+        const dateCell = createTableCell(donation.donation_date);
+        const titleCell = createTableCell(donation.item_name);
+        const donorCell = createTableCell(donation.donor_name);
+        const statusCell = createTableCell(donation.status);
+        const updatedDateCell = createTableCell(donation.updated_date === "Not Edited" || !donation.updated_date ? "Not Edited" : donation.updated_date);
 
         // Dropdown for transfer status
-        const transferStatusCell = document.createElement('td');
-        transferStatusCell.classList.add('px-4', 'py-2');
+        const transferStatusCell = createTransferStatusCell(donation);
 
-        const dropdown = document.createElement('select');
-        dropdown.classList.add('border', 'p-2', 'rounded');
-        const statuses = ['Accepted', 'Failed', 'Rejected'];
-        statuses.forEach(status => {
-            const option = document.createElement('option');
-            option.value = status.toLowerCase();
-            option.textContent = status;
-            option.selected = donation.transfer_status.toLowerCase() === status.toLowerCase();
-            dropdown.appendChild(option);
-        });
+        // Action buttons
+        const actionCell = createActionButtons(donation);
 
-        dropdown.addEventListener('change', () => {
-            updateTransferStatus(donation.id, dropdown.value);
-        });
-
-        transferStatusCell.appendChild(dropdown);
-
-        const updatedDateCell = document.createElement('td');
-        updatedDateCell.classList.add('px-4', 'py-2');
-        updatedDateCell.textContent = donation.updated_date === "Not Edited" || !donation.updated_date
-            ? "Not Edited"
-            : donation.updated_date;
-
-        const actionCell = document.createElement('td');
-        actionCell.classList.add('px-4', 'py-2', 'flex', 'justify-center', 'space-x-2');
-
-        // Add buttons with event listeners
-        const previewButton = document.createElement('button');
-        previewButton.classList.add('bg-orange-400', 'text-white', 'p-2', 'rounded', 'hover:bg-orange-300');
-        previewButton.innerHTML = `<i class="fas fa-eye"></i>`;
-        previewButton.addEventListener('click', () => handleAction('preview', donation.id));
-
-        const editButton = document.createElement('button');
-        editButton.classList.add('bg-orange-400', 'text-white', 'p-2', 'rounded', 'hover:bg-orange-300');
-        editButton.innerHTML = `<i class="fas fa-edit"></i>`;
-        editButton.addEventListener('click', () => handleAction('edit', donation.id));
-
-        const deleteButton = document.createElement('button');
-        deleteButton.classList.add('bg-orange-400', 'text-white', 'p-2', 'rounded', 'hover:bg-orange-300');
-        deleteButton.innerHTML = `<i class="fas fa-trash"></i>`;
-        deleteButton.addEventListener('click', () => handleAction('delete', donation.id));
-
-        actionCell.appendChild(previewButton);
-        actionCell.appendChild(editButton);
-        actionCell.appendChild(deleteButton);
-
+        // Append cells to row
         row.appendChild(dateCell);
         row.appendChild(titleCell);
         row.appendChild(donorCell);
@@ -158,26 +106,72 @@ function populateTable(donations) {
     });
 }
 
+function createTableCell(content) {
+    const cell = document.createElement('td');
+    cell.classList.add('px-4', 'py-2');
+    cell.textContent = content;
+    return cell;
+}
+
+function createTransferStatusCell(donation) {
+    const cell = document.createElement('td');
+    cell.classList.add('px-4', 'py-2');
+    const dropdown = document.createElement('select');
+    dropdown.classList.add('border', 'p-2', 'rounded');
+
+    const statuses = ['ACQUIRED', 'FAILED', 'PENDING'];
+    statuses.forEach(status => {
+        const option = document.createElement('option');
+        option.value = status.toUpperCase();
+        option.textContent = status;
+        option.selected = donation.transfer_status.toUpperCase() === status.toUpperCase();
+        dropdown.appendChild(option);
+    });
+
+    dropdown.addEventListener('change', () => {
+        const newStatus = dropdown.value;
+        openStatusModal(donation.id, donation.transfer_status, newStatus, dropdown);
+    });
+
+    cell.appendChild(dropdown);
+    return cell;
+}
+
+function createActionButtons(donation) {
+    const cell = document.createElement('td');
+    cell.classList.add('px-4', 'py-2', 'flex', 'justify-center', 'space-x-2');
+
+    const previewButton = createActionButton('eye', 'preview', donation);
+    const editButton = createActionButton('edit', 'edit', donation);
+    const deleteButton = createActionButton('trash', 'delete', donation);
+
+    cell.appendChild(previewButton);
+    cell.appendChild(editButton);
+    cell.appendChild(deleteButton);
+
+    return cell;
+}
+
+function createActionButton(icon, action, donation) {
+    const button = document.createElement('button');
+    button.classList.add('bg-orange-400', 'text-white', 'p-2', 'rounded', 'hover:bg-orange-300');
+    button.innerHTML = `<i class="fas fa-${icon}"></i>`;
+    button.addEventListener('click', () => handleAction(action, donation.id));
+    return button;
+}
 
 function handleAction(action, donationId) {
     switch (action) {
         case 'preview':
             console.log(`Preview donation with ID: ${donationId}`);
-            // Implement preview functionality here
             break;
         case 'edit':
             console.log(`Edit donation with ID: ${donationId}`);
-            // Implement edit functionality here
             break;
         case 'delete':
-            // Show confirmation modal before deleting
-            openDeleteModal((response) => {
+            openDeleteModal(response => {
                 if (response) {
-                    console.log(`Donation with ID ${donationId} deleted.`);
-                    // Call deleteDonation function
                     deleteDonation(donationId);
-                } else {
-                    console.log("Delete action canceled.");
                 }
             });
             break;
@@ -195,12 +189,10 @@ function displayNoDataMessage() {
     `;
 }
 
-document.getElementById("sort").addEventListener("change", function () {
-    const sortOption = this.value;
-    fetchDonations(sortOption);
+document.getElementById("sorts").addEventListener("change", function () {
+    fetchDonations(this.value);
 });
 
-// Delete donation via AJAX
 function deleteDonation(donationId) {
     fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/deleteDonations.php?id=${donationId}`, {
         method: 'DELETE',
@@ -209,39 +201,32 @@ function deleteDonation(donationId) {
         if (!response.ok) {
             throw new Error('Failed to delete donation');
         }
-        // Refresh the donation list after successful deletion
-        fetchDonations();
+        fetchDonations(); // Refresh the donation list after deletion
     })
     .catch(error => {
         console.error('Error deleting donation:', error);
     });
 }
 
-// Function to open the delete confirmation modal
 function openDeleteModal(callback) {
     const modal = document.getElementById("delete-modal");
     modal.classList.remove("hidden");
 
-    // Handling button clicks
     document.getElementById("delete-confirm-button").onclick = () => {
-        callback(true);  // Return 'true' if 'Delete' is clicked
+        callback(true);
         closeModal("delete-modal");
     };
 
     document.getElementById("delete-cancel-button").onclick = () => {
-        callback(false);  // Return 'false' if 'Cancel' is clicked
+        callback(false);
         closeModal("delete-modal");
     };
 }
 
-// Function to close the modal
 function closeModal(modalId) {
     const modal = document.getElementById(modalId);
     modal.classList.add("hidden");
 }
-
-// Initialize data and actions
-document.addEventListener('DOMContentLoaded', init);
 
 function updateTransferStatus(donationId, newStatus) {
     fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/updateTransferStatus.php', {
@@ -257,7 +242,6 @@ function updateTransferStatus(donationId, newStatus) {
     })
     .then(data => {
         if (data.success) {
-            console.log('Transfer status updated successfully:', data);
             fetchDonations(); // Refresh the table to reflect updates
         } else {
             console.error('Failed to update transfer status:', data.error);
@@ -267,3 +251,37 @@ function updateTransferStatus(donationId, newStatus) {
         console.error('Error updating transfer status:', error);
     });
 }
+
+function openStatusModal(donationId, currentStatus, newStatus, dropdown) {
+    const modal = document.getElementById("transfer-status-modal");
+    modal.classList.remove("hidden");
+
+    // Ensure the modal body element exists
+    const confirmationMessage = document.getElementById("status-confirmation-message");
+
+    if (confirmationMessage) {
+        confirmationMessage.textContent = `Do you want to confirm the change of transfer status from "${currentStatus}" to "${newStatus}" for the form ID: ${donationId}?`;
+
+        console.log(`Opening confirmation modal for form ID: ${donationId}, current status: "${currentStatus}", new status: "${newStatus}"`);
+
+        // When the user confirms
+        document.getElementById("status-confirm-button").onclick = () => {
+            console.log(`User confirmed the change for form ID: ${donationId}, changing status from "${currentStatus}" to "${newStatus}"`);
+            updateTransferStatus(donationId, newStatus);
+            closeModal("transfer-status-modal");
+        };
+
+        // When the user cancels
+        document.getElementById("status-cancel-button").onclick = () => {
+            console.log(`User canceled the status change for form ID: ${donationId}. Status remains as "${currentStatus}"`);
+            dropdown.value = currentStatus; // Revert the dropdown to its previous value
+            closeModal("transfer-status-modal");
+        };
+    } else {
+        console.error('Confirmation message element not found');
+    }
+}
+
+
+
+init();  // Initialize everything when the script runs
