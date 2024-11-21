@@ -12,11 +12,11 @@ $password = "Fujiwara000!";
 $dbname = "u376871621_mb_mis";
 
 // Connect to the database
-$conn = new mysqli($servername, $username, $password, $dbname);
+$connexction = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+if ($connextion->connect_error) {
+    die("Connection failed: " . $connextion->connect_error);
 }
 
 
