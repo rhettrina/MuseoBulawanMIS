@@ -1,12 +1,15 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS, DELETE, UPDATE");
-header("Access-Control-Allow-Headers: Content-Type, x-requested-with");
-header('Content-Type: application/json');  // Set JSON header for the response
 
-include('../admin_mis/src/php/db_connect.php');
+    $servername = "localhost"; 
+    $username = "u376871621_bomb_squad";       
+    $password = "Fujiwara000!";            
+    $dbname = "u376871621_mb_mis";  
 
+    $connextion = new mysqli($servername, $username, $password, $dbname);
 
+    if ($connextion->connect_error) {
+        die("Connection failed: " . $connextion->connect_error);
+    }
 // Check if the form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Collect and sanitize form data
