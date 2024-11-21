@@ -369,7 +369,7 @@ function saveArticle() {
     formData.append("content-image3", document.getElementById("content-image3").value);
 
     // Send the form data to the server via AJAX (fetch)
-    fetch('https://your-server-url.com/admin_mis/src/php/saveArticle.php', {
+    fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/saveArticle.php', {
         method: 'POST',
         body: formData
     })
