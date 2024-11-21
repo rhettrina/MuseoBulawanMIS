@@ -2,6 +2,7 @@ function init(){
     // Call the display functions here
     fetchTotalDonations();
     fetchDonations();
+    deleteDonation();
 }
 
 function fetchTotalDonations() {

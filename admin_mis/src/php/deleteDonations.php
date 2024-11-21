@@ -1,6 +1,13 @@
 <?php
+header("Access-Control-Allow-Origin: *"); 
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS"); 
+header("Access-Control-Allow-Headers: Content-Type, x-requested-with");
+
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    exit(0); 
+}
 // Include database connection file
-include 'db_connection.php';
+include 'db_connect.php';
 
 // Get donation ID from URL query parameter
 $donationId = isset($_GET['id']) ? $_GET['id'] : null;
