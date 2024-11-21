@@ -1,5 +1,5 @@
 function fetchArticles() {
-    fetch('http://localhost/MuseoBulawanMIS/Museo%20Bulawan%20Visitor/News%20and%20Events/fetch_articles.php', {
+    fetch('https://lightpink-dogfish-795437.hostingersite.com/Museo%20Bulawan%20Visitor/News%20and%20Events/fetch_articles.php', {
         method: 'POST', // Change method to POST
         headers: {
             'Content-Type': 'application/json', // Set content type to JSON

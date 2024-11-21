@@ -1,19 +1,22 @@
 <?php
- header("Access-Control-Allow-Origin: *");
- header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
- header("Access-Control-Allow-Headers: Content-Type, Authorization");
- header('Content-Type: application/json');
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+// Set the CORS headers to allow cross-origin requests from all origins
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
+header('Content-Type: application/json');
+
+// Handle the preflight request (OPTIONS)
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    // If it's a preflight request, just return a 200 response without any further processing
+    http_response_code(200);
+    exit;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $postData = json_decode(file_get_contents('php://input'), true);
     if (isset($postData['action']) && $postData['action'] === 'fetch_articles') {
-        // Set the CORS headers for cross-origin requests
-        header("Access-Control-Allow-Origin: *");
-        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
-        header("Access-Control-Allow-Headers: Content-Type, Authorization");
-        header('Content-Type: application/json');
-
-        // Include database connection
+        // Include the database connection file
         include('db_connection.php');
 
         // Ensure the database connection is established
