@@ -25,12 +25,12 @@ function fetchArticles() {
 
         articles.forEach(article => {
             // Handle images with proper fallback
-            const imagePath = article.imgu1.includes('uploads/') ? article.imgu1 : 'uploads/default-image.jpg';
+            const imagePath1 = article.imgu1 ? article.imgu1 : 'https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/uploads/articlesUploads/default-image.jpg';
             const articleDiv = document.createElement('div');
             articleDiv.classList.add('col-lg-3', 'col-md-4', 'col-sm-6', 'feature-box');
             articleDiv.innerHTML = `
                 <div class="article-preview" data-id="${article.id}">
-                    <img src="${article.imgu1 ? article.imgu1 : 'https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/uploads/articlesUploads/default-image.jpg'}" alt="${article.article_title}" class="img-fluid">
+                    <img src="${imagePath1}" alt="${article.article_title}" class="img-fluid">
                     <h5>${article.article_type}</h5>
                     <h2>${article.article_title}</h2>
                     <h4>${article.author}</h4>

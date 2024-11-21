@@ -27,6 +27,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
 
+        // Define base URL for images
+        $imageBaseUrl = "https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/uploads/articlesUploads/";
+
         // SQL query to fetch articles
         $sql = "SELECT id, article_title, article_type, location, author, imgu1, imgu1_details, 
                 p1box_left, p1box_right, imgu2, imgu3, p2box, p3box, created_at, updated_date 
@@ -48,12 +51,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             'article_type' => $row['article_type'],
                             'location' => $row['location'],
                             'author' => $row['author'],
-                            'imgu1' => $row['imgu1'],
+                            'imgu1' => $imageBaseUrl . $row['imgu1'],  // Full URL to image
                             'imgu1_details' => $row['imgu1_details'],
                             'p1box_left' => $row['p1box_left'],
                             'p1box_right' => $row['p1box_right'],
-                            'imgu2' => $row['imgu2'],
-                            'imgu3' => $row['imgu3'],
+                            'imgu2' => $imageBaseUrl . $row['imgu2'],
+                            'imgu3' => $imageBaseUrl . $row['imgu3'],
                             'p2box' => $row['p2box'],
                             'p3box' => $row['p3box'],
                             'created_at' => $row['created_at'],
