@@ -69,7 +69,7 @@
         <div id="container2">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <div class="logowrapper">
-                    <img src="../source/LOGO.png" alt="" id="logo">
+                    <img src="LOGO.png" alt="" id="logo">
                     <div class="vr border border-4 ms-5 border-dark opacity-100" style="height: 85;"></div>
                     <a id="brand" class="navbar-brand text-start" href="">Museo<br>Bulawan</a>
                 </div>
@@ -99,7 +99,7 @@
 
                         </li>
                     </ul>
-                    <button class="btn ms-auto"><img src="../source/search.png" alt="" id="searchbtn"></button>
+                    <button class="btn ms-auto"><img src="search.png" alt="" id="searchbtn"></button>
                 </div>
 
 
@@ -113,7 +113,7 @@
     <div class="donationtitle container mt-4 mx-0">
         <h1 class="ms-5 py-3">Donation Form</h1>
     </div>
-    <form action="process_donation.php" method="POST" enctype="multipart/form-data" id="donationForm">
+    <form action="process_donation.php" method="POST" enctype="multipart/form-data" id="artifactForm">
     <input type="hidden" name="formType" value="donation"> <!-- Valid example with a set value -->
 
         <div class="intro container p-5 mt-4">
@@ -311,7 +311,7 @@
                 </div>
             </div>
             <div class="col-md-12 d-flex justify-content-end mt-5">
-                <button type="submitDform" class="btn btn-light px-5 py-2" onclick="openModal()" >Submit</button>
+                <button type="submit" class="btn btn-light px-5 py-2" onclick="openModal()" >Submit</button>
             </div>
             </div>
    
@@ -353,7 +353,7 @@
             <div class="row d-flex justify-content-between">
                 <div class="col-lg-7 col-sm-12">
                     <div class="museo-bulawan-cmp d-flex justify-content-start">
-                        <img src="../source/LOGO.png" alt="">
+                        <img src="LOGO.png" alt="">
                         <h2>Museo Bulawan</h2>
                     </div>
                     <p class="lead">Helping us raise awareness regarding Camnortenos identity is crucial, and
@@ -400,7 +400,7 @@
             </div>
         </div>
     </div>
-<script src="../Donation_Form/script.js"></script>
+<<script src="script.js"></script>
 </body>
 
 </html>

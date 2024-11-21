@@ -1,14 +1,13 @@
 <?php
- $servername = "localhost"; 
- $username = "u376871621_bomb_squad";       
- $password = "Fujiwara000!";            
- $dbname = "u376871621_mb_mis";
- $db = mysqli_connect($database_server, $database_user, $database_password, $database_name);
+$servername = "localhost"; 
+$username = "u376871621_bomb_squad";       
+$password = "Fujiwara000!";            
+$dbname = "u376871621_mb_mis";
+$db = mysqli_connect($database_server, $database_user, $database_password, $database_name);
 
-
- if ($db->connect_error) {
-     die("Connection failed: " . $db->connect_error);
- }
+if ($db->connect_error) {
+    die("Connection failed: " . $db->connect_error);
+}
 
 // Check if the form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -35,7 +34,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $linkdocimg = $conn->real_escape_string($_POST['documentation']);
     $linkrelimg = $conn->real_escape_string($_POST['relatedImages']);
 
-
     // Initialize image file paths
     $art_img_upload_path = '';
     $doc_img_upload_path = '';
@@ -44,10 +42,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $allowed_exs = array("jpg", "jpeg", "png");
 
     // Collect status options
-    $status = $conn->real_escape_string($_POST['status']); // e.g., 'to review', 'accepted', 'rejected'
-    $transfer_status = $conn->real_escape_string($_POST['transfer_status']); // e.g., 'acquired', 'failed', 'pending'
+    $status = $conn->real_escape_string($_POST['status']);
+    $transfer_status = $conn->real_escape_string($_POST['transfer_status']);
 
-    // Handle artifact image upload if it is set
+    // Handle artifact image upload
     $art_img_name = $_FILES['artifact_img']['name'];
     if (!empty($art_img_name)) {
         $art_img_size = $_FILES['artifact_img']['size'];
@@ -62,9 +60,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } else {
                 $art_img_ex_lc = strtolower(pathinfo($art_img_name, PATHINFO_EXTENSION));
                 if (in_array($art_img_ex_lc, $allowed_exs)) {
-                    // Sanitize the artifact image file name
                     $art_img_name_sanitized = preg_replace("/[^a-zA-Z0-9.]/", "_", $art_img_name);
-                    $art_img_upload_path = 'formview/img/' . $art_img_name_sanitized;
+                    $art_img_upload_path = 'C:/Users/TRISHA/.vscode/sadge/MuseoBulawanMIS/admin_mis/src/uploads/artifacts/' . $art_img_name_sanitized;
 
                     // Move the file to the folder
                     move_uploaded_file($art_tmp_name, $art_img_upload_path);
@@ -84,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // Handle documentation image upload if it is set
+    // Handle documentation image upload
     $doc_img_name = $_FILES['documentation_img']['name'];
     if (!empty($doc_img_name)) {
         $doc_img_size = $_FILES['documentation_img']['size'];
@@ -100,7 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $doc_img_ex_lc = strtolower(pathinfo($doc_img_name, PATHINFO_EXTENSION));
                 if (in_array($doc_img_ex_lc, $allowed_exs)) {
                     $doc_img_name_sanitized = preg_replace("/[^a-zA-Z0-9.]/", "_", $doc_img_name);
-                    $doc_img_upload_path = 'uploads/documentation/' . $doc_img_name_sanitized;
+                    $doc_img_upload_path = 'C:/Users/TRISHA/.vscode/sadge/MuseoBulawanMIS/admin_mis/src/uploads/documentation/' . $doc_img_name_sanitized;
                     move_uploaded_file($doc_tmp_name, $doc_img_upload_path);
 
                     // Insert the sanitized file name into the database
@@ -118,7 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // Handle related image upload if it is set
+    // Handle related image upload
     $rel_img_name = $_FILES['related_img']['name'];
     if (!empty($rel_img_name)) {
         $rel_img_size = $_FILES['related_img']['size'];
@@ -134,7 +131,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $rel_img_ex_lc = strtolower(pathinfo($rel_img_name, PATHINFO_EXTENSION));
                 if (in_array($rel_img_ex_lc, $allowed_exs)) {
                     $rel_img_name_sanitized = preg_replace("/[^a-zA-Z0-9.]/", "_", $rel_img_name);
-                    $rel_img_upload_path = 'uploads/related/' . $rel_img_name_sanitized;
+                    $rel_img_upload_path = 'C:/Users/TRISHA/.vscode/sadge/MuseoBulawanMIS/admin_mis/src/uploads/related/' . $rel_img_name_sanitized;
                     move_uploaded_file($rel_tmp_name, $rel_img_upload_path);
 
                     // Insert the sanitized file name into the database
@@ -152,19 +149,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // Insert all data into the donation_form table
+    // Insert data into the donation_form table
     $sql = "INSERT INTO donation_form (first_name, last_name, age, sex, email, phone, organization, province, city, barangay, street, artifact_title, artifact_description, acquisition_details, additional_info, narrative, link_art_img, artifact_images, link_doc_img, documentation, link_rel_img, related_images)
             VALUES ('$firstName', '$lastName', '$age', '$sex', '$email', '$phone', '$organization', '$province', '$city', '$barangay', '$street', '$artifactTitle', '$artifactDescription', '$acquisition', '$additionalInfo', '$narrative', '$linkartimg', '$art_img_name_sanitized', '$linkdocimg', '$doc_img_name_sanitized', '$linkrelimg', '$rel_img_name_sanitized')";
 
     if ($conn->query($sql) === TRUE) {
-        date_default_timezone_set('Asia/Manila'); // or use your desired timezone
+        date_default_timezone_set('Asia/Manila'); // Set timezone
 
         // Prepare and insert into donations table
-        $donor_name = $firstName . ' ' . $lastName;  // Concatenate first and last name
-        $item_name = $artifactTitle;  // Use artifact title directly
-        $donation_date = (new DateTime())->format('Y-m-d'); // Get the current date explicitly
+        $donor_name = $firstName . ' ' . $lastName;  // Concatenate names
+        $item_name = $artifactTitle;  // Use artifact title
+        $donation_date = (new DateTime())->format('Y-m-d');
         $status = "TO REVIEW";
-        $transfer_status = "Pending"; // Default value, can be changed later
+        $transfer_status = "Pending"; // Default transfer status
 
         $sql_donations = "INSERT INTO donations (donation_date, donor_name, item_name, status, transfer_status)
                           VALUES ('$donation_date', '$donor_name', '$item_name', '$status', '$transfer_status')";
@@ -175,12 +172,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Error: " . $conn->error;
         }
 
-        header("Location: donateindex.php");  // Redirect to the thank you page after successful submission
-        exit();
+        header("Location: donateindex.php");  // Redirect after success
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $conn->error;
     }
 }
-
-$conn->close();
 ?>
