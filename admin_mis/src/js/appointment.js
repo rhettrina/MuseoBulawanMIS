@@ -52,10 +52,10 @@ function populateTable(appointments) {
         row.innerHTML = `
             <td class="px-4 py-2">${appointment.date}</td>
             <td class="px-4 py-2">${appointment.donor_name}</td>
-            <td class="px-4 py-2">${appointment.title}</td>
-            <td class="px-4 py-2">${appointment.status}</td>
-            <td class="px-4 py-2">${appointment.transfer_status}</td>
-            <td class="px-4 py-2">${appointment.updated_date}</td>
+            <td class="px-4 py-2">${appointment.time}</td>
+            <td class="px-4 py-2">${appointment.number}</td>
+            <td class="px-4 py-2">Pending</td> <!-- Placeholder status -->
+            <td class="px-4 py-2">N/A</td> <!-- Placeholder confirmation -->
             <td class="px-4 py-2 flex justify-center space-x-2">
                 <button class="bg-green-500 text-white p-2 rounded hover:bg-green-600" onclick="handleAction('preview', ${appointment.id})">
                     <i class="fas fa-eye"></i>
@@ -68,6 +68,7 @@ function populateTable(appointments) {
                 </button>
             </td>
         `;
+
         tableBody.appendChild(row);
     });
 }
