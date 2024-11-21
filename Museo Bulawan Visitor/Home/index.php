@@ -176,82 +176,90 @@
         </div>
    </div>
 
-   <?php
-
-include('..\..\admin_mis\src\php\db_connect.php'); // Ensure the database connection file is included
-
-$sql = "SELECT article_title, created_at, p1box_left, imgu1 FROM articles LIMIT 4";
-$result = $connextion->query($sql);
-?>
-
-<div class="news-events">
-    <div class="nw-container">
-        <div class="nwc-head">
-            <div class="nwch-content1">
-                <div class="nwch-dont">
-                    <p><i class="bi bi-dash-lg"></i>&nbsp;&nbsp;DON’T MISS</p>
+   <div class="news-events">
+        <div class="nw-container">
+            <div class="nwc-head">
+                <div class="nwch-content1">
+                    <div class="nwch-dont">
+                        <p><i class="bi bi-dash-lg"></i>&nbsp;&nbsp;DON’T MISS</p>
+                    </div>
+                    <div class="nwch-title">
+                        <p>News & Events</p>
+                    </div>
                 </div>
-                <div class="nwch-title">
-                    <p>News & Events</p>
+                <div class="nwc-more">
+                    <p><a href="../News and Events/naeindex.html" class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">See all Events&nbsp;&nbsp;<i class="bi bi-arrow-right"></i></a></p>
                 </div>
             </div>
-            <div class="nwc-more">
-                <p><a href="../News and Events/naeindex.html" class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">See all Events&nbsp;&nbsp;<i class="bi bi-arrow-right"></i></a></p>
-            </div>
-        </div>
-        <div class="nwcb-container">
-
-        <?php
-        // Check if the query retrieved any data
-        if ($result && $result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $articleTitle = htmlspecialchars($row['article_title']); // Sanitize output
-                $createdAt = date("F d, Y", strtotime($row['created_at'])); // Format the date
-                $p1boxLeft = htmlspecialchars($row['p1box_left']); // Sanitize content text
-                $imgPath = $row['imgu1'];
-
-                // Ensure the image path is correctly prefixed
-                if (strpos($imgPath, 'uploads/') === false) {
-                    $imgPath = "../../Management/Article/uploads/" . $imgPath;
-                } else {
-                    $imgPath = "../../Management/Article/" . $imgPath;
-                }
-                ?>
-
-                <div onclick="location.href='../NandE per pieces/collctionpagelight.html';" class="nwcb-container1">
+            <div class="nwcb-container">
+                <!-- Dummy Data for News & Events -->
+                <div class="nwcb-container1">
                     <div class="nwcb1-image">
-                        <img src="<?php echo htmlspecialchars($imgPath); ?>" alt="Event Image">
+                        <img src="../source/dummy-image.jpg" alt="Event Image">
                     </div>
                     <div class="nwcb1-info">
                         <div class="nwcb1i-1">
-                            <p><?php echo $articleTitle; ?></p>
+                            <p>Event Title One</p>
                         </div>
                         <div class="nwcb1i-2">
-                            <p><?php echo $createdAt; ?></p>
+                            <p>November 21, 2024</p>
                         </div>
                         <div class="nwcb1i-3">
-                            <p style="overflow-wrap: break-word; overflow: hidden; text-overflow: ellipsis;"><?php echo $p1boxLeft; ?></p>
+                            <p style="overflow-wrap: break-word; overflow: hidden; text-overflow: ellipsis;">This is a short description of the event that highlights key details and information about what visitors can expect at the event.</p>
                         </div>
                     </div>
                 </div>
-
-                <?php
-            }
-        } else {
-            echo '<p>No events found</p>';
-        }
-        $connextion->close(); // Close the database connection
-        ?>
-
+                <div class="nwcb-container1">
+                    <div class="nwcb1-image">
+                        <img src="../source/dummy-image.jpg" alt="Event Image">
+                    </div>
+                    <div class="nwcb1-info">
+                        <div class="nwcb1i-1">
+                            <p>Event Title Two</p>
+                        </div>
+                        <div class="nwcb1i-2">
+                            <p>November 20, 2024</p>
+                        </div>
+                        <div class="nwcb1i-3">
+                            <p style="overflow-wrap: break-word; overflow: hidden; text-overflow: ellipsis;">Here is a brief description of another event with exciting updates and activities for the museum visitors to enjoy.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="nwcb-container1">
+                    <div class="nwcb1-image">
+                        <img src="../source/dummy-image.jpg" alt="Event Image">
+                    </div>
+                    <div class="nwcb1-info">
+                        <div class="nwcb1i-1">
+                            <p>Event Title Three</p>
+                        </div>
+                        <div class="nwcb1i-2">
+                            <p>November 18, 2024</p>
+                        </div>
+                        <div class="nwcb1i-3">
+                            <p style="overflow-wrap: break-word; overflow: hidden; text-overflow: ellipsis;">Another exciting event with more opportunities to learn about the history and culture of the region.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="nwcb-container1">
+                    <div class="nwcb1-image">
+                        <img src="../source/dummy-image.jpg" alt="Event Image">
+                    </div>
+                    <div class="nwcb1-info">
+                        <div class="nwcb1i-1">
+                            <p>Event Title Four</p>
+                        </div>
+                        <div class="nwcb1i-2">
+                            <p>November 15, 2024</p>
+                        </div>
+                        <div class="nwcb1i-3">
+                            <p style="overflow-wrap: break-word; overflow: hidden; text-overflow: ellipsis;">This is a sample event with a brief description to keep visitors informed about the upcoming event activities.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-
-   
-           </div>
-       </div>
-   </div>
-   
 
 <div class="booking">
     <div class="booking-button">

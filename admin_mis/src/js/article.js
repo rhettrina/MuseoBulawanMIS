@@ -298,9 +298,10 @@ function openConfirmationModal(callback) {
         if (isValid) {
             openConfirmationModal((confirm) => {
                 if (confirm) {
+                    
                     closeModal("create-article-modal");
                     console.log("Article saved successfully!");
-                    form.reset(); // Reset form fields
+                    form.reset();
                 }
             });
         } else {
@@ -309,30 +310,25 @@ function openConfirmationModal(callback) {
     };
 }
 
-// Add event listener to the "Create Article" button
 document.getElementById("create-article-button").addEventListener("click", () => {
     openCreateArticleModal();
 });
 
-// Function to open the confirmation modal
 function openConfirmationModal(callback) {
     const modal = document.getElementById("confirmation-modal");
     modal.classList.remove("hidden"); // Show the confirmation modal
 
-    // Handle Yes button click
     document.getElementById("confirm-button").onclick = () => {
-        callback(true); // Return 'true' if confirmed
+        callback(true); 
         closeModal("confirmation-modal");
     };
 
-    // Handle No button click
     document.getElementById("cancel-button").onclick = () => {
-        callback(false); // Return 'false' if canceled
+        callback(false); 
         closeModal("confirmation-modal");
     };
 }
 
-// Function to close any modal
 function closeModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
@@ -340,4 +336,56 @@ function closeModal(modalId) {
     } else {
         console.error(`Modal with ID "${modalId}" not found.`);
     }
+}
+
+
+function saveArticle() {
+    // Get form data
+    const form = document.getElementById("create-article-form");
+    const formData = new FormData(form); // Collect form data, including file inputs
+
+    // Get file data (Images)
+    const image1 = document.getElementById("image-1").files[0];
+    const image2 = document.getElementById("image-2").files[0];
+    const image3 = document.getElementById("image-3").files[0];
+
+    // Get image details (text input for Image 1)
+    const imageDetails = document.getElementById("image-details").value;
+
+    // Add image details to FormData
+    formData.append("image-1", image1);
+    formData.append("image-2", image2);
+    formData.append("image-3", image3);
+
+    // Manually append the rest of the form fields to the FormData object
+    formData.append("article_title", document.getElementById("article_title").value);
+    formData.append("article_author", document.getElementById("article_author").value);
+    formData.append("article_location", document.getElementById("article_location").value);
+    formData.append("article_type", document.getElementById("article_type").value);
+    formData.append("image-details", document.getElementById("image_details").value); 
+    formData.append("content-left", document.getElementById("content-left").value);
+    formData.append("content-right", document.getElementById("content-right").value);
+    formData.append("content-image2", document.getElementById("content-image2").value);
+    formData.append("content-image3", document.getElementById("content-image3").value);
+
+    // Send the form data to the server via AJAX (fetch)
+    fetch('https://your-server-url.com/admin_mis/src/php/saveArticle.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log('Article saved successfully');
+            closeModal('create-article-modal');
+            form.reset();
+        } else {
+            console.error('Error saving article:', data.error);
+            alert('Failed to save the article. Please try again.');
+        }
+    })
+    .catch(error => {
+        console.error('Error during fetch request:', error);
+        alert('An error occurred. Please try again.');
+    });
 }

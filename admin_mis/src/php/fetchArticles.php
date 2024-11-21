@@ -31,6 +31,5 @@ while ($row = mysqli_fetch_assoc($result)) {
     $articles[] = $row;
 }
 
-// Return JSON response
 echo json_encode($articles);
 ?>
