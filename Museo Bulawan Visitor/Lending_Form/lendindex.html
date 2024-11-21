@@ -357,11 +357,11 @@
     </form>
 
      <!-- Modal Structure -->
-     <div id="confirmationModal" class="modal">
+     <div id="confirmationModal" class="modal" aria-hidden="true">
         <div class="modal-content">
-        <p>Are you sure you want to submit this form?</p>
-        <button onclick="confirmSubmission()">Yes</button>
-        <button onclick="closeModal()">No</button>
+            <p>Do you want to submit this form?</p>
+            <button id="confirmBtn">Confirm</button>
+            <button id="closeModalBtn">Close</button>
         </div>
     </div>
 
