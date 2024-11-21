@@ -1,5 +1,13 @@
 <?php
-include('db_connect.php');
+header("Access-Control-Allow-Origin: *"); 
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS"); 
+header("Access-Control-Allow-Headers: Content-Type, x-requested-with");
+
+    if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+        exit(0); 
+    }
+
+include 'db_connect.php';
 
 // Sorting logic
 $order = isset($_GET['sort']) && $_GET['sort'] === 'date-oldest' ? 'ASC' : 'DESC';
