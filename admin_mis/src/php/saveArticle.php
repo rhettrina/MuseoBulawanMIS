@@ -52,7 +52,7 @@ if ($image1Path && $image2Path && $image3Path) {
 
 // Function to handle image upload
 function uploadImage($image) {
-    $targetDir = __DIR__ . "/../uploads/articlesUploads/";
+    $targetDir = dirname(__DIR__, 2) . "/uploads/articlesUploads/";
     $targetFile = $targetDir . basename($image["name"]);
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
