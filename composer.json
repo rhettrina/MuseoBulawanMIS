@@ -1,0 +1,8 @@
+{
+    "name": "hachisnail/museo-bulawan-mis",
+    "description": "System Analysis and Design Final Project",
+    "type": "project",
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "require": {}
+}

@@ -90,7 +90,7 @@
                             Layout
                         </div>
 
-                        <button onclick="location.href='../../Management/Article/articles.html'" class="article-button active">
+                        <button onclick="location.href='../../Management/Article/articles.php'" class="article-button active">
                             <div class="at-icon">
                                 <img src="../../Museo Bulawan Visitor/source/article-icon.png" alt="">
                             </div>
@@ -187,14 +187,31 @@
                     
                     <div class="action-buttons">
                         <div class="button-wrapper">
-                            <button onclick="save()" type="button" id="button">Save</button>
-                            <button onclick="clear()" type="button" id="button">Clear Input</button>
+                            <button onclick="location.href='../../Management/Article/articles.php'" type="button" id="button1">Back</button>
+                            <button onclick="save()" type="button" id="button2">Save</button>
+                            <button onclick="clear()" type="button" id="button3">Clear Input</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-
+            <div class="modal fade" id="saveConfirmationModal" tabindex="-1" aria-labelledby="saveConfirmationModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="saveConfirmationModalLabel">Confirm Save</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      Are you sure you want to save this article?
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                      <button type="button" class="btn btn-primary" id="confirmSaveButton">Yes, Save</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
             <script src="builder.js"></script>
 

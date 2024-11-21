@@ -78,7 +78,7 @@
 
                     <ul class="hovering navbar-nav fs-5 gap-3">
                         <li class="nav-item">
-                            <a class="nav-link" href="../Home/index.html">Home</a>
+                            <a class="nav-link" href="../Home/index.php">Home</a>
 
                         </li>
                         <li class="nav-item">
@@ -106,28 +106,21 @@
     </div>
 
     <section id="features">
-        <div class="row">
-            <div class="feature-box  col-lg-3 col-md-4 col-sm-6">
-                <img src="../source/bgsearchimg.png" alt="">
-                <div class="textarea">
-                    <h5>Painting</h5>
-                    <h2>Name Of The Piece</h2>
-                    <h4>Artist Name</h4>
-                </div>
-            </div>
+        <div class="row" id="articles-container">
+            <!-- Articles will be inserted here by JavaScript -->
         </div>
     </section>
 
     <script src="naescript.js"></script>
     
-
+    
     <div class="wrapper">
 
         <div class="lowercontainer ms-5 pt-4">
             <div class="row d-flex">
                 <div class="col-12">
                     <ul class="nav-links">
-                        <li><a class="text-decoration-none" href="../Home/index.html">Home</a></li>
+                        <li><a class="text-decoration-none" href="../Home/index.php">Home</a></li>
                         <div class="vr border border-1 border-light opacity-100" style="height: 40px;"></div>
                         <li><a class="text-decoration-none" href="../Collection Page/collectionpage.html">Collections</a></li>
                         <div class="vr border border-1 border-light opacity-100" style="height: 40px;"></div>
@@ -147,7 +140,7 @@
             <div class="row d-flex justify-content-between">
                 <div class="col-lg-7 col-sm-12">
                     <div class="museo-bulawan-cmp d-flex justify-content-start">
-                        <img src="/Museo Bulawan Visitor/source/LOGO.png" alt="">
+                        <img src="../source/LOGO.png" alt="">
                         <h2>Museo Bulawan</h2>
                     </div>
                     <p class="lead">Helping us raise awareness regarding Camnortenos identity is crucial, and
@@ -157,7 +150,7 @@
                         <p class="me-3">We gratefully accept donations or just lending of your artifact will greatly
                             help us.
                         </p>
-                        <button type="button" class="btn btn-light btn-lg">Support Us</button>
+                        <button onclick="location.href='../Support Page/support.html'" type="button'" class="btn btn-light btn-lg">Support Us</button>
                     </div>
                 </div>
 
@@ -182,7 +175,7 @@
                         </ul>
                     </nav>
                 </div>
-
+                
                 <div class="col-lg-3 col-sm-12">
                     <h5>Opening Hours</h5>
                     <p>Camarines Norte Provincial Capitol Grounds,

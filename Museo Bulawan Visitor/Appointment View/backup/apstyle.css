@@ -1,0 +1,53 @@
+body {
+    background-color: #F9F8E6;
+}
+
+
+.custom-card {
+    border: 2px solid #000;
+    border-radius: 12px;
+    background-color: #ffffff;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.custom-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 100%; /* Ensure it doesn't overflow its parent */
+}
+
+.custom-text {
+    word-wrap: break-word;
+    text-align: center;
+    margin: 0;
+    max-width: 100%; /* Adjust as necessary to control wrapping */
+}
+
+.custom-hr {
+    border: none;
+    border-top: 2px solid #000;
+    opacity: 1;
+    width: 100%;
+}
+
+.custom-btn-yes, .custom-btn-no {
+    color: #000; /* Black text */
+    border: 2px solid #000; /* Black border */
+    border-radius: 8px; /* Rounded corners */
+    padding: 10px 40px; /* Padding for larger button area */
+    font-size: 2em; /* Text size */
+    font-weight: bold; /* Bold text */
+  }
+  
+  .custom-btn-yes {
+    background-color: #f8d7a9; /* Light brown background for 'Yes' button */
+  }
+  
+  .custom-btn-no {
+    background-color: #fff; /* White background for 'No' button */
+  }
