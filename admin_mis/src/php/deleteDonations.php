@@ -1,8 +1,7 @@
 <?php
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS, DELETE"); // Added DELETE here
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS, DELETE"); 
 header("Access-Control-Allow-Headers: Content-Type, x-requested-with");
-
 
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit(0); 
@@ -16,7 +15,7 @@ $donationId = isset($_GET['id']) ? $_GET['id'] : null;
 
 if ($donationId) {
     // Prepare and execute the DELETE query
-    $query = "DELETE FROM donation WHERE id = ?";
+    $query = "DELETE FROM donations WHERE id = ?";
     $stmt = $connextion->prepare($query); // Use $connextion instead of $conn
     $stmt->bind_param("i", $donationId);
 

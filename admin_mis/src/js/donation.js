@@ -2,7 +2,7 @@ function init() {
     // Call the display functions here
     fetchTotalDonations();
     fetchDonations();
-    deleteDonation();
+    deleteDonation(); // Ensure this function is properly called on delete action
 }
 
 function fetchTotalDonations() {
@@ -221,3 +221,6 @@ function closeModal(modalId) {
     const modal = document.getElementById(modalId);
     modal.classList.add("hidden");
 }
+
+// Initialize data and actions
+document.addEventListener('DOMContentLoaded', init);
