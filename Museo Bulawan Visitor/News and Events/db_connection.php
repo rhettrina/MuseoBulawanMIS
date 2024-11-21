@@ -4,9 +4,9 @@ header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
 $host = 'localhost';     
-$username = 'root';       
-$password = '';           
-$database = 'museo_bulawan'; 
+$username = 'u376871621_bomb_squad';       
+$password = 'Fujiwara000!';           
+$database = 'u376871621_mb_mis'; 
 
 // Establish the connection
 $connection = new mysqli($host, $username, $password, $database);
