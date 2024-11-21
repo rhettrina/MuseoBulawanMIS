@@ -1,3 +1,23 @@
+// Function to get the full image URL (from PHP response)
+function getFullImageUrl(baseUrl, imagePath) {
+    // Ensure the path doesn't start with a slash
+    imagePath = imagePath ? imagePath.replace(/^\/+/, '') : '';
+
+    // If the image path is empty, return the default image URL
+    if (!imagePath) {
+        return `${baseUrl}/default-image.jpg`;
+    }
+
+    // If the image path is already a valid URL, return it as is
+    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+        return imagePath;
+    }
+
+    // Otherwise, append the base URL to the image path
+    return `${baseUrl}/${imagePath}`;
+}
+
+// Function to fetch articles
 function fetchArticles() {
     fetch('https://lightpink-dogfish-795437.hostingersite.com/Museo%20Bulawan%20Visitor/News%20and%20Events/fetch_articles.php', {
         method: 'POST',
@@ -6,26 +26,31 @@ function fetchArticles() {
             'X-Requested-With': 'XMLHttpRequest',
         },
         body: JSON.stringify({
-            action: 'fetch_articles' 
+            action: 'fetch_articles'
         })
     })
     .then(response => response.json())
     .then(articles => {
         if (articles.error) {
             console.error('Error:', articles.error);
-            return; // Stop further execution if there is an error
+            return;
         }
 
         const articleContainer = document.querySelector('#articles-container');
         articleContainer.innerHTML = ''; // Clear existing articles
 
         if (articles.length === 0) {
-            articleContainer.innerHTML = '<p>No articles available at this time.</p>'; // Display message if no articles
+            articleContainer.innerHTML = '<p>No articles available at this time.</p>';
+            return;
         }
 
         articles.forEach(article => {
-            // Handle images with proper fallback
-            const imagePath1 = article.imgu1 ? article.imgu1 : 'https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/uploads/articlesUploads/default-image.jpg';
+            // Define the base URL for images
+            const imageBaseUrl = 'https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/uploads/articlesUploads/';
+
+            // Get the full image URL using the function
+            const imagePath1 = article.imgu1 ? getFullImageUrl(imageBaseUrl, article.imgu1) : `${imageBaseUrl}default-image.jpg`;
+
             const articleDiv = document.createElement('div');
             articleDiv.classList.add('col-lg-3', 'col-md-4', 'col-sm-6', 'feature-box');
             articleDiv.innerHTML = `
@@ -49,27 +74,6 @@ function fetchArticles() {
     .catch(error => console.error('Error fetching articles:', error));
 }
 
-function populateArticleTemplate(article) {
-    document.getElementById('title').innerText = article.article_title || 'Untitled Article';
-    document.getElementById('date').innerText = article.created_at || 'Unknown Date';
-    document.getElementById('author').innerText = article.author || 'Unknown Author';
-    document.getElementById('location').innerText = article.location || 'Unknown Location';
-    document.getElementById('type').innerText = article.article_type || 'Unknown Type';
-
-    // Image path handling for the three image containers
-    const imagePath1 = article.imgu1 ? article.imgu1 : 'https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/uploads/articlesUploads/default-image.jpg';
-    const imagePath2 = article.imgu2 ? article.imgu2 : 'https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/uploads/articlesUploads/default-image.jpg';
-    const imagePath3 = article.imgu3 ? article.imgu3 : 'https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/uploads/articlesUploads/default-image.jpg';
-
-    document.getElementById('img-container1').src = imagePath1;
-    document.getElementById('img-container2').src = imagePath2;
-    document.getElementById('img-container3').src = imagePath3;
-
-    document.getElementById('img-dets').innerText = article.imgu1_details || 'No image details available';
-    document.getElementById('text-left').innerText = article.p1box_left || 'No left text available';
-    document.getElementById('text-right').innerText = article.p1box_right || 'No right text available';
-    document.getElementById('last-modified').innerText = article.updated_date || 'Not modified';
-}
-
-// Fetch articles when the page loads
+// Call the function to fetch articles
 fetchArticles();
+    

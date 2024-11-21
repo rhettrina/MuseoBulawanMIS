@@ -8,7 +8,6 @@ header('Content-Type: application/json');
 
 // Handle the preflight request (OPTIONS)
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    // If it's a preflight request, just return a 200 response without any further processing
     http_response_code(200);
     exit;
 }
@@ -30,9 +29,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Define base URL for images
         $imageBaseUrl = "https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/uploads/articlesUploads/";
 
-        // SQL query to fetch articles
-        $sql = "SELECT id, article_title, article_type, location, author, imgu1, imgu1_details, 
-                p1box_left, p1box_right, imgu2, imgu3, p2box, p3box, created_at, updated_date 
+        // Function to extract the file name from the full path
+        function getFileNameFromPath($imagePath) {
+            // Remove everything before the file name (everything up to the last '/')
+            $imagePath = basename($imagePath);
+            return $imagePath;
+        }
+
+        // SQL query to fetch all required article data
+        $sql = "SELECT 
+                    id, 
+                    article_title, 
+                    article_type, 
+                    location, 
+                    author, 
+                    imgu1, 
+                    imgu1_details, 
+                    p1box_left, 
+                    p1box_right, 
+                    imgu2, 
+                    imgu3, 
+                    p2box, 
+                    p3box, 
+                    created_at, 
+                    updated_date 
                 FROM articles";
 
         // Use prepared statement to execute query
@@ -45,18 +65,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $articles = [];
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
+                        // Get the file name from the image paths
+                        $imgu1_file = getFileNameFromPath($row['imgu1']);
+                        $imgu2_file = getFileNameFromPath($row['imgu2']);
+                        $imgu3_file = getFileNameFromPath($row['imgu3']);
+
+                        // Prepare the article data
                         $articles[] = [
                             'id' => $row['id'],
                             'article_title' => $row['article_title'],
                             'article_type' => $row['article_type'],
                             'location' => $row['location'],
                             'author' => $row['author'],
-                            'imgu1' => $imageBaseUrl . $row['imgu1'],  // Full URL to image
+                            'imgu1' => $imgu1_file,
                             'imgu1_details' => $row['imgu1_details'],
                             'p1box_left' => $row['p1box_left'],
                             'p1box_right' => $row['p1box_right'],
-                            'imgu2' => $imageBaseUrl . $row['imgu2'],
-                            'imgu3' => $imageBaseUrl . $row['imgu3'],
+                            'imgu2' => $imgu2_file,
+                            'imgu3' => $imgu3_file,
                             'p2box' => $row['p2box'],
                             'p3box' => $row['p3box'],
                             'created_at' => $row['created_at'],
@@ -85,4 +111,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } else {
     echo json_encode(['error' => 'Invalid request method.']);
 }
+
 ?>
