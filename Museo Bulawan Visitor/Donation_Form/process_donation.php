@@ -1,15 +1,17 @@
 <?php
+$servername = "localhost"; 
+$username = "u376871621_bomb_squad";       
+$password = "Fujiwara000!";            
+$dbname = "u376871621_mb_mis";  
 
-    $servername = "localhost"; 
-    $username = "u376871621_bomb_squad";       
-    $password = "Fujiwara000!";            
-    $dbname = "u376871621_mb_mis";  
+// Create connection
+$connextion = new mysqli($servername, $username, $password, $dbname);
 
-    $connextion = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($connextion->connect_error) {
+    die("Connection failed: " . $connextion->connect_error);
+}
 
-    if ($connextion->connect_error) {
-        die("Connection failed: " . $connextion->connect_error);
-    }
 // Check if the form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Collect and sanitize form data
@@ -24,17 +26,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $city = $connextion->real_escape_string($_POST['city']);
     $barangay = $connextion->real_escape_string($_POST['barangay']);
     $street = $connextion->real_escape_string($_POST['street']);
-
     $artifactTitle = $connextion->real_escape_string($_POST['artifactTitle']);
     $artifactDescription = $connextion->real_escape_string($_POST['artifactDescription']);
     $acquisition = $connextion->real_escape_string($_POST['acquisition']);
     $additionalInfo = $connextion->real_escape_string($_POST['additionalInfo']);
     $narrative = $connextion->real_escape_string($_POST['narrative']);
-
     $linkartimg = $connextion->real_escape_string($_POST['artifactImages']);
     $linkdocimg = $connextion->real_escape_string($_POST['documentation']);
     $linkrelimg = $connextion->real_escape_string($_POST['relatedImages']);
-
+    
     // Initialize image file paths
     $art_img_upload_path = '';
     $doc_img_upload_path = '';
@@ -47,8 +47,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $transfer_status = $connextion->real_escape_string($_POST['transfer_status']);
 
     // Handle artifact image upload
-    $art_img_name = $_FILES['artifact_img']['name'];
-    if (!empty($art_img_name)) {
+    if (!empty($_FILES['artifact_img']['name'])) {
+        $art_img_name = $_FILES['artifact_img']['name'];
         $art_img_size = $_FILES['artifact_img']['size'];
         $art_tmp_name = $_FILES['artifact_img']['tmp_name'];
         $art_error = $_FILES['artifact_img']['error'];
@@ -83,8 +83,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Handle documentation image upload
-    $doc_img_name = $_FILES['documentation_img']['name'];
-    if (!empty($doc_img_name)) {
+    if (!empty($_FILES['documentation_img']['name'])) {
+        $doc_img_name = $_FILES['documentation_img']['name'];
         $doc_img_size = $_FILES['documentation_img']['size'];
         $doc_tmp_name = $_FILES['documentation_img']['tmp_name'];
         $doc_error = $_FILES['documentation_img']['error'];
@@ -117,8 +117,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Handle related image upload
-    $rel_img_name = $_FILES['related_img']['name'];
-    if (!empty($rel_img_name)) {
+    if (!empty($_FILES['related_img']['name'])) {
+        $rel_img_name = $_FILES['related_img']['name'];
         $rel_img_size = $_FILES['related_img']['size'];
         $rel_tmp_name = $_FILES['related_img']['tmp_name'];
         $rel_error = $_FILES['related_img']['error'];
@@ -140,9 +140,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 } else {
                     $response = array('success' => false, 'message' => "You can't upload files of this type for related image.");
                     echo json_encode($response);
-                    header("Location: donateindex.html");
-                    exit(); 
-                    
+                    exit();
                 }
             }
         } else {
@@ -170,16 +168,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                           VALUES ('$donation_date', '$donor_name', '$item_name', '$status', '$transfer_status')";
 
         if ($connextion->query($sql_donations) === TRUE) {
-            // Respond with a success message
-            $response = array('success' => true, 'message' => 'Donation form submitted successfully!');
+            $response = array('success' => true, 'message' => "Form submitted successfully.");
             echo json_encode($response);
         } else {
-            $response = array('success' => false, 'message' => 'Error inserting data into donations table.');
+            $response = array('success' => false, 'message' => "Error inserting data into donations table.");
             echo json_encode($response);
         }
     } else {
-        $response = array('success' => false, 'message' => 'Error inserting data into donation_form table.');
+        $response = array('success' => false, 'message' => "Error inserting data into donation_form table.");
         echo json_encode($response);
     }
 }
+
+// Close the database connection
+$connextion->close();
 ?>
