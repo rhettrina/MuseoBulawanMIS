@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <!-- InteractJS Library -->
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+    <!-- html2canvas Library from UNPKG -->
+    <script src="https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
 </head>
 
 <body>
@@ -73,28 +77,16 @@
             <button id="text-button" title="Add Text">
                 <span class="material-icons">title</span>
             </button>
+            <button id="save-button" title="Save Floor Plan">
+                <span class="material-icons">save</span>
+            </button>
         </div>
 
         <div class="canvas" id="canvas-area">
-            <svg width="800" height="600" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet">
-                <!-- Outer Walls -->
-                <rect x="20" y="20" width="760" height="560" stroke="black" fill="none" stroke-width="8"></rect>
-
-                <!-- Inner Rooms -->
-                <line x1="220" y1="20" x2="220" y2="580" stroke="black" stroke-width="8"></line>
-                <!-- Vertical line separating left section -->
-                <line x1="220" y1="300" x2="780" y2="300" stroke="black" stroke-width="8"></line>
-                <!-- Horizontal line in the right section -->
-                <line x1="500" y1="300" x2="500" y2="580" stroke="black" stroke-width="8"></line>
-                <!-- Inner vertical line in right section -->
-
-                <!-- Doors/Openings -->
-                <line x1="220" y1="150" x2="220" y2="200" stroke="white" stroke-width="8"></line>
-                <!-- Opening in the left vertical wall -->
-                <line x1="360" y1="300" x2="440" y2="300" stroke="white" stroke-width="8"></line>
-                <!-- Opening in the horizontal wall -->
-            </svg>
-
+            <img src="data:image/svg+xml,%3Csvg width='840' height='533' viewBox='0 0 840 533' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='700' y='182' width='9' height='54' fill='black'/%3E%3Crect x='628' y='287' width='8' height='246' fill='black'/%3E%3Cpath d='M636 174H700V182H636V174Z' fill='black'/%3E%3Crect x='628' y='10' width='8' height='235' fill='black'/%3E%3Crect x='700' y='174' width='130' height='8' fill='black'/%3E%3Crect x='700' y='331' width='9' height='119' fill='black'/%3E%3Crect width='10' height='433' fill='black'/%3E%3Crect x='830' y='10' width='10' height='440' fill='black'/%3E%3Crect x='542' y='433' width='10' height='100' fill='black'/%3E%3Cpath d='M700 440H830V450H700V440Z' fill='black'/%3E%3Crect y='433' width='542' height='10' fill='black'/%3E%3Crect x='10' width='830' height='10' fill='black'/%3E%3C/svg%3E%0A"
+                alt="img"
+                style="user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; pointer-events: none;"
+                draggable="false">
         </div>
     </div>
 
@@ -131,6 +123,26 @@
             </button>
         </div>
 
+
+        <!-- Specific Symbol Properties -->
+        <div id="symbol-properties" style="display: none;">
+            <fieldset>
+                <legend>Size & Rotation</legend>
+                <label for="symbol-size-input">Size (px):</label>
+                <input type="range" id="symbol-size-input" min="20" max="800" value="100">
+                <span id="symbol-size-value">100</span> px
+
+                <label for="symbol-rotation-input">Rotation:</label>
+                <input type="range" id="symbol-rotation-input" min="0" max="315" step="45" value="0">
+                <span id="symbol-rotation-value">0°</span>
+            </fieldset>
+
+            <button id="lock-button-symbol" title="Lock/Unlock">
+                <span class="material-icons">lock_open</span> Unlock
+            </button>
+        </div>
+
+
         <!-- Text Properties -->
         <div id="text-properties" style="display: none;">
             <fieldset>
@@ -141,13 +153,27 @@
                 <label for="text-color-input">Text Color:</label>
                 <input type="color" id="text-color-input" value="#000000" list="preset-text-colors">
                 <datalist id="preset-text-colors">
-                    <option value="#000000"></option>
-                    <option value="#ff0000"></option>
-                    <option value="#00ff00"></option>
-                    <option value="#0000ff"></option>
-                    <option value="#ffff00"></option>
-                    <option value="#ff00ff"></option>
-                    <option value="#00ffff"></option>
+                    <option value="#000000">Black</option>
+                    <option value="#FFFFFF">White</option>
+                    <option value="#FF0000">Red</option>
+                    <option value="#FFA500">Orange</option>
+                    <option value="#FFFF00">Yellow</option>
+                    <option value="#008000">Green</option>
+                    <option value="#00FFFF">Cyan</option>
+                    <option value="#0000FF">Blue</option>
+                    <option value="#800080">Purple</option>
+                    <option value="#FF00FF">Magenta</option>
+                    <option value="#A52A2A">Brown</option>
+                    <option value="#808080">Gray</option>
+                    <option value="#FFC0CB">Pink</option>
+                    <option value="#FFD700">Gold</option>
+                    <option value="#008080">Teal</option>
+                    <option value="#4B0082">Indigo</option>
+                    <option value="#EE82EE">Violet</option>
+                    <option value="#000080">Navy</option>
+                    <option value="#800000">Maroon</option>
+                    <option value="#808000">Olive</option>
+                    <option value="#C0C0C0">Silver</option>
                 </datalist>
 
                 <label for="text-size-input">Text Size (px):</label>
@@ -182,6 +208,7 @@
     </div>
 
     <!-- Include the JavaScript files -->
+    <!-- html2canvas Library -->
     <script src="drawing.js"></script>
     <script src="main.js"></script>
 </body>

@@ -117,27 +117,30 @@ body {
     height: auto;
 }
 
-/* Styles for symbol-container and text-container */
+/* Remove padding from symbol-container and text-container */
 .symbol-container,
 .text-container {
     position: absolute;
     transform-origin: center;
-    z-index: 20; /* Higher z-index */
-    min-width: 50px; /* Set a minimum width */
-    min-height: 50px; /* Set a minimum height */
-    padding: 5px; /* Add padding around the content */
-    box-sizing: content-box; /* Include padding in the element's total size */
-    display: block; /* Ensure the container is a block-level element */
-    width: auto; /* Allow the width to adjust */
-    height: auto; /* Allow the height to adjust */
+    z-index: 20;
+    min-width: 20px;
+    min-height: 20px;
+    transform-origin: center center;
+    box-sizing: border-box;
+    display: block;
+    width: auto;
+    height: auto;
     pointer-events: auto;
+    margin: 0; /* Ensure there's no margin */
 }
 
-/* Adjust the symbol inside the container */
+/* Ensure the canvas fills the container */
 .symbol-container .symbol {
     width: 100%;
     height: 100%;
-    pointer-events: none;
+    display: block;
+    margin: 0;
+    padding: 0;
 }
 
 /* Text container styles */
@@ -164,6 +167,7 @@ body {
     display: none;
     pointer-events: all; /* Allow resize handles to capture mouse events */
     touch-action: none; /* Prevent default touch behavior on resize handles */
+    transform-origin: center center;
 }
 
 /* Side handles */
@@ -418,7 +422,8 @@ body {
 
 /* Lock buttons */
 #lock-button,
-#lock-button-text {
+#lock-button-text,
+#lock-button-symbol {
     margin-top: 10px;
     padding: 8px;
     cursor: pointer;
@@ -433,6 +438,35 @@ body {
 #lock-button-text .material-icons {
     vertical-align: middle;
     margin-right: 5px;
+}
+
+/* Add this to your existing styles.css */
+
+/* Drag Handle Styling */
+.drag-handle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: move;
+    z-index: 10; /* Ensure it's below the resize handles */
+    background: transparent; /* Transparent to avoid visual interference */
+}
+
+/* Ensure only the bottom-right corner handle is visible for specific symbols */
+.symbol-container[data-symbol-id="door"].selected:not(.locked):not(.dragging) .resize-handle,
+.symbol-container[data-symbol-id="information-desk"].selected:not(.locked):not(.dragging) .resize-handle,
+.symbol-container[data-symbol-id="statue"].selected:not(.locked):not(.dragging) .resize-handle,
+.symbol-container[data-symbol-id="rest-area"].selected:not(.locked):not(.dragging) .resize-handle {
+    display: none;
+}
+
+.symbol-container[data-symbol-id="door"].selected:not(.locked):not(.dragging) .resize-handle.se,
+.symbol-container[data-symbol-id="information-desk"].selected:not(.locked):not(.dragging) .resize-handle.se,
+.symbol-container[data-symbol-id="statue"].selected:not(.locked):not(.dragging) .resize-handle.se,
+.symbol-container[data-symbol-id="rest-area"].selected:not(.locked):not(.dragging) .resize-handle.se {
+    display: block;
 }
 
 /* Responsive adjustments */

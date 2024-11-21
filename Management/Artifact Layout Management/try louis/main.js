@@ -47,19 +47,66 @@ document.addEventListener("DOMContentLoaded", () => {
     saveState();
   });
 
+  document.addEventListener("DOMContentLoaded", function () {
+    const saveButton = document.getElementById("save-button");
+
+    if (saveButton) {
+      saveButton.addEventListener("click", function () {
+        const canvasArea = document.getElementById("canvas-area");
+
+        html2canvas(canvasArea, { useCORS: true, allowTaint: true })
+          .then((canvas) => {
+            // Convert canvas to a downloadable image
+            const finalDataURL = canvas.toDataURL("image/png");
+            const link = document.createElement("a");
+            link.href = finalDataURL;
+            link.download = "floor-plan.png"; // File name for download
+            link.click(); // Trigger the download
+          })
+          .catch((err) => {
+            console.error("Error capturing the floor plan:", err);
+            alert(
+              "An error occurred while saving the floor plan. Please try again."
+            );
+          });
+      });
+    } else {
+      console.error("Save button not found in the DOM.");
+    }
+  });
+
   function createSymbol(id, x, y) {
+    // Create a temporary canvas to determine the size of the symbol
+    const tempCanvas = document.createElement("canvas");
+    const tempCtx = tempCanvas.getContext("2d");
+
+    // Set the desired size for the symbol
+    const symbolSize = 50; // Adjust this value as needed
+    tempCanvas.width = symbolSize;
+    tempCanvas.height = symbolSize;
+
+    // Draw the symbol on the temporary canvas to get its dimensions
+    drawSymbolByIdOnCanvas(id, tempCtx, tempCanvas.width, tempCanvas.height);
+
+    // Get the width and height of the drawn symbol
+    const containerWidth = tempCanvas.width;
+    const containerHeight = tempCanvas.height;
+
+    // Create the symbol container
     const container = document.createElement("div");
     container.classList.add("symbol-container", "selectable");
     container.style.left = x + "px";
     container.style.top = y + "px";
-    container.style.width = "40px";
-    container.style.height = "40px";
+    container.style.width = containerWidth + "px"; // Set width based on symbol size
+    container.style.height = containerHeight + "px"; // Set height based on symbol size
     container.dataset.locked = "false";
     container.dataset.rotation = "0";
 
     const canvas = document.createElement("canvas");
-    canvas.width = parseInt(container.style.width);
-    canvas.height = parseInt(container.style.height);
+    canvas.width = containerWidth; // Match canvas size to container size
+    canvas.height = containerHeight; // Match canvas size to container size
+    canvas.style.width = "100%"; // Set to 100%
+    canvas.style.height = "100%"; // Set to 100%
     canvas.classList.add("symbol");
 
     const ctx = canvas.getContext("2d");
@@ -77,6 +124,33 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     canvasArea.appendChild(container);
+    initializeInteractJS(container); // Initialize dragging for the container
+  }
+
+  function createTextElement(text, x, y) {
+    const container = document.createElement("div");
+    container.classList.add("text-container");
+    container.style.left = x + "px";
+    container.style.top = y + "px";
+    container.dataset.locked = "false";
+    container.dataset.rotation = "0";
+
+    const textSpan = document.createElement("span");
+    textSpan.textContent = text;
+    textSpan.style.fontSize = "16px";
+    textSpan.style.color = "#000000"; // Default text color
+    container.appendChild(textSpan);
+
+    // Set initial container size
+    container.style.width = "auto";
+    container.style.height = "20px";
+
+    // Add only the bottom-right resize handle
+    const handle = document.createElement("div");
+    handle.classList.add("resize-handle", "se");
+    container.appendChild(handle);
+
+    canvasArea.appendChild(container);
     initializeInteractJS(container);
   }
 
@@ -87,112 +161,168 @@ document.addEventListener("DOMContentLoaded", () => {
     element.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg)`;
   }
 
-  // In main.js
+  function initializeInteractJS(element) {
+    const isTextContainer = element.classList.contains("text-container");
+    const isLocked = isElementLocked(element);
 
-function initializeInteractJS(element) {
-  const isTextContainer = element.classList.contains("text-container");
+    // Determine if the element is one of the specified symbols
+    const symbolId = element.getAttribute("data-symbol-id");
+    const isSpecificSymbol = [
+      "door",
+      "information-desk",
+      "statue",
+      "rest-area",
+    ].includes(symbolId);
 
-  // Remove any existing InteractJS interactions to prevent duplicates
-  interact(element).unset();
+    // Remove any existing InteractJS interactions to prevent duplicates
+    interact(element).unset();
 
-  const draggableOptions = {
-    inertia: false,
-    autoScroll: true,
-    modifiers: [
-      interact.modifiers.restrictRect({
-        restriction: canvasArea,
-        endOnly: false,
-      }),
-    ],
-    listeners: {
-      // Add the 'dragging' class when dragging starts
-      start(event) {
-        element.classList.add('dragging');
-      },
-      move: dragMoveListener,
-      // Remove the 'dragging' class when dragging ends
-      end(event) {
-        element.classList.remove('dragging');
-        saveState();
-      },
-    },
-    ignoreFrom: '.resize-handle', // Ignore dragging from resize handles
-    allowFrom: null, // Allow dragging from anywhere in the container
-    enabled: !isElementLocked(element),
-  };
-
-  // Resizable options
-  const resizableOptions = isTextContainer
-    ? {
-        edges: { bottom: ".resize-handle.se", right: ".resize-handle.se" },
-        listeners: {
-          move: resizeMoveListener,
-          end(event) {
-            saveState();
-          },
+    // Draggable Options
+    const draggableOptions = {
+      inertia: false,
+      autoScroll: true,
+      modifiers: [
+        interact.modifiers.restrictRect({
+          restriction: canvasArea,
+          endOnly: false,
+        }),
+      ],
+      listeners: {
+        start(event) {
+          isDragging = true;
+          element.classList.add("dragging");
         },
-        modifiers: [
-          interact.modifiers.restrictEdges({
-            outer: canvasArea,
-            endOnly: true,
-          }),
-          interact.modifiers.restrictSize({
-            min: { width: 20, height: 20 },
-            max: { width: 200, height: 200 },
-          }),
-        ],
-        allowFrom: ".resize-handle.se",
-        enabled: !isElementLocked(element),
-      }
-    : {
-        edges: { top: true, left: true, bottom: true, right: true },
-        listeners: {
-          move: resizeMoveListener,
-          end(event) {
-            saveState();
-          },
+        move(event) {
+          const x = (parseFloat(element.dataset.x) || 0) + event.dx;
+          const y = (parseFloat(element.dataset.y) || 0) + event.dy;
+
+          element.dataset.x = x;
+          element.dataset.y = y;
+
+          // Preserve rotation if applicable
+          const rotation = parseFloat(element.dataset.rotation) || 0;
+          element.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg)`;
+
+          updatePropertiesPanel(element);
         },
-        modifiers: [
-          interact.modifiers.restrictEdges({
-            outer: canvasArea,
-            endOnly: true,
-          }),
-          interact.modifiers.restrictSize({
-            min: { width: 20, height: 20 },
-            max: { width: 800, height: 800 },
-          }),
-        ],
-        allowFrom: ".resize-handle",
-        enabled: !isElementLocked(element),
-      };
+        end(event) {
+          isDragging = false;
+          element.classList.remove("dragging");
+          saveState();
+        },
+      },
+      enabled: !isLocked,
+    };
 
-  // Enable interactions
-  interact(element).draggable(draggableOptions).resizable(resizableOptions);
+    // Resizable Options
+    const resizableOptions = isSpecificSymbol
+      ? {
+          edges: { bottom: true, right: true },
+          listeners: {
+            move(event) {
+              const target = event.target;
+              if (isElementLocked(target)) return;
 
-  // Ensure the element can be clicked even when locked
-  element.style.pointerEvents = "auto";
+              // Calculate new size
+              const newSize = Math.max(event.rect.width, event.rect.height);
 
-  element.addEventListener("mousedown", (e) => {
-    e.stopPropagation();
-    document
-      .querySelectorAll(".symbol-container.selected, .text-container.selected")
-      .forEach((el) => el.classList.remove("selected"));
-    element.classList.add("selected");
-    showPropertiesPanel(element);
-  });
-}
+              // Update the element's style
+              target.style.width = newSize + "px";
+              target.style.height = newSize + "px";
+
+              // Update the canvas size
+              const canvas = target.querySelector("canvas");
+              if (canvas) {
+                canvas.width = newSize;
+                canvas.height = newSize;
+                canvas.style.width = "100%";
+                canvas.style.height = "100%";
+                const ctx = canvas.getContext("2d");
+                drawSymbolByIdOnCanvas(
+                  target.getAttribute("data-symbol-id"),
+                  ctx,
+                  canvas.width,
+                  canvas.height
+                );
+              }
+
+              updatePropertiesPanel(target);
+            },
+            end(event) {
+              saveState();
+            },
+          },
+          modifiers: [
+            interact.modifiers.restrictEdges({
+              outer: canvasArea,
+              endOnly: true,
+            }),
+            interact.modifiers.restrictSize({
+              min: { width: 20, height: 20 },
+              max: { width: 800, height: 800 },
+            }),
+          ],
+          allowFrom: ".resize-handle.se",
+          enabled: !isLocked,
+        }
+      : {
+          edges: { top: true, left: true, bottom: true, right: true },
+          listeners: {
+            move: resizeMoveListener,
+            end(event) {
+              saveState();
+            },
+          },
+          modifiers: [
+            interact.modifiers.restrictEdges({
+              outer: canvasArea,
+              endOnly: true,
+            }),
+            interact.modifiers.restrictSize({
+              min: { width: 20, height: 20 },
+              max: { width: 800, height: 800 },
+            }),
+          ],
+          allowFrom: ".resize-handle",
+          enabled: !isLocked,
+        };
+
+    // Initialize Interactions
+    interact(element).draggable(draggableOptions).resizable(resizableOptions);
+
+    // Ensure the element can be clicked even when locked
+    element.style.pointerEvents = "auto";
+
+    // Event Listener for Selection
+    element.addEventListener("mousedown", (e) => {
+      e.stopPropagation();
+      document
+        .querySelectorAll(
+          ".symbol-container.selected, .text-container.selected"
+        )
+        .forEach((el) => el.classList.remove("selected"));
+      element.classList.add("selected");
+      showPropertiesPanel(element);
+    });
+  }
 
   function dragMoveListener(event) {
-    var target = event.target;
-    if (isElementLocked(target)) return;
+    var target = event.target.closest(".symbol-container, .text-container");
+    if (!target || isElementLocked(target)) return;
 
+    // Calculate new position
     var x = (parseFloat(target.dataset.x) || 0) + event.dx;
     var y = (parseFloat(target.dataset.y) || 0) + event.dy;
 
+    // Update dataset
     target.dataset.x = x;
     target.dataset.y = y;
 
+    // Update the transform for the container
     updateTransform(target);
+
+    // Update properties panel after dragging
+    updatePropertiesPanel(target);
   }
 
   function resizeMoveListener(event) {
@@ -204,8 +334,8 @@ function initializeInteractJS(element) {
     var newHeight = event.rect.height;
 
     // Get minimum sizes from restrictSize modifier
-    var minWidth = 10; // Replace with your minimum width
-    var minHeight = 10; // Replace with your minimum height
+    var minWidth = 20; // Replace with your minimum width
+    var minHeight = 20; // Replace with your minimum height
 
     // Enforce minimum size
     if (newWidth < minWidth) {
@@ -243,9 +373,10 @@ function initializeInteractJS(element) {
     if (canvas) {
       canvas.width = newWidth;
       canvas.height = newHeight;
-      canvas.style.width = "100%";
-      canvas.style.height = "100%";
+      canvas.style.width = "100%"; // Set to 100%
+      canvas.style.height = "100%"; // Set to 100%
       const ctx = canvas.getContext("2d");
+      ctx.imageSmoothingEnabled = false; // Disable image smoothing
       drawSymbolByIdOnCanvas(
         target.getAttribute("data-symbol-id"),
         ctx,
@@ -263,7 +394,7 @@ function initializeInteractJS(element) {
       updateTextContainerSize(target, textSpan);
     }
 
-    updatePropertiesPanel(target);
+    updatePropertiesPanel(target); // Update properties panel after resizing
   }
 
   function isElementLocked(element) {
@@ -310,14 +441,107 @@ function initializeInteractJS(element) {
   function showPropertiesPanel(element) {
     const objectProperties = document.getElementById("object-properties");
     const textProperties = document.getElementById("text-properties");
+    const symbolProperties = document.getElementById("symbol-properties");
     const noSelection = document.getElementById("no-selection");
 
     noSelection.style.display = "none";
 
-    if (element.classList.contains("symbol-container")) {
-      // Show object properties, hide text properties
+    const symbolId = element.getAttribute("data-symbol-id");
+    const isSpecificSymbol = [
+      "door",
+      "information-desk",
+      "statue",
+      "rest-area",
+    ].includes(symbolId);
+
+    if (isSpecificSymbol) {
+      // Determine if the element is locked
+      const isLocked = isElementLocked(element);
+
+      // Show symbol properties, hide others
+      objectProperties.style.display = "none";
+      textProperties.style.display = "none";
+      symbolProperties.style.display = "block";
+
+      if (!isLocked) {
+        const sizeInput = document.getElementById("symbol-size-input");
+        const rotationInput = document.getElementById("symbol-rotation-input");
+        const sizeValue = document.getElementById("symbol-size-value");
+        const rotationValue = document.getElementById("symbol-rotation-value");
+        const lockButton = document.getElementById("lock-button-symbol");
+
+        // Initialize values
+        const size = Math.max(element.offsetWidth, element.offsetHeight);
+        sizeInput.value = size;
+        sizeValue.textContent = size;
+        rotationInput.value =
+          Math.round(parseFloat(element.dataset.rotation) || 0) % 360;
+        rotationValue.textContent = `${rotationInput.value}°`;
+
+        // Update lock button
+        lockButton.innerHTML = `<span class="material-icons">${
+          isLocked ? "lock" : "lock_open"
+        }</span> ${isLocked ? "Lock" : "Unlock"}`;
+
+        // Event listeners for size and rotation
+        sizeInput.oninput = () => {
+          if (isElementLocked(element)) return;
+          const newSize = parseInt(sizeInput.value);
+          sizeValue.textContent = newSize;
+          element.style.width = newSize + "px";
+          element.style.height = newSize + "px";
+          const canvas = element.querySelector("canvas");
+          if (canvas) {
+            canvas.width = newSize;
+            canvas.height = newSize;
+            canvas.style.width = "100%";
+            canvas.style.height = "100%";
+            const ctx = canvas.getContext("2d");
+            drawSymbolByIdOnCanvas(
+              element.getAttribute("data-symbol-id"),
+              ctx,
+              canvas.width,
+              canvas.height
+            );
+          }
+          saveState();
+        };
+
+        rotationInput.oninput = () => {
+          if (isElementLocked(element)) return;
+          const rotation = parseInt(rotationInput.value);
+          rotationValue.textContent = `${rotation}°`;
+          element.dataset.rotation = rotation;
+          updateTransform(element);
+          saveState();
+        };
+
+        // Event listener for lock button
+        lockButton.onclick = () => {
+          const isLockedNow = isElementLocked(element);
+          element.dataset.locked = (!isLockedNow).toString();
+          lockButton.innerHTML = `<span class="material-icons">${
+            !isLockedNow ? "lock" : "lock_open"
+          }</span> ${!isLockedNow ? "Lock" : "Unlock"}`;
+
+          // Update InteractJS
+          interact(element).draggable({ enabled: !isElementLocked(element) });
+          interact(element).resizable({ enabled: !isElementLocked(element) });
+
+          // Show or hide symbol properties based on new lock state
+          if (!isElementLocked(element)) {
+            symbolProperties.style.display = "block";
+          } else {
+            symbolProperties.style.display = "none";
+          }
+
+          saveState();
+        };
+      }
+    } else if (element.classList.contains("symbol-container")) {
       objectProperties.style.display = "block";
       textProperties.style.display = "none";
+      symbolProperties.style.display = "none";
 
       const widthInput = document.getElementById("width-input");
       const heightInput = document.getElementById("height-input");
@@ -328,8 +552,8 @@ function initializeInteractJS(element) {
       const lockButton = document.getElementById("lock-button");
 
       // Initialize values
-      widthInput.value = parseInt(element.style.width);
-      heightInput.value = parseInt(element.style.height);
+      widthInput.value = parseInt(element.offsetWidth);
+      heightInput.value = parseInt(element.offsetHeight);
       rotationInput.value =
         Math.round(parseFloat(element.dataset.rotation) || 0) % 360;
       widthValue.textContent = widthInput.value;
@@ -405,9 +629,9 @@ function initializeInteractJS(element) {
         saveState();
       };
     } else if (element.classList.contains("text-container")) {
-      // Show text properties, hide object properties
       objectProperties.style.display = "none";
       textProperties.style.display = "block";
+      symbolProperties.style.display = "none";
 
       const textContentInput = document.getElementById("text-content-input");
       const textColorInput = document.getElementById("text-color-input");
@@ -455,7 +679,7 @@ function initializeInteractJS(element) {
       // Event listeners
       textContentInput.oninput = () => {
         if (isElementLocked(element)) return;
-        textSpan.textContent = textContentInput.value || " ";
+        textSpan.textContent = textContentInput.value.trim() || " ";
         updateTextContainerSize(element, textSpan);
         saveState();
       };
@@ -545,13 +769,17 @@ function initializeInteractJS(element) {
   function clearPropertiesPanel() {
     const objectProperties = document.getElementById("object-properties");
     const textProperties = document.getElementById("text-properties");
+    const symbolProperties = document.getElementById("symbol-properties");
     const noSelection = document.getElementById("no-selection");
 
+    // Hide all panels
     objectProperties.style.display = "none";
     textProperties.style.display = "none";
+    symbolProperties.style.display = "none";
+
+    // Show "No object selected" message
     noSelection.style.display = "block";
   }
-
   function rgbToHex(rgb) {
     const result = /^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/.exec(rgb);
     if (!result) {
@@ -598,33 +826,6 @@ function initializeInteractJS(element) {
       });
     }
   });
-
-  function createTextElement(text, x, y) {
-    const container = document.createElement("div");
-    container.classList.add("text-container");
-    container.style.left = x + "px";
-    container.style.top = y + "px";
-    container.dataset.locked = "false";
-    container.dataset.rotation = "0";
-
-    const textSpan = document.createElement("span");
-    textSpan.textContent = text;
-    textSpan.style.fontSize = "16px";
-    textSpan.style.color = "#000000"; // Default text color
-    container.appendChild(textSpan);
-
-    // Set initial container size
-    container.style.width = "auto";
-    container.style.height = "20px";
-
-    // Add only the bottom-right resize handle
-    const handle = document.createElement("div");
-    handle.classList.add("resize-handle", "se");
-    container.appendChild(handle);
-
-    canvasArea.appendChild(container);
-    initializeInteractJS(container);
-  }
 
   // Undo and Redo functionality
   function saveState() {
