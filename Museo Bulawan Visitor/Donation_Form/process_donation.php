@@ -4,7 +4,7 @@ header("Access-Control-Allow-Methods: GET, POST, OPTIONS, DELETE, UPDATE");
 header("Access-Control-Allow-Headers: Content-Type, x-requested-with");
 header('Content-Type: application/json');  // Set JSON header for the response
 
-include('admin_mis\src\php\db_connect.php');
+include('admin_mis/src/php/db_connect.php');
 
 // Check if the form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
