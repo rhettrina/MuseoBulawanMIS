@@ -162,55 +162,50 @@ document.getElementById("sort").addEventListener("change", function () {
 
 
 
-
-
-
-
-
-
-
-
 function previewImage(event, previewId) {
     const file = event.target.files[0];
     const preview = document.getElementById(previewId);
-  
-    function resetPreview() {
-      preview.style.backgroundImage = 'none';
-      const placeholder = preview.querySelector('span');
-      if (placeholder) {
-        placeholder.style.display = 'block';
-        placeholder.textContent = 'Choose Image';
-      }
-      event.target.value = ''; 
-    }
-  
-    if (file) {
-      if (file.size > 3 * 1024 * 1024) {
-        alert('File size exceeds 3MB. Please choose a smaller file.');
-        resetPreview();
+    
+    if (!preview) {
+        console.error(`Preview element with id "${previewId}" not found.`);
         return;
-      }
-  
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        preview.style.backgroundImage = `url(${e.target.result})`;
-        preview.style.backgroundSize = 'cover';
-        preview.style.backgroundPosition = 'center';
-  
+    }
+
+    // Reset preview container if no file is selected
+    function resetPreview() {
+        preview.style.backgroundImage = 'none';
         const placeholder = preview.querySelector('span');
         if (placeholder) {
-          placeholder.style.display = 'none';
+            placeholder.style.display = 'block';
+            placeholder.textContent = 'Choose Image';
         }
-      };
-      reader.readAsDataURL(file);
-    } else {
-      resetPreview();
+        event.target.value = ''; // Reset the file input
     }
-  }
-  
-  
 
+    if (file) {
+        if (file.size > 3 * 1024 * 1024) {
+            alert('File size exceeds 3MB. Please choose a smaller file.');
+            resetPreview();
+            return;
+        }
 
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            preview.style.backgroundImage = `url(${e.target.result})`;  // Set the image as background
+            preview.style.backgroundSize = 'cover';
+            preview.style.backgroundPosition = 'center';
+            preview.style.display = 'block';  // Make the preview visible
+
+            const placeholder = preview.querySelector('span');
+            if (placeholder) {
+                placeholder.style.display = 'none';  // Hide the placeholder text
+            }
+        };
+        reader.readAsDataURL(file);
+    } else {
+        resetPreview();
+    }
+}
 
   
 
@@ -299,7 +294,7 @@ function openConfirmationModal(callback) {
             openConfirmationModal((confirm) => {
                 if (confirm) {
                     
-                    closeModal("create-article-modal");
+                    saveArticle();
                     console.log("Article saved successfully!");
                     form.reset();
                 }
@@ -337,51 +332,50 @@ function closeModal(modalId) {
         console.error(`Modal with ID "${modalId}" not found.`);
     }
 }
-
-
 function saveArticle() {
-    // Get form data
     const form = document.getElementById("create-article-form");
-    const formData = new FormData(form); // Collect form data, including file inputs
+    const formData = new FormData(form); // Collect form data
 
     // Get file data (Images)
-    const image1 = document.getElementById("image-1").files[0];
-    const image2 = document.getElementById("image-2").files[0];
-    const image3 = document.getElementById("image-3").files[0];
+    const image1 = document.getElementById("image-1-input").files[0];
+    const image2 = document.getElementById("image-2-input").files[0];
+    const image3 = document.getElementById("image-3-input").files[0];
 
-    // Get image details (text input for Image 1)
-    const imageDetails = document.getElementById("image-details").value;
+    // Only append the images if they are selected
+    if (image1) formData.append("image-1", image1);
+    if (image2) formData.append("image-2", image2);
+    if (image3) formData.append("image-3", image3);
 
-    // Add image details to FormData
-    formData.append("image-1", image1);
-    formData.append("image-2", image2);
-    formData.append("image-3", image3);
-
-    // Manually append the rest of the form fields to the FormData object
-    formData.append("article_title", document.getElementById("article_title").value);
-    formData.append("article_author", document.getElementById("article_author").value);
-    formData.append("article_location", document.getElementById("article_location").value);
-    formData.append("article_type", document.getElementById("article_type").value);
-    formData.append("image-details", document.getElementById("image_details").value); 
+    // Collect other form fields
+    formData.append("article_title", document.getElementById("article-title").value);
+    formData.append("article_author", document.getElementById("article-author").value);
+    formData.append("article_location", document.getElementById("article-location").value);
+    formData.append("article_type", document.getElementById("article-type").value);
     formData.append("content-left", document.getElementById("content-left").value);
     formData.append("content-right", document.getElementById("content-right").value);
     formData.append("content-image2", document.getElementById("content-image2").value);
     formData.append("content-image3", document.getElementById("content-image3").value);
 
-    // Send the form data to the server via AJAX (fetch)
+    // Send form data to server
     fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/saveArticle.php', {
         method: 'POST',
         body: formData
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            console.log('Article saved successfully');
-            closeModal('create-article-modal');
-            form.reset();
-        } else {
-            console.error('Error saving article:', data.error);
-            alert('Failed to save the article. Please try again.');
+    .then(response => response.text())  // Get response as text first
+    .then(text => {
+        try {
+            const data = JSON.parse(text);  // Try to parse it as JSON
+            if (data.success) {
+                console.log('Article saved successfully');
+                closeModal('create-article-modal');
+                form.reset(); // Reset the form after successful submission
+            } else {
+                console.error('Error saving article:', data.error);
+                alert('Failed to save the article. Please try again.');
+            }
+        } catch (e) {
+            console.error('Invalid JSON response:', text);
+            alert('An error occurred. Please try again.');
         }
     })
     .catch(error => {
