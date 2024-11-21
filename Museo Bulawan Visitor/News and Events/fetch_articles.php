@@ -5,11 +5,6 @@ header("Access-Control-Allow-Headers: Content-Type, x-requested-with");  // Allo
 
 
 
-if (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'] !== 'XMLHttpRequest') {
-    echo json_encode(['error' => 'Direct access not permitted.']);
-    exit(); 
-}
-
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
