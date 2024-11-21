@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Handle uploads for images
-    $art_img_result = !empty($_FILES['artifact_img']['name']) ? handleFileUpload($_FILES['artifact_img'], '../admin_mis/src/uploads/artifacts') : ['success' => true];
+    $art_img_result = !empty($_FILES['artifact_img']['name']) ? handleFileUpload($_FILES['artifact_img'], 'uploads/artifacts/') : ['success' => true];
     if (!$art_img_result['success']) {
         echo json_encode($art_img_result);
         exit();
@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $linkartimg = $art_img_result['fileName'];
     }
 
-    $doc_img_result = !empty($_FILES['documentation_img']['name']) ? handleFileUpload($_FILES['documentation_img'], '../admin_mis/src/uploads/documentation') : ['success' => true];
+    $doc_img_result = !empty($_FILES['documentation_img']['name']) ? handleFileUpload($_FILES['documentation_img'], 'uploads/documentation/') : ['success' => true];
     if (!$doc_img_result['success']) {
         echo json_encode($doc_img_result);
         exit();
@@ -74,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $linkdocimg = $doc_img_result['fileName'];
     }
 
-    $rel_img_result = !empty($_FILES['related_img']['name']) ? handleFileUpload($_FILES['related_img'], '../admin_mis/src/uploads/related ') : ['success' => true];
+    $rel_img_result = !empty($_FILES['related_img']['name']) ? handleFileUpload($_FILES['related_img'], 'uploads/related/') : ['success' => true];
     if (!$rel_img_result['success']) {
         echo json_encode($rel_img_result);
         exit();
