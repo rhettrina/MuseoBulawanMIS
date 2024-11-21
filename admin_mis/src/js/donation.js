@@ -1,4 +1,4 @@
-function init(){
+function init() {
     // Call the display functions here
     fetchTotalDonations();
     fetchDonations();
@@ -111,7 +111,7 @@ function populateTable(donations) {
 
         // Add buttons with event listeners
         const previewButton = document.createElement('button');
-        previewButton.classList.add('bg-orange-400', 'text-white' , 'p-2', 'rounded', 'hover:bg-orange-300');
+        previewButton.classList.add('bg-orange-400', 'text-white', 'p-2', 'rounded', 'hover:bg-orange-300');
         previewButton.innerHTML = `<i class="fas fa-eye"></i>`;
         previewButton.addEventListener('click', () => handleAction('preview', donation.id));
 
@@ -203,19 +203,19 @@ function deleteDonation(donationId) {
 function openDeleteModal(callback) {
     const modal = document.getElementById("delete-modal");
     modal.classList.remove("hidden");
-  
+
     // Handling button clicks
     document.getElementById("delete-confirm-button").onclick = () => {
-      callback(true);  // Return 'true' if 'Delete' is clicked
-      closeModal("delete-modal");
+        callback(true);  // Return 'true' if 'Delete' is clicked
+        closeModal("delete-modal");
     };
-  
+
     document.getElementById("delete-cancel-button").onclick = () => {
-      callback(false);  // Return 'false' if 'Cancel' is clicked
-      closeModal("delete-modal");
+        callback(false);  // Return 'false' if 'Cancel' is clicked
+        closeModal("delete-modal");
     };
-  }
-  
+}
+
 // Function to close the modal
 function closeModal(modalId) {
     const modal = document.getElementById(modalId);
