@@ -6,7 +6,7 @@ function fetchArticles() {
             'X-Requested-With': 'XMLHttpRequest',
         },
         body: JSON.stringify({
-            action: 'fetch_articles' // Request to fetch articles
+            action: 'fetch_articles' 
         })
     })
     .then(response => response.json())
