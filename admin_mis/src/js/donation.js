@@ -1,7 +1,9 @@
 function init(){
-    //call the display functions here
+    // Call the display functions here
     fetchTotalDonations();
+    fetchDonations();
 }
+
 function fetchTotalDonations() {
     fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchTotalDonations.php')
         .then(response => {
@@ -153,8 +155,8 @@ function handleAction(action, donationId) {
             openDeleteModal((response) => {
                 if (response) {
                     console.log(`Donation with ID ${donationId} deleted.`);
-                    // Implement delete functionality here
-                    // For example: deleteDonation(donationId);
+                    // Call deleteDonation function
+                    deleteDonation(donationId);
                 } else {
                     console.log("Delete action canceled.");
                 }
@@ -179,3 +181,42 @@ document.getElementById("sort").addEventListener("change", function () {
     fetchDonations(sortOption);
 });
 
+// Delete donation via AJAX
+function deleteDonation(donationId) {
+    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/deleteDonations.php?id=${donationId}`, {
+        method: 'DELETE',
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to delete donation');
+        }
+        // Refresh the donation list after successful deletion
+        fetchDonations();
+    })
+    .catch(error => {
+        console.error('Error deleting donation:', error);
+    });
+}
+
+// Function to open the delete confirmation modal
+function openDeleteModal(callback) {
+    const modal = document.getElementById("delete-modal");
+    modal.classList.remove("hidden");
+  
+    // Handling button clicks
+    document.getElementById("delete-confirm-button").onclick = () => {
+      callback(true);  // Return 'true' if 'Delete' is clicked
+      closeModal("delete-modal");
+    };
+  
+    document.getElementById("delete-cancel-button").onclick = () => {
+      callback(false);  // Return 'false' if 'Cancel' is clicked
+      closeModal("delete-modal");
+    };
+  }
+  
+// Function to close the modal
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    modal.classList.add("hidden");
+}
