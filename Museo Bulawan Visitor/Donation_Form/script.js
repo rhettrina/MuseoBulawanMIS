@@ -4,11 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const closeModalBtn = document.querySelector("#closeModalBtn"); // Close button inside the modal
 
     // Function to open the modal
-    function openModal() {
-        const modal = document.querySelector("#confirmationModal");
-        modal.classList.add("show"); // Add Bootstrap's 'show' class to display the modal
-        modal.setAttribute("aria-hidden", "false");
-    }
+   
 
     // Function to close the modal
     function closeModal() {
@@ -53,3 +49,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // Event listener to close the modal if the close button is clicked
     closeModalBtn.addEventListener("click", closeModal);
 });
+
+function openModal() {
+    const modal = document.querySelector("#confirmationModal");
+    modal.classList.add("show"); // Add Bootstrap's 'show' class to display the modal
+    modal.setAttribute("aria-hidden", "false");
+}

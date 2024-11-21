@@ -1,4 +1,8 @@
 <?php
+\header("Access-Control-Allow-Origin: *"); // Allow all domains, or set a specific domain
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS"); // Allow POST and GET methods
+
+
 $servername = "localhost"; 
 $username = "u376871621_bomb_squad";       
 $password = "Fujiwara000!";            
@@ -31,128 +35,60 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $acquisition = $connextion->real_escape_string($_POST['acquisition']);
     $additionalInfo = $connextion->real_escape_string($_POST['additionalInfo']);
     $narrative = $connextion->real_escape_string($_POST['narrative']);
-    $linkartimg = $connextion->real_escape_string($_POST['artifactImages']);
-    $linkdocimg = $connextion->real_escape_string($_POST['documentation']);
-    $linkrelimg = $connextion->real_escape_string($_POST['relatedImages']);
-    
-    // Initialize image file paths
-    $art_img_upload_path = '';
-    $doc_img_upload_path = '';
-    $rel_img_upload_path = '';
+    $linkartimg = $linkdocimg = $linkrelimg = '';
 
-    $allowed_exs = array("jpg", "jpeg", "png");
+    // Image file handling
+    function handleFileUpload($file, $uploadDir) {
+        $allowed_exs = array("jpg", "jpeg", "png");
+        $fileName = $file['name'];
+        $fileSize = $file['size'];
+        $tmpName = $file['tmp_name'];
+        $error = $file['error'];
 
-    // Collect status options
-    $status = $connextion->real_escape_string($_POST['status']);
-    $transfer_status = $connextion->real_escape_string($_POST['transfer_status']);
-
-    // Handle artifact image upload
-    if (!empty($_FILES['artifact_img']['name'])) {
-        $art_img_name = $_FILES['artifact_img']['name'];
-        $art_img_size = $_FILES['artifact_img']['size'];
-        $art_tmp_name = $_FILES['artifact_img']['tmp_name'];
-        $art_error = $_FILES['artifact_img']['error'];
-
-        if ($art_error === 0) {
-            if ($art_img_size > 12500000) {
-                $response = array('success' => false, 'message' => 'Sorry, the artifact image is too large.');
-                echo json_encode($response);
-                exit();
-            } else {
-                $art_img_ex_lc = strtolower(pathinfo($art_img_name, PATHINFO_EXTENSION));
-                if (in_array($art_img_ex_lc, $allowed_exs)) {
-                    $art_img_name_sanitized = preg_replace("/[^a-zA-Z0-9.]/", "_", $art_img_name);
-                    $art_img_upload_path = 'C:/Users/TRISHA/.vscode/sadge/MuseoBulawanMIS/admin_mis/src/uploads/artifacts/' . $art_img_name_sanitized;
-
-                    // Move the file to the folder
-                    move_uploaded_file($art_tmp_name, $art_img_upload_path);
-
-                    // Insert the sanitized file name into the database
-                    $art_img_name = $art_img_name_sanitized;
-                } else {
-                    $response = array('success' => false, 'message' => "You can't upload files of this type for artifact image.");
-                    echo json_encode($response);
-                    exit();
-                }
+        if ($error === 0) {
+            if ($fileSize > 12500000) {
+                return ['success' => false, 'message' => 'File is too large.'];
             }
-        } else {
-            $response = array('success' => false, 'message' => "Error uploading the artifact image.");
-            echo json_encode($response);
-            exit();
+            $fileEx = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+            if (!in_array($fileEx, $allowed_exs)) {
+                return ['success' => false, 'message' => "Invalid file type."];
+            }
+            $fileNameSanitized = preg_replace("/[^a-zA-Z0-9.]/", "_", $fileName);
+            $filePath = $uploadDir . $fileNameSanitized;
+            move_uploaded_file($tmpName, $filePath);
+            return ['success' => true, 'fileName' => $fileNameSanitized];
         }
+        return ['success' => false, 'message' => 'Error uploading the file.'];
     }
 
-    // Handle documentation image upload
-    if (!empty($_FILES['documentation_img']['name'])) {
-        $doc_img_name = $_FILES['documentation_img']['name'];
-        $doc_img_size = $_FILES['documentation_img']['size'];
-        $doc_tmp_name = $_FILES['documentation_img']['tmp_name'];
-        $doc_error = $_FILES['documentation_img']['error'];
-
-        if ($doc_error === 0) {
-            if ($doc_img_size > 12500000) {
-                $response = array('success' => false, 'message' => 'Sorry, the documentation image is too large.');
-                echo json_encode($response);
-                exit();
-            } else {
-                $doc_img_ex_lc = strtolower(pathinfo($doc_img_name, PATHINFO_EXTENSION));
-                if (in_array($doc_img_ex_lc, $allowed_exs)) {
-                    $doc_img_name_sanitized = preg_replace("/[^a-zA-Z0-9.]/", "_", $doc_img_name);
-                    $doc_img_upload_path = 'C:/Users/TRISHA/.vscode/sadge/MuseoBulawanMIS/admin_mis/src/uploads/documentation/' . $doc_img_name_sanitized;
-                    move_uploaded_file($doc_tmp_name, $doc_img_upload_path);
-
-                    // Insert the sanitized file name into the database
-                    $linkdocimg = $doc_img_name_sanitized;
-                } else {
-                    $response = array('success' => false, 'message' => "You can't upload files of this type for documentation image.");
-                    echo json_encode($response);
-                    exit();
-                }
-            }
-        } else {
-            $response = array('success' => false, 'message' => "Error uploading the documentation image.");
-            echo json_encode($response);
-            exit();
-        }
+    // Handle uploads for images
+    $art_img_result = !empty($_FILES['artifact_img']['name']) ? handleFileUpload($_FILES['artifact_img'], 'uploads/artifacts/') : ['success' => true];
+    if (!$art_img_result['success']) {
+        echo json_encode($art_img_result);
+        exit();
+    } else {
+        $linkartimg = $art_img_result['fileName'];
     }
 
-    // Handle related image upload
-    if (!empty($_FILES['related_img']['name'])) {
-        $rel_img_name = $_FILES['related_img']['name'];
-        $rel_img_size = $_FILES['related_img']['size'];
-        $rel_tmp_name = $_FILES['related_img']['tmp_name'];
-        $rel_error = $_FILES['related_img']['error'];
+    $doc_img_result = !empty($_FILES['documentation_img']['name']) ? handleFileUpload($_FILES['documentation_img'], 'uploads/documentation/') : ['success' => true];
+    if (!$doc_img_result['success']) {
+        echo json_encode($doc_img_result);
+        exit();
+    } else {
+        $linkdocimg = $doc_img_result['fileName'];
+    }
 
-        if ($rel_error === 0) {
-            if ($rel_img_size > 12500000) {
-                $response = array('success' => false, 'message' => 'Sorry, the related image is too large.');
-                echo json_encode($response);
-                exit();
-            } else {
-                $rel_img_ex_lc = strtolower(pathinfo($rel_img_name, PATHINFO_EXTENSION));
-                if (in_array($rel_img_ex_lc, $allowed_exs)) {
-                    $rel_img_name_sanitized = preg_replace("/[^a-zA-Z0-9.]/", "_", $rel_img_name);
-                    $rel_img_upload_path = 'C:/Users/TRISHA/.vscode/sadge/MuseoBulawanMIS/admin_mis/src/uploads/related/' . $rel_img_name_sanitized;
-                    move_uploaded_file($rel_tmp_name, $rel_img_upload_path);
-
-                    // Insert the sanitized file name into the database
-                    $linkrelimg = $rel_img_name_sanitized;
-                } else {
-                    $response = array('success' => false, 'message' => "You can't upload files of this type for related image.");
-                    echo json_encode($response);
-                    exit();
-                }
-            }
-        } else {
-            $response = array('success' => false, 'message' => "Error uploading the related image.");
-            echo json_encode($response);
-            exit();
-        }
+    $rel_img_result = !empty($_FILES['related_img']['name']) ? handleFileUpload($_FILES['related_img'], 'uploads/related/') : ['success' => true];
+    if (!$rel_img_result['success']) {
+        echo json_encode($rel_img_result);
+        exit();
+    } else {
+        $linkrelimg = $rel_img_result['fileName'];
     }
 
     // Insert data into the donation_form table
     $sql = "INSERT INTO donation_form (first_name, last_name, age, sex, email, phone, organization, province, city, barangay, street, artifact_title, artifact_description, acquisition_details, additional_info, narrative, link_art_img, artifact_images, link_doc_img, documentation, link_rel_img, related_images)
-            VALUES ('$firstName', '$lastName', '$age', '$sex', '$email', '$phone', '$organization', '$province', '$city', '$barangay', '$street', '$artifactTitle', '$artifactDescription', '$acquisition', '$additionalInfo', '$narrative', '$linkartimg', '$art_img_name_sanitized', '$linkdocimg', '$doc_img_name_sanitized', '$linkrelimg', '$rel_img_name_sanitized')";
+            VALUES ('$firstName', '$lastName', '$age', '$sex', '$email', '$phone', '$organization', '$province', '$city', '$barangay', '$street', '$artifactTitle', '$artifactDescription', '$acquisition', '$additionalInfo', '$narrative', '$linkartimg', '$art_img_result[fileName]', '$linkdocimg', '$doc_img_result[fileName]', '$linkrelimg', '$rel_img_result[fileName]')";
 
     if ($connextion->query($sql) === TRUE) {
         date_default_timezone_set('Asia/Manila'); // Set timezone
