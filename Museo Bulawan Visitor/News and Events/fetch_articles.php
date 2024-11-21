@@ -1,25 +1,33 @@
 <?php
-header("Access-Control-Allow-Origin: *");  // Allow all origins or change to your domain (e.g., http://127.0.0.1:5501)
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");  // Allow specific methods
-header("Access-Control-Allow-Headers: Content-Type, x-requested-with");  // Allow the 'x-requested-with' header
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $postData = json_decode(file_get_contents('php://input'), true);
     if (isset($postData['action']) && $postData['action'] === 'fetch_articles') {
+        // Set the CORS headers for cross-origin requests
         header("Access-Control-Allow-Origin: *");
         header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
         header("Access-Control-Allow-Headers: Content-Type, Authorization");
-        include('db_connection.php'); // Make sure your db_connection.php file is working
-
         header('Content-Type: application/json');
 
-        $sql = "SELECT id, article_title, article_type, location, author, imgu1, imgu1_details, p1box_left, p1box_right, imgu2, imgu3, p2box, p3box, created_at, updated_date FROM articles";
+        // Include database connection
+        include('db_connection.php');
+
+        // Ensure the database connection is established
+        if (!$connection) {
+            echo json_encode(['error' => 'Database connection failed.']);
+            exit;
+        }
+
+        // SQL query to fetch articles
+        $sql = "SELECT id, article_title, article_type, location, author, imgu1, imgu1_details, 
+                p1box_left, p1box_right, imgu2, imgu3, p2box, p3box, created_at, updated_date 
+                FROM articles";
+
         $result = $connection->query($sql);
 
-        if ($result === false) {
-            echo json_encode(['error' => 'SQL error: ' . $connection->error]);
-        } else {
+        // Check if query execution was successful and results were returned
+        if ($result) {
             $articles = [];
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
@@ -45,8 +53,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 echo json_encode(['error' => 'No articles found.']);
             }
+        } else {
+            echo json_encode(['error' => 'Error executing query: ' . $connection->error]);
         }
 
+        // Close the database connection
         $connection->close();
     } else {
         echo json_encode(['error' => 'Invalid action.']);
