@@ -97,8 +97,8 @@ function populateTable(donations) {
 
         // Append cells to row
         row.appendChild(dateCell);
-        row.appendChild(titleCell);
         row.appendChild(donorCell);
+        row.appendChild(titleCell);
         row.appendChild(typeCell);
         row.appendChild(statusCell);
         row.appendChild(transferStatusCell);
@@ -195,6 +195,10 @@ function displayNoDataMessage() {
 document.getElementById("sorts").addEventListener("change", function () {
     fetchDonations(this.value);
 });
+
+
+
+
 
 function deleteDonation(donationId) {
     fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/deleteDonations.php?id=${donationId}`, {
