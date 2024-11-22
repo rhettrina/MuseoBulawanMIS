@@ -187,7 +187,7 @@ function displayNoDataMessage() {
     const tableBody = document.querySelector('tbody');
     tableBody.innerHTML = `
         <tr>
-            <td colspan="7" class="text-center py-4">No donations found or an error occurred.</td>
+            <td colspan="8" class="text-center py-4">No donations found or an error occurred.</td>
         </tr>
     `;
 }
