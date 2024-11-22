@@ -194,6 +194,8 @@ function displayNoAppointmentsMessage() {
     `;
 }
 
+document.getElementById("appointment-sort").addEventListener("change", function () {
+    fetchAppointments(this.value);
+});
 
-
-initAppointments(); // Initialize appointment management
+init(); // Initialize appointment management
