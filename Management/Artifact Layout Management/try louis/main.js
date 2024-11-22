@@ -318,35 +318,6 @@ document.addEventListener("DOMContentLoaded", () => {
     saveState();
   });
 
-  
-
-  document.addEventListener("DOMContentLoaded", function () {
-    const saveButton = document.getElementById("save-button");
-
-    if (saveButton) {
-      saveButton.addEventListener("click", function () {
-        const canvasArea = document.getElementById("canvas-area");
-
-        html2canvas(canvasArea, { useCORS: true, allowTaint: true })
-          .then((canvas) => {
-            // Convert canvas to a downloadable image
-            const finalDataURL = canvas.toDataURL("image/png");
-            const link = document.createElement("a");
-            link.href = finalDataURL;
-            link.download = "floor-plan.png"; // File name for download
-            link.click(); // Trigger the download
-          })
-          .catch((err) => {
-            console.error("Error capturing the floor plan:", err);
-            alert(
-              "An error occurred while saving the floor plan. Please try again."
-            );
-          });
-      });
-    } else {
-      console.error("Save button not found in the DOM.");
-    }
-  });
 
   function createSymbol(id, x, y) {
     // Create a temporary canvas to determine the size of the symbol
