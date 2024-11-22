@@ -331,6 +331,9 @@ function openConfirmationModal(callback) {
 
     const form = document.getElementById("create-article-form");
 
+
+
+    
     // Handle the Cancel button click
     const cancelButton = document.getElementById("create-article-cancel-button");
     cancelButton.onclick = () => {
@@ -483,7 +486,7 @@ function updateArticle(articleId) {
     modal.classList.remove("hidden");
 
     // Fetch existing article data to populate the modal
-    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchArticleDetails.php?id=${articleId}`)
+    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchArticles.php?id=${articleId}`)
         .then(response => response.json())
         .then(data => {
             if (data.success) {
