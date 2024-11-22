@@ -161,23 +161,50 @@ function fetchArticleDetails(articleId) {
 }
 
 function populateModal(article) {
-    document.getElementById('article-title-preview').textContent = article.article_title || 'N/A';
-    document.getElementById('article-date-preview').textContent = article.created_at || 'N/A';
-    document.getElementById('article-location-preview').textContent = article.location || 'N/A';
-    document.getElementById('article-type-preview').textContent = article.article_type || 'N/A';
-    document.getElementById('article-author-preview').textContent = article.author || 'N/A';
-    document.getElementById('article-image-1').src = article.imgu1 || '';
-    document.getElementById('article-image-1-details').textContent = article.imgu1_details || '';
-    document.getElementById('article-left').value = article.p1box_left || '';
-    document.getElementById('article-right').value = article.p1box_right || '';
-    document.getElementById('article-image-2').src = article.imgu2 || '';
-    document.getElementById('content-right-2').value = article.p2box || '';
-    document.getElementById('article-image-3').src = article.imgu3 || '';
-    document.getElementById('content-right-3').value = article.p3box || '';
+    const basePath = 'https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/uploads/articlesUploads/';
+
+    // Ensure all elements exist before setting their properties
+    const titleElement = document.getElementById('article-title-preview');
+    const dateElement = document.getElementById('article-date-preview');
+    const locationElement = document.getElementById('article-location-preview');
+    const typeElement = document.getElementById('article-type-preview');
+    const authorElement = document.getElementById('article-author-preview');
+    const image1Element = document.getElementById('article-image-1');
+    const image1DetailsElement = document.getElementById('article-image-1-details');
+    const leftContentElement = document.getElementById('article-left');
+    const rightContentElement = document.getElementById('article-right');
+    const image2Element = document.getElementById('article-image-2');
+    const contentRight2Element = document.getElementById('content-right-2');
+    const image3Element = document.getElementById('article-image-3');
+    const contentRight3Element = document.getElementById('content-right-3');
+
+    if (titleElement) titleElement.textContent = article.article_title || 'N/A';
+    if (dateElement) dateElement.textContent = article.created_at || 'N/A';
+    if (locationElement) locationElement.textContent = article.location || 'N/A';
+    if (typeElement) typeElement.textContent = article.article_type || 'N/A';
+    if (authorElement) authorElement.textContent = article.author || 'N/A';
+
+    // Extract filename from the path and construct the full image URL
+    const getFileName = (path) => path ? path.split('/').pop() : '';
+
+    if (image1Element) image1Element.src = article.imgu1 ? basePath + getFileName(article.imgu1) : '';
+    if (image1DetailsElement) image1DetailsElement.textContent = article.imgu1_details || '';
+    if (leftContentElement) leftContentElement.value = article.p1box_left || '';
+    if (rightContentElement) rightContentElement.value = article.p1box_right || '';
+    if (image2Element) image2Element.src = article.imgu2 ? basePath + getFileName(article.imgu2) : '';
+    if (contentRight2Element) contentRight2Element.value = article.p2box || '';
+    if (image3Element) image3Element.src = article.imgu3 ? basePath + getFileName(article.imgu3) : '';
+    if (contentRight3Element) contentRight3Element.value = article.p3box || '';
 
     // Show the modal
-    document.getElementById('preview-modal').classList.remove('hidden');
+    const previewModal = document.getElementById('preview-modal');
+    if (previewModal) {
+        previewModal.classList.remove('hidden');
+    } else {
+        console.error('Preview modal not found.');
+    }
 }
+
 
 function togglePreview() {
     const closePreviw = document.getElementById("preview-modal");
