@@ -1,7 +1,7 @@
 
 function init(){
     fetchTotalAppointments();
-    fetchArticles();
+    fetchAppointments();
 }
 
 function fetchTotalAppointments() {
@@ -27,7 +27,7 @@ function fetchTotalAppointments() {
 }
 
 // Fetch and populate the articles table
-function fetchArticles(sort = 'newest') {
+function fetchAppointments(sort = 'newest') {
     fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchAppointments.php?sort=${sort}`)
         .then(response => {
             if (!response.ok) {
@@ -145,14 +145,6 @@ function displayNoDataMessage() {
         </tr>
     `;
 }
-
-
-document.getElementById("sort").addEventListener("change", function () {
-    const sortOption = this.value;
-    fetchAppointments(sortOption);
-});
-
-
 
 
 
