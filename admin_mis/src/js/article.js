@@ -114,20 +114,16 @@ function populateTable(articles) {
         tableBody.appendChild(row);
     });
 }
-
-
 function handleAction(action, articleId) {
     switch (action) {
         case 'preview':
-            console.log(`Preview article with ID: ${articleId}`);
-            // Implement preview functionality here
+            fetchArticleDetails(articleId);
             break;
         case 'edit':
             console.log(`Edit article with ID: ${articleId}`);
             // Implement edit functionality here
             break;
         case 'delete':
-            // Show confirmation modal before deleting
             openDeleteModal((response) => {
                 if (response) {
                     console.log(`Article with ID ${articleId} deleted.`);
@@ -141,6 +137,45 @@ function handleAction(action, articleId) {
         default:
             console.error('Unknown action:', action);
     }
+}
+
+function fetchArticleDetails(articleId) {
+    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/previewArticle.php?id=${articleId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.error) {
+                console.error('Error fetching article:', data.error);
+            } else {
+                populateModal(data);
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching article details:', error);
+        });
+}
+
+function populateModal(article) {
+    document.getElementById('article-title').textContent = article.article_title;
+    document.getElementById('article-date').textContent = article.created_at;
+    document.getElementById('article-location').textContent = article.location;
+    document.getElementById('article-type').textContent = article.article_type;
+    document.getElementById('article-author').textContent = article.author;
+    document.getElementById('article-image-1').src = article.imgu1;
+    document.getElementById('article-image-1-details').textContent = article.imgu1_details;
+    document.getElementById('article-left').value = article.p1box_left;
+    document.getElementById('article-right').value = article.p1box_right;
+    document.getElementById('article-image-2').src = article.imgu2;
+    document.getElementById('content-right-2').value = article.p2box;
+    document.getElementById('article-image-3').src = article.imgu3;
+    document.getElementById('content-right-3').value = article.p3box;
+
+    // Show the modal
+    document.getElementById('preview-modal').classList.remove('hidden');
 }
 
 
