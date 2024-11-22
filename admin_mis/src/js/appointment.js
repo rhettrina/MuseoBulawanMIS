@@ -43,6 +43,10 @@ function fetchAppointments(sort = 'newest') {
                 populateTable(data);
             }
         })
+        .catch(error => {
+            console.error('Error fetching appointments:', error);
+            displayNoDataMessage();
+        });
         
         
 }
@@ -83,7 +87,35 @@ function populateTable(appointments) {
         statusCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
         statusCell.textContent = appointment.status;
         
-       
+        const updatedDateCell = document.createElement('td');
+        updatedDateCell.classList.add('px-4', 'py-2','bg-white', 'border-black' , 'border-t-2', 'border-b-2');
+        updatedDateCell.textContent = appointment.updated_date === "Not Edited" || !appointment.updated_date
+            ? "Not Edited"
+            : appointment .updated_date;
+
+        const actionCell = document.createElement('td');
+        actionCell.classList.add('px-4', 'py-2', 'flex', 'justify-center', 'space-x-2', 'bg-white', 'border-black' , 'rounded-r-[15px]', 'border-t-2', 'border-b-2', 'border-r-2');
+
+        // Add buttons with event listeners
+        const previewButton = document.createElement('button');
+        previewButton.classList.add('bg-transparent', 'text-black' , 'p-2', 'rounded', 'hover:bg-orange-300');
+        previewButton.innerHTML = `<i class="fas fa-eye"></i>`;
+        previewButton.addEventListener('click', () => handleAction('preview', appointment.id));
+
+        const editButton = document.createElement('button');
+        editButton.classList.add('bg-transparent', 'text-black', 'p-2', 'rounded', 'hover:bg-orange-300');
+        editButton.innerHTML = `<i class="fas fa-edit"></i>`;
+        editButton.addEventListener('click', () => handleAction('edit', appointment.id));
+
+        const deleteButton = document.createElement('button');
+        deleteButton.classList.add('bg-transparent', 'text-black', 'p-2', 'rounded', 'hover:bg-orange-300');
+        deleteButton.innerHTML = `<i class="fas fa-trash"></i>`;
+        deleteButton.addEventListener('click', () => handleAction('delete', appointment.id));
+
+
+        actionCell.appendChild(previewButton);
+        actionCell.appendChild(editButton);
+        actionCell.appendChild(deleteButton);
 
         // Append cells to row
         row.appendChild(dateCell);
