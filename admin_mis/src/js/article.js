@@ -331,6 +331,9 @@ function openConfirmationModal(callback) {
 
     const form = document.getElementById("create-article-form");
 
+
+
+    
     // Handle the Cancel button click
     const cancelButton = document.getElementById("create-article-cancel-button");
     cancelButton.onclick = () => {
