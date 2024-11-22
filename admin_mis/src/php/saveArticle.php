@@ -88,6 +88,6 @@ function uploadImage($image) {
         return $errorMessage;
     }
 }
-$connextion->close();
+
 
 ?>

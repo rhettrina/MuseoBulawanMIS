@@ -26,6 +26,6 @@ if ($result) {
 
 // Close the database connection
 mysqli_close($connextion);
-$connextion->close();
+
 
 ?>

@@ -33,6 +33,6 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 // Return JSON response
 echo json_encode($donations);
-$connextion->close();
+
 
 ?>

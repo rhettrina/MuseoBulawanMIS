@@ -77,6 +77,6 @@ echo json_encode($results);
 
 // Close the database connection
 mysqli_close($connextion);
-$connextion->close();
+
 
 ?>
