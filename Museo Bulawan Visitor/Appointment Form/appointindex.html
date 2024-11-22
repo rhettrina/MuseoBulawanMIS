@@ -131,7 +131,7 @@
     </div>
 
     <div class="intro container p-5 mt-4 mb-5">
-        <form action="process_form.php" method="post">
+        <form id="appointmentForm" action="process_form.php" method="post">
             <!-- Name Section -->
             <h3 class="mt-4">Personal Information</h3>
             <div class="form-group row align-items-center mt-4 gap-1">
@@ -230,13 +230,16 @@
         </form>
     </div>
     
-    <div id="appointmentModal" class="modal" aria-hidden="true" style="display: none;">
+    <div id="appointmentModal" class="modal" role="dialog" aria-hidden="true" style="display: none;" aria-labelledby="modalTitle" aria-describedby="modalDescription">
         <div class="modal-content">
-            <p>Do you want to submit this appointment form?</p>
+            <h2 id="modalTitle">Confirm Your Appointment</h2>
+            <p id="modalDescription">Do you want to submit this appointment form?</p>
             <button id="confirmAppointmentBtn" class="btn btn-success">Confirm</button>
             <button id="closeAppointmentModalBtn" class="btn btn-danger">Close</button>
         </div>
     </div>
+    
+
     
     <div class="wrapper"> 
 
