@@ -58,12 +58,14 @@ if ($stmt) {
         $preferred_time,
         $notes
     );
+    header("Content-Type: application/json"); // Set response content type to JSON
 
     if ($stmt->execute()) {
-        echo "Registration Successful!";
+        echo json_encode(["status" => "success", "message" => "Registration Successful!"]);
     } else {
-        echo "Error: " . $stmt->error;
+        echo json_encode(["status" => "error", "message" => "Error: " . $stmt->error]);
     }
+    
 
     $stmt->close();
 } else {
