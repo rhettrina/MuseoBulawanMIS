@@ -138,13 +138,17 @@ function handleAction(action, appointmentId) {
 
 
 function displayNoDataMessage() {
-    const tableBody = document.querySelector('tbody');
-    tableBody.innerHTML = `
-        <tr>
-            <td colspan="7" class="text-center py-4">No appointment found or an error occurred.</td>
-        </tr>
-    `;
+    const tableBody = document.getElementById('appointment-table').querySelector('tbody');
+    tableBody.innerHTML = ''; // Clear existing content
+    const messageRow = document.createElement('tr');
+    const messageCell = document.createElement('td');
+    messageCell.colSpan = 7; // Adjust based on your table columns
+    messageCell.textContent = "No appointments available.";
+    messageCell.classList.add('text-center');
+    messageRow.appendChild(messageCell);
+    tableBody.appendChild(messageRow);
 }
+
 
 
 
