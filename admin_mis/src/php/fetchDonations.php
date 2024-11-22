@@ -14,7 +14,7 @@ $sort = $_GET['sort'] ?? 'newest';
 $order = ($sort === 'oldest') ? 'ASC' : 'DESC';
 
 // Query to fetch sorted donations
-$query = "SELECT id, donor_name, item_name, donation_date, status, transfer_status, 
+$query = "SELECT id, donor_name, item_name, type, donation_date, status, transfer_status, 
                  IFNULL(updated_date, 'Not Edited') AS updated_date 
           FROM donations 
           ORDER BY donation_date $order";
@@ -33,4 +33,6 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 // Return JSON response
 echo json_encode($donations);
+
+
 ?>

@@ -64,39 +64,39 @@ function populateTable(articles) {
 
         // Create cells
         const dateCell = document.createElement('td');
-        dateCell.classList.add('px-4', 'py-2');
+        dateCell.classList.add('px-4', 'py-2','bg-white', 'border-black' , 'rounded-l-[15px]', 'border-t-2', 'border-b-2', 'border-l-2');
         dateCell.textContent = article.created_at;
 
         const titleCell = document.createElement('td');
-        titleCell.classList.add('px-4', 'py-2');
+        titleCell.classList.add('px-4', 'py-2','bg-white', 'border-black' , 'border-t-2', 'border-b-2');
         titleCell.textContent = article.article_title;
 
         const typeCell = document.createElement('td');
-        typeCell.classList.add('px-4', 'py-2');
+        typeCell.classList.add('px-4', 'py-2','bg-white', 'border-black' , 'border-t-2', 'border-b-2');
         typeCell.textContent = article.article_type;
 
         const updatedDateCell = document.createElement('td');
-        updatedDateCell.classList.add('px-4', 'py-2');
+        updatedDateCell.classList.add('px-4', 'py-2','bg-white', 'border-black' , 'border-t-2', 'border-b-2');
         updatedDateCell.textContent = article.updated_date === "Not Edited" || !article.updated_date
             ? "Not Edited"
             : article.updated_date;
 
         const actionCell = document.createElement('td');
-        actionCell.classList.add('px-4', 'py-2', 'flex', 'justify-center', 'space-x-2');
+        actionCell.classList.add('px-4', 'py-2', 'flex', 'justify-center', 'space-x-2', 'bg-white', 'border-black' , 'rounded-r-[15px]', 'border-t-2', 'border-b-2', 'border-r-2');
 
         // Add buttons with event listeners
         const previewButton = document.createElement('button');
-        previewButton.classList.add('bg-orange-400', 'text-white' , 'p-2', 'rounded', 'hover:bg-orange-300');
+        previewButton.classList.add('bg-transparent', 'text-black' , 'p-2', 'rounded', 'hover:bg-orange-300');
         previewButton.innerHTML = `<i class="fas fa-eye"></i>`;
         previewButton.addEventListener('click', () => handleAction('preview', article.id));
 
         const editButton = document.createElement('button');
-        editButton.classList.add('bg-orange-400', 'text-white', 'p-2', 'rounded', 'hover:bg-orange-300');
+        editButton.classList.add('bg-transparent', 'text-black', 'p-2', 'rounded', 'hover:bg-orange-300');
         editButton.innerHTML = `<i class="fas fa-edit"></i>`;
         editButton.addEventListener('click', () => handleAction('edit', article.id));
 
         const deleteButton = document.createElement('button');
-        deleteButton.classList.add('bg-orange-400', 'text-white', 'p-2', 'rounded', 'hover:bg-orange-300');
+        deleteButton.classList.add('bg-transparent', 'text-black', 'p-2', 'rounded', 'hover:bg-orange-300');
         deleteButton.innerHTML = `<i class="fas fa-trash"></i>`;
         deleteButton.addEventListener('click', () => handleAction('delete', article.id));
 
@@ -119,20 +119,17 @@ function populateTable(articles) {
 function handleAction(action, articleId) {
     switch (action) {
         case 'preview':
-            console.log(`Preview article with ID: ${articleId}`);
-            // Implement preview functionality here
+            fetchArticleDetails(articleId);
             break;
         case 'edit':
             console.log(`Edit article with ID: ${articleId}`);
             // Implement edit functionality here
             break;
         case 'delete':
-            // Show confirmation modal before deleting
             openDeleteModal((response) => {
                 if (response) {
                     console.log(`Article with ID ${articleId} deleted.`);
                     // Implement delete functionality here
-                    // For example: deleteArticle(articleId);
                 } else {
                     console.log("Delete action canceled.");
                 }
@@ -143,6 +140,76 @@ function handleAction(action, articleId) {
     }
 }
 
+function fetchArticleDetails(articleId) {
+    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/previewArticle.php?id=${articleId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.error) {
+                console.error('Error fetching article:', data.error);
+            } else {
+                populateModal(data);
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching article details:', error);
+        });
+}
+
+function populateModal(article) {
+    const basePath = 'https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/uploads/articlesUploads/';
+
+    // Ensure all elements exist before setting their properties
+    const titleElement = document.getElementById('article-title-preview');
+    const dateElement = document.getElementById('article-date-preview');
+    const locationElement = document.getElementById('article-location-preview');
+    const typeElement = document.getElementById('article-type-preview');
+    const authorElement = document.getElementById('article-author-preview');
+    const image1Element = document.getElementById('article-image-1');
+    const image1DetailsElement = document.getElementById('article-image-1-details');
+    const leftContentElement = document.getElementById('article-left');
+    const rightContentElement = document.getElementById('article-right');
+    const image2Element = document.getElementById('article-image-2');
+    const contentRight2Element = document.getElementById('content-right-2');
+    const image3Element = document.getElementById('article-image-3');
+    const contentRight3Element = document.getElementById('content-right-3');
+
+    if (titleElement) titleElement.textContent = article.article_title || 'N/A';
+    if (dateElement) dateElement.textContent = article.created_at || 'N/A';
+    if (locationElement) locationElement.textContent = article.location || 'N/A';
+    if (typeElement) typeElement.textContent = article.article_type || 'N/A';
+    if (authorElement) authorElement.textContent = article.author || 'N/A';
+
+    // Extract filename from the path and construct the full image URL
+    const getFileName = (path) => path ? path.split('/').pop() : '';
+
+    if (image1Element) image1Element.src = article.imgu1 ? basePath + getFileName(article.imgu1) : '';
+    if (image1DetailsElement) image1DetailsElement.textContent = article.imgu1_details || '';
+    if (leftContentElement) leftContentElement.value = article.p1box_left || '';
+    if (rightContentElement) rightContentElement.value = article.p1box_right || '';
+    if (image2Element) image2Element.src = article.imgu2 ? basePath + getFileName(article.imgu2) : '';
+    if (contentRight2Element) contentRight2Element.value = article.p2box || '';
+    if (image3Element) image3Element.src = article.imgu3 ? basePath + getFileName(article.imgu3) : '';
+    if (contentRight3Element) contentRight3Element.value = article.p3box || '';
+
+    // Show the modal
+    const previewModal = document.getElementById('preview-modal');
+    if (previewModal) {
+        previewModal.classList.remove('hidden');
+    } else {
+        console.error('Preview modal not found.');
+    }
+}
+
+
+function togglePreview() {
+    const closePreviw = document.getElementById("preview-modal");
+    closePreviw.classList.toggle("hidden");
+}
 
 
 function displayNoDataMessage() {

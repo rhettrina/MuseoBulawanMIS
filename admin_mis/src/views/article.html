@@ -14,7 +14,7 @@
                 
           </div>
 
-          <div class="w-full h-fit items-center flex justify-between py-4">
+          <div class="w-full h-fit items-center flex justify-between py-4 border-b-[2px] border-black">
           <!--Toolbar-->
               <button id="create-article-button"class="p-2 bg-orange-300 text-black font-bold font-medium w-40 h-12 py-2 px-4 rounded-lg shadow-md hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-300">Create Article  <i class="fa-solid fa-plus"></i>
               </button>
@@ -29,24 +29,25 @@
               </div>
           </div>
 
-          <div class="flex justify-center items-start">
-            <table id="articles-table" class="min-w-full table-auto">
-              <thead class="bg-gray-100">
-                  <tr>
-                      <th class="px-4 py-2 text-center">Date</th>
-                      <th class="px-4 py-2 text-center">Title</th>
-                      <th class="px-4 py-2 text-center">Type</th>
-                      <th class="px-4 py-2 text-center">Last Updated</th>
-                      <th class="px-4 py-2 text-center">Action</th>
-                  </tr>
-              </thead>
-              <tbody class="space-y-4">
-                  <tr>
-                      <td colspan="5" class="text-center py-4">No articles found.</td>
-                  </tr>
-              </tbody>
-          </table>
-          </div>
+          <div class="flex justify-center items-start overflow-y-auto max-h-[450px]">
+            <table id="articles-table" class="min-w-full table-auto border-separate border-spacing-y-[8px]">
+                <thead class="bg-orange-100 sticky top-0">
+                    <tr>
+                        <th class="px-4 py-2 text-center ">Date</th>
+                        <th class="px-4 py-2 text-center ">Title</th>
+                        <th class="px-4 py-2 text-center ">Type</th>
+                        <th class="px-4 py-2 text-center ">Last Updated</th>
+                        <th class="px-4 py-2 text-center ">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="mb-4">
+                        <td colspan="5" class="text-center py-4">No articles found.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
 
     
 
@@ -168,3 +169,63 @@
   </div>
 </div>
 
+<!-- preview modal -->
+<div id="preview-modal" class="modal hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 ">
+    <div class="modal-content bg-white p-6 rounded-lg w-2/4 h-[90%] text-center overflow-y-auto">
+      <div class="w-full sticky flex justify-between mb-4">
+        <p class="text-xl font-semi-bold">Article Preview</p>
+        <button id="closePreview" onclick="togglePreview()" class="bg-orange-300 text-white px-6 py-2 rounded-lg hover:bg-orange-400">Close</button>
+      </div>
+      
+        <span id="article-title-preview" class="">Placeholder title</span>
+        <div class="w-full flex items-center justify-center py-4">
+            <div class="border-[1px] border-black w-fit p-4 text-xs">
+                <p class="text-[8px] font-bold">Date</p>
+                <span id="article-date-preview">placeholder date</span>
+            </div>
+            <div class="border-[1px] border-black w-fit p-4 text-xs">
+                <p class="text-[8px] font-bold">Location</p>
+                <span id="article-location-preview">placeholder location</span>
+            </div><div class="border-[1px] border-black w-fit p-4 text-xs">
+                <p class="text-[8px] font-bold">Type</p>
+                <span id="article-type-preview">placeholder type</span>
+            </div>
+            <div class="border-[1px] border-black w-fit p-4 text-xs">
+                <p class="text-[8px] font-bold">Author</p>
+                <span id="article-author-preview">placeholder author</span>
+            </div>
+        </div>
+        <div class="w-full flex flex-col justify-center items-center text-[11px]">
+            <img class="w-1/2 h-auto"  src="../source/456426171_818223347173704_7806646081153137378_n 1.png" id="article-image-1">
+            <span class="" id="article-image-1-details">placeholder details</span>
+        </div>
+        <div class="flex p-2 justify-between">
+            <div class="w-[49.5%]">
+                <textarea class="w-full" name="" id="article-left" readonly >sample</textarea>
+            </div>
+            <div class="w-[49.5%]">
+                <textarea class="w-full" name="" id="article-right" readonly >sample</textarea>
+            </div>
+        </div>
+        <div class="flex p-2 justify-left">
+            
+               <div class="w-[100px] h-auto bg-yellow-700"></div>
+               <img class="h-[150px] w-auto relative -left-[80px] p-4 z-50"  src="../source/456426171_818223347173704_7806646081153137378_n 1.png" id="article-image-2"> 
+            
+            <div class="grow">
+                <textarea class="w-full" name="" id="content-right-2" readonly >sample</textarea>
+            </div>
+        </div>
+        <div class="flex p-2 justify-left">
+            <div class="grow">
+                <textarea class="w-full" name="" id="content-right-3" readonly >sample</textarea>
+            </div>
+            
+            <img class="h-[150px] w-auto relative -right-[80px] p-4 z-50"  src="../source/456426171_818223347173704_7806646081153137378_n 1.png" id="article-image-3"> 
+            <div class="w-[100px] h-auto bg-yellow-700"></div>
+         
+         
+     </div>
+      
+    </div>
+  </div>

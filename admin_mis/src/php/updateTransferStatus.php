@@ -31,5 +31,5 @@ if (isset($data['id'], $data['transfer_status'])) {
     echo json_encode(['success' => false, 'error' => 'Invalid data received']);
 }
 
-$connextion->close();
+
 ?>

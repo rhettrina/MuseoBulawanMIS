@@ -1,8 +1,32 @@
-function initAppointments() {
-    fetchAppointments(); // Fetch and display appointments on initialization
+
+function init(){
+    fetchTotalAppointments();
+    fetchAppointments();
 }
 
-// Fetch and populate the appointments table
+function fetchTotalAppointments() {
+    fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchTotalAppointments.php')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.error) {
+                console.error('Error from PHP:', data.error);
+                document.getElementById('total-appointments').innerText = "Error fetching data";
+            } else {
+                document.getElementById('total-appointments').innerText = data.total_appointments;
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching total appointments:', error);
+            document.getElementById('total-appointments').innerText = "Error fetching data";
+        });
+}
+
+// Fetch and populate the appointment table
 function fetchAppointments(sort = 'newest') {
     fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchAppointments.php?sort=${sort}`)
         .then(response => {
@@ -14,108 +38,86 @@ function fetchAppointments(sort = 'newest') {
         .then(data => {
             if (data.error) {
                 console.error(data.error);
-                displayNoAppointmentsMessage();
+                displayNoDataMessage();
             } else {
-                populateAppointmentsTable(data);
+                populateTable(data);
             }
         })
-        .catch(error => {
-            console.error('Error fetching appointments:', error);
-            displayNoAppointmentsMessage();
-        });
+        
+        
 }
 
-function populateAppointmentsTable(appointments) {
+function populateTable(appointments) {
     const tableBody = document.getElementById('appointment-table').querySelector('tbody');
     tableBody.innerHTML = ''; // Clear existing rows
 
-    if (appointments.length === 0) {
-        displayNoAppointmentsMessage();
+     // Check if there are appointments
+     if (appointments.length === 0) {
+        displayNoDataMessage();
         return;
     }
 
+    // Populate table rows
     appointments.forEach(appointment => {
         const row = document.createElement('tr');
         row.classList.add('border-t', 'border-gray-300', 'text-center');
 
         // Create and populate cells
-        const dateCell = createTableCell(appointment.date);
-        const timeCell = createTableCell(appointment.time);
-        const donorCell = createTableCell(appointment.donor_name);
-        const attendeesCell = createTableCell(appointment.number);
-        const statusCell = createStatusDropdownCell(appointment);
+        const dateCell = document.createElement('td');
+        dateCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'rounded-l-[15px]', 'border-t-2', 'border-b-2', 'border-l-2');
+        dateCell.textContent = appointment.appointment_date;
 
-        // Action buttons
-        const actionCell = createAppointmentActionButtons(appointment);
+        const timeCell = document.createElement('td');
+        timeCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
+        timeCell.textContent = appointment.appointment_time;
+
+        const attendeeCell = document.createElement('td');
+        attendeeCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
+        attendeeCell.textContent = appointment.donor_name;
+
+        const attendeesCountCell = document.createElement('td');
+        attendeesCountCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
+        attendeesCountCell.textContent = appointment.number_of_attendees;
+
+        const statusCell = document.createElement('td');
+        statusCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
+        statusCell.textContent = appointment.status;
+        
+       
 
         // Append cells to row
         row.appendChild(dateCell);
+        row.appendChild(attendeeCell);
         row.appendChild(timeCell);
-        row.appendChild(donorCell);
-        row.appendChild(attendeesCell);
         row.appendChild(statusCell);
-        row.appendChild(actionCell);
+        row.appendChild(attendeesCountCell);
+        
+        
 
         tableBody.appendChild(row);
     });
 }
 
-function createTableCell(content) {
-    const cell = document.createElement('td');
-    cell.classList.add('px-4', 'py-2');
-    cell.textContent = content;
-    return cell;
-}
 
-function createStatusDropdownCell(appointment) {
-    const cell = document.createElement('td');
-    cell.classList.add('px-4', 'py-2');
-    const dropdown = document.createElement('select');
-    dropdown.classList.add('border', 'p-2', 'rounded');
-
-    const statuses = ['Scheduled', 'Completed', 'Cancelled'];
-    statuses.forEach(status => {
-        const option = document.createElement('option');
-        option.value = status;
-        option.textContent = status;
-        option.selected = appointment.status === status;
-        dropdown.appendChild(option);
-    });
-
-    dropdown.addEventListener('change', () => {
-        const newStatus = dropdown.value;
-        openAppointmentStatusModal(appointment.id, appointment.status, newStatus, dropdown);
-    });
-
-    cell.appendChild(dropdown);
-    return cell;
-}
-
-function createAppointmentActionButtons(appointment) {
-    const cell = document.createElement('td');
-    cell.classList.add('px-4', 'py-2', 'flex', 'justify-center', 'space-x-2');
-
-    const deleteButton = createActionButton('trash', 'delete', appointment);
-
-    cell.appendChild(deleteButton);
-
-    return cell;
-}
-
-function createActionButton(icon, action, appointment) {
-    const button = document.createElement('button');
-    button.classList.add('bg-red-400', 'text-white', 'p-2', 'rounded', 'hover:bg-red-300');
-    button.innerHTML = `<i class="fas fa-${icon}"></i>`;
-    button.addEventListener('click', () => handleAppointmentAction(action, appointment.id));
-    return button;
-}
-
-function handleAppointmentAction(action, appointmentId) {
+function handleAction(action, appointmentId) {
     switch (action) {
+        case 'preview':
+            console.log(`Preview article with ID: ${appointmentId}`);
+            // Implement preview functionality here
+            break;
+        case 'edit':
+            console.log(`Edit article with ID: ${appointmentId}`);
+            // Implement edit functionality here
+            break;
         case 'delete':
-            openDeleteModal(response => {
+            // Show confirmation modal before deleting
+            openDeleteModal((response) => {
                 if (response) {
-                    deleteAppointment(appointmentId);
+                    console.log(`Article with ID ${appointmentId} deleted.`);
+                    // Implement delete functionality here
+                    // For example: deleteArticle(articleId);
+                } else {
+                    console.log("Delete action canceled.");
                 }
             });
             break;
@@ -124,78 +126,85 @@ function handleAppointmentAction(action, appointmentId) {
     }
 }
 
-function deleteAppointment(appointmentId) {
-    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/deleteAppointment.php?id=${appointmentId}`, {
-        method: 'DELETE',
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to delete appointment');
-            }
-            fetchAppointments(); // Refresh the appointment list after deletion
-        })
-        .catch(error => {
-            console.error('Error deleting appointment:', error);
-        });
-}
 
-function openAppointmentStatusModal(appointmentId, currentStatus, newStatus, dropdown) {
-    const modal = document.getElementById("appointment-status-modal");
-    modal.classList.remove("hidden");
 
-    const confirmationMessage = document.getElementById("appointment-status-confirmation-message");
-    if (confirmationMessage) {
-        confirmationMessage.textContent = `Do you want to confirm the status change from "${currentStatus}" to "${newStatus}" for appointment ID: ${appointmentId}?`;
-
-        document.getElementById("appointment-status-confirm-button").onclick = () => {
-            updateAppointmentStatus(appointmentId, newStatus);
-            closeModal("appointment-status-modal");
-        };
-
-        document.getElementById("appointment-status-cancel-button").onclick = () => {
-            dropdown.value = currentStatus; // Revert to previous status
-            closeModal("appointment-status-modal");
-        };
-    } else {
-        console.error('Confirmation message element not found');
-    }
-}
-
-function updateAppointmentStatus(appointmentId, newStatus) {
-    fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/updateAppointmentStatus.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: appointmentId, status: newStatus })
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to update appointment status');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                fetchAppointments(); // Refresh the table
-            } else {
-                console.error('Failed to update appointment status:', data.error);
-            }
-        })
-        .catch(error => {
-            console.error('Error updating appointment status:', error);
-        });
-}
-
-function displayNoAppointmentsMessage() {
-    const tableBody = document.querySelector('#appointments-table tbody');
+function displayNoDataMessage() {
+    const tableBody = document.querySelector('tbody');
     tableBody.innerHTML = `
         <tr>
-            <td colspan="5" class="text-center py-4">No appointments found or an error occurred.</td>
+            <td colspan="7" class="text-center py-4">No appointment found or an error occurred.</td>
         </tr>
     `;
 }
 
-document.getElementById("appointment-sort").addEventListener("change", function () {
-    fetchAppointments(this.value);
-});
 
-initAppointments(); // Initialize appointment management
+
+
+// Function to open the confirmation modal
+function openConfirmationModal(callback) {
+    const modal = document.getElementById("confirmation-modal");
+    modal.classList.remove("hidden");
+  
+    // Handling button clicks
+    document.getElementById("confirm-button").onclick = () => {
+      callback(true);  // Return 'true' if 'Yes' is clicked
+      closeModal("confirmation-modal");
+    };
+  
+    document.getElementById("cancel-button").onclick = () => {
+      callback(false);  // Return 'false' if 'No' is clicked
+      closeModal("confirmation-modal");
+    };
+  }
+  
+  // Function to open the delete confirmation modal
+  function openDeleteModal(callback) {
+    const modal = document.getElementById("delete-modal");
+    modal.classList.remove("hidden");
+  
+    // Handling button clicks
+    document.getElementById("delete-confirm-button").onclick = () => {
+      callback(true);  // Return 'true' if 'Delete' is clicked
+      closeModal("delete-modal");
+    };
+  
+    document.getElementById("delete-cancel-button").onclick = () => {
+      callback(false);  // Return 'false' if 'Cancel' is clicked
+      closeModal("delete-modal");
+    };
+  }
+  
+  // Function to close the modal
+  function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    modal.classList.add("hidden");
+  }
+  
+
+
+function openConfirmationModal(callback) {
+    const modal = document.getElementById("confirmation-modal");
+    modal.classList.remove("hidden"); // Show the confirmation modal
+
+    document.getElementById("confirm-button").onclick = () => {
+        callback(true); 
+        closeModal("confirmation-modal");
+    };
+
+    document.getElementById("cancel-button").onclick = () => {
+        callback(false); 
+        closeModal("confirmation-modal");
+    };
+}
+
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.add("hidden"); // Add the 'hidden' class to hide the modal
+    } else {
+        console.error(`Modal with ID "${modalId}" not found.`);
+    }
+}
+
+init();
+// Fetch appointments and populate the table

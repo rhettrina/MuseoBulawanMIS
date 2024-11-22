@@ -88,4 +88,6 @@ function uploadImage($image) {
         return $errorMessage;
     }
 }
+
+
 ?>
