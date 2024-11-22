@@ -86,17 +86,17 @@ function populateTable(articles) {
 
         // Add buttons with event listeners
         const previewButton = document.createElement('button');
-        previewButton.classList.add('bg-orange-400', 'text-white' , 'p-2', 'rounded', 'hover:bg-orange-300');
+        previewButton.classList.add('bg-transparent', 'text-black' , 'p-2', 'rounded', 'hover:bg-orange-300');
         previewButton.innerHTML = `<i class="fas fa-eye"></i>`;
         previewButton.addEventListener('click', () => handleAction('preview', article.id));
 
         const editButton = document.createElement('button');
-        editButton.classList.add('bg-orange-400', 'text-white', 'p-2', 'rounded', 'hover:bg-orange-300');
+        editButton.classList.add('bg-transparent', 'text-black', 'p-2', 'rounded', 'hover:bg-orange-300');
         editButton.innerHTML = `<i class="fas fa-edit"></i>`;
         editButton.addEventListener('click', () => handleAction('edit', article.id));
 
         const deleteButton = document.createElement('button');
-        deleteButton.classList.add('bg-orange-400', 'text-white', 'p-2', 'rounded', 'hover:bg-orange-300');
+        deleteButton.classList.add('bg-transparent', 'text-black', 'p-2', 'rounded', 'hover:bg-orange-300');
         deleteButton.innerHTML = `<i class="fas fa-trash"></i>`;
         deleteButton.addEventListener('click', () => handleAction('delete', article.id));
 
