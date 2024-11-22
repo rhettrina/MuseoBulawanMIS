@@ -123,7 +123,8 @@ function populateTable(appointments) {
         row.appendChild(timeCell);
         row.appendChild(statusCell);
         row.appendChild(attendeesCountCell);
-        
+        row.appendChild(updatedDateCell);
+        row.appendChild(actionCell);
         
 
         tableBody.appendChild(row);

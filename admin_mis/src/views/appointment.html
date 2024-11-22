@@ -20,10 +20,10 @@
 
 
     <!-- Toolbar -->
-    <div class="w-full h-fit items-center flex justify-end py-2">
-        <div class="sort-container-appointment border-1 border-solid border-2 rounded-md">
-            <label for="sort-appointment" class="text-gray-700 font-medium mb-2">Sort by Date:</label>
-            <select id="sort-appointment" class="w-fit px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-300">
+    <div class="w-full h-fit items-center flex justify-end py-4">
+        <div class="sort-container border-0 outline outline-1 outline-gray-300 rounded-md">
+            <label for="sort" class="text-gray-700 font-medium mb-2">&nbsp&nbspSort</label>
+            <select id="sorts" class="w-fit px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-300">
                 <option value="newest">Newest</option>
                 <option value="oldest">Oldest</option>
             </select>
@@ -31,9 +31,9 @@
     </div>
 
     <!-- Appointments Table -->
-    <div class="flex justify-center items-start">
-        <table id="appointment-table" class="min-w-full table-auto">
-            <thead class="bg-gray-100">
+    <div class="flex justify-center items-start overflow-y-auto max-h-[450px]">
+        <table id="appointment-table" class="min-w-full table-auto border-separate border-spacing-y-[8px]">
+            <thead class="bg-orange-100 sticky top-0">
                 <tr>
                     <th class="px-4 py-2 text-center">Date</th>
                     <th class="px-4 py-2 text-center">Name</th>
@@ -52,5 +52,3 @@
         </table>
     </div>
 </div>
-
-<script src="appointment.js"></script>
