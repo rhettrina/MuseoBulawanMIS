@@ -1,42 +1,48 @@
-const form = document.querySelector("form[action='process_form.php']");
+const appointmentForm = document.getElementById("appointmentForm");
 
-form.addEventListener("submit", function (event) {
-    event.preventDefault(); // Prevent default form submission
-
-    // Collect form data
-    const formData = new FormData(form);
-
-    // Send AJAX request
-    fetch("process_form.php", {
-        method: "POST",
-        body: formData,
-    })
-        .then(response => response.json()) // Parse JSON response
-        .then(data => {
-            if (data.status === "success") {
-                showModal("Success", data.message); // Show success modal
-            } else {
-                showModal("Error", data.message); // Show error modal
-            }
-        })
-        .catch(error => {
-            showModal("Error", "An unexpected error occurred. Please try again.");
-            console.error("Error:", error);
-        });
+// Add event listener for form submission
+appointmentForm.addEventListener("submit", function (event) {
+    event.preventDefault(); // Prevent default submission
+    openAppointmentModal(); // Trigger modal
 });
 
-// Function to show modal with custom title and message
-function showModal(title, message) {
-    const modal = document.getElementById("confirmationModal");
-    modal.querySelector("h4").innerText = title;
-    modal.querySelector("p").innerText = message;
-    modal.style.display = "flex";
+// Function to open the modal after validation
+function openAppointmentModal() {
+    const requiredFields = appointmentForm.querySelectorAll("[required]");
+    let hasMissingFields = false;
+
+    // Validate required fields
+    requiredFields.forEach((field) => {
+        if (!field.value.trim()) {
+            hasMissingFields = true;
+            field.style.borderColor = "red"; // Highlight missing fields
+        } else {
+            field.style.borderColor = ""; // Reset if valid
+        }
+    });
+
+    // Show modal only if no missing fields
+    if (!hasMissingFields) {
+        document.getElementById("appointmentModal").style.display = "flex";
+    }
 }
 
-// Function to close modal
-function closeModal() {
-    document.getElementById("confirmationModal").style.display = "none";
+// Close the modal
+function closeAppointmentModal() {
+    document.getElementById("appointmentModal").style.display = "none";
 }
 
-// Add event listener to close modal button
-document.getElementById("closeModalBtn").addEventListener("click", closeModal);
+// Confirm submission of the form
+function confirmAppointmentSubmission() {
+    closeAppointmentModal();
+    appointmentForm.submit(); // Submit the form programmatically
+}
+
+// Add event listeners to modal buttons
+document
+    .getElementById("confirmAppointmentBtn")
+    .addEventListener("click", confirmAppointmentSubmission);
+
+document
+    .getElementById("closeAppointmentModalBtn")
+    .addEventListener("click", closeAppointmentModal);
