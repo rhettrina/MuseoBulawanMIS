@@ -70,6 +70,8 @@ if ($stmt) {
     echo "Error preparing statement: " . $connextion->error;
 }
 
+
+
 // Close the connection
 $connextion->close();
 ?>
