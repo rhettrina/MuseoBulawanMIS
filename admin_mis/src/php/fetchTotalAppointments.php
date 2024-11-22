@@ -11,13 +11,13 @@
 
     include('db_connect.php');
 
-    $query = "SELECT COUNT(*) AS total_appointments FROM form_data";
+    $query = "SELECT COUNT(*) AS total-appointments FROM form_data";
 $result = mysqli_query($connextion, $query);
 
 if ($result) {
     $row = mysqli_fetch_assoc($result);
     if ($row) {
-        echo json_encode(['total_appointments' => $row['total_appointments']]);
+        echo json_encode(['total-appointments' => $row['total-appointments']]);
     } else {
         echo json_encode(['error' => 'No data found']);
     }
