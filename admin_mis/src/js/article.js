@@ -480,26 +480,42 @@ function deleteArticle(articleId) {
     });
 }
 
+
 // Function to update an article by ID
 function updateArticle(articleId) {
     const modal = document.getElementById("update-article-modal");
     modal.classList.remove("hidden");
 
     // Fetch existing article data to populate the modal
-    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchArticles.php?id=${articleId}`)
+    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/previewArticle.php?id=${articleId}`)
         .then(response => response.json())
         .then(data => {
-            if (data.success) {
+            if (data) {
                 // Populate form fields with existing data
+
+                // Basic fields
                 document.getElementById("update-article-title").value = data.article_title || '';
-                document.getElementById("update-article-author").value = data.article_author || '';
-                document.getElementById("update-article-location").value = data.article_location || '';
-                document.getElementById("update-article-type").value = data.article_type || '';
-                document.getElementById("update-content-left").value = data.content_left || '';
-                document.getElementById("update-content-right").value = data.content_right || '';
-                document.getElementById("update-image-details").value = data.image_details || '';
-                document.getElementById("update-content-image2").value = data.content_image2 || '';
-                document.getElementById("update-content-image3").value = data.content_image3 || '';
+                document.getElementById("update-article-author").value = data.author || ''; // Mapping from 'author' field
+                document.getElementById("update-article-location").value = data.location || ''; // Mapping from 'location' field
+                document.getElementById("update-article-type").value = data.article_type || ''; // Mapping from 'article_type'
+
+                // Content fields
+                document.getElementById("update-content-left").value = data.p1box_left || ''; // Mapping from 'p1box_left'
+                document.getElementById("update-content-right").value = data.p1box_right || ''; // Mapping from 'p1box_right'
+                document.getElementById("update-content-box2").value = data.p2box || ''; // Mapping from 'p2box'
+                document.getElementById("update-content-box3").value = data.p3box || ''; // Mapping from 'p3box'
+
+                // Image details
+                document.getElementById("update-image-details").value = data.imgu1_details || ''; // Mapping from 'imgu1_details'
+
+                // Image URLs (display as URLs in form for now, you can add <img> tags if you want to show images)
+                document.getElementById("update-content-image1").value = data.imgu1 || ''; // Mapping from 'imgu1'
+                document.getElementById("update-content-image2").value = data.imgu2 || ''; // Mapping from 'imgu2'
+                document.getElementById("update-content-image3").value = data.imgu3 || ''; // Mapping from 'imgu3'
+
+                // Date fields (optional, you may want to display or store the dates)
+                document.getElementById("update-article-created-at").value = data.created_at || ''; // Mapping from 'created_at'
+                document.getElementById("update-article-updated-at").value = data.updated_date || ''; // Mapping from 'updated_date'
             } else {
                 console.error('Error fetching article details:', data.error);
                 alert('Failed to fetch article details. Please try again.');
@@ -524,6 +540,9 @@ function updateArticle(articleId) {
         formData.append("content_left", document.getElementById("update-content-left").value);
         formData.append("content_right", document.getElementById("update-content-right").value);
         formData.append("image_details", document.getElementById("update-image-details").value);
+        formData.append("content_box2", document.getElementById("update-content-box2").value);
+        formData.append("content_box3", document.getElementById("update-content-box3").value);
+        formData.append("content_image1", document.getElementById("update-content-image1").value);
         formData.append("content_image2", document.getElementById("update-content-image2").value);
         formData.append("content_image3", document.getElementById("update-content-image3").value);
 
