@@ -26,7 +26,7 @@ function fetchTotalAppointments() {
         });
 }
 
-// Fetch and populate the articles table
+// Fetch and populate the appointment table
 function fetchAppointments(sort = 'newest') {
     fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchAppointments.php?sort=${sort}`)
         .then(response => {
@@ -43,13 +43,11 @@ function fetchAppointments(sort = 'newest') {
                 populateTable(data);
             }
         })
-        .catch(error => {
-            console.error('Error fetching appointment:', error);
-            displayNoDataMessage();
-        });
+        
+        
 }
 
-function populateTable(articles) {
+function populateTable(appointments) {
     const tableBody = document.getElementById('appointment-table').querySelector('tbody');
     tableBody.innerHTML = ''; // Clear existing rows
 
@@ -85,14 +83,27 @@ function populateTable(articles) {
         statusCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
         statusCell.textContent = appointment.status;
 
-        const updatedDateCell = document.createElement('td');
-        updatedDateCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
-        updatedDateCell.textContent = appointment.updated_date;
 
-        // Action Buttons Cell
-        const actionCell = document.createElement('td');
-        actionCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'rounded-r-[15px]', 'border-t-2', 'border-b-2', 'border-r-2');
-        actionCell.appendChild(createActionButtons(appointment)); // Assuming you have a helper function to create action buttons
+
+       // Add buttons with event listeners
+        const previewButton = document.createElement('button');
+        previewButton.classList.add('bg-transparent', 'text-black' , 'p-2', 'rounded', 'hover:bg-orange-300');
+        previewButton.innerHTML = `<i class="fas fa-eye"></i>`;
+        previewButton.addEventListener('click', () => handleAction('preview', appointment.id));
+
+        const editButton = document.createElement('button');
+        editButton.classList.add('bg-transparent', 'text-black', 'p-2', 'rounded', 'hover:bg-orange-300');
+        editButton.innerHTML = `<i class="fas fa-edit"></i>`;
+        editButton.addEventListener('click', () => handleAction('edit', appointment.id));
+
+        const deleteButton = document.createElement('button');
+        deleteButton.classList.add('bg-transparent', 'text-black', 'p-2', 'rounded', 'hover:bg-orange-300');
+        deleteButton.innerHTML = `<i class="fas fa-trash"></i>`;
+        deleteButton.addEventListener('click', () => handleAction('delete', appointment.id));
+
+        actionCell.appendChild(previewButton);
+        actionCell.appendChild(editButton);
+        actionCell.appendChild(deleteButton);
 
         // Append cells to row
         row.appendChild(dateCell);
@@ -138,15 +149,12 @@ function handleAction(action, appointmentId) {
 
 
 function displayNoDataMessage() {
-    const tableBody = document.getElementById('appointment-table').querySelector('tbody');
-    tableBody.innerHTML = ''; // Clear existing content
-    const messageRow = document.createElement('tr');
-    const messageCell = document.createElement('td');
-    messageCell.colSpan = 7; // Adjust based on your table columns
-    messageCell.textContent = "No appointments available.";
-    messageCell.classList.add('text-center');
-    messageRow.appendChild(messageCell);
-    tableBody.appendChild(messageRow);
+    const tableBody = document.querySelector('tbody');
+    tableBody.innerHTML = `
+        <tr>
+            <td colspan="7" class="text-center py-4">No appointment found or an error occurred.</td>
+        </tr>
+    `;
 }
 
 
