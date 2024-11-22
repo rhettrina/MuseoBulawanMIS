@@ -26,7 +26,7 @@ function fetchTotalAppointments() {
         });
 }
 
-// Fetch and populate the articles table
+// Fetch and populate the appointment table
 function fetchAppointments(sort = 'newest') {
     fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchAppointments.php?sort=${sort}`)
         .then(response => {
@@ -43,69 +43,45 @@ function fetchAppointments(sort = 'newest') {
                 populateTable(data);
             }
         })
-        .catch(error => {
-            console.error('Error fetching appointment:', error);
-            displayNoDataMessage();
-        });
+        
+        
 }
-
-function populateTable(articles) {
+function populateTable(appointments) {
     const tableBody = document.getElementById('appointment-table').querySelector('tbody');
     tableBody.innerHTML = ''; // Clear existing rows
 
-     // Check if there are appointments
-     if (appointments.length === 0) {
+    if (appointments.length === 0) {
         displayNoDataMessage();
         return;
     }
 
-    // Populate table rows
     appointments.forEach(appointment => {
         const row = document.createElement('tr');
         row.classList.add('border-t', 'border-gray-300', 'text-center');
 
-        // Create and populate cells
-        const dateCell = document.createElement('td');
-        dateCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'rounded-l-[15px]', 'border-t-2', 'border-b-2', 'border-l-2');
-        dateCell.textContent = appointment.appointment_date;
+        const dateCell = createCell('td', appointment.appointment_date, ['px-4', 'py-2', 'bg-white', 'border-black', 'rounded-l-[15px]', 'border-t-2', 'border-b-2', 'border-l-2']);
+        const timeCell = createCell('td', appointment.appointment_time, ['px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2']);
+        const attendeeCell = createCell('td', appointment.donor_name, ['px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2']);
+        const attendeesCountCell = createCell('td', appointment.number_of_attendees, ['px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2']);
+        const statusCell = createCell('td', appointment.status, ['px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2']);
+        const updatedDateCell = createCell('td', appointment.updated_date, ['px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2']);
 
-        const timeCell = document.createElement('td');
-        timeCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
-        timeCell.textContent = appointment.appointment_time;
-
-        const attendeeCell = document.createElement('td');
-        attendeeCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
-        attendeeCell.textContent = appointment.donor_name;
-
-        const attendeesCountCell = document.createElement('td');
-        attendeesCountCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
-        attendeesCountCell.textContent = appointment.number_of_attendees;
-
-        const statusCell = document.createElement('td');
-        statusCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
-        statusCell.textContent = appointment.status;
-
-        const updatedDateCell = document.createElement('td');
-        updatedDateCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
-        updatedDateCell.textContent = appointment.updated_date;
-
-        // Action Buttons Cell
         const actionCell = document.createElement('td');
-        actionCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'rounded-r-[15px]', 'border-t-2', 'border-b-2', 'border-r-2');
-        actionCell.appendChild(createActionButtons(appointment)); // Assuming you have a helper function to create action buttons
+        actionCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
 
-        // Append cells to row
-        row.appendChild(dateCell);
-        row.appendChild(timeCell);
-        row.appendChild(attendeeCell);
-        row.appendChild(attendeesCountCell);
-        row.appendChild(statusCell);
-        row.appendChild(updatedDateCell);
-        row.appendChild(actionCell);
+        const previewButton = createButton('fas fa-eye', 'Preview', () => handleAction('preview', appointment.id));
+        const editButton = createButton('fas fa-edit', 'Edit', () => handleAction('edit', appointment.id));
+        const deleteButton = createButton('fas fa-trash', 'Delete', () => handleAction('delete', appointment.id));
 
+        actionCell.appendChild(previewButton);
+        actionCell.appendChild(editButton);
+        actionCell.appendChild(deleteButton);
+
+        row.append(dateCell, timeCell, attendeeCell, attendeesCountCell, statusCell, updatedDateCell, actionCell);
         tableBody.appendChild(row);
     });
 }
+
 
 
 function handleAction(action, appointmentId) {
@@ -138,15 +114,12 @@ function handleAction(action, appointmentId) {
 
 
 function displayNoDataMessage() {
-    const tableBody = document.getElementById('appointment-table').querySelector('tbody');
-    tableBody.innerHTML = ''; // Clear existing content
-    const messageRow = document.createElement('tr');
-    const messageCell = document.createElement('td');
-    messageCell.colSpan = 7; // Adjust based on your table columns
-    messageCell.textContent = "No appointments available.";
-    messageCell.classList.add('text-center');
-    messageRow.appendChild(messageCell);
-    tableBody.appendChild(messageRow);
+    const tableBody = document.querySelector('tbody');
+    tableBody.innerHTML = `
+        <tr>
+            <td colspan="7" class="text-center py-4">No appointment found or an error occurred.</td>
+        </tr>
+    `;
 }
 
 
