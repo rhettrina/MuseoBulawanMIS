@@ -1,4 +1,310 @@
 // main.js
+// Drawing functions for symbols
+function drawAllSymbols() {
+  drawWallArtifactSymbol();
+  drawArtifactSymbol();
+  drawContainerSymbol();
+  drawDoorSymbol();
+  drawRestrictedSymbol();
+  drawInformationDeskSymbol();
+  drawStatueSymbol();
+  drawPanelsSymbol();
+  drawWallPictureSymbol();
+  drawRestAreaSymbol();
+}
+
+function drawWallArtifactSymbol() {
+  const canvas = document.getElementById("wall-artifact-symbol");
+  const ctx = canvas.getContext("2d");
+  drawWallArtifactSymbolOnCanvas(ctx, canvas.width, canvas.height);
+}
+
+function drawArtifactSymbol() {
+  const canvas = document.getElementById("artifacts-artworks-symbol");
+  const ctx = canvas.getContext("2d");
+  drawArtifactSymbolOnCanvas(ctx, canvas.width, canvas.height);
+}
+
+function drawContainerSymbol() {
+  const canvas = document.getElementById("container-symbol");
+  const ctx = canvas.getContext("2d");
+  drawContainerSymbolOnCanvas(ctx, canvas.width, canvas.height);
+}
+
+function drawDoorSymbol() {
+  const canvas = document.getElementById("door-symbol");
+  const ctx = canvas.getContext("2d");
+  drawDoorSymbolOnCanvas(ctx, canvas.width, canvas.height);
+}
+
+function drawRestrictedSymbol() {
+  const canvas = document.getElementById("restricted-symbol");
+  const ctx = canvas.getContext("2d");
+  drawRestrictedSymbolOnCanvas(ctx, canvas.width, canvas.height);
+}
+
+function drawInformationDeskSymbol() {
+  const canvas = document.getElementById("information-desk-symbol");
+  const ctx = canvas.getContext("2d");
+  drawInformationDeskSymbolOnCanvas(ctx, canvas.width, canvas.height);
+}
+
+function drawStatueSymbol() {
+  const canvas = document.getElementById("statue-symbol");
+  const ctx = canvas.getContext("2d");
+  drawStatueSymbolOnCanvas(ctx, canvas.width, canvas.height);
+}
+
+function drawPanelsSymbol() {
+  const canvas = document.getElementById("panels-symbol");
+  const ctx = canvas.getContext("2d");
+  drawPanelsSymbolOnCanvas(ctx, canvas.width, canvas.height);
+}
+
+function drawWallPictureSymbol() {
+  const canvas = document.getElementById("wall-picture-symbol");
+  const ctx = canvas.getContext("2d");
+  drawWallPictureSymbolOnCanvas(ctx, canvas.width, canvas.height);
+}
+
+function drawRestAreaSymbol() {
+  const canvas = document.getElementById("rest-area-symbol");
+  const ctx = canvas.getContext("2d");
+  drawRestAreaSymbolOnCanvas(ctx, canvas.width, canvas.height);
+}
+
+// Symbol drawing implementations
+function drawSymbolByIdOnCanvas(id, ctx, width, height) {
+  switch (id) {
+      case "wall-artifact":
+          drawWallArtifactSymbolOnCanvas(ctx, width, height);
+          break;
+      case "artifacts-artworks":
+          drawArtifactSymbolOnCanvas(ctx, width, height);
+          break;
+      case "container":
+          drawContainerSymbolOnCanvas(ctx, width, height);
+          break;
+      case "door":
+          drawDoorSymbolOnCanvas(ctx, width, height);
+          break;
+      case "restricted":
+          drawRestrictedSymbolOnCanvas(ctx, width, height);
+          break;
+      case "information-desk":
+          drawInformationDeskSymbolOnCanvas(ctx, width, height);
+          break;
+      case "statue":
+          drawStatueSymbolOnCanvas(ctx, width, height);
+          break;
+      case "panels":
+          drawPanelsSymbolOnCanvas(ctx, width, height);
+          break;
+      case "wall-picture":
+          drawWallPictureSymbolOnCanvas(ctx, width, height);
+          break;
+      case "rest-area":
+          drawRestAreaSymbolOnCanvas(ctx, width, height);
+          break;
+      default:
+          break;
+  }
+}
+
+function drawWallArtifactSymbolOnCanvas(ctx, width, height) {
+  ctx.imageSmoothingEnabled = false; // Disable image smoothing
+  ctx.clearRect(0, 0, width, height);
+
+  // Set the fill style for the rectangle
+  ctx.fillStyle = "#8B4513"; // Brown color similar to the SVG
+
+  // Draw the rectangle
+  const rectX = width * 0.25; // 25% of the canvas width
+  const rectY = height * 0.4167; // 25px from the top in a 60px height canvas
+  const rectWidth = width * 0.5; // 50% of the canvas width
+  const rectHeight = height * 0.1667; // 10px in a 60px height canvas
+  ctx.fillRect(rectX, rectY, rectWidth, rectHeight);
+
+  // Draw the rectangle border
+  ctx.strokeStyle = "#000"; // Black border
+  ctx.lineWidth = 1;
+  ctx.strokeRect(rectX, rectY, rectWidth, rectHeight);
+
+  // Draw the curly line
+  ctx.beginPath();
+  ctx.moveTo(width * 0.25, height * 0.5); // Start at (15, 30)
+  ctx.bezierCurveTo(width * 0.3333, height * 0.25, width * 0.6667, height * 0.75, width * 0.75, height * 0.5); // Control points and end point
+  ctx.stroke();
+}
+
+function drawArtifactSymbolOnCanvas(ctx, width, height) {
+  ctx.fillStyle = "#d2b48c";
+  ctx.clearRect(0, 0, width, height);
+  ctx.beginPath();
+  ctx.arc(width / 2, height / 2, Math.min(width, height) * 0.4, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+function drawContainerSymbolOnCanvas(ctx, width, height) {
+  ctx.strokeStyle = "#8b5a2b";
+  ctx.lineWidth = Math.min(width, height) * 0.05;
+  ctx.clearRect(0, 0, width, height);
+  ctx.strokeRect(width * 0.1, height * 0.1, width * 0.8, height * 0.8);
+}
+
+function drawDoorSymbolOnCanvas(ctx, width, height) {
+  ctx.clearRect(0, 0, width, height);
+  ctx.fillStyle = "#8b5a2b";
+  ctx.beginPath();
+  ctx.moveTo(width * 0.2, height * 0.8);
+  ctx.quadraticCurveTo(width * 0.5, height * 0.2, width * 0.8, height * 0.8);
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = "#000";
+  ctx.lineWidth = 2;
+  ctx.stroke();
+}
+
+function drawRestrictedSymbolOnCanvas(ctx, width, height) {
+  ctx.fillStyle = "#444";
+  ctx.clearRect(0, 0, width, height);
+  ctx.fillRect(0, 0, width, height);
+  ctx.strokeStyle = "#fff";
+  ctx.lineWidth = Math.min(width, height) * 0.05;
+  ctx.beginPath();
+  ctx.moveTo(width * 0.2, height * 0.2);
+  ctx.lineTo(width * 0.8, height * 0.8);
+  ctx.moveTo(width * 0.8, height * 0.2);
+  ctx.lineTo(width * 0.2, height * 0.8);
+  ctx.stroke();
+}
+
+function drawInformationDeskSymbolOnCanvas(ctx, width, height) {
+  ctx.clearRect(0, 0, width, height); // Clear the canvas
+
+  // Draw the rectangle (desk base)
+  ctx.fillStyle = "#4682B4"; // Steel Blue color
+  const rectX = width * 0.25; // 15px in a 60px width canvas
+  const rectY = height * 0.4167; // 25px from the top in a 60px height canvas
+  const rectWidth = width * 0.5; // 30px in a 60px width canvas
+  const rectHeight = height * 0.1667; // 10px in a 60px height canvas
+  ctx.fillRect(rectX, rectY, rectWidth, rectHeight);
+  ctx.strokeStyle = "#000"; // Black stroke
+  ctx.lineWidth = 2;
+  ctx.strokeRect(rectX, rectY, rectWidth, rectHeight);
+
+  // Draw the circle (information symbol)
+  ctx.fillStyle = "#FFFFFF"; // White color for the circle
+  ctx.beginPath();
+  const circleRadius = Math.min(width, height) * 0.0833; // 5px in a 60px size canvas
+  ctx.arc(
+      width / 2,                // Center x
+      height * 0.4167,          // Center y (25px from the top in a 60px height canvas)
+      circleRadius,
+      0,
+      Math.PI * 2
+  );
+  ctx.fill();
+  ctx.strokeStyle = "#000"; // Black stroke for the circle
+  ctx.lineWidth = 2;
+  ctx.stroke();
+}
+
+function drawStatueSymbolOnCanvas(ctx, width, height) {
+  ctx.clearRect(0, 0, width, height); // Clear the canvas
+
+  // Set the fill style for both the circle and the rectangle
+  ctx.fillStyle = "#708090"; // Slate Gray color
+
+  // Draw the circle (head of the statue)
+  ctx.beginPath();
+  const circleRadius = Math.min(width, height) * 0.1667; // 10px in a 60px size canvas
+  ctx.arc(
+      width / 2,                // Center x
+      height * 0.25,            // Center y (15px from the top in a 60px height canvas)
+      circleRadius,             // Radius
+      0,
+      Math.PI * 2
+  );
+  ctx.fill();
+  ctx.strokeStyle = "#000"; // Black stroke
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Draw the rectangle (body of the statue)
+  const rectX = width * 0.4167;  // 25px in a 60px width canvas
+  const rectY = height * 0.4167; // 25px from the top in a 60px height canvas
+  const rectWidth = width * 0.1667; // 10px in a 60px width canvas
+  const rectHeight = height * 0.3333; // 20px in a 60px height canvas
+  ctx.fillRect(rectX, rectY, rectWidth, rectHeight);
+  ctx.strokeRect(rectX, rectY, rectWidth, rectHeight);
+
+}
+
+function drawPanelsSymbolOnCanvas(ctx, width, height) {
+  ctx.fillStyle = "#D3D3D3";
+  ctx.clearRect(0, 0, width, height);
+  ctx.fillRect(width * 0.1, height * 0.4, width * 0.8, height * 0.2);
+  ctx.strokeStyle = "#000";
+  ctx.lineWidth = 1;
+  ctx.strokeRect(width * 0.1, height * 0.4, width * 0.8, height * 0.2);
+}
+
+function drawWallPictureSymbolOnCanvas(ctx, width, height) {
+  ctx.fillStyle = "#000";
+  ctx.clearRect(0, 0, width, height);
+  ctx.fillRect(width * 0.1, height * 0.4, width * 0.8, height * 0.2);
+  ctx.strokeStyle = "#FFFFFF";
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(width * 0.1, height * 0.5);
+  ctx.lineTo(width * 0.9, height * 0.5);
+  ctx.stroke();
+}
+
+function drawRestAreaSymbolOnCanvas(ctx, width, height) {
+  ctx.clearRect(0, 0, width, height); // Clear the canvas
+
+  // Draw the rectangle (rest area base)
+  ctx.fillStyle = "#32CD32"; // Lime Green color
+  const rectX = width * 0.25; // 15px in a 60px width canvas
+  const rectY = height * 0.4167; // 25px from the top in a 60px height canvas
+  const rectWidth = width * 0.5; // 30px in a 60px width canvas
+  const rectHeight = height * 0.1667; // 10px in a 60px height canvas
+  ctx.fillRect(rectX, rectY, rectWidth, rectHeight);
+  ctx.strokeStyle = "#000"; // Black stroke
+  ctx.lineWidth = 2;
+  ctx.strokeRect(rectX, rectY, rectWidth, rectHeight);
+
+  // Draw the left circle
+  ctx.fillStyle = "#FFFFFF"; // White color for circles
+  ctx.beginPath();
+  const circleRadius = Math.min(width, height) * 0.05; // 3px in a 60px size canvas
+  ctx.arc(
+      width * 0.3667, // 22px in a 60px width canvas
+      height * 0.4167, // 25px from the top in a 60px height canvas
+      circleRadius,
+      0,
+      Math.PI * 2
+  );
+  ctx.fill();
+  ctx.strokeStyle = "#000"; // Black stroke for circles
+  ctx.lineWidth = 1;
+  ctx.stroke();
+
+  // Draw the right circle
+  ctx.beginPath();
+  ctx.arc(
+      width * 0.6333, // 38px in a 60px width canvas
+      height * 0.4167, // 25px from the top in a 60px height canvas
+      circleRadius,
+      0,
+      Math.PI * 2
+  );
+  ctx.fill();
+  ctx.stroke();
+
+}
 
 // Main JavaScript functionality
 document.addEventListener("DOMContentLoaded", () => {
@@ -47,19 +353,66 @@ document.addEventListener("DOMContentLoaded", () => {
     saveState();
   });
 
+  document.addEventListener("DOMContentLoaded", function () {
+    const saveButton = document.getElementById("save-button");
+
+    if (saveButton) {
+      saveButton.addEventListener("click", function () {
+        const canvasArea = document.getElementById("canvas-area");
+
+        html2canvas(canvasArea, { useCORS: true, allowTaint: true })
+          .then((canvas) => {
+            // Convert canvas to a downloadable image
+            const finalDataURL = canvas.toDataURL("image/png");
+            const link = document.createElement("a");
+            link.href = finalDataURL;
+            link.download = "floor-plan.png"; // File name for download
+            link.click(); // Trigger the download
+          })
+          .catch((err) => {
+            console.error("Error capturing the floor plan:", err);
+            alert(
+              "An error occurred while saving the floor plan. Please try again."
+            );
+          });
+      });
+    } else {
+      console.error("Save button not found in the DOM.");
+    }
+  });
+
   function createSymbol(id, x, y) {
+    // Create a temporary canvas to determine the size of the symbol
+    const tempCanvas = document.createElement("canvas");
+    const tempCtx = tempCanvas.getContext("2d");
+
+    // Set the desired size for the symbol
+    const symbolSize = 50; // Adjust this value as needed
+    tempCanvas.width = symbolSize;
+    tempCanvas.height = symbolSize;
+
+    // Draw the symbol on the temporary canvas to get its dimensions
+    drawSymbolByIdOnCanvas(id, tempCtx, tempCanvas.width, tempCanvas.height);
+
+    // Get the width and height of the drawn symbol
+    const containerWidth = tempCanvas.width;
+    const containerHeight = tempCanvas.height;
+
+    // Create the symbol container
     const container = document.createElement("div");
     container.classList.add("symbol-container", "selectable");
     container.style.left = x + "px";
     container.style.top = y + "px";
-    container.style.width = "40px";
-    container.style.height = "40px";
+    container.style.width = containerWidth + "px"; // Set width based on symbol size
+    container.style.height = containerHeight + "px"; // Set height based on symbol size
     container.dataset.locked = "false";
     container.dataset.rotation = "0";
 
     const canvas = document.createElement("canvas");
-    canvas.width = parseInt(container.style.width);
-    canvas.height = parseInt(container.style.height);
+    canvas.width = containerWidth; // Match canvas size to container size
+    canvas.height = containerHeight; // Match canvas size to container size
+    canvas.style.width = "100%"; // Set to 100%
+    canvas.style.height = "100%"; // Set to 100%
     canvas.classList.add("symbol");
 
     const ctx = canvas.getContext("2d");
@@ -77,6 +430,33 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     canvasArea.appendChild(container);
+    initializeInteractJS(container); // Initialize dragging for the container
+  }
+
+  function createTextElement(text, x, y) {
+    const container = document.createElement("div");
+    container.classList.add("text-container");
+    container.style.left = x + "px";
+    container.style.top = y + "px";
+    container.dataset.locked = "false";
+    container.dataset.rotation = "0";
+
+    const textSpan = document.createElement("span");
+    textSpan.textContent = text;
+    textSpan.style.fontSize = "16px";
+    textSpan.style.color = "#000000"; // Default text color
+    container.appendChild(textSpan);
+
+    // Set initial container size
+    container.style.width = "auto";
+    container.style.height = "20px";
+
+    // Add only the bottom-right resize handle
+    const handle = document.createElement("div");
+    handle.classList.add("resize-handle", "se");
+    container.appendChild(handle);
+
+    canvasArea.appendChild(container);
     initializeInteractJS(container);
   }
 
@@ -87,112 +467,168 @@ document.addEventListener("DOMContentLoaded", () => {
     element.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg)`;
   }
 
-  // In main.js
+  function initializeInteractJS(element) {
+    const isTextContainer = element.classList.contains("text-container");
+    const isLocked = isElementLocked(element);
 
-function initializeInteractJS(element) {
-  const isTextContainer = element.classList.contains("text-container");
+    // Determine if the element is one of the specified symbols
+    const symbolId = element.getAttribute("data-symbol-id");
+    const isSpecificSymbol = [
+      "door",
+      "information-desk",
+      "statue",
+      "rest-area",
+    ].includes(symbolId);
 
-  // Remove any existing InteractJS interactions to prevent duplicates
-  interact(element).unset();
+    // Remove any existing InteractJS interactions to prevent duplicates
+    interact(element).unset();
 
-  const draggableOptions = {
-    inertia: false,
-    autoScroll: true,
-    modifiers: [
-      interact.modifiers.restrictRect({
-        restriction: canvasArea,
-        endOnly: false,
-      }),
-    ],
-    listeners: {
-      // Add the 'dragging' class when dragging starts
-      start(event) {
-        element.classList.add('dragging');
-      },
-      move: dragMoveListener,
-      // Remove the 'dragging' class when dragging ends
-      end(event) {
-        element.classList.remove('dragging');
-        saveState();
-      },
-    },
-    ignoreFrom: '.resize-handle', // Ignore dragging from resize handles
-    allowFrom: null, // Allow dragging from anywhere in the container
-    enabled: !isElementLocked(element),
-  };
-
-  // Resizable options
-  const resizableOptions = isTextContainer
-    ? {
-        edges: { bottom: ".resize-handle.se", right: ".resize-handle.se" },
-        listeners: {
-          move: resizeMoveListener,
-          end(event) {
-            saveState();
-          },
+    // Draggable Options
+    const draggableOptions = {
+      inertia: false,
+      autoScroll: true,
+      modifiers: [
+        interact.modifiers.restrictRect({
+          restriction: canvasArea,
+          endOnly: false,
+        }),
+      ],
+      listeners: {
+        start(event) {
+          isDragging = true;
+          element.classList.add("dragging");
         },
-        modifiers: [
-          interact.modifiers.restrictEdges({
-            outer: canvasArea,
-            endOnly: true,
-          }),
-          interact.modifiers.restrictSize({
-            min: { width: 20, height: 20 },
-            max: { width: 200, height: 200 },
-          }),
-        ],
-        allowFrom: ".resize-handle.se",
-        enabled: !isElementLocked(element),
-      }
-    : {
-        edges: { top: true, left: true, bottom: true, right: true },
-        listeners: {
-          move: resizeMoveListener,
-          end(event) {
-            saveState();
-          },
+        move(event) {
+          const x = (parseFloat(element.dataset.x) || 0) + event.dx;
+          const y = (parseFloat(element.dataset.y) || 0) + event.dy;
+
+          element.dataset.x = x;
+          element.dataset.y = y;
+
+          // Preserve rotation if applicable
+          const rotation = parseFloat(element.dataset.rotation) || 0;
+          element.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg)`;
+
+          updatePropertiesPanel(element);
         },
-        modifiers: [
-          interact.modifiers.restrictEdges({
-            outer: canvasArea,
-            endOnly: true,
-          }),
-          interact.modifiers.restrictSize({
-            min: { width: 20, height: 20 },
-            max: { width: 800, height: 800 },
-          }),
-        ],
-        allowFrom: ".resize-handle",
-        enabled: !isElementLocked(element),
-      };
+        end(event) {
+          isDragging = false;
+          element.classList.remove("dragging");
+          saveState();
+        },
+      },
+      enabled: !isLocked,
+    };
 
-  // Enable interactions
-  interact(element).draggable(draggableOptions).resizable(resizableOptions);
+    // Resizable Options
+    const resizableOptions = isSpecificSymbol
+      ? {
+          edges: { bottom: true, right: true },
+          listeners: {
+            move(event) {
+              const target = event.target;
+              if (isElementLocked(target)) return;
 
-  // Ensure the element can be clicked even when locked
-  element.style.pointerEvents = "auto";
+              // Calculate new size
+              const newSize = Math.max(event.rect.width, event.rect.height);
 
-  element.addEventListener("mousedown", (e) => {
-    e.stopPropagation();
-    document
-      .querySelectorAll(".symbol-container.selected, .text-container.selected")
-      .forEach((el) => el.classList.remove("selected"));
-    element.classList.add("selected");
-    showPropertiesPanel(element);
-  });
-}
+              // Update the element's style
+              target.style.width = newSize + "px";
+              target.style.height = newSize + "px";
+
+              // Update the canvas size
+              const canvas = target.querySelector("canvas");
+              if (canvas) {
+                canvas.width = newSize;
+                canvas.height = newSize;
+                canvas.style.width = "100%";
+                canvas.style.height = "100%";
+                const ctx = canvas.getContext("2d");
+                drawSymbolByIdOnCanvas(
+                  target.getAttribute("data-symbol-id"),
+                  ctx,
+                  canvas.width,
+                  canvas.height
+                );
+              }
+
+              updatePropertiesPanel(target);
+            },
+            end(event) {
+              saveState();
+            },
+          },
+          modifiers: [
+            interact.modifiers.restrictEdges({
+              outer: canvasArea,
+              endOnly: true,
+            }),
+            interact.modifiers.restrictSize({
+              min: { width: 20, height: 20 },
+              max: { width: 800, height: 800 },
+            }),
+          ],
+          allowFrom: ".resize-handle.se",
+          enabled: !isLocked,
+        }
+      : {
+          edges: { top: true, left: true, bottom: true, right: true },
+          listeners: {
+            move: resizeMoveListener,
+            end(event) {
+              saveState();
+            },
+          },
+          modifiers: [
+            interact.modifiers.restrictEdges({
+              outer: canvasArea,
+              endOnly: true,
+            }),
+            interact.modifiers.restrictSize({
+              min: { width: 20, height: 20 },
+              max: { width: 800, height: 800 },
+            }),
+          ],
+          allowFrom: ".resize-handle",
+          enabled: !isLocked,
+        };
+
+    // Initialize Interactions
+    interact(element).draggable(draggableOptions).resizable(resizableOptions);
+
+    // Ensure the element can be clicked even when locked
+    element.style.pointerEvents = "auto";
+
+    // Event Listener for Selection
+    element.addEventListener("mousedown", (e) => {
+      e.stopPropagation();
+      document
+        .querySelectorAll(
+          ".symbol-container.selected, .text-container.selected"
+        )
+        .forEach((el) => el.classList.remove("selected"));
+      element.classList.add("selected");
+      showPropertiesPanel(element);
+    });
+  }
 
   function dragMoveListener(event) {
-    var target = event.target;
-    if (isElementLocked(target)) return;
+    var target = event.target.closest(".symbol-container, .text-container");
+    if (!target || isElementLocked(target)) return;
 
+    // Calculate new position
     var x = (parseFloat(target.dataset.x) || 0) + event.dx;
     var y = (parseFloat(target.dataset.y) || 0) + event.dy;
 
+    // Update dataset
     target.dataset.x = x;
     target.dataset.y = y;
 
+    // Update the transform for the container
     updateTransform(target);
+
+    // Update properties panel after dragging
+    updatePropertiesPanel(target);
   }
 
   function resizeMoveListener(event) {
@@ -204,8 +640,8 @@ function initializeInteractJS(element) {
     var newHeight = event.rect.height;
 
     // Get minimum sizes from restrictSize modifier
-    var minWidth = 10; // Replace with your minimum width
-    var minHeight = 10; // Replace with your minimum height
+    var minWidth = 20; // Replace with your minimum width
+    var minHeight = 20; // Replace with your minimum height
 
     // Enforce minimum size
     if (newWidth < minWidth) {
@@ -243,9 +679,10 @@ function initializeInteractJS(element) {
     if (canvas) {
       canvas.width = newWidth;
       canvas.height = newHeight;
-      canvas.style.width = "100%";
-      canvas.style.height = "100%";
+      canvas.style.width = "100%"; // Set to 100%
+      canvas.style.height = "100%"; // Set to 100%
       const ctx = canvas.getContext("2d");
+      ctx.imageSmoothingEnabled = false; // Disable image smoothing
       drawSymbolByIdOnCanvas(
         target.getAttribute("data-symbol-id"),
         ctx,
@@ -263,7 +700,7 @@ function initializeInteractJS(element) {
       updateTextContainerSize(target, textSpan);
     }
 
-    updatePropertiesPanel(target);
+    updatePropertiesPanel(target); // Update properties panel after resizing
   }
 
   function isElementLocked(element) {
@@ -310,14 +747,107 @@ function initializeInteractJS(element) {
   function showPropertiesPanel(element) {
     const objectProperties = document.getElementById("object-properties");
     const textProperties = document.getElementById("text-properties");
+    const symbolProperties = document.getElementById("symbol-properties");
     const noSelection = document.getElementById("no-selection");
 
     noSelection.style.display = "none";
 
-    if (element.classList.contains("symbol-container")) {
-      // Show object properties, hide text properties
+    const symbolId = element.getAttribute("data-symbol-id");
+    const isSpecificSymbol = [
+      "door",
+      "information-desk",
+      "statue",
+      "rest-area",
+    ].includes(symbolId);
+
+    if (isSpecificSymbol) {
+      // Determine if the element is locked
+      const isLocked = isElementLocked(element);
+
+      // Show symbol properties, hide others
+      objectProperties.style.display = "none";
+      textProperties.style.display = "none";
+      symbolProperties.style.display = "block";
+
+      if (!isLocked) {
+        const sizeInput = document.getElementById("symbol-size-input");
+        const rotationInput = document.getElementById("symbol-rotation-input");
+        const sizeValue = document.getElementById("symbol-size-value");
+        const rotationValue = document.getElementById("symbol-rotation-value");
+        const lockButton = document.getElementById("lock-button-symbol");
+
+        // Initialize values
+        const size = Math.max(element.offsetWidth, element.offsetHeight);
+        sizeInput.value = size;
+        sizeValue.textContent = size;
+        rotationInput.value =
+          Math.round(parseFloat(element.dataset.rotation) || 0) % 360;
+        rotationValue.textContent = `${rotationInput.value}°`;
+
+        // Update lock button
+        lockButton.innerHTML = `<span class="material-icons">${
+          isLocked ? "lock" : "lock_open"
+        }</span> ${isLocked ? "Lock" : "Unlock"}`;
+
+        // Event listeners for size and rotation
+        sizeInput.oninput = () => {
+          if (isElementLocked(element)) return;
+          const newSize = parseInt(sizeInput.value);
+          sizeValue.textContent = newSize;
+          element.style.width = newSize + "px";
+          element.style.height = newSize + "px";
+          const canvas = element.querySelector("canvas");
+          if (canvas) {
+            canvas.width = newSize;
+            canvas.height = newSize;
+            canvas.style.width = "100%";
+            canvas.style.height = "100%";
+            const ctx = canvas.getContext("2d");
+            drawSymbolByIdOnCanvas(
+              element.getAttribute("data-symbol-id"),
+              ctx,
+              canvas.width,
+              canvas.height
+            );
+          }
+          saveState();
+        };
+
+        rotationInput.oninput = () => {
+          if (isElementLocked(element)) return;
+          const rotation = parseInt(rotationInput.value);
+          rotationValue.textContent = `${rotation}°`;
+          element.dataset.rotation = rotation;
+          updateTransform(element);
+          saveState();
+        };
+
+        // Event listener for lock button
+        lockButton.onclick = () => {
+          const isLockedNow = isElementLocked(element);
+          element.dataset.locked = (!isLockedNow).toString();
+          lockButton.innerHTML = `<span class="material-icons">${
+            !isLockedNow ? "lock" : "lock_open"
+          }</span> ${!isLockedNow ? "Lock" : "Unlock"}`;
+
+          // Update InteractJS
+          interact(element).draggable({ enabled: !isElementLocked(element) });
+          interact(element).resizable({ enabled: !isElementLocked(element) });
+
+          // Show or hide symbol properties based on new lock state
+          if (!isElementLocked(element)) {
+            symbolProperties.style.display = "block";
+          } else {
+            symbolProperties.style.display = "none";
+          }
+
+          saveState();
+        };
+      }
+    } else if (element.classList.contains("symbol-container")) {
       objectProperties.style.display = "block";
       textProperties.style.display = "none";
+      symbolProperties.style.display = "none";
 
       const widthInput = document.getElementById("width-input");
       const heightInput = document.getElementById("height-input");
@@ -328,8 +858,8 @@ function initializeInteractJS(element) {
       const lockButton = document.getElementById("lock-button");
 
       // Initialize values
-      widthInput.value = parseInt(element.style.width);
-      heightInput.value = parseInt(element.style.height);
+      widthInput.value = parseInt(element.offsetWidth);
+      heightInput.value = parseInt(element.offsetHeight);
       rotationInput.value =
         Math.round(parseFloat(element.dataset.rotation) || 0) % 360;
       widthValue.textContent = widthInput.value;
@@ -405,9 +935,9 @@ function initializeInteractJS(element) {
         saveState();
       };
     } else if (element.classList.contains("text-container")) {
-      // Show text properties, hide object properties
       objectProperties.style.display = "none";
       textProperties.style.display = "block";
+      symbolProperties.style.display = "none";
 
       const textContentInput = document.getElementById("text-content-input");
       const textColorInput = document.getElementById("text-color-input");
@@ -455,7 +985,7 @@ function initializeInteractJS(element) {
       // Event listeners
       textContentInput.oninput = () => {
         if (isElementLocked(element)) return;
-        textSpan.textContent = textContentInput.value || " ";
+        textSpan.textContent = textContentInput.value.trim() || " ";
         updateTextContainerSize(element, textSpan);
         saveState();
       };
@@ -545,13 +1075,17 @@ function initializeInteractJS(element) {
   function clearPropertiesPanel() {
     const objectProperties = document.getElementById("object-properties");
     const textProperties = document.getElementById("text-properties");
+    const symbolProperties = document.getElementById("symbol-properties");
     const noSelection = document.getElementById("no-selection");
 
+    // Hide all panels
     objectProperties.style.display = "none";
     textProperties.style.display = "none";
+    symbolProperties.style.display = "none";
+
+    // Show "No object selected" message
     noSelection.style.display = "block";
   }
-
   function rgbToHex(rgb) {
     const result = /^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/.exec(rgb);
     if (!result) {
@@ -598,33 +1132,6 @@ function initializeInteractJS(element) {
       });
     }
   });
-
-  function createTextElement(text, x, y) {
-    const container = document.createElement("div");
-    container.classList.add("text-container");
-    container.style.left = x + "px";
-    container.style.top = y + "px";
-    container.dataset.locked = "false";
-    container.dataset.rotation = "0";
-
-    const textSpan = document.createElement("span");
-    textSpan.textContent = text;
-    textSpan.style.fontSize = "16px";
-    textSpan.style.color = "#000000"; // Default text color
-    container.appendChild(textSpan);
-
-    // Set initial container size
-    container.style.width = "auto";
-    container.style.height = "20px";
-
-    // Add only the bottom-right resize handle
-    const handle = document.createElement("div");
-    handle.classList.add("resize-handle", "se");
-    container.appendChild(handle);
-
-    canvasArea.appendChild(container);
-    initializeInteractJS(container);
-  }
 
   // Undo and Redo functionality
   function saveState() {

@@ -111,13 +111,29 @@ function drawSymbolByIdOnCanvas(id, ctx, width, height) {
 }
 
 function drawWallArtifactSymbolOnCanvas(ctx, width, height) {
-    ctx.fillStyle = "#8b5a2b";
-    const rectWidth = width * 0.25;
-    const rectHeight = height * 0.8;
-    const x = (width - rectWidth) / 2;
-    const y = (height - rectHeight) / 2;
+    ctx.imageSmoothingEnabled = false; // Disable image smoothing
     ctx.clearRect(0, 0, width, height);
-    ctx.fillRect(x, y, rectWidth, rectHeight);
+
+    // Set the fill style for the rectangle
+    ctx.fillStyle = "#8B4513"; // Brown color similar to the SVG
+
+    // Draw the rectangle
+    const rectX = width * 0.25; // 25% of the canvas width
+    const rectY = height * 0.4167; // 25px from the top in a 60px height canvas
+    const rectWidth = width * 0.5; // 50% of the canvas width
+    const rectHeight = height * 0.1667; // 10px in a 60px height canvas
+    ctx.fillRect(rectX, rectY, rectWidth, rectHeight);
+
+    // Draw the rectangle border
+    ctx.strokeStyle = "#000"; // Black border
+    ctx.lineWidth = 1;
+    ctx.strokeRect(rectX, rectY, rectWidth, rectHeight);
+
+    // Draw the curly line
+    ctx.beginPath();
+    ctx.moveTo(width * 0.25, height * 0.5); // Start at (15, 30)
+    ctx.bezierCurveTo(width * 0.3333, height * 0.25, width * 0.6667, height * 0.75, width * 0.75, height * 0.5); // Control points and end point
+    ctx.stroke();
 }
 
 function drawArtifactSymbolOnCanvas(ctx, width, height) {
@@ -163,34 +179,65 @@ function drawRestrictedSymbolOnCanvas(ctx, width, height) {
 }
 
 function drawInformationDeskSymbolOnCanvas(ctx, width, height) {
-    ctx.fillStyle = "#4682B4";
-    ctx.clearRect(0, 0, width, height);
-    ctx.fillRect(width * 0.1, height * 0.4, width * 0.8, height * 0.3);
-    ctx.fillStyle = "#FFFFFF";
+    ctx.clearRect(0, 0, width, height); // Clear the canvas
+
+    // Draw the rectangle (desk base)
+    ctx.fillStyle = "#4682B4"; // Steel Blue color
+    const rectX = width * 0.25; // 15px in a 60px width canvas
+    const rectY = height * 0.4167; // 25px from the top in a 60px height canvas
+    const rectWidth = width * 0.5; // 30px in a 60px width canvas
+    const rectHeight = height * 0.1667; // 10px in a 60px height canvas
+    ctx.fillRect(rectX, rectY, rectWidth, rectHeight);
+    ctx.strokeStyle = "#000"; // Black stroke
+    ctx.lineWidth = 2;
+    ctx.strokeRect(rectX, rectY, rectWidth, rectHeight);
+
+    // Draw the circle (information symbol)
+    ctx.fillStyle = "#FFFFFF"; // White color for the circle
     ctx.beginPath();
+    const circleRadius = Math.min(width, height) * 0.0833; // 5px in a 60px size canvas
     ctx.arc(
-        width / 2,
-        height * 0.4,
-        Math.min(width, height) * 0.1,
+        width / 2,                // Center x
+        height * 0.4167,          // Center y (25px from the top in a 60px height canvas)
+        circleRadius,
         0,
         Math.PI * 2
     );
     ctx.fill();
+    ctx.strokeStyle = "#000"; // Black stroke for the circle
+    ctx.lineWidth = 2;
+    ctx.stroke();
 }
 
 function drawStatueSymbolOnCanvas(ctx, width, height) {
-    ctx.fillStyle = "#708090";
-    ctx.clearRect(0, 0, width, height);
+    ctx.clearRect(0, 0, width, height); // Clear the canvas
+
+    // Set the fill style for both the circle and the rectangle
+    ctx.fillStyle = "#708090"; // Slate Gray color
+
+    // Draw the circle (head of the statue)
     ctx.beginPath();
+    const circleRadius = Math.min(width, height) * 0.1667; // 10px in a 60px size canvas
     ctx.arc(
-        width / 2,
-        height * 0.25,
-        Math.min(width, height) * 0.25,
+        width / 2,                // Center x
+        height * 0.25,            // Center y (15px from the top in a 60px height canvas)
+        circleRadius,             // Radius
         0,
         Math.PI * 2
     );
     ctx.fill();
-    ctx.fillRect(width * 0.35, height * 0.5, width * 0.3, height * 0.4);
+    ctx.strokeStyle = "#000"; // Black stroke
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Draw the rectangle (body of the statue)
+    const rectX = width * 0.4167;  // 25px in a 60px width canvas
+    const rectY = height * 0.4167; // 25px from the top in a 60px height canvas
+    const rectWidth = width * 0.1667; // 10px in a 60px width canvas
+    const rectHeight = height * 0.3333; // 20px in a 60px height canvas
+    ctx.fillRect(rectX, rectY, rectWidth, rectHeight);
+    ctx.strokeRect(rectX, rectY, rectWidth, rectHeight);
+
 }
 
 function drawPanelsSymbolOnCanvas(ctx, width, height) {
@@ -215,26 +262,45 @@ function drawWallPictureSymbolOnCanvas(ctx, width, height) {
 }
 
 function drawRestAreaSymbolOnCanvas(ctx, width, height) {
-    ctx.fillStyle = "#32CD32";
-    ctx.clearRect(0, 0, width, height);
-    ctx.fillRect(width * 0.1, height * 0.4, width * 0.8, height * 0.2);
-    ctx.fillStyle = "#FFFFFF";
+    ctx.clearRect(0, 0, width, height); // Clear the canvas
+
+    // Draw the rectangle (rest area base)
+    ctx.fillStyle = "#32CD32"; // Lime Green color
+    const rectX = width * 0.25; // 15px in a 60px width canvas
+    const rectY = height * 0.4167; // 25px from the top in a 60px height canvas
+    const rectWidth = width * 0.5; // 30px in a 60px width canvas
+    const rectHeight = height * 0.1667; // 10px in a 60px height canvas
+    ctx.fillRect(rectX, rectY, rectWidth, rectHeight);
+    ctx.strokeStyle = "#000"; // Black stroke
+    ctx.lineWidth = 2;
+    ctx.strokeRect(rectX, rectY, rectWidth, rectHeight);
+
+    // Draw the left circle
+    ctx.fillStyle = "#FFFFFF"; // White color for circles
     ctx.beginPath();
+    const circleRadius = Math.min(width, height) * 0.05; // 3px in a 60px size canvas
     ctx.arc(
-        width * 0.3,
-        height * 0.4,
-        Math.min(width, height) * 0.075,
+        width * 0.3667, // 22px in a 60px width canvas
+        height * 0.4167, // 25px from the top in a 60px height canvas
+        circleRadius,
         0,
         Math.PI * 2
     );
     ctx.fill();
+    ctx.strokeStyle = "#000"; // Black stroke for circles
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // Draw the right circle
     ctx.beginPath();
     ctx.arc(
-        width * 0.7,
-        height * 0.4,
-        Math.min(width, height) * 0.075,
+        width * 0.6333, // 38px in a 60px width canvas
+        height * 0.4167, // 25px from the top in a 60px height canvas
+        circleRadius,
         0,
         Math.PI * 2
     );
     ctx.fill();
+    ctx.stroke();
+
 }
