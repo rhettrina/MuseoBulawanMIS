@@ -17,7 +17,7 @@ $order = ($sort === 'oldest') ? 'ASC' : 'DESC';
 $query = "SELECT id, article_title, article_type, created_at, 
                  IFNULL(updated_date, 'Not Edited') AS updated_date 
           FROM articles 
-          ORDER BY created_at $order";
+          ORDER BY created_at $order"; 
 
 $result = mysqli_query($connextion, $query);
 
