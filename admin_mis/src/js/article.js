@@ -479,27 +479,49 @@ function deleteArticle(articleId) {
         alert('An error occurred while deleting the article. Please try again.');
     });
 }
+function setValue(elementId, value) {
+    const element = document.getElementById(elementId);
+    if (element) {
+        element.value = value || ''; // Safely set value or use empty string if null/undefined
+    } else {
+        console.warn(`Element with ID ${elementId} not found.`);
+    }
+}
 
-// Function to update an article by ID
+// Handle the Save button click inside the updateArticle function
 function updateArticle(articleId) {
     const modal = document.getElementById("update-article-modal");
+    if (!modal) {
+        console.error("Update article modal not found.");
+        return;
+    }
     modal.classList.remove("hidden");
 
     // Fetch existing article data to populate the modal
-    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchArticles.php?id=${articleId}`)
+    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/previewArticle.php?id=${articleId}`)
         .then(response => response.json())
         .then(data => {
-            if (data.success) {
+            if (data) {
                 // Populate form fields with existing data
-                document.getElementById("update-article-title").value = data.article_title || '';
-                document.getElementById("update-article-author").value = data.article_author || '';
-                document.getElementById("update-article-location").value = data.article_location || '';
-                document.getElementById("update-article-type").value = data.article_type || '';
-                document.getElementById("update-content-left").value = data.content_left || '';
-                document.getElementById("update-content-right").value = data.content_right || '';
-                document.getElementById("update-image-details").value = data.image_details || '';
-                document.getElementById("update-content-image2").value = data.content_image2 || '';
-                document.getElementById("update-content-image3").value = data.content_image3 || '';
+                setValue("update-article-title", data.article_title);
+                setValue("update-article-author", data.author);
+                setValue("update-article-location", data.location);
+                setValue("update-article-type", data.article_type);
+                setValue("update-content-left", data.p1box_left);
+                setValue("update-content-right", data.p1box_right);
+                setValue("update-content-box2", data.p2box);
+                setValue("update-content-box3", data.p3box);
+                setValue("update-image-details", data.imgu1_details);
+                setValue("update-article-created-at", data.created_at);
+                setValue("update-article-updated-at", data.updated_date);
+
+                // Base URL for images
+                const baseUrl = "https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/uploads/articlesUploads/";
+                const adjustImageUrl = (filePath) => filePath ? baseUrl + filePath.split('/').pop() : '';
+
+                setValue("imgu1", adjustImageUrl(data.imgu1));
+                setValue("imgu2", adjustImageUrl(data.imgu2));
+                setValue("imgu3", adjustImageUrl(data.imgu3));
             } else {
                 console.error('Error fetching article details:', data.error);
                 alert('Failed to fetch article details. Please try again.');
@@ -512,59 +534,70 @@ function updateArticle(articleId) {
 
     // Handle the Save button click
     const saveButton = document.getElementById("update-article-save-button");
-    saveButton.onclick = () => {
-        const formData = new FormData();
+    if (saveButton) {
+        saveButton.onclick = () => {
+            const formData = new FormData();
 
-        // Collect updated fields
-        formData.append("id", articleId);
-        formData.append("article_title", document.getElementById("update-article-title").value);
-        formData.append("article_author", document.getElementById("update-article-author").value);
-        formData.append("article_location", document.getElementById("update-article-location").value);
-        formData.append("article_type", document.getElementById("update-article-type").value);
-        formData.append("content_left", document.getElementById("update-content-left").value);
-        formData.append("content_right", document.getElementById("update-content-right").value);
-        formData.append("image_details", document.getElementById("update-image-details").value);
-        formData.append("content_image2", document.getElementById("update-content-image2").value);
-        formData.append("content_image3", document.getElementById("update-content-image3").value);
+            // Collect updated fields
+            formData.append("id", articleId);
+            formData.append("article_title", document.getElementById("update-article-title").value);
+            formData.append("article_author", document.getElementById("update-article-author").value);
+            formData.append("article_location", document.getElementById("update-article-location").value);
+            formData.append("article_type", document.getElementById("update-article-type").value);
+            formData.append("content_left", document.getElementById("update-content-left").value);
+            formData.append("content_right", document.getElementById("update-content-right").value);
+            formData.append("image_details", document.getElementById("update-image-details").value);
+            formData.append("content_box2", document.getElementById("update-content-box2").value);
+            formData.append("content_box3", document.getElementById("update-content-box3").value);
+            formData.append("content_image1", document.getElementById("article-image-1").value);
+            formData.append("content_image2", document.getElementById("article-image-2").value);
+            formData.append("content_image3", document.getElementById("article-image-3").value);
 
-        // Add new images if selected
-        const image1 = document.getElementById("update-image-1-input").files[0];
-        const image2 = document.getElementById("update-image-2-input").files[0];
-        const image3 = document.getElementById("update-image-3-input").files[0];
+            // Add new images if selected
+            const image1 = document.getElementById("update-image-1-input").files[0];
+            const image2 = document.getElementById("update-image-2-input").files[0];
+            const image3 = document.getElementById("update-image-3-input").files[0];
 
-        if (image1) formData.append("image_1", image1);
-        if (image2) formData.append("image_2", image2);
-        if (image3) formData.append("image_3", image3);
+            if (image1) formData.append("image_1", image1);
+            if (image2) formData.append("image_2", image2);
+            if (image3) formData.append("image_3", image3);
 
-        // Send updated data to the server
-        fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/updateArticle.php', {
-            method: 'POST',
-            body: formData,
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    console.log('Article updated successfully');
-                    closeModal("update-article-modal");
-                    init(); // Refresh the articles list
-                } else {
-                    console.error('Error updating article:', data.error);
-                    alert('Failed to update the article. Please try again.');
-                }
+            // Send updated data to the server
+            fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/updateArticle.php', {
+                method: 'POST',
+                body: formData,
             })
-            .catch(error => {
-                console.error('Error during update:', error);
-                alert('An error occurred. Please try again.');
-            });
-    };
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('Article updated successfully');
+                        closeModal("update-article-modal");
+                        init(); // Refresh the articles list
+                    } else {
+                        console.error('Error updating article:', data.error);
+                        alert('Failed to update the article. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error during update:', error);
+                    alert('An error occurred. Please try again.');
+                });
+        };
+    } else {
+        console.error("Save button not found.");
+    }
 
     // Handle the Cancel button click
     const cancelButton = document.getElementById("update-article-cancel-button");
-    cancelButton.onclick = () => {
-        openConfirmationModal((confirm) => {
-            if (confirm) {
-                closeModal("update-article-modal");
-            }
-        });
-    };
+    if (cancelButton) {
+        cancelButton.onclick = () => {
+            openConfirmationModal((confirm) => {
+                if (confirm) {
+                    closeModal("update-article-modal");
+                }
+            });
+        };
+    } else {
+        console.error("Cancel button not found.");
+    }
 }

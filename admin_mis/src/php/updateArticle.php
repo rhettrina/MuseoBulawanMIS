@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt = $connextion->prepare("
         UPDATE articles 
         SET 
-            article_author = ?, 
+            author = ?, 
             article_title = ?, 
             article_location = ?, 
             article_type = ?, 
