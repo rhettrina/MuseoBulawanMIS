@@ -1,45 +1,36 @@
-function init() {
-    fetchTotalAppointments();
-    fetchAppointments();  // Default to 'newest' sort
-}
-
-function fetchTotalAppointments() {
-    fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchTotalAppointments.php')
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                handleError('Error fetching total appointments:', data.error);
-                document.getElementById('total-appointments').innerText = "Error fetching data";
-            } else {
-                document.getElementById('total-appointments').innerText = data.total_appointments;
-            }
-        })
-        .catch(error => handleError('Error fetching total appointments:', error));
+function initAppointments() {
+    fetchAppointments(); // Fetch and display appointments on initialization
 }
 
 // Fetch and populate the appointments table
 function fetchAppointments(sort = 'newest') {
     fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchAppointments.php?sort=${sort}`)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
+            }
+            return response.json();
+        })
         .then(data => {
             if (data.error) {
-                handleError('Error fetching appointments:', data.error);
-                displayNoDataMessage();
+                console.error(data.error);
+                displayNoAppointmentsMessage();
             } else {
-                populateTable(data);
+                populateAppointmentsTable(data);
             }
         })
         .catch(error => {
-            handleError('Error fetching appointments:', error);
-            displayNoDataMessage();
+            console.error('Error fetching appointments:', error);
+            displayNoAppointmentsMessage();
         });
 }
-function populateTable(appointments) {
+
+function populateAppointmentsTable(appointments) {
     const tableBody = document.getElementById('appointment-table').querySelector('tbody');
     tableBody.innerHTML = ''; // Clear existing rows
 
     if (appointments.length === 0) {
-        displayNoDataMessage();
+        displayNoAppointmentsMessage();
         return;
     }
 
@@ -47,110 +38,164 @@ function populateTable(appointments) {
         const row = document.createElement('tr');
         row.classList.add('border-t', 'border-gray-300', 'text-center');
 
-        // Create cells
-        const dateCell = document.createElement('td');
-        dateCell.classList.add('px-4', 'py-2');
-        dateCell.textContent = appointment.date;
+        // Create and populate cells
+        const dateCell = createTableCell(appointment.date);
+        const timeCell = createTableCell(appointment.time);
+        const donorCell = createTableCell(appointment.donor_name);
+        const attendeesCell = createTableCell(appointment.number);
+        const statusCell = createStatusDropdownCell(appointment);
 
-        const nameCell = document.createElement('td');
-        nameCell.classList.add('px-4', 'py-2');
-        nameCell.textContent = appointment.donor_name;
+        // Action buttons
+        const actionCell = createAppointmentActionButtons(appointment);
 
-        const timeCell = document.createElement('td');
-        timeCell.classList.add('px-4', 'py-2');
-        timeCell.textContent = appointment.time;
-
-        const numberCell = document.createElement('td');
-        numberCell.classList.add('px-4', 'py-2');
-        numberCell.textContent = appointment.number;
-
-        const statusCell = document.createElement('td');
-        statusCell.classList.add('px-4', 'py-2');
-        statusCell.textContent = "Pending"; // Placeholder status
-
-        const confirmationCell = document.createElement('td');
-        confirmationCell.classList.add('px-4', 'py-2');
-        confirmationCell.textContent = "N/A"; // Placeholder confirmation
-
-        const actionCell = document.createElement('td');
-        actionCell.classList.add('px-4', 'py-2', 'flex', 'justify-center', 'space-x-2');
-
-        // Add buttons with event listeners
-        const previewButton = document.createElement('button');
-        previewButton.classList.add('bg-green-500', 'text-white', 'p-2', 'rounded', 'hover:bg-green-600');
-        previewButton.innerHTML = `<i class="fas fa-eye"></i>`;
-        previewButton.addEventListener('click', () => handleAction('preview', appointment.id));
-
-        const editButton = document.createElement('button');
-        editButton.classList.add('bg-blue-500', 'text-white', 'p-2', 'rounded', 'hover:bg-blue-600');
-        editButton.innerHTML = `<i class="fas fa-edit"></i>`;
-        editButton.addEventListener('click', () => handleAction('edit', appointment.id));
-
-        const deleteButton = document.createElement('button');
-        deleteButton.classList.add('bg-red-500', 'text-white', 'p-2', 'rounded', 'hover:bg-red-600');
-        deleteButton.innerHTML = `<i class="fas fa-trash"></i>`;
-        deleteButton.addEventListener('click', () => handleAction('delete', appointment.id));
-
-        actionCell.appendChild(previewButton);
-        actionCell.appendChild(editButton);
-        actionCell.appendChild(deleteButton);
-
+        // Append cells to row
         row.appendChild(dateCell);
-        row.appendChild(nameCell);
         row.appendChild(timeCell);
-        row.appendChild(numberCell);
+        row.appendChild(donorCell);
+        row.appendChild(attendeesCell);
         row.appendChild(statusCell);
-        row.appendChild(confirmationCell);
         row.appendChild(actionCell);
 
         tableBody.appendChild(row);
     });
 }
 
+function createTableCell(content) {
+    const cell = document.createElement('td');
+    cell.classList.add('px-4', 'py-2');
+    cell.textContent = content;
+    return cell;
+}
 
-function handleAction(action, appointmentId) {
+function createStatusDropdownCell(appointment) {
+    const cell = document.createElement('td');
+    cell.classList.add('px-4', 'py-2');
+    const dropdown = document.createElement('select');
+    dropdown.classList.add('border', 'p-2', 'rounded');
+
+    const statuses = ['Scheduled', 'Completed', 'Cancelled'];
+    statuses.forEach(status => {
+        const option = document.createElement('option');
+        option.value = status;
+        option.textContent = status;
+        option.selected = appointment.status === status;
+        dropdown.appendChild(option);
+    });
+
+    dropdown.addEventListener('change', () => {
+        const newStatus = dropdown.value;
+        openAppointmentStatusModal(appointment.id, appointment.status, newStatus, dropdown);
+    });
+
+    cell.appendChild(dropdown);
+    return cell;
+}
+
+function createAppointmentActionButtons(appointment) {
+    const cell = document.createElement('td');
+    cell.classList.add('px-4', 'py-2', 'flex', 'justify-center', 'space-x-2');
+
+    const deleteButton = createActionButton('trash', 'delete', appointment);
+
+    cell.appendChild(deleteButton);
+
+    return cell;
+}
+
+function createActionButton(icon, action, appointment) {
+    const button = document.createElement('button');
+    button.classList.add('bg-red-400', 'text-white', 'p-2', 'rounded', 'hover:bg-red-300');
+    button.innerHTML = `<i class="fas fa-${icon}"></i>`;
+    button.addEventListener('click', () => handleAppointmentAction(action, appointment.id));
+    return button;
+}
+
+function handleAppointmentAction(action, appointmentId) {
     switch (action) {
-        case 'preview':
-            console.log(`Preview appointment with ID: ${appointmentId}`);
-            break;
-        case 'edit':
-            console.log(`Edit appointment with ID: ${appointmentId}`);
-            break;
         case 'delete':
-            console.log(`Delete appointment with ID: ${appointmentId}`);
+            openDeleteModal(response => {
+                if (response) {
+                    deleteAppointment(appointmentId);
+                }
+            });
             break;
         default:
             console.error('Unknown action:', action);
     }
 }
 
-function displayNoDataMessage() {
-    const tableBody = document.getElementById('appointment-table');
+function deleteAppointment(appointmentId) {
+    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/deleteAppointment.php?id=${appointmentId}`, {
+        method: 'DELETE',
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to delete appointment');
+            }
+            fetchAppointments(); // Refresh the appointment list after deletion
+        })
+        .catch(error => {
+            console.error('Error deleting appointment:', error);
+        });
+}
+
+function openAppointmentStatusModal(appointmentId, currentStatus, newStatus, dropdown) {
+    const modal = document.getElementById("appointment-status-modal");
+    modal.classList.remove("hidden");
+
+    const confirmationMessage = document.getElementById("appointment-status-confirmation-message");
+    if (confirmationMessage) {
+        confirmationMessage.textContent = `Do you want to confirm the status change from "${currentStatus}" to "${newStatus}" for appointment ID: ${appointmentId}?`;
+
+        document.getElementById("appointment-status-confirm-button").onclick = () => {
+            updateAppointmentStatus(appointmentId, newStatus);
+            closeModal("appointment-status-modal");
+        };
+
+        document.getElementById("appointment-status-cancel-button").onclick = () => {
+            dropdown.value = currentStatus; // Revert to previous status
+            closeModal("appointment-status-modal");
+        };
+    } else {
+        console.error('Confirmation message element not found');
+    }
+}
+
+function updateAppointmentStatus(appointmentId, newStatus) {
+    fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/updateAppointmentStatus.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: appointmentId, status: newStatus })
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to update appointment status');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                fetchAppointments(); // Refresh the table
+            } else {
+                console.error('Failed to update appointment status:', data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error updating appointment status:', error);
+        });
+}
+
+function displayNoAppointmentsMessage() {
+    const tableBody = document.querySelector('#appointments-table tbody');
     tableBody.innerHTML = `
         <tr>
-            <td colspan="7" class="text-center py-4">No appointments found or an error occurred.</td>
+            <td colspan="5" class="text-center py-4">No appointments found or an error occurred.</td>
         </tr>
     `;
 }
 
-function handleError(message, error) {
-    console.error(message, error);
-    alert(message); // Optional: Display a message to the user
-}
-
-document.getElementById("sort-appointment").addEventListener("change", function () {
-    const sortOption = this.value;
-    fetchAppointments(sortOption);
+document.getElementById("appointment-sort").addEventListener("change", function () {
+    fetchAppointments(this.value);
 });
 
-// Modal toggling
-document.getElementById("create-appointment-button").addEventListener("click", () => {
-    document.getElementById("create-appointment-modal").classList.remove("hidden");
-});
-
-document.getElementById("cancel-button").addEventListener("click", () => {
-    document.getElementById("create-appointment-modal").classList.add("hidden");
-});
-
-// Initialize on page load
-window.onload = init;
+initAppointments(); // Initialize appointment management
