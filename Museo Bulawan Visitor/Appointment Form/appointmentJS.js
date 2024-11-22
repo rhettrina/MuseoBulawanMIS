@@ -1,42 +1,44 @@
-const form = document.querySelector("form[action='process_form.php']");
+const form = document.getElementById("appointmentForm");
 
-form.addEventListener("submit", function (event) {
-    event.preventDefault(); // Prevent default form submission
-
-    // Collect form data
-    const formData = new FormData(form);
-
-    // Send AJAX request
-    fetch("process_form.php", {
-        method: "POST",
-        body: formData,
-    })
-        .then(response => response.json()) // Parse JSON response
-        .then(data => {
-            if (data.status === "success") {
-                showModal("Success", data.message); // Show success modal
-            } else {
-                showModal("Error", data.message); // Show error modal
-            }
-        })
-        .catch(error => {
-            showModal("Error", "An unexpected error occurred. Please try again.");
-            console.error("Error:", error);
-        });
+form.addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent automatic form submission
+    openModal(); // Open the modal for confirmation
 });
 
-// Function to show modal with custom title and message
-function showModal(title, message) {
-    const modal = document.getElementById("confirmationModal");
-    modal.querySelector("h4").innerText = title;
-    modal.querySelector("p").innerText = message;
-    modal.style.display = "flex";
+// Function to check for missing required fields and open modal if valid
+function openModal() {
+    const requiredFields = form.querySelectorAll("[required]");
+    let hasMissingFields = false;
+
+    // Check each required field
+    requiredFields.forEach(field => {
+        if (!field.value.trim()) {
+            hasMissingFields = true;
+            field.style.borderColor = "red"; // Highlight missing fields
+        } else {
+            field.style.borderColor = ""; // Reset style if filled
+        }
+    });
+
+    // Show modal only if all required fields are filled
+    if (!hasMissingFields) {
+        document.getElementById('confirmationModal').style.display = 'flex';
+    }
 }
 
-// Function to close modal
+// Close modal
 function closeModal() {
     document.getElementById("confirmationModal").style.display = "none";
 }
 
-// Add event listener to close modal button
-document.getElementById("closeModalBtn").addEventListener("click", closeModal);
+// Confirm and submit form
+function confirmSubmission() {
+    closeModal();
+    form.submit(); // Programmatically submit the form after confirmation
+}
+
+// Add event listener for confirm button
+document.getElementById('confirmBtn').addEventListener('click', confirmSubmission);
+
+// Add event listener for close button
+document.getElementById('closeModalBtn').addEventListener('click', closeModal);
