@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit(0); 
 }
 
-include 'db_connect.php';
+include 'db_conn.php';
 
 // Get sort parameter from the query string (default is 'newest')
 $sort = $_GET['sort'] ?? 'newest'; 
@@ -20,7 +20,6 @@ preferred_date AS appointment_date,
 preferred_time AS appointment_time, 
 attendees AS number_of_attendees, 
 status, 
-transfer_status, 
 IFNULL(updated_date, 'Not Edited') AS updated_date 
 FROM form_data 
 ORDER BY preferred_date $order, preferred_time $order"; 
