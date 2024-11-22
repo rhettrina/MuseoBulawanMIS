@@ -314,12 +314,15 @@ function openStatusModal(donationId, currentStatus, newStatus, dropdown) {
     }
 }
 
-function openPreviewModal() {
-    const modal = document.getElementById("preview-modal");
-    modal.classList.remove("hidden"); // Show the modal
-}
 
-function previewRow(formType, rowId) {
+
+  
+  function openPreviewModal() {
+    const modal = document.getElementById("preview-modal");
+    modal.classList.remove("hidden"); // Remove the hidden class to display the modal
+  }
+  
+  function previewRow(formType, rowId) {
     // Set the modal to "Loading..." by default
     document.getElementById('preview-donor-name').textContent = "Loading...";
     document.getElementById('preview-item-name').textContent = "Loading...";
@@ -327,7 +330,6 @@ function previewRow(formType, rowId) {
     document.getElementById('preview-status').textContent = "Loading...";
     document.getElementById('preview-transfer-status').textContent = "Loading...";
 
-    // Make the fetch request to get the data
     fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetch-row.php?type=${formType}&id=${rowId}`, {
         method: 'GET',
     })
@@ -338,43 +340,44 @@ function previewRow(formType, rowId) {
             return response.json();
         })
         .then(data => {
-            if (data.success && data.row) {
-                // Populate modal with the fetched data based on the form type
-                if (formType === 'donation') {
-                    document.getElementById('preview-donor-name').textContent = `${data.row.first_name} ${data.row.last_name}`;
-                    document.getElementById('preview-item-name').textContent = data.row.artifact_title;
-                    document.getElementById('preview-donation-date').textContent = data.row.submission_date || data.row.submitted_at;
-                    document.getElementById('preview-status').textContent = data.row.status || 'N/A';
-                    document.getElementById('preview-transfer-status').textContent = data.row.transfer_status || 'N/A';
-                } else if (formType === 'lending') {
-                    document.getElementById('preview-donor-name').textContent = `${data.row.first_name} ${data.row.last_name}`;
-                    document.getElementById('preview-item-name').textContent = data.row.artifact_title;
-                    document.getElementById('preview-donation-date').textContent = data.row.submitted_at;
-                    document.getElementById('preview-status').textContent = data.row.status || 'N/A';
-                    document.getElementById('preview-transfer-status').textContent = data.row.transfer_status || 'N/A';
-                }
-
-                // Show the modal
+            if (data.success) {
+                // Populate modal with the fetched data
+                document.getElementById('preview-donor-name').textContent = `${data.row.first_name} ${data.row.last_name}`;
+                document.getElementById('preview-item-name').textContent = data.row.artifact_title;
+                document.getElementById('preview-donation-date').textContent = data.row.submission_date || data.row.submitted_at;
+                document.getElementById('preview-status').textContent = data.row.status || 'N/A';
+                document.getElementById('preview-transfer-status').textContent = data.row.transfer_status || 'N/A';
+                
+                // Show the modal using Bootstrap
                 const previewModal = new bootstrap.Modal(document.getElementById('preview-modal'));
                 previewModal.show();
             } else {
-                console.error('Error fetching data:', data.error || 'Unknown error');
-                displayNoDataMessage();
+                console.error('Failed to fetch data:', data.error);
+                // Handle error (e.g., show an error message in the modal)
+                document.getElementById('preview-donor-name').textContent = "Error loading data";
+                document.getElementById('preview-item-name').textContent = "Error loading data";
+                document.getElementById('preview-donation-date').textContent = "Error loading data";
+                document.getElementById('preview-status').textContent = "Error loading data";
+                document.getElementById('preview-transfer-status').textContent = "Error loading data";
             }
         })
         .catch(error => {
-            console.error('Error fetching data:', error);
-            displayNoDataMessage();
+            console.error('Error fetching row data:', error);
+            // Handle fetch error (e.g., show a general error message)
+            document.getElementById('preview-donor-name').textContent = "Error loading data";
+            document.getElementById('preview-item-name').textContent = "Error loading data";
+            document.getElementById('preview-donation-date').textContent = "Error loading data";
+            document.getElementById('preview-status').textContent = "Error loading data";
+            document.getElementById('preview-transfer-status').textContent = "Error loading data";
         });
 }
 
 
-// Close modal logic
-document.getElementById("preview-close-button").addEventListener("click", () => {
+  // Close modal logic
+  document.getElementById("preview-close-button").addEventListener("click", () => {
     const modal = document.getElementById("preview-modal");
-    modal.classList.add("hidden"); // Hide the modal
-});
-
-
+    modal.classList.add("hidden"); // Add the hidden class to hide the modal
+  });
+  
   
 init();  // Initialize everything when the script runs
