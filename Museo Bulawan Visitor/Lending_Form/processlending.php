@@ -45,6 +45,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $acquisition = $conn->real_escape_string($_POST['acquisition']);
     $additionalInfo = $conn->real_escape_string($_POST['additionalInfo']);
     $narrative = $conn->real_escape_string($_POST['narrative']);
+    
+    $formType = $conn->real_escape_string($_POST['formType']);
 
     // Initialize image file paths
     $art_img_upload_path = '';
@@ -101,8 +103,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $transfer_status = "PENDING";
 
         // Insert into donations table
-        $donation_sql = "INSERT INTO donations (donor_name, item_name, donation_date, status, transfer_status)
-                         VALUES ('$donor_name', '$item_name', '$donation_date', '$status', '$transfer_status')";
+        $donation_sql = "INSERT INTO donations (donor_name, item_name, type, donation_date, status, transfer_status)
+                         VALUES ('$donor_name', '$item_name', '$formType', '$donation_date', '$status', '$transfer_status')";
 
         if ($conn->query($donation_sql) === TRUE) {
             echo "Donation submitted successfully!";
