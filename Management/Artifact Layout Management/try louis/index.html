@@ -210,6 +210,16 @@
 
 
     <script src="main.js"></script>
+    <script>
+        document.getElementById('save-button').addEventListener('click', function() {
+            html2canvas(document.getElementById('canvas-area')).then(function(canvas) {
+                var link = document.createElement('a');
+                link.download = 'floorplan.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        });
+    </script>
 </body>
 
 </html>
