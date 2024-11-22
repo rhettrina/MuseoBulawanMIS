@@ -86,42 +86,42 @@ function populateTable(donations) {
         dateCell.textContent = donation.donation_date;
 
         
-      // Donor Cell
-const donorCell = document.createElement('td');
-donorCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
-donorCell.textContent = donation.donor_name;
+            // Donor Cell
+        const donorCell = document.createElement('td');
+        donorCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
+        donorCell.textContent = donation.donor_name;
 
-// Title Cell
-const titleCell = document.createElement('td');
-titleCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
-titleCell.textContent = donation.item_name;
+        // Title Cell
+        const titleCell = document.createElement('td');
+        titleCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
+        titleCell.textContent = donation.item_name;
 
-// Type Cell
-const typeCell = document.createElement('td');
-typeCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
-typeCell.textContent = donation.type;
+        // Type Cell
+        const typeCell = document.createElement('td');
+        typeCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
+        typeCell.textContent = donation.type;
 
-// Status Cell
-const statusCell = document.createElement('td');
-statusCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
-statusCell.textContent = donation.status;
+        // Status Cell
+        const statusCell = document.createElement('td');
+        statusCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
+        statusCell.textContent = donation.status;
 
-// Updated Date Cell
-const updatedDateCell = document.createElement('td');
-updatedDateCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
-updatedDateCell.textContent = donation.updated_date === "Not Edited" || !donation.updated_date ? "Not Edited" : donation.updated_date;
+        // Updated Date Cell
+        const updatedDateCell = document.createElement('td');
+        updatedDateCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
+        updatedDateCell.textContent = donation.updated_date === "Not Edited" || !donation.updated_date ? "Not Edited" : donation.updated_date;
 
-// Transfer Status Cell
-const transferStatusCell = document.createElement('td');
-transferStatusCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
-// Assuming createTransferStatusCell returns an element, append it
-transferStatusCell.appendChild(createTransferStatusCell(donation));
+        // Transfer Status Cell
+        const transferStatusCell = document.createElement('td');
+        transferStatusCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
+        // Assuming createTransferStatusCell returns an element, append it
+        transferStatusCell.appendChild(createTransferStatusCell(donation));
 
-// Action Buttons Cell
-const actionCell = document.createElement('td');
-actionCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'rounded-r-[15px]', 'border-t-2', 'border-b-2', 'border-r-2');
-// Assuming createActionButtons returns an element, append it
-actionCell.appendChild(createActionButtons(donation));
+        // Action Buttons Cell
+        const actionCell = document.createElement('td');
+        actionCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'rounded-r-[15px]', 'border-t-2', 'border-b-2', 'border-r-2');
+        // Assuming createActionButtons returns an element, append it
+        actionCell.appendChild(createActionButtons(donation));
 
         // Append cells to row
         row.appendChild(dateCell);
