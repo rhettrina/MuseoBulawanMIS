@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 include 'db_connect.php';
 
 // Get sort parameter from the query string (default is 'newest')
-$sort = $_GET['sort-appointment'] ?? 'newest'; 
+$sort = $_GET['sort'] ?? 'newest'; 
 $order = ($sort === 'oldest') ? 'ASC' : 'DESC';
 
 // Query to fetch sorted donations
@@ -19,8 +19,7 @@ CONCAT(first_name, ' ', last_name) AS donor_name,
 preferred_date AS appointment_date, 
 preferred_time AS appointment_time, 
 attendees AS number_of_attendees, 
-status,
-IFNULL(updated_date, 'Not Edited') AS updated_date
+status
 FROM form_data 
 ORDER BY preferred_date $order, preferred_time $order"; 
 
