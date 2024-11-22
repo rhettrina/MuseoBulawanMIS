@@ -22,7 +22,7 @@ attendees AS number_of_attendees,
 status, 
 IFNULL(updated_date, 'Not Edited') AS updated_date 
 FROM form_data 
-ORDER BY preferred_date $order, preferred_time $order"; 
+ORDER BY preferred_date $order"; 
 
 $result = mysqli_query($connextion, $query);
 
