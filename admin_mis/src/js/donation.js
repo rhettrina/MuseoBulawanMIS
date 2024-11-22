@@ -46,7 +46,7 @@ function populateTotalDonationData(data) {
 
 // Fetch and populate the donations table
 function fetchDonations(sort = 'newest') {
-    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchAppointments.php?sort=${sort}`)
+    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchDonations.php?sort=${sort}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok: ' + response.statusText);
@@ -86,42 +86,42 @@ function populateTable(donations) {
         dateCell.textContent = donation.donation_date;
 
         
-            // Donor Cell
-        const donorCell = document.createElement('td');
-        donorCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
-        donorCell.textContent = donation.donor_name;
+      // Donor Cell
+const donorCell = document.createElement('td');
+donorCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
+donorCell.textContent = donation.donor_name;
 
-        // Title Cell
-        const titleCell = document.createElement('td');
-        titleCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
-        titleCell.textContent = donation.item_name;
+// Title Cell
+const titleCell = document.createElement('td');
+titleCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
+titleCell.textContent = donation.item_name;
 
-        // Type Cell
-        const typeCell = document.createElement('td');
-        typeCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
-        typeCell.textContent = donation.type;
+// Type Cell
+const typeCell = document.createElement('td');
+typeCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
+typeCell.textContent = donation.type;
 
-        // Status Cell
-        const statusCell = document.createElement('td');
-        statusCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
-        statusCell.textContent = donation.status;
+// Status Cell
+const statusCell = document.createElement('td');
+statusCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
+statusCell.textContent = donation.status;
 
-        // Updated Date Cell
-        const updatedDateCell = document.createElement('td');
-        updatedDateCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
-        updatedDateCell.textContent = donation.updated_date === "Not Edited" || !donation.updated_date ? "Not Edited" : donation.updated_date;
+// Updated Date Cell
+const updatedDateCell = document.createElement('td');
+updatedDateCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
+updatedDateCell.textContent = donation.updated_date === "Not Edited" || !donation.updated_date ? "Not Edited" : donation.updated_date;
 
-        // Transfer Status Cell
-        const transferStatusCell = document.createElement('td');
-        transferStatusCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
-        // Assuming createTransferStatusCell returns an element, append it
-        transferStatusCell.appendChild(createTransferStatusCell(donation));
+// Transfer Status Cell
+const transferStatusCell = document.createElement('td');
+transferStatusCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
+// Assuming createTransferStatusCell returns an element, append it
+transferStatusCell.appendChild(createTransferStatusCell(donation));
 
-        // Action Buttons Cell
-        const actionCell = document.createElement('td');
-        actionCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'rounded-r-[15px]', 'border-t-2', 'border-b-2', 'border-r-2');
-        // Assuming createActionButtons returns an element, append it
-        actionCell.appendChild(createActionButtons(donation));
+// Action Buttons Cell
+const actionCell = document.createElement('td');
+actionCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'rounded-r-[15px]', 'border-t-2', 'border-b-2', 'border-r-2');
+// Assuming createActionButtons returns an element, append it
+actionCell.appendChild(createActionButtons(donation));
 
         // Append cells to row
         row.appendChild(dateCell);
@@ -194,6 +194,7 @@ function createActionButton(icon, action, donation) {
 function handleAction(action, donationId) {
     switch (action) {
         case 'preview':
+            openPreviewModal();
             console.log(`Preview donation with ID: ${donationId}`);
             break;
         case 'edit':
@@ -316,7 +317,67 @@ function openStatusModal(donationId, currentStatus, newStatus, dropdown) {
 
 
   
+  function openPreviewModal() {
+    const modal = document.getElementById("preview-modal");
+    modal.classList.remove("hidden"); // Remove the hidden class to display the modal
+  }
+  
+  function previewRow(formType, rowId) {
+    // Set the modal to "Loading..." by default
+    document.getElementById('preview-donor-name').textContent = "Loading...";
+    document.getElementById('preview-item-name').textContent = "Loading...";
+    document.getElementById('preview-donation-date').textContent = "Loading...";
+    document.getElementById('preview-status').textContent = "Loading...";
+    document.getElementById('preview-transfer-status').textContent = "Loading...";
 
+    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetch-row.php?type=${formType}&id=${rowId}`, {
+        method: 'GET',
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                // Populate modal with the fetched data
+                document.getElementById('preview-donor-name').textContent = `${data.row.first_name} ${data.row.last_name}`;
+                document.getElementById('preview-item-name').textContent = data.row.artifact_title;
+                document.getElementById('preview-donation-date').textContent = data.row.submission_date || data.row.submitted_at;
+                document.getElementById('preview-status').textContent = data.row.status || 'N/A';
+                document.getElementById('preview-transfer-status').textContent = data.row.transfer_status || 'N/A';
+                
+                // Show the modal using Bootstrap
+                const previewModal = new bootstrap.Modal(document.getElementById('preview-modal'));
+                previewModal.show();
+            } else {
+                console.error('Failed to fetch data:', data.error);
+                // Handle error (e.g., show an error message in the modal)
+                document.getElementById('preview-donor-name').textContent = "Error loading data";
+                document.getElementById('preview-item-name').textContent = "Error loading data";
+                document.getElementById('preview-donation-date').textContent = "Error loading data";
+                document.getElementById('preview-status').textContent = "Error loading data";
+                document.getElementById('preview-transfer-status').textContent = "Error loading data";
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching row data:', error);
+            // Handle fetch error (e.g., show a general error message)
+            document.getElementById('preview-donor-name').textContent = "Error loading data";
+            document.getElementById('preview-item-name').textContent = "Error loading data";
+            document.getElementById('preview-donation-date').textContent = "Error loading data";
+            document.getElementById('preview-status').textContent = "Error loading data";
+            document.getElementById('preview-transfer-status').textContent = "Error loading data";
+        });
+}
+
+
+  // Close modal logic
+  document.getElementById("preview-close-button").addEventListener("click", () => {
+    const modal = document.getElementById("preview-modal");
+    modal.classList.add("hidden"); // Add the hidden class to hide the modal
+  });
   
   
 init();  // Initialize everything when the script runs
