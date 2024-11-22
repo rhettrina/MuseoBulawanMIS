@@ -8,19 +8,62 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <div id="confirmation-modal" class="modal fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 ">
+    <div id="preview-modal" class="modal fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 ">
         <div class="modal-content bg-white p-6 rounded-lg w-2/4 h-[90%] text-center overflow-y-auto">
-          <div class="w-full sticky flex justify-end">
+          <div class="w-full sticky flex justify-between mb-4">
+            <p class="text-xl font-semi-bold">Article Preview</p>
             <button class="bg-orange-300 text-white px-6 py-2 rounded-lg hover:bg-orange-400">Close</button>
           </div>
           
-            <span id="article-title" class>Placeholder title</span>
-            <div class="w-full">
-                <div class="border-2 border-black w-fit p-4 text-xs">
+            <span id="article-title" class="">Placeholder title</span>
+            <div class="w-full flex items-center justify-center py-4">
+                <div class="border-[1px] border-black w-fit p-4 text-xs">
+                    <p class="text-[8px] font-bold">Date</p>
                     <span id="article-date">placeholder date</span>
                 </div>
-
+                <div class="border-[1px] border-black w-fit p-4 text-xs">
+                    <p class="text-[8px] font-bold">Location</p>
+                    <span id="article-location">placeholder location</span>
+                </div><div class="border-[1px] border-black w-fit p-4 text-xs">
+                    <p class="text-[8px] font-bold">Type</p>
+                    <span id="article-type">placeholder type</span>
+                </div>
+                <div class="border-[1px] border-black w-fit p-4 text-xs">
+                    <p class="text-[8px] font-bold">Author</p>
+                    <span id="article-author">placeholder author</span>
+                </div>
             </div>
+            <div class="w-full flex flex-col justify-center items-center text-[11px]">
+                <img class="w-1/2 h-auto"  src="../source/456426171_818223347173704_7806646081153137378_n 1.png" id="article-image-1">
+                <span class="" id="article-image-1-details">placeholder details</span>
+            </div>
+            <div class="flex p-2 justify-between">
+                <div class="w-[49.5%]">
+                    <textarea class="w-full" name="" id="article-left" readonly >sample</textarea>
+                </div>
+                <div class="w-[49.5%]">
+                    <textarea class="w-full" name="" id="article-right" readonly >sample</textarea>
+                </div>
+            </div>
+            <div class="flex p-2 justify-left">
+                
+                   <div class="w-[100px] h-auto bg-yellow-700"></div>
+                   <img class="h-[150px] w-auto relative -left-[80px] p-4 z-50"  src="../source/456426171_818223347173704_7806646081153137378_n 1.png" id="article-image-2"> 
+                
+                <div class="grow">
+                    <textarea class="w-full" name="" id="content-right-2" readonly >sample</textarea>
+                </div>
+            </div>
+            <div class="flex p-2 justify-left">
+                <div class="grow">
+                    <textarea class="w-full" name="" id="content-right-3" readonly >sample</textarea>
+                </div>
+                
+                <img class="h-[150px] w-auto relative -right-[80px] p-4 z-50"  src="../source/456426171_818223347173704_7806646081153137378_n 1.png" id="article-image-3"> 
+                <div class="w-[100px] h-auto bg-yellow-700"></div>
+             
+             
+         </div>
           
         </div>
       </div>
