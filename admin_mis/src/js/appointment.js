@@ -34,9 +34,8 @@ function fetchAppointments(sort = 'newest') {
             displayNoDataMessage();
         });
 }
-
 function populateTable(appointments) {
-    const tableBody = document.getElementById('appointment-table');
+    const tableBody = document.getElementById('appointment-table').querySelector('tbody');
     tableBody.innerHTML = ''; // Clear existing rows
 
     if (appointments.length === 0) {
@@ -48,30 +47,66 @@ function populateTable(appointments) {
         const row = document.createElement('tr');
         row.classList.add('border-t', 'border-gray-300', 'text-center');
 
-        // Create cells for each column
-        row.innerHTML = `
-            <td class="px-4 py-2">${appointment.date}</td>
-            <td class="px-4 py-2">${appointment.donor_name}</td>
-            <td class="px-4 py-2">${appointment.time}</td>
-            <td class="px-4 py-2">${appointment.number}</td>
-            <td class="px-4 py-2">Pending</td> <!-- Placeholder status -->
-            <td class="px-4 py-2">N/A</td> <!-- Placeholder confirmation -->
-            <td class="px-4 py-2 flex justify-center space-x-2">
-                <button class="bg-green-500 text-white p-2 rounded hover:bg-green-600" onclick="handleAction('preview', ${appointment.id})">
-                    <i class="fas fa-eye"></i>
-                </button>
-                <button class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600" onclick="handleAction('edit', ${appointment.id})">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <button class="bg-red-500 text-white p-2 rounded hover:bg-red-600" onclick="handleAction('delete', ${appointment.id})">
-                    <i class="fas fa-trash"></i>
-                </button>
-            </td>
-        `;
+        // Create cells
+        const dateCell = document.createElement('td');
+        dateCell.classList.add('px-4', 'py-2');
+        dateCell.textContent = appointment.date;
+
+        const nameCell = document.createElement('td');
+        nameCell.classList.add('px-4', 'py-2');
+        nameCell.textContent = appointment.donor_name;
+
+        const timeCell = document.createElement('td');
+        timeCell.classList.add('px-4', 'py-2');
+        timeCell.textContent = appointment.time;
+
+        const numberCell = document.createElement('td');
+        numberCell.classList.add('px-4', 'py-2');
+        numberCell.textContent = appointment.number;
+
+        const statusCell = document.createElement('td');
+        statusCell.classList.add('px-4', 'py-2');
+        statusCell.textContent = "Pending"; // Placeholder status
+
+        const confirmationCell = document.createElement('td');
+        confirmationCell.classList.add('px-4', 'py-2');
+        confirmationCell.textContent = "N/A"; // Placeholder confirmation
+
+        const actionCell = document.createElement('td');
+        actionCell.classList.add('px-4', 'py-2', 'flex', 'justify-center', 'space-x-2');
+
+        // Add buttons with event listeners
+        const previewButton = document.createElement('button');
+        previewButton.classList.add('bg-green-500', 'text-white', 'p-2', 'rounded', 'hover:bg-green-600');
+        previewButton.innerHTML = `<i class="fas fa-eye"></i>`;
+        previewButton.addEventListener('click', () => handleAction('preview', appointment.id));
+
+        const editButton = document.createElement('button');
+        editButton.classList.add('bg-blue-500', 'text-white', 'p-2', 'rounded', 'hover:bg-blue-600');
+        editButton.innerHTML = `<i class="fas fa-edit"></i>`;
+        editButton.addEventListener('click', () => handleAction('edit', appointment.id));
+
+        const deleteButton = document.createElement('button');
+        deleteButton.classList.add('bg-red-500', 'text-white', 'p-2', 'rounded', 'hover:bg-red-600');
+        deleteButton.innerHTML = `<i class="fas fa-trash"></i>`;
+        deleteButton.addEventListener('click', () => handleAction('delete', appointment.id));
+
+        actionCell.appendChild(previewButton);
+        actionCell.appendChild(editButton);
+        actionCell.appendChild(deleteButton);
+
+        row.appendChild(dateCell);
+        row.appendChild(nameCell);
+        row.appendChild(timeCell);
+        row.appendChild(numberCell);
+        row.appendChild(statusCell);
+        row.appendChild(confirmationCell);
+        row.appendChild(actionCell);
 
         tableBody.appendChild(row);
     });
 }
+
 
 function handleAction(action, appointmentId) {
     switch (action) {
