@@ -194,7 +194,7 @@ function createActionButton(icon, action, donation) {
 function handleAction(action, donationId) {
     switch (action) {
         case 'preview':
-            openModal();
+            openPreviewModal();
             console.log(`Preview donation with ID: ${donationId}`);
             break;
         case 'edit':
@@ -317,68 +317,67 @@ function openStatusModal(donationId, currentStatus, newStatus, dropdown) {
 
 
   
-document.addEventListener("DOMContentLoaded", function () {
-    const tableBody = document.getElementById("tableBody");
-    const modal = document.getElementById("formModal");
-    const modalContent = document.getElementById("modalContent");
-    const closeModalButtons = [document.getElementById("closeModal"), document.getElementById("closeButton")];
+  function openPreviewModal() {
+    const modal = document.getElementById("preview-modal");
+    modal.classList.remove("hidden"); // Remove the hidden class to display the modal
+  }
+  
+  function previewRow(formType, rowId) {
+    // Set the modal to "Loading..." by default
+    document.getElementById('preview-donor-name').textContent = "Loading...";
+    document.getElementById('preview-item-name').textContent = "Loading...";
+    document.getElementById('preview-donation-date').textContent = "Loading...";
+    document.getElementById('preview-status').textContent = "Loading...";
+    document.getElementById('preview-transfer-status').textContent = "Loading...";
 
-    // Fetch and populate table
-    fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchDonations.php?sort=${sort}')
-        .then(response => response.json())
-        .then(data => {
-            data.forEach(item => {
-                const row = document.createElement("tr");
-                row.classList.add("cursor-pointer", "hover:bg-gray-100");
-                row.innerHTML = `
-                    <td class="px-4 py-2 border">${item.id}</td>
-                    <td class="px-4 py-2 border">${item.donor_name}</td>
-                    <td class="px-4 py-2 border">${item.item_name}</td>
-                    <td class="px-4 py-2 border">${item.type}</td>
-                    <td class="px-4 py-2 border">${item.donation_date}</td>
-                `;
-                row.addEventListener("click", () => openModal(item));
-                tableBody.appendChild(row);
-            });
+    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetch-row.php?type=${type}&id=${rowId}`, {
+        method: 'GET',
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
         })
-        .catch(err => console.error("Error fetching data:", err));
+        .then(data => {
+            if (data.success) {
+                // Populate modal with the fetched data
+                document.getElementById('preview-donor-name').textContent = `${data.row.first_name} ${data.row.last_name}`;
+                document.getElementById('preview-item-name').textContent = data.row.artifact_title;
+                document.getElementById('preview-donation-date').textContent = data.row.submission_date || data.row.submitted_at;
+                document.getElementById('preview-status').textContent = data.row.status || 'N/A';
+                document.getElementById('preview-transfer-status').textContent = data.row.transfer_status || 'N/A';
+                
+                // Show the modal using Bootstrap
+                const previewModal = new bootstrap.Modal(document.getElementById('preview-modal'));
+                previewModal.show();
+            } else {
+                console.error('Failed to fetch data:', data.error);
+                // Handle error (e.g., show an error message in the modal)
+                document.getElementById('preview-donor-name').textContent = "Error loading data";
+                document.getElementById('preview-item-name').textContent = "Error loading data";
+                document.getElementById('preview-donation-date').textContent = "Error loading data";
+                document.getElementById('preview-status').textContent = "Error loading data";
+                document.getElementById('preview-transfer-status').textContent = "Error loading data";
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching row data:', error);
+            // Handle fetch error (e.g., show a general error message)
+            document.getElementById('preview-donor-name').textContent = "Error loading data";
+            document.getElementById('preview-item-name').textContent = "Error loading data";
+            document.getElementById('preview-donation-date').textContent = "Error loading data";
+            document.getElementById('preview-status').textContent = "Error loading data";
+            document.getElementById('preview-transfer-status').textContent = "Error loading data";
+        });
+}
 
-    // Open modal with data
-    function openModal(item) {
-        modal.classList.remove("hidden");
-        modalContent.innerHTML = "";
-        document.getElementById("modalTitle").innerText = item.type === "lending" ? "Lending Details" : "Donation Details";
 
-        // Fetch specific form details
-        fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetch-row.php?id=${item.id}&type=${item.type}`)
-            .then(response => response.json())
-            .then(data => {
-                if (item.type === "lending") {
-                    modalContent.innerHTML = `
-                        <p><strong>Name:</strong> ${data.first_name} ${data.last_name}</p>
-                        <p><strong>Loan Duration:</strong> ${data.loan_duration}</p>
-                        <p><strong>Display Conditions:</strong> ${data.display_conditions}</p>
-                        <p><strong>Liability Concerns:</strong> ${data.liability_concerns}</p>
-                        <p><strong>Lending Reason:</strong> ${data.lending_reason}</p>
-                        <p><strong>Artifact Title:</strong> ${data.artifact_title}</p>
-                    `;
-                } else {
-                    modalContent.innerHTML = `
-                        <p><strong>Name:</strong> ${data.first_name} ${data.last_name}</p>
-                        <p><strong>Artifact Title:</strong> ${data.artifact_title}</p>
-                        <p><strong>Description:</strong> ${data.artifact_description}</p>
-                        <p><strong>Acquisition:</strong> ${data.acquisition}</p>
-                        <p><strong>Additional Info:</strong> ${data.additional_info}</p>
-                    `;
-                }
-            })
-            .catch(err => console.error("Error fetching form details:", err));
-    }
-
-    // Close modal
-    closeModalButtons.forEach(btn => {
-        btn.addEventListener("click", () => modal.classList.add("hidden"));
-    });
-});
-
+  // Close modal logic
+  document.getElementById("preview-close-button").addEventListener("click", () => {
+    const modal = document.getElementById("preview-modal");
+    modal.classList.add("hidden"); // Add the hidden class to hide the modal
+  });
+  
+  
 init();  // Initialize everything when the script runs
