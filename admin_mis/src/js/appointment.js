@@ -43,7 +43,10 @@ function fetchAppointments(sort = 'newest') {
                 populateTable(data);
             }
         })
-        
+        .catch(error => {
+            console.error('Error fetching donations:', error);
+            displayNoDataMessage();
+        });
         
         
 }
