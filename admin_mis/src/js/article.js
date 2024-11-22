@@ -122,9 +122,10 @@ function handleAction(action, articleId) {
             fetchArticleDetails(articleId);
             break;
         case 'edit':
+            deleteArticle(articleId);
             console.log(`Edit article with ID: ${articleId}`);
             // Implement edit functionality here
-            deleteArticle(articleId);
+            
 
             break;
         case 'delete':
