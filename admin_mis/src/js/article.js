@@ -122,17 +122,19 @@ function handleAction(action, articleId) {
             fetchArticleDetails(articleId);
             break;
         case 'edit':
-            deleteArticle(articleId);
+            updateArticle(articleId);
             console.log(`Edit article with ID: ${articleId}`);
             // Implement edit functionality here
             
-
+            init();
             break;
         case 'delete':
             openDeleteModal((response) => {
                 if (response) {
+                    deleteArticle(articleId);
                     console.log(`Article with ID ${articleId} deleted.`);
                     // Implement delete functionality here
+                    init();
                 } else {
                     console.log("Delete action canceled.");
                 }
@@ -366,6 +368,7 @@ function openConfirmationModal(callback) {
                     
                     saveArticle();
                     console.log("Article saved successfully!");
+                    init();
                     form.reset();
                 }
             });
@@ -461,9 +464,8 @@ function deleteArticle(articleId) {
             if (row) {
                 row.remove();
             }
-            // Update the total articles count
-            updateTotalArticles(-1);
-            alert('Article deleted successfully.');
+           
+            
         } else {
             console.error(`Error deleting article: ${data.error}`);
             alert(`Failed to delete article: ${data.error}`);
@@ -473,4 +475,93 @@ function deleteArticle(articleId) {
         console.error('Error during deletion:', error);
         alert('An error occurred while deleting the article. Please try again.');
     });
+}
+
+// Function to update an article by ID
+function updateArticle(articleId) {
+    const modal = document.getElementById("update-article-modal");
+    modal.classList.remove("hidden");
+
+    // Fetch existing article data to populate the modal
+    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchArticleDetails.php?id=${articleId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Populate form fields with existing data
+                document.getElementById("update-article-title").value = data.article_title || '';
+                document.getElementById("update-article-author").value = data.article_author || '';
+                document.getElementById("update-article-location").value = data.article_location || '';
+                document.getElementById("update-article-type").value = data.article_type || '';
+                document.getElementById("update-content-left").value = data.content_left || '';
+                document.getElementById("update-content-right").value = data.content_right || '';
+                document.getElementById("update-image-details").value = data.image_details || '';
+                document.getElementById("update-content-image2").value = data.content_image2 || '';
+                document.getElementById("update-content-image3").value = data.content_image3 || '';
+            } else {
+                console.error('Error fetching article details:', data.error);
+                alert('Failed to fetch article details. Please try again.');
+            }
+        })
+        .catch(error => {
+            console.error('Error during fetch request:', error);
+            alert('An error occurred. Please try again.');
+        });
+
+    // Handle the Save button click
+    const saveButton = document.getElementById("update-article-save-button");
+    saveButton.onclick = () => {
+        const formData = new FormData();
+
+        // Collect updated fields
+        formData.append("id", articleId);
+        formData.append("article_title", document.getElementById("update-article-title").value);
+        formData.append("article_author", document.getElementById("update-article-author").value);
+        formData.append("article_location", document.getElementById("update-article-location").value);
+        formData.append("article_type", document.getElementById("update-article-type").value);
+        formData.append("content_left", document.getElementById("update-content-left").value);
+        formData.append("content_right", document.getElementById("update-content-right").value);
+        formData.append("image_details", document.getElementById("update-image-details").value);
+        formData.append("content_image2", document.getElementById("update-content-image2").value);
+        formData.append("content_image3", document.getElementById("update-content-image3").value);
+
+        // Add new images if selected
+        const image1 = document.getElementById("update-image-1-input").files[0];
+        const image2 = document.getElementById("update-image-2-input").files[0];
+        const image3 = document.getElementById("update-image-3-input").files[0];
+
+        if (image1) formData.append("image_1", image1);
+        if (image2) formData.append("image_2", image2);
+        if (image3) formData.append("image_3", image3);
+
+        // Send updated data to the server
+        fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/updateArticle.php', {
+            method: 'POST',
+            body: formData,
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Article updated successfully');
+                    closeModal("update-article-modal");
+                    init(); // Refresh the articles list
+                } else {
+                    console.error('Error updating article:', data.error);
+                    alert('Failed to update the article. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error during update:', error);
+                alert('An error occurred. Please try again.');
+            });
+    };
+
+    // Handle the Cancel button click
+    const cancelButton = document.getElementById("update-article-cancel-button");
+    cancelButton.onclick = () => {
+        openConfirmationModal((confirm) => {
+            if (confirm) {
+                closeModal("update-article-modal");
+            }
+        });
+    };
 }
