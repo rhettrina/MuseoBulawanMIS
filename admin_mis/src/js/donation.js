@@ -317,12 +317,12 @@ function openStatusModal(donationId, currentStatus, newStatus, dropdown) {
 
 
   
-  function openPreviewModal() {
+function openPreviewModal() {
     const modal = document.getElementById("preview-modal");
-    modal.classList.remove("hidden"); // Remove the hidden class to display the modal
-  }
-  
-  function previewRow(formType, rowId) {
+    modal.classList.remove("hidden"); // Show the modal
+}
+
+function previewRow(formType, rowId) {
     // Set the modal to "Loading..." by default
     document.getElementById('preview-donor-name').textContent = "Loading...";
     document.getElementById('preview-item-name').textContent = "Loading...";
@@ -330,6 +330,7 @@ function openStatusModal(donationId, currentStatus, newStatus, dropdown) {
     document.getElementById('preview-status').textContent = "Loading...";
     document.getElementById('preview-transfer-status').textContent = "Loading...";
 
+    // Make the fetch request to get the data
     fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetch-row.php?type=${formType}&id=${rowId}`, {
         method: 'GET',
     })
@@ -341,13 +342,24 @@ function openStatusModal(donationId, currentStatus, newStatus, dropdown) {
         })
         .then(data => {
             if (data.success) {
-                // Populate modal with the fetched data
-                document.getElementById('preview-donor-name').textContent = `${data.row.first_name} ${data.row.last_name}`;
-                document.getElementById('preview-item-name').textContent = data.row.artifact_title;
-                document.getElementById('preview-donation-date').textContent = data.row.submission_date || data.row.submitted_at;
-                document.getElementById('preview-status').textContent = data.row.status || 'N/A';
-                document.getElementById('preview-transfer-status').textContent = data.row.transfer_status || 'N/A';
-                
+                // Populate modal with the fetched data based on the form type
+                if (formType === 'donation' && data.row) {
+                    document.getElementById('preview-donor-name').textContent = `${data.row.first_name} ${data.row.last_name}`;
+                    document.getElementById('preview-item-name').textContent = data.row.artifact_title;
+                    document.getElementById('preview-donation-date').textContent = data.row.submission_date || data.row.submitted_at;
+                    document.getElementById('preview-status').textContent = data.row.status || 'N/A';
+                    document.getElementById('preview-transfer-status').textContent = data.row.transfer_status || 'N/A';
+                }
+
+                // If it's lending, update with lending data (you may need to modify this as per your needs)
+                else if (formType === 'lending' && data.row) {
+                    document.getElementById('preview-donor-name').textContent = `${data.row.first_name} ${data.row.last_name}`;
+                    document.getElementById('preview-item-name').textContent = data.row.artifact_title;
+                    document.getElementById('preview-donation-date').textContent = data.row.submitted_at;
+                    document.getElementById('preview-status').textContent = data.row.status || 'N/A';
+                    document.getElementById('preview-transfer-status').textContent = data.row.transfer_status || 'N/A';
+                }
+
                 // Show the modal using Bootstrap
                 const previewModal = new bootstrap.Modal(document.getElementById('preview-modal'));
                 previewModal.show();
@@ -372,12 +384,12 @@ function openStatusModal(donationId, currentStatus, newStatus, dropdown) {
         });
 }
 
-
-  // Close modal logic
-  document.getElementById("preview-close-button").addEventListener("click", () => {
+// Close modal logic
+document.getElementById("preview-close-button").addEventListener("click", () => {
     const modal = document.getElementById("preview-modal");
-    modal.classList.add("hidden"); // Add the hidden class to hide the modal
-  });
-  
+    modal.classList.add("hidden"); // Hide the modal
+});
+
+
   
 init();  // Initialize everything when the script runs
