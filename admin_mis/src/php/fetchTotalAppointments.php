@@ -25,6 +25,7 @@ if ($result) {
     $row = mysqli_fetch_assoc($result);
     if ($row) {
         echo json_encode(['total_appointments' => $row['total_appointments']]);
+        echo json_encode(['total_appointments' => $row['total_appointments']]);
     } else {
         echo json_encode(['error' => 'No data found']);
     }
