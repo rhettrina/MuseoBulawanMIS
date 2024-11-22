@@ -81,23 +81,32 @@ function populateTable(donations) {
         row.classList.add('border-t', 'border-gray-300', 'text-center');
 
         // Create and populate cells
-        const dateCell = createTableCell(donation.donation_date);
         const titleCell = createTableCell(donation.item_name);
         const donorCell = createTableCell(donation.donor_name);
+        //type
+        const dateCell = createTableCell(donation.donation_date);
         const statusCell = createTableCell(donation.status);
+        const transferStatusCell = createTransferStatusCell(donation);
         const updatedDateCell = createTableCell(donation.updated_date === "Not Edited" || !donation.updated_date ? "Not Edited" : donation.updated_date);
 
+        const actionCell = createActionButtons(donation);
+        
+        
+        
+
         // Dropdown for transfer status
-        const transferStatusCell = createTransferStatusCell(donation);
+        
 
         // Action buttons
-        const actionCell = createActionButtons(donation);
+        
 
         // Append cells to row
-        row.appendChild(dateCell);
         row.appendChild(titleCell);
         row.appendChild(donorCell);
+        //type
+        row.appendChild(dateCell);
         row.appendChild(statusCell);
+        
         row.appendChild(transferStatusCell);
         row.appendChild(updatedDateCell);
         row.appendChild(actionCell);
