@@ -14,11 +14,11 @@ $password = "Fujiwara000!";
 $dbname = "u376871621_mb_mis";
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+$connextion = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+if ($connextion->connect_error) {
+    die("Connection failed: " . $connextion->connect_error);
 }
 
 // Collect form data
@@ -37,13 +37,13 @@ $preferred_time = $_POST['time'];
 $notes = $_POST['notes'];
 
 // Prepare and bind the SQL statement
-$stmt = $conn->prepare("INSERT INTO form_data 
+$stmt = $connextion->prepare("INSERT INTO form_data 
     (first_name, last_name, email, phone, province, city, barangay, street, organization, attendees, preferred_date, preferred_time, notes) 
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 if ($stmt) {
     $stmt->bind_param(
-        "sssssssssisss",
+        "sssssssssisss", 
         $first_name,
         $last_name,
         $email,
@@ -59,23 +59,19 @@ if ($stmt) {
         $notes
     );
     
-    if ($conn->query()) {
+    if ($stmt->execute()) {
         echo "Appointment submitted successfully!";
         header("Location: appointmentindex.html");
         exit; // Ensure no further code runs after the redirect
     } else {
-        echo "Error inserting into appointments table: " . $conn->error;
+        echo "Error inserting into database: " . $stmt->error;
     }
-    
-    
 
     $stmt->close();
 } else {
-    echo "Error preparing statement: " . $conn->error;
+    echo "Error preparing statement: " . $connextion->error;
 }
 
-
-
 // Close the connection
-$conn->close();
+$connextion->close();
 ?>
