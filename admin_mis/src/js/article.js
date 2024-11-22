@@ -161,11 +161,11 @@ function fetchArticleDetails(articleId) {
 }
 
 function populateModal(article) {
-    document.getElementById('article-title').textContent = article.article_title || 'N/A';
-    document.getElementById('article-date').textContent = article.created_at || 'N/A';
-    document.getElementById('article-location').textContent = article.location || 'N/A';
-    document.getElementById('article-type').textContent = article.article_type || 'N/A';
-    document.getElementById('article-author').textContent = article.author || 'N/A';
+    document.getElementById('article-title-preview').textContent = article.article_title || 'N/A';
+    document.getElementById('article-date-preview').textContent = article.created_at || 'N/A';
+    document.getElementById('article-location-preview').textContent = article.location || 'N/A';
+    document.getElementById('article-type-preview').textContent = article.article_type || 'N/A';
+    document.getElementById('article-author-preview').textContent = article.author || 'N/A';
     document.getElementById('article-image-1').src = article.imgu1 || '';
     document.getElementById('article-image-1-details').textContent = article.imgu1_details || '';
     document.getElementById('article-left').value = article.p1box_left || '';
