@@ -3,37 +3,41 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS"); 
 header("Access-Control-Allow-Headers: Content-Type, x-requested-with");
 
-    if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-        exit(0); 
-    }
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    exit(0); 
+}
 
 include 'db_connect.php';
 
-// Sorting logic
-$order = isset($_GET['sort']) && $_GET['sort'] === 'date-oldest' ? 'ASC' : 'DESC';
+// Get sort parameter from the query string (default is 'newest')
+$sort = $_GET['sort'] ?? 'newest'; 
+$order = ($sort === 'oldest') ? 'ASC' : 'DESC';
 
-// Fetching data
-$sql = "SELECT preferred_date AS date, CONCAT(first_name, ' ', last_name) AS donor_name, preferred_time AS time, attendees AS number
-    FROM form_data
-    ORDER BY preferred_date $order, preferred_time $order
-";
-$result = $conn->query($sql);
+// Query to fetch sorted appointments
+$query = "SELECT id, 
+                 CONCAT(first_name, ' ', last_name) AS donor_name, 
+                 preferred_date AS appointment_date, 
+                 preferred_time AS appointment_time, 
+                 attendees AS number_of_attendees, 
+                 status, 
+                 transfer_status, 
+                 IFNULL(updated_date, 'Not Edited') AS updated_date 
+          FROM form_data 
+          ORDER BY preferred_date $order, preferred_time $order";
 
-$data = [];
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $data[] = $row;
-    }
-}
+$result = mysqli_query($connextion, $query);
 
 if (!$result) {
-    echo json_encode(['error' => 'Failed to fetch appointments.']);
+    echo json_encode(['error' => 'Database query failed']);
     exit;
 }
 
+$appointments = [];
+while ($row = mysqli_fetch_assoc($result)) {
+    $appointments[] = $row;
+}
 
-$conn->close();
-
+// Return JSON response
 header('Content-Type: application/json');
-echo json_encode($data);
+echo json_encode($appointments);
 ?>
