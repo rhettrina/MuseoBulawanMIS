@@ -1,4 +1,9 @@
 <?php
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
+
+
 require 'db_connect.php'; // Include the database connection
 
 $response = ["success" => false, "error" => ""]; // Default response
