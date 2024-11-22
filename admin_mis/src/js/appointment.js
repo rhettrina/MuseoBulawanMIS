@@ -108,21 +108,21 @@ function populateTable(articles) {
 }
 
 
-function handleAction(action, articleId) {
+function handleAction(action, appointmentId) {
     switch (action) {
         case 'preview':
-            console.log(`Preview article with ID: ${articleId}`);
+            console.log(`Preview article with ID: ${appointmentId}`);
             // Implement preview functionality here
             break;
         case 'edit':
-            console.log(`Edit article with ID: ${articleId}`);
+            console.log(`Edit article with ID: ${appointmentId}`);
             // Implement edit functionality here
             break;
         case 'delete':
             // Show confirmation modal before deleting
             openDeleteModal((response) => {
                 if (response) {
-                    console.log(`Article with ID ${articleId} deleted.`);
+                    console.log(`Article with ID ${appointmentId} deleted.`);
                     // Implement delete functionality here
                     // For example: deleteArticle(articleId);
                 } else {
