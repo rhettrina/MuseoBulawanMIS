@@ -59,12 +59,12 @@ if ($stmt) {
         $notes
     );
     
-    if ($conn->query($appointment_sql) === TRUE) {
+    if ($connextion->query($appointment_sql) === TRUE) {
         echo "Appointment submitted successfully!";
         header("Location: appointmentindex.html");
         exit; // Ensure no further code runs after the redirect
     } else {
-        echo "Error inserting into appointments table: " . $conn->error;
+        echo "Error inserting into appointments table: " . $connextion->error;
     }
     
     
