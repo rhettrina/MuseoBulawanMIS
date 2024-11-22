@@ -46,42 +46,77 @@ function fetchAppointments(sort = 'newest') {
         
         
 }
+
 function populateTable(appointments) {
     const tableBody = document.getElementById('appointment-table').querySelector('tbody');
     tableBody.innerHTML = ''; // Clear existing rows
 
-    if (appointments.length === 0) {
+     // Check if there are appointments
+     if (appointments.length === 0) {
         displayNoDataMessage();
         return;
     }
 
+    // Populate table rows
     appointments.forEach(appointment => {
         const row = document.createElement('tr');
         row.classList.add('border-t', 'border-gray-300', 'text-center');
 
-        const dateCell = createCell('td', appointment.appointment_date, ['px-4', 'py-2', 'bg-white', 'border-black', 'rounded-l-[15px]', 'border-t-2', 'border-b-2', 'border-l-2']);
-        const timeCell = createCell('td', appointment.appointment_time, ['px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2']);
-        const attendeeCell = createCell('td', appointment.donor_name, ['px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2']);
-        const attendeesCountCell = createCell('td', appointment.number_of_attendees, ['px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2']);
-        const statusCell = createCell('td', appointment.status, ['px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2']);
-        const updatedDateCell = createCell('td', appointment.updated_date, ['px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2']);
+        // Create and populate cells
+        const dateCell = document.createElement('td');
+        dateCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'rounded-l-[15px]', 'border-t-2', 'border-b-2', 'border-l-2');
+        dateCell.textContent = appointment.appointment_date;
 
-        const actionCell = document.createElement('td');
-        actionCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
+        const timeCell = document.createElement('td');
+        timeCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
+        timeCell.textContent = appointment.appointment_time;
 
-        const previewButton = createButton('fas fa-eye', 'Preview', () => handleAction('preview', appointment.id));
-        const editButton = createButton('fas fa-edit', 'Edit', () => handleAction('edit', appointment.id));
-        const deleteButton = createButton('fas fa-trash', 'Delete', () => handleAction('delete', appointment.id));
+        const attendeeCell = document.createElement('td');
+        attendeeCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
+        attendeeCell.textContent = appointment.donor_name;
+
+        const attendeesCountCell = document.createElement('td');
+        attendeesCountCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
+        attendeesCountCell.textContent = appointment.number_of_attendees;
+
+        const statusCell = document.createElement('td');
+        statusCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
+        statusCell.textContent = appointment.status;
+
+
+
+       // Add buttons with event listeners
+        const previewButton = document.createElement('button');
+        previewButton.classList.add('bg-transparent', 'text-black' , 'p-2', 'rounded', 'hover:bg-orange-300');
+        previewButton.innerHTML = `<i class="fas fa-eye"></i>`;
+        previewButton.addEventListener('click', () => handleAction('preview', appointment.id));
+
+        const editButton = document.createElement('button');
+        editButton.classList.add('bg-transparent', 'text-black', 'p-2', 'rounded', 'hover:bg-orange-300');
+        editButton.innerHTML = `<i class="fas fa-edit"></i>`;
+        editButton.addEventListener('click', () => handleAction('edit', appointment.id));
+
+        const deleteButton = document.createElement('button');
+        deleteButton.classList.add('bg-transparent', 'text-black', 'p-2', 'rounded', 'hover:bg-orange-300');
+        deleteButton.innerHTML = `<i class="fas fa-trash"></i>`;
+        deleteButton.addEventListener('click', () => handleAction('delete', appointment.id));
 
         actionCell.appendChild(previewButton);
         actionCell.appendChild(editButton);
         actionCell.appendChild(deleteButton);
 
-        row.append(dateCell, timeCell, attendeeCell, attendeesCountCell, statusCell, updatedDateCell, actionCell);
+        // Append cells to row
+        row.appendChild(dateCell);
+        row.appendChild(timeCell);
+        row.appendChild(attendeeCell);
+        row.appendChild(attendeesCountCell);
+        row.appendChild(statusCell);
+        row.appendChild(updatedDateCell);
+        row.appendChild(actionCell);
+
         tableBody.appendChild(row);
     });
 }
-
 
 
 function handleAction(action, appointmentId) {

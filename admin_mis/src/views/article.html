@@ -174,25 +174,25 @@
     <div class="modal-content bg-white p-6 rounded-lg w-2/4 h-[90%] text-center overflow-y-auto">
       <div class="w-full sticky flex justify-between mb-4">
         <p class="text-xl font-semi-bold">Article Preview</p>
-        <button class="bg-orange-300 text-white px-6 py-2 rounded-lg hover:bg-orange-400">Close</button>
+        <button id="closePreview" onclick="togglePreview()" class="bg-orange-300 text-white px-6 py-2 rounded-lg hover:bg-orange-400">Close</button>
       </div>
       
         <span id="article-title" class="">Placeholder title</span>
         <div class="w-full flex items-center justify-center py-4">
             <div class="border-[1px] border-black w-fit p-4 text-xs">
                 <p class="text-[8px] font-bold">Date</p>
-                <span id="article-date">placeholder date</span>
+                <span id="article-date-preview">placeholder date</span>
             </div>
             <div class="border-[1px] border-black w-fit p-4 text-xs">
                 <p class="text-[8px] font-bold">Location</p>
-                <span id="article-location">placeholder location</span>
+                <span id="article-location-preview">placeholder location</span>
             </div><div class="border-[1px] border-black w-fit p-4 text-xs">
                 <p class="text-[8px] font-bold">Type</p>
-                <span id="article-type">placeholder type</span>
+                <span id="article-type-preview">placeholder type</span>
             </div>
             <div class="border-[1px] border-black w-fit p-4 text-xs">
                 <p class="text-[8px] font-bold">Author</p>
-                <span id="article-author">placeholder author</span>
+                <span id="article-author-preview">placeholder author</span>
             </div>
         </div>
         <div class="w-full flex flex-col justify-center items-center text-[11px]">
