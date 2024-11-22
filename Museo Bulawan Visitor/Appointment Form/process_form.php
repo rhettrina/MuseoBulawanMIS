@@ -61,7 +61,7 @@ if ($stmt) {
     
     if ($stmt->execute()) {
         echo "Appointment submitted successfully!";
-        header("Location: appointmentindex.html");
+        header("Location: appointindex.html");
         exit; // Ensure no further code runs after the redirect
     } else {
         echo "Error inserting into database: " . $stmt->error;
