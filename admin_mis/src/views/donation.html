@@ -5,7 +5,7 @@
     <div class="w-full min-h-28 pt-6 rounded-md flex flex-col lg:flex-row md:flex-row justify-center md:justify-between lg:justify-between gap-y-6 mb-5 items-center">
       <div class="p-2 max-w-44 max-h-24 rounded-md bg-orange-200 flex justify-center items-center">
         <div class="flex justify-center align-items-center w-20 h-16 rounded-md items-center">
-          <span class="text-center text-sm font-bold">Total Donations</span>
+          <span class="text-center text-sm font-bold">Total Forms</span>
         </div>
         <div class="flex justify-center align-items-center w-20 h-16 rounded-md bg-white items-center">
           <span id="total-donations" class="text-xl font-bold">0</span>
@@ -119,19 +119,18 @@
   </div>
 </div>
 
-<div id="preview-modal" class="modal hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-  <div class="modal-content bg-white p-6 rounded-lg w-96 text-center">
-    <h2 id="preview-title" class="text-xl font-semibold mb-4">Donation Details</h2>
-    <div id="preview-content" class="text-left">
-      <p><strong>Donor Name:</strong> <span id="preview-donor-name">Loading...</span></p>
-      <p><strong>Item Name:</strong> <span id="preview-item-name">Loading...</span></p>
-      <p><strong>Donation Date:</strong> <span id="preview-donation-date">Loading...</span></p>
-      <p><strong>Status:</strong> <span id="preview-status">Loading...</span></p>
-      <p><strong>Transfer Status:</strong> <span id="preview-transfer-status">Loading...</span></p>
-    </div>
-    <div class="mt-6 flex justify-center">
-      <button id="preview-close-button" class="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600">Close</button>
-    </div>
+<div id="formModal" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-gray-800 bg-opacity-50">
+  <div class="w-full max-w-3xl p-4 bg-white rounded-lg shadow-lg">
+      <div class="flex justify-between border-b pb-2">
+          <h2 id="modalTitle" class="text-xl font-bold">Form Details</h2>
+          <button id="closeModal" class="text-gray-500 hover:text-gray-700">&times;</button>
+      </div>
+      <div id="modalContent" class="mt-4">
+          <!-- Content will be dynamically populated based on form type -->
+      </div>
+      <div class="mt-4 text-right">
+          <button id="closeButton" class="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600">Close</button>
+      </div>
   </div>
 </div>
 
