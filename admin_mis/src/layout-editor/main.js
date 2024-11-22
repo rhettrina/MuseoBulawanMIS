@@ -1185,3 +1185,50 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initialize the undo stack with the initial state
   saveState();
 });
+
+
+document.getElementById('save-button').addEventListener('click', function () {
+  // Generate a unique ID for the floor plan
+  const uniqueId = generateUniqueId(); // Implement this function as needed
+
+  // Notify the user that saving has started (optional)
+  alert('Saving floor plan...');
+
+  // Capture the canvas area as an image
+  html2canvas(document.getElementById('canvas-area')).then(function (canvas) {
+      const imageData = canvas.toDataURL('image/png'); // You can change the format if needed
+
+      // Prepare the payload
+      const payload = {
+          unique_id: uniqueId,
+          imageData: imageData
+      };
+
+      // Send the image data to the PHP server
+      fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/save_floorplan.php', { // Ensure the path is correct relative to index.html
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+      })
+          .then(response => response.json())
+          .then(data => {
+              if (data.success) {
+                  alert('Floor plan saved successfully!');
+                  console.log('Saved Path:', data.path);
+              } else {
+                  alert('Failed to save floor plan: ' + data.error);
+              }
+          })
+          .catch((error) => {
+              console.error('Error:', error);
+              alert('An error occurred while saving the floor plan.');
+          });
+  });
+});
+
+// Utility function to generate a unique ID (simple example)
+function generateUniqueId() {
+  return 'fp_' + Date.now();
+}
