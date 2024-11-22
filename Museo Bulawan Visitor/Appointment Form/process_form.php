@@ -59,7 +59,7 @@ if ($stmt) {
         $notes
     );
     
-    if ($conn->query($appointment_sql) === TRUE) {
+    if ($conn->query()) {
         echo "Appointment submitted successfully!";
         header("Location: appointmentindex.html");
         exit; // Ensure no further code runs after the redirect
