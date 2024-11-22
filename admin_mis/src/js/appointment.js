@@ -2,7 +2,7 @@ function initAppointments() {
     fetchAppointments(); // Fetch and display appointments on initialization
 }
 
-// Fetch and populate the appointments table
+
 function fetchAppointments(sort = 'newest') {
     fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchAppointments.php?sort=${sort}`)
         .then(response => {
@@ -198,4 +198,4 @@ document.getElementById("appointment-sort").addEventListener("change", function 
     fetchAppointments(this.value);
 });
 
-initAppointments(); // Initialize appointment management
+init(); // Initialize appointment management
