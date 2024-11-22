@@ -17,7 +17,7 @@ function fetchTotalAppointments() {
                 console.error('Error from PHP:', data.error);
                 document.getElementById('total-appointments').innerText = "Error fetching data";
             } else {
-                document.getElementById('total-appointments').innerText = data.total_articles;
+                document.getElementById('total-appointments').innerText = data.total_appointments;
             }
         })
         .catch(error => {
@@ -82,37 +82,17 @@ function populateTable(appointments) {
         const statusCell = document.createElement('td');
         statusCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
         statusCell.textContent = appointment.status;
-
-
-
-       // Add buttons with event listeners
-        const previewButton = document.createElement('button');
-        previewButton.classList.add('bg-transparent', 'text-black' , 'p-2', 'rounded', 'hover:bg-orange-300');
-        previewButton.innerHTML = `<i class="fas fa-eye"></i>`;
-        previewButton.addEventListener('click', () => handleAction('preview', appointment.id));
-
-        const editButton = document.createElement('button');
-        editButton.classList.add('bg-transparent', 'text-black', 'p-2', 'rounded', 'hover:bg-orange-300');
-        editButton.innerHTML = `<i class="fas fa-edit"></i>`;
-        editButton.addEventListener('click', () => handleAction('edit', appointment.id));
-
-        const deleteButton = document.createElement('button');
-        deleteButton.classList.add('bg-transparent', 'text-black', 'p-2', 'rounded', 'hover:bg-orange-300');
-        deleteButton.innerHTML = `<i class="fas fa-trash"></i>`;
-        deleteButton.addEventListener('click', () => handleAction('delete', appointment.id));
-
-        actionCell.appendChild(previewButton);
-        actionCell.appendChild(editButton);
-        actionCell.appendChild(deleteButton);
+        
+       
 
         // Append cells to row
         row.appendChild(dateCell);
-        row.appendChild(timeCell);
         row.appendChild(attendeeCell);
-        row.appendChild(attendeesCountCell);
+        row.appendChild(timeCell);
         row.appendChild(statusCell);
-        row.appendChild(updatedDateCell);
-        row.appendChild(actionCell);
+        row.appendChild(attendeesCountCell);
+        
+        
 
         tableBody.appendChild(row);
     });

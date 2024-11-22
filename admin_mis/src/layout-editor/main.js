@@ -324,61 +324,47 @@ document.addEventListener("DOMContentLoaded", () => {
     saveButton.addEventListener("click", () => {
       const canvasArea = document.getElementById("canvas-area");
 
-      // Prompt the user for a name
-      const name = prompt("Enter a name for the floor plan:");
+      // Hide selection outlines and resize handles before capturing
+      const selectedElements = canvasArea.querySelectorAll('.selected');
+      selectedElements.forEach(el => el.classList.remove('selected'));
 
-      if (name) {
-        // Hide selection outlines and resize handles before capturing
-        const selectedElements = canvasArea.querySelectorAll('.selected');
-        selectedElements.forEach(el => el.classList.remove('selected'));
+      // Add a class to indicate that we are capturing
+      canvasArea.classList.add('capturing');
 
-        // Add a class to indicate that we are capturing
-        canvasArea.classList.add('capturing');
+      html2canvas(canvasArea, {
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: null, // Set to null if you want a transparent background
+        scale: 2,
+      })
+        .then((canvas) => {
+          // Remove the capturing class after capturing
+          canvasArea.classList.remove('capturing');
 
-        html2canvas(canvasArea, {
-          useCORS: true,
-          allowTaint: true,
-          backgroundColor: null,
+          // Convert canvas to a downloadable image
+          const finalDataURL = canvas.toDataURL("image/png");
+          const link = document.createElement("a");
+          link.href = finalDataURL;
+          link.download = "floor-plan.png"; // File name for download
+
+          // Append the link to the body
+          document.body.appendChild(link);
+
+          // Trigger the download
+          link.click();
+
+          // Remove the link from the document
+          document.body.removeChild(link);
         })
-          .then((canvas) => {
-            // Remove the capturing class after capturing
-            canvasArea.classList.remove('capturing');
+        .catch((err) => {
+          // Remove the capturing class in case of error
+          canvasArea.classList.remove('capturing');
 
-            // Convert canvas to a data URL
-            const finalDataURL = canvas.toDataURL("image/png");
-
-            // Send the image data to the server using fetch API
-            fetch('save_image.php', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-              },
-              body: 'imageData=' + encodeURIComponent(finalDataURL) + '&name=' + encodeURIComponent(name)
-            })
-              .then(response => response.json())
-              .then(data => {
-                if (data.status === 'success') {
-                  alert('Floor plan saved successfully!');
-                } else {
-                  alert('Error saving floor plan: ' + data.message);
-                  console.error(data.error);
-                }
-              })
-              .catch((err) => {
-                console.error("Error sending the image data:", err);
-                alert("An error occurred while saving the floor plan. Please try again.");
-              });
-          })
-          .catch((err) => {
-            // Remove the capturing class in case of error
-            canvasArea.classList.remove('capturing');
-
-            console.error("Error capturing the floor plan:", err);
-            alert("An error occurred while capturing the floor plan. Please try again.");
-          });
-      } else {
-        alert('Save canceled. Please enter a name to save the floor plan.');
-      }
+          console.error("Error capturing the floor plan:", err);
+          alert(
+            "An error occurred while saving the floor plan. Please try again."
+          );
+        });
     });
   } else {
     console.error("Save button not found in the DOM.");
