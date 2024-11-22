@@ -58,13 +58,15 @@ if ($stmt) {
         $preferred_time,
         $notes
     );
-    header("Content-Type: application/json"); // Set response content type to JSON
-
-    if ($stmt->execute()) {
-        echo json_encode(["status" => "success", "message" => "Registration Successful!"]);
+    
+    if ($conn->query($appointment_sql) === TRUE) {
+        echo "Appointment submitted successfully!";
+        header("Location: appointmentindex.html");
+        exit; // Ensure no further code runs after the redirect
     } else {
-        echo json_encode(["status" => "error", "message" => "Error: " . $stmt->error]);
+        echo "Error inserting into appointments table: " . $conn->error;
     }
+    
     
 
     $stmt->close();
