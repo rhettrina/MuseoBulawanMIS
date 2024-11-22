@@ -179,6 +179,11 @@ function populateModal(article) {
     document.getElementById('preview-modal').classList.remove('hidden');
 }
 
+function togglePreview() {
+    const closePreviw = document.getElementById("preview-modal");
+    closePreviw.classList.toggle("hidden");
+}
+
 
 function displayNoDataMessage() {
     const tableBody = document.querySelector('tbody');
