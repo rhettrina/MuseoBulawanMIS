@@ -1,47 +1,42 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const appointmentForm = document.getElementById("appointmentForm");
-    const confirmBtn = document.getElementById("confirmAppointmentBtn");
-    const closeBtn = document.getElementById("closeAppointmentModalBtn");
+const form = document.querySelector("form[action='process_form.php']");
 
-    if (appointmentForm) {
-        appointmentForm.addEventListener("submit", function(event) {
-            event.preventDefault(); // Prevent form submission
-            openAppointmentModal(); // Open the modal
-        });
-    }
+form.addEventListener("submit", function (event) {
+    event.preventDefault(); // Prevent default form submission
 
-    if (confirmBtn) {
-        confirmBtn.addEventListener("click", confirmAppointmentSubmission); // Confirm the form submission
-    }
+    // Collect form data
+    const formData = new FormData(form);
 
-    if (closeBtn) {
-        closeBtn.addEventListener("click", closeAppointmentModal); // Close the modal
-    }
-
-    function openAppointmentModal() {
-        const requiredFields = appointmentForm.querySelectorAll("[required]");
-        let hasMissingFields = false;
-
-        requiredFields.forEach((field) => {
-            if (!field.value.trim()) {
-                hasMissingFields = true;
-                field.style.borderColor = "red"; // Highlight missing fields
+    // Send AJAX request
+    fetch("process_form.php", {
+        method: "POST",
+        body: formData,
+    })
+        .then(response => response.json()) // Parse JSON response
+        .then(data => {
+            if (data.status === "success") {
+                showModal("Success", data.message); // Show success modal
             } else {
-                field.style.borderColor = ""; // Reset if filled
+                showModal("Error", data.message); // Show error modal
             }
+        })
+        .catch(error => {
+            showModal("Error", "An unexpected error occurred. Please try again.");
+            console.error("Error:", error);
         });
-
-        if (!hasMissingFields) {
-            document.getElementById("appointmentModal").style.display = "flex"; // Show modal
-        }
-    }
-
-    function closeAppointmentModal() {
-        document.getElementById("appointmentModal").style.display = "none"; // Close modal
-    }
-
-    function confirmAppointmentSubmission() {
-        closeAppointmentModal();
-        appointmentForm.submit(); // Submit the form after confirmation
-    }
 });
+
+// Function to show modal with custom title and message
+function showModal(title, message) {
+    const modal = document.getElementById("confirmationModal");
+    modal.querySelector("h4").innerText = title;
+    modal.querySelector("p").innerText = message;
+    modal.style.display = "flex";
+}
+
+// Function to close modal
+function closeModal() {
+    document.getElementById("confirmationModal").style.display = "none";
+}
+
+// Add event listener to close modal button
+document.getElementById("closeModalBtn").addEventListener("click", closeModal);
