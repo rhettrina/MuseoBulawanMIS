@@ -1,10 +1,21 @@
 <?php
 // save_floorplan.php
 
+// Disable error display
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
+error_reporting(0);
+
+// Enable error logging
+ini_set('log_errors', 1);
+ini_set('error_log', __DIR__ . '/php_errors.log'); // Log errors to a file in the same directory
+
+header('Content-Type: application/json');
+
 header('Content-Type: application/json');
 
 // Include the DB connection details
-require_once 'db_connect.php'; // Ensure this file contains the correct $connection variable
+require_once 'admin_mis\src\php\db_connect.php'; // Ensure this file contains the correct $connection variable
 
 try {
     // Check if the connection was successful
