@@ -124,6 +124,8 @@ function handleAction(action, articleId) {
         case 'edit':
             console.log(`Edit article with ID: ${articleId}`);
             // Implement edit functionality here
+            deleteArticle(articleId);
+
             break;
         case 'delete':
             openDeleteModal((response) => {
@@ -376,20 +378,6 @@ document.getElementById("create-article-button").addEventListener("click", () =>
     openCreateArticleModal();
 });
 
-function openConfirmationModal(callback) {
-    const modal = document.getElementById("confirmation-modal");
-    modal.classList.remove("hidden"); // Show the confirmation modal
-
-    document.getElementById("confirm-button").onclick = () => {
-        callback(true); 
-        closeModal("confirmation-modal");
-    };
-
-    document.getElementById("cancel-button").onclick = () => {
-        callback(false); 
-        closeModal("confirmation-modal");
-    };
-}
 
 function closeModal(modalId) {
     const modal = document.getElementById(modalId);
@@ -448,5 +436,40 @@ function saveArticle() {
     .catch(error => {
         console.error('Error during fetch request:', error);
         alert('An error occurred. Please try again.');
+    });
+}
+
+
+
+
+// Function to delete an article by ID
+function deleteArticle(articleId) {
+    // Send a DELETE request to the server
+    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/deleteArticle.php?id=${articleId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json()) // Parse the JSON response
+    .then(data => {
+        if (data.success) {
+            console.log(`Article with ID ${articleId} deleted successfully.`);
+            // Remove the deleted article's row from the table
+            const row = document.querySelector(`tr[data-article-id="${articleId}"]`);
+            if (row) {
+                row.remove();
+            }
+            // Update the total articles count
+            updateTotalArticles(-1);
+            alert('Article deleted successfully.');
+        } else {
+            console.error(`Error deleting article: ${data.error}`);
+            alert(`Failed to delete article: ${data.error}`);
+        }
+    })
+    .catch(error => {
+        console.error('Error during deletion:', error);
+        alert('An error occurred while deleting the article. Please try again.');
     });
 }
