@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 include 'db_connect.php';
 
 // Get sort parameter from the query string (default is 'newest')
-$sort = $_GET['sort'] ?? 'newest'; 
+$sort = $_GET['sort'] ?? 'newest';
 $order = ($sort === 'oldest') ? 'ASC' : 'DESC';
 
 // Query to fetch sorted appointments
@@ -23,7 +23,7 @@ $query = "SELECT id,
                  transfer_status, 
                  IFNULL(updated_date, 'Not Edited') AS updated_date 
           FROM form_data 
-          ORDER BY preferred_date $order, preferred_time $order";
+          ORDER BY preferred_date $order, preferred_time $order"; 
 
 $result = mysqli_query($connextion, $query);
 
