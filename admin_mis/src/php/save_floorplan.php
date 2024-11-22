@@ -15,7 +15,7 @@ header('Content-Type: application/json');
 header('Content-Type: application/json');
 
 // Include the DB connection details
-require_once 'admin_mis\src\php\db_connect.php'; // Ensure this file contains the correct $connection variable
+require_once 'db_connect.php'; // Ensure this file contains the correct $connection variable
 
 try {
     // Check if the connection was successful
