@@ -1,44 +1,53 @@
 <?php
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS, DELETE"); 
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, x-requested-with");
 
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    exit(0); 
+    exit(0);
 }
 
-include 'db_conn.php'; // Include your database connection
+// Include database connection file
+include 'db_conn.php';
 
-$formType = $_GET['type']; // 'donation' or 'lending'
-$id = $_GET['id'];
+// Get form type and row ID from URL query parameters
+$formType = isset($_GET['type']) ? $_GET['type'] : null;
+$rowId = isset($_GET['id']) ? intval($_GET['id']) : null;
 
-// Set the appropriate SQL query based on the form type
-if ($formType == 'donation') {
-    $sql = "SELECT `id`, `first_name`, `last_name`, `artifact_title`, `submission_date`, `status`, `transfer_status`
-            FROM `donation_form`
-            WHERE `id` = ?";
-} else if ($formType == 'lending') {
-    $sql = "SELECT `id`, `first_name`, `last_name`, `artifact_title`, `submitted_at`, `status`, `transfer_status`
-            FROM `lending_form`
-            WHERE `id` = ?";
+if ($formType && $rowId) {
+    // Determine the table to query
+    $table = ($formType === 'donation') ? 'donation_form' : (($formType === 'lending') ? 'lending_form' : null);
+
+    if ($table) {
+        // Prepare and execute the SELECT query
+        $query = "SELECT * FROM $table WHERE id = ?";
+        $stmt = $connextion->prepare($query);
+        $stmt->bind_param("i", $rowId);
+
+        if ($stmt->execute()) {
+            $result = $stmt->get_result();
+            if ($result->num_rows > 0) {
+                // Fetch the row and return it as JSON
+                $row = $result->fetch_assoc();
+                echo json_encode(['success' => true, 'row' => $row]);
+            } else {
+                // Return error if no row found
+                echo json_encode(['error' => 'Row not found']);
+            }
+        } else {
+            // Return error if query execution fails
+            echo json_encode(['error' => 'Query execution failed']);
+        }
+
+        $stmt->close();
+    } else {
+        // Return error for invalid form type
+        echo json_encode(['error' => 'Invalid form type']);
+    }
 } else {
-    echo json_encode(['success' => false, 'error' => 'Invalid form type']);
-    exit;
+    // Return error if required parameters are missing
+    echo json_encode(['error' => 'Invalid request parameters']);
 }
 
-// Prepare and execute the query
-$stmt = $connextion->prepare($sql);
-$stmt->bind_param('i', $id);
-$stmt->execute();
-$result = $stmt->get_result();
-
-if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    echo json_encode(['success' => true, 'row' => $row]);
-} else {
-    echo json_encode(['success' => false, 'error' => 'No data found']);
-}
-
-$stmt->close();
-$connextion->close();
+$connextion->close(); // Close connection using $connextion
 ?>
