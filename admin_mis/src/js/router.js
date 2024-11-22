@@ -130,3 +130,14 @@ function toggleSidebar() {
     const sidebar = document.getElementById("sidebar");
     sidebar.classList.toggle("hidden");
 }
+
+// Close sidebar if clicked outside
+document.addEventListener("click", function(event) {
+    const sidebar = document.getElementById("sidebar");
+    const button = document.querySelector("button[onclick='toggleSidebar()']"); // Sidebar toggle button
+    
+    // Check if the clicked element is not the sidebar or the toggle button
+    if (!sidebar.contains(event.target) && !button.contains(event.target)) {
+        sidebar.classList.add("hidden");
+    }
+});
