@@ -43,7 +43,7 @@ $stmt = $connextion->prepare("INSERT INTO form_data
 
 if ($stmt) {
     $stmt->bind_param(
-        "sssssssssisss",
+        "sssssssssisss", 
         $first_name,
         $last_name,
         $email,
@@ -59,22 +59,18 @@ if ($stmt) {
         $notes
     );
     
-    if ($conn->query($appointment_sql) === TRUE) {
+    if ($stmt->execute()) {
         echo "Appointment submitted successfully!";
-        header("Location: appointmentindex.html");
+        header("Location: appointindex.html");
         exit; // Ensure no further code runs after the redirect
     } else {
-        echo "Error inserting into appointments table: " . $conn->error;
+        echo "Error inserting into database: " . $stmt->error;
     }
-    
-    
 
     $stmt->close();
 } else {
     echo "Error preparing statement: " . $connextion->error;
 }
-
-
 
 // Close the connection
 $connextion->close();
