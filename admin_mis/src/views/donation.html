@@ -3,47 +3,47 @@
 
 <div class="table-content flex flex-col">
     <div class="w-full min-h-28 pt-6 rounded-md flex flex-col lg:flex-row md:flex-row justify-center md:justify-between lg:justify-between gap-y-6 mb-5 items-center">
-      <div class="p-2 max-w-44 max-h-24 rounded-md bg-orange-200 flex justify-center items-center">
+      <div class="border-[1px] border-black p-2 max-w-44 max-h-24 rounded-md bg-orange-200 flex justify-center items-center">
         <div class="flex justify-center align-items-center w-20 h-16 rounded-md items-center">
           <span class="text-center text-sm font-bold">Total Forms</span>
         </div>
-        <div class="flex justify-center align-items-center w-20 h-16 rounded-md bg-white items-center">
+        <div class="border-[1px] border-black flex justify-center align-items-center w-20 h-16 rounded-md bg-white items-center">
           <span id="total-donations" class="text-xl font-bold">0</span>
         </div>
       </div>
       
-      <div class="p-2 max-w-44 max-h-24 rounded-md bg-orange-200 flex justify-center items-center">
+      <div class="border-[1px] border-black p-2 max-w-44 max-h-24 rounded-md bg-orange-200 flex justify-center items-center">
         <div class="flex justify-center align-items-center w-20 h-16 rounded-md items-center">
           <span class="text-center text-sm font-bold">Total Accepted</span>
         </div>
-        <div class="flex justify-center align-items-center w-20 h-16 rounded-md bg-white items-center">
+        <div class="border-[1px] border-black flex justify-center align-items-center w-20 h-16 rounded-md bg-white items-center">
           <span id="total-accepted" class="text-xl font-bold">0</span>
         </div>
       </div>
 
-      <div class="p-2 max-w-44 max-h-24 rounded-md bg-orange-200 flex justify-center items-center">
+      <div class="border-[1px] border-black p-2 max-w-44 max-h-24 rounded-md bg-orange-200 flex justify-center items-center">
         <div class="flex justify-center align-items-center w-20 h-16 rounded-md items-center">
           <span class="text-center text-sm font-bold">Total Rejected</span>
         </div>
-        <div class="flex justify-center align-items-center w-20 h-16 rounded-md bg-white items-center">
+        <div class="border-[1px] border-black flex justify-center align-items-center w-20 h-16 rounded-md bg-white items-center">
           <span id="total-rejected" class="text-xl font-bold">0</span>
         </div>
       </div>
 
-      <div class="p-2 max-w-44 max-h-24 rounded-md bg-orange-200 flex justify-center items-center">
+      <div class="border-[1px] border-black p-2 max-w-44 max-h-24 rounded-md bg-orange-200 flex justify-center items-center">
         <div class="flex justify-center align-items-center w-20 h-16 rounded-md items-center">
           <span class="text-center text-sm font-bold">Total Donation Forms</span>
         </div>
-        <div class="flex justify-center align-items-center w-20 h-16 rounded-md bg-white items-center">
+        <div class="border-[1px] border-black flex justify-center align-items-center w-20 h-16 rounded-md bg-white items-center">
           <span id="total-donform" class="text-xl font-bold">0</span>
         </div>
       </div>
 
-      <div class="p-2 max-w-44 max-h-24 rounded-md bg-orange-200 flex justify-center items-center">
+      <div class="border-[1px] border-black p-2 max-w-44 max-h-24 rounded-md bg-orange-200 flex justify-center items-center">
         <div class="flex justify-center align-items-center w-20 h-16 rounded-md items-center">
           <span class="text-center text-sm font-bold">Total Lending Forms</span>
         </div>
-        <div class="flex justify-center align-items-center w-20 h-16 rounded-md bg-white items-center">
+        <div class="border-[1px] border-black flex justify-center align-items-center w-20 h-16 rounded-md bg-white items-center">
           <span id="total-lendform" class="text-xl font-bold">0</span>
         </div>
       </div>
@@ -53,7 +53,7 @@
     <div class="w-full h-fit items-center flex justify-end py-4">
       <!--Toolbar-->
 
-          <div class="sort-container border-0 outline outline-1 outline-gray-300 rounded-md">
+          <div class="sort-container border-[1px] border-black  rounded-md">
             <label for="sort" class="text-gray-700 font-medium mb-2">&nbsp&nbspSort</label>
             <select id="sorts" class="w-fit px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-300">
                 <option value="newest">Newest</option>
@@ -138,11 +138,17 @@
           <p><strong>Acquisition:</strong> <span id="modal-acquisition"></span></p>
           <p><strong>Additional Info:</strong> <span id="modal-additional-info"></span></p>
           <p><strong>Narrative:</strong> <span id="modal-narrative"></span></p>
+          <p><strong>Artifact Images:</strong> <span id="modal-images"></span></p>
+          <p><strong>Documentation:</strong> <span id="modal-documentation"></span></p>
+          <p><strong>Related Images:</strong> <span id="modal-related"></span></p>
+
 
           <div id="lending-fields" class="hidden">
               <h3 class="font-semibold mt-4 mb-2">Lending Details</h3>
               <p><strong>Loan Duration:</strong> <span id="modal-loan-duration"></span></p>
               <p><strong>Display Condition:</strong> <span id="modal-display-condition"></span></p>
+              <p><strong>Liability:</strong> <span id="modal-liability-concern"></span></p>
+              <p><strong>Lending Reason:</strong> <span id="modal-reason"></span></p>
           </div>
       </div>
       <div class="mt-4 text-right">
