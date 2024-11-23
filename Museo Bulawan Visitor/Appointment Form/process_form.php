@@ -30,11 +30,10 @@ $barangay = $_POST['barangay'];
 $street = $_POST['street'];
 $organization = isset($_POST['organization']) ? htmlspecialchars($_POST['organization']) : null; // Organization field
 $attendees = isset($_POST['attendees_count']) && is_numeric($_POST['attendees_count']) && $_POST['attendees_count'] > 0 ? intval($_POST['attendees_count']) : null; // Attendees count
-$preferred_date = $_POST['preferred_date'];  // Ensure this is in YYYY-MM-DD format
-$preferred_time = $_POST['time'];  // Ensure this is in HH:MM:SS format
+$preferred_date = $_POST['preferred_date']; 
+$preferred_time = $_POST['time']; 
 $notes = $_POST['notes'];
 
-// Validate preferred_date format (YYYY-MM-DD)
 if (DateTime::createFromFormat('Y-m-d', $preferred_date) === false) {
     die('Invalid date format. Please use YYYY-MM-DD.');
 }
@@ -47,7 +46,7 @@ if ($stmt) {
     $stmt->bind_param("sssss", $full_name, $email, $phone, $address, $organization);
 
     if ($stmt->execute()) {
-        $visitor_id = $stmt->insert_id; // Capture the generated visitor ID
+        $visitor_id = $stmt->insert_id; 
     } else {
         die("Error inserting into visitor table: " . $stmt->error);
     }
