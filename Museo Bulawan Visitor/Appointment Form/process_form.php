@@ -63,13 +63,14 @@ if ($stmt) {
 }
 
 // Insert into attendance table
-$stmt = $connextion->prepare("INSERT INTO attendance (attendanceID, number_of_present, appointment_dateID, appointmentID, visitorID) VALUES (?, ?, ?, ?, ?)");
+$stmt = $connextion->prepare("INSERT INTO attendance (attendanceID, number_of_present, appointment_dateID, appointmentID, visitorID) VALUES (NULL, ?, ?, ?, ?)");
 if ($stmt) {
-    // Prepare other data for the attendance table
-    $attendance_id = null; // Assume auto-incremented if set in the database
-    $appointment_date_id = null; // Provide correct value or logic if necessary
-    
-    $stmt->bind_param("iiiii", $attendance_id, $attendees, $appointment_date_id, $appointment_id, $visitor_id);
+    // You must handle the 'appointment_dateID' value here if required.
+    // If 'appointment_dateID' should relate to a specific date, you need to define its logic.
+    $appointment_date_id = null; // Set the logic for appointment_date_id if necessary.
+
+    // Bind the parameters (the 'attendanceID' is auto-incremented, hence NULL passed)
+    $stmt->bind_param("iiii", $attendees, $appointment_date_id, $appointment_id, $visitor_id);
 
     if ($stmt->execute()) {
         echo "Appointment and attendance records successfully created!";
@@ -80,7 +81,7 @@ if ($stmt) {
     }
     $stmt->close();
 } else {
-    die("Error preparing statement: " . $connextion->error);
+    die("Error preparing statement for attendance: " . $connextion->error);
 }
 
 // Close the connection
