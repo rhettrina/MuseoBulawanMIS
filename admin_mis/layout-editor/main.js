@@ -1216,6 +1216,7 @@ document.getElementById('save-button').addEventListener('click', function () {
   };
 });
 
+
 function saveFloorPlan(floorPlanName) {
   // Show loading overlay
   const loadingOverlay = document.getElementById('loading-overlay');
@@ -1231,7 +1232,12 @@ function saveFloorPlan(floorPlanName) {
 
     // Convert base64 to Blob
     const imageBlob = dataURLToBlob(imageDataURL);
-    const imageFile = new File([imageBlob], 'floorplan.png', { type: 'image/png' });
+
+    // Dynamically generate a unique file name using the unique ID and floor plan name
+    const fileName = `${uniqueId}_${floorPlanName.replace(/\s+/g, '_').toLowerCase()}.png`;
+
+    // Create a File object with the new name
+    const imageFile = new File([imageBlob], fileName, { type: 'image/png' });
 
     // Create a FormData object to send image and data as form data
     const formData = new FormData();
