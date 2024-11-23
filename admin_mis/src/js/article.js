@@ -494,59 +494,39 @@ function setValue(elementId, value) {
     }
 }
 
-// Function to preview the image and show a background in the preview area
-function previewImage(event, previewId) {
-    const file = event.target.files[0];  // Get the selected file
-    const preview = document.getElementById(previewId);  // Get the preview element
+function previewImageU(event, id) {
+    const input = event.target; // The file input element
+    const previewElement = document.getElementById(id); // The div for preview
 
-    if (!preview) {
-        console.error(`Preview element with id "${previewId}" not found.`);
+    if (!previewElement) {
+        console.error(`Preview element with ID "${id}" not found.`);
         return;
     }
 
-    // Reset preview container if no file is selected
-    function resetPreview() {
-        preview.style.backgroundImage = 'none';  // Remove background image
-        const placeholder = preview.querySelector('span');  // Find the placeholder span
-        if (placeholder) {
-            placeholder.style.display = 'block';  // Show placeholder text
-            placeholder.textContent = 'Choose Image';  // Reset placeholder text
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+
+        // Validate if the file is an image
+        if (!file.type.startsWith('image/')) {
+            console.error('Selected file is not an image.');
+            alert('Please select a valid image file.');
+            return;
         }
-        event.target.value = '';  // Reset the file input
+
+        // Use FileReader to read the file and update the preview
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            previewElement.style.backgroundImage = `url(${e.target.result})`;
+            previewElement.style.backgroundSize = 'cover';
+            previewElement.style.backgroundPosition = 'center';
+            previewElement.classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
+    } else {
+        previewElement.classList.add('hidden'); // Hide preview if no file selected
     }
-
-    // If no file is selected, reset the preview
-    if (!file) {
-        resetPreview();  // Reset preview when no file is selected
-        return;
-    }
-
-    // Check file size (3MB limit)
-    if (file.size > 3 * 1024 * 1024) {
-        alert('File size exceeds 3MB. Please choose a smaller file.');
-        resetPreview();  // Reset the preview and file input if file is too large
-        return;
-    }
-
-    // Display the selected image as a background image
-    const reader = new FileReader();
-
-    reader.onload = function (e) {
-        preview.style.backgroundImage = `url(${e.target.result})`;  // Set background image
-        preview.style.backgroundSize = 'cover';  // Ensure the image covers the container
-        preview.style.backgroundPosition = 'center';  // Center the image
-
-        // Hide the placeholder text after an image is selected
-        const placeholder = preview.querySelector('span');
-        if (placeholder) {
-            placeholder.style.display = 'none';  // Hide placeholder text
-        }
-    };
-
-    // Read the selected file as a Data URL (base64-encoded image)
-    reader.readAsDataURL(file);
-
 }
+
 
 
 
@@ -661,10 +641,13 @@ function setImagePreview(id, src) {
     }
 }
 
-// Set form field values
 function setValue(id, value) {
     const element = document.getElementById(id);
-    if (element) {
-        element.value = value;
+    if (!element) return;
+
+    if (element.tagName === "SELECT") {
+        element.value = value || element.options[0]?.value;
+    } else if (element.tagName === "TEXTAREA" || element.tagName === "INPUT") {
+        element.value = value || "";
     }
 }
