@@ -1,9 +1,10 @@
-
-function init(){
+// Initialize the application
+function init() {
     fetchTotalArticles();
     fetchArticles();
 }
 
+// Fetch the total number of articles
 function fetchTotalArticles() {
     fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchTotalArticles.php')
         .then(response => {
@@ -49,6 +50,7 @@ function fetchArticles(sort = 'newest') {
         });
 }
 
+// Populate the articles table
 function populateTable(articles) {
     const tableBody = document.getElementById('articles-table').querySelector('tbody');
     tableBody.innerHTML = ''; // Clear existing rows
@@ -64,29 +66,29 @@ function populateTable(articles) {
 
         // Create cells
         const dateCell = document.createElement('td');
-        dateCell.classList.add('px-4', 'py-2','bg-white', 'border-black' , 'rounded-l-[15px]', 'border-t-2', 'border-b-2', 'border-l-2');
+        dateCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'rounded-l-[15px]', 'border-t-2', 'border-b-2', 'border-l-2');
         dateCell.textContent = article.created_at;
 
         const titleCell = document.createElement('td');
-        titleCell.classList.add('px-4', 'py-2','bg-white', 'border-black' , 'border-t-2', 'border-b-2');
+        titleCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
         titleCell.textContent = article.article_title;
 
         const typeCell = document.createElement('td');
-        typeCell.classList.add('px-4', 'py-2','bg-white', 'border-black' , 'border-t-2', 'border-b-2');
+        typeCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
         typeCell.textContent = article.article_type;
 
         const updatedDateCell = document.createElement('td');
-        updatedDateCell.classList.add('px-4', 'py-2','bg-white', 'border-black' , 'border-t-2', 'border-b-2');
+        updatedDateCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
         updatedDateCell.textContent = article.updated_date === "Not Edited" || !article.updated_date
             ? "Not Edited"
             : article.updated_date;
 
         const actionCell = document.createElement('td');
-        actionCell.classList.add('px-4', 'py-2', 'flex', 'justify-center', 'space-x-2', 'bg-white', 'border-black' , 'rounded-r-[15px]', 'border-t-2', 'border-b-2', 'border-r-2');
+        actionCell.classList.add('px-4', 'py-2', 'flex', 'justify-center', 'space-x-2', 'bg-white', 'border-black', 'rounded-r-[15px]', 'border-t-2', 'border-b-2', 'border-r-2');
 
         // Add buttons with event listeners
         const previewButton = document.createElement('button');
-        previewButton.classList.add('bg-transparent', 'text-black' , 'p-2', 'rounded', 'hover:bg-orange-300');
+        previewButton.classList.add('bg-transparent', 'text-black', 'p-2', 'rounded', 'hover:bg-orange-300');
         previewButton.innerHTML = `<i class="fas fa-eye"></i>`;
         previewButton.addEventListener('click', () => handleAction('preview', article.id));
 
@@ -99,7 +101,6 @@ function populateTable(articles) {
         deleteButton.classList.add('bg-transparent', 'text-black', 'p-2', 'rounded', 'hover:bg-orange-300');
         deleteButton.innerHTML = `<i class="fas fa-trash"></i>`;
         deleteButton.addEventListener('click', () => handleAction('delete', article.id));
-
 
         actionCell.appendChild(previewButton);
         actionCell.appendChild(editButton);
@@ -115,7 +116,7 @@ function populateTable(articles) {
     });
 }
 
-
+// Handle different actions (preview, edit, delete)
 function handleAction(action, articleId) {
     switch (action) {
         case 'preview':
@@ -124,8 +125,6 @@ function handleAction(action, articleId) {
         case 'edit':
             updateArticle(articleId);
             console.log(`Edit article with ID: ${articleId}`);
-            // Implement edit functionality here
-            
             init();
             break;
         case 'delete':
@@ -133,7 +132,6 @@ function handleAction(action, articleId) {
                 if (response) {
                     deleteArticle(articleId);
                     console.log(`Article with ID ${articleId} deleted.`);
-                    // Implement delete functionality here
                     init();
                 } else {
                     console.log("Delete action canceled.");
@@ -145,6 +143,7 @@ function handleAction(action, articleId) {
     }
 }
 
+// Fetch article details for preview
 function fetchArticleDetails(articleId) {
     fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/previewArticle.php?id=${articleId}`)
         .then(response => {
@@ -165,10 +164,10 @@ function fetchArticleDetails(articleId) {
         });
 }
 
+// Populate the preview modal with article details
 function populateModal(article) {
     const basePath = 'https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/uploads/articlesUploads/';
 
-    // Ensure all elements exist before setting their properties
     const titleElement = document.getElementById('article-title-preview');
     const dateElement = document.getElementById('article-date-preview');
     const locationElement = document.getElementById('article-location-preview');
@@ -189,7 +188,6 @@ function populateModal(article) {
     if (typeElement) typeElement.textContent = article.article_type || 'N/A';
     if (authorElement) authorElement.textContent = article.author || 'N/A';
 
-    // Extract filename from the path and construct the full image URL
     const getFileName = (path) => path ? path.split('/').pop() : '';
 
     if (image1Element) image1Element.src = article.imgu1 ? basePath + getFileName(article.imgu1) : '';
@@ -201,7 +199,6 @@ function populateModal(article) {
     if (image3Element) image3Element.src = article.imgu3 ? basePath + getFileName(article.imgu3) : '';
     if (contentRight3Element) contentRight3Element.value = article.p3box || '';
 
-    // Show the modal
     const previewModal = document.getElementById('preview-modal');
     if (previewModal) {
         previewModal.classList.remove('hidden');
@@ -210,13 +207,13 @@ function populateModal(article) {
     }
 }
 
-
+// Toggle preview modal visibility
 function togglePreview() {
-    const closePreviw = document.getElementById("preview-modal");
-    closePreviw.classList.toggle("hidden");
+    const previewModal = document.getElementById("preview-modal");
+    previewModal.classList.toggle("hidden");
 }
 
-
+// Display a message when no data is available
 function displayNoDataMessage() {
     const tableBody = document.querySelector('tbody');
     tableBody.innerHTML = `
@@ -226,14 +223,13 @@ function displayNoDataMessage() {
     `;
 }
 
-
+// Handle sort change event
 document.getElementById("sort").addEventListener("change", function () {
     const sortOption = this.value;
     fetchArticles(sortOption);
 });
 
-
-// Image Preview Function
+// Function to preview images before uploading
 function previewImage(event, previewId) {
     const file = event.target.files[0];
     if (file) {
@@ -247,48 +243,39 @@ function previewImage(event, previewId) {
     }
 }
 
-// Dummy Confirmation Modal for Save
-function openConfirmationModal(callback) {
-    
-    callback(confirm);
-}
-
-
 // Function to open the confirmation modal
 function openConfirmationModal(callback) {
     const modal = document.getElementById("confirmation-modal");
     modal.classList.remove("hidden");
-  
+
     // Handling button clicks
     document.getElementById("confirm-button").onclick = () => {
-      callback(true);  // Return 'true' if 'Yes' is clicked
-      closeModal("confirmation-modal");
+        callback(true);  // Return 'true' if 'Yes' is clicked
+        closeModal("confirmation-modal");
     };
-  
+
     document.getElementById("cancel-button").onclick = () => {
-      callback(false);  // Return 'false' if 'No' is clicked
-      closeModal("confirmation-modal");
+        callback(false);  // Return 'false' if 'No' is clicked
+        closeModal("confirmation-modal");
     };
-  }
-  
-  // Function to open the delete confirmation modal
-  function openDeleteModal(callback) {
+}
+
+// Function to open the delete confirmation modal
+function openDeleteModal(callback) {
     const modal = document.getElementById("delete-modal");
     modal.classList.remove("hidden");
-  
+
     // Handling button clicks
     document.getElementById("delete-confirm-button").onclick = () => {
-      callback(true);  // Return 'true' if 'Delete' is clicked
-      closeModal("delete-modal");
+        callback(true);  // Return 'true' if 'Delete' is clicked
+        closeModal("delete-modal");
     };
-  
+
     document.getElementById("delete-cancel-button").onclick = () => {
-      callback(false);  // Return 'false' if 'Cancel' is clicked
-      closeModal("delete-modal");
+        callback(false);  // Return 'false' if 'Cancel' is clicked
+        closeModal("delete-modal");
     };
-  }
-  
-
+}
 
 // Function to open the "Create Article" modal
 function openCreateArticleModal() {
@@ -309,73 +296,7 @@ function openCreateArticleModal() {
     };
 
     // Handle the Save button click
-    const saveButton = document.getElementById("save-article-button"); // Changed to target by ID
-    saveButton.onclick = (event) => {
-        event.preventDefault(); // Prevent default form submission
-
-        // Validate required fields
-        const requiredFields = form.querySelectorAll("[required]");
-        let isValid = true;
-
-        requiredFields.forEach((field) => {
-            if (!field.value.trim()) {
-                isValid = false;
-                field.classList.add("border-red-500"); // Highlight field with red border
-                field.nextElementSibling?.classList?.remove("hidden"); // Show error message (if any)
-            } else {
-                field.classList.remove("border-red-500");
-                field.nextElementSibling?.classList?.add("hidden"); // Hide error message (if any)
-            }
-        });
-
-        if (isValid) {
-            openConfirmationModal((confirm) => {
-                if (confirm) {
-                    saveArticle();
-                    console.log("Article saved successfully!");
-                    form.reset();
-                }
-            });
-        } else {
-            console.log("Form validation failed. Please fill in all required fields.");
-        }
-    };
-}
-
-// Open the modal on button click
-document.getElementById("create-article-button").addEventListener("click", () => {
-    openCreateArticleModal();
-});
-
-// Close modal function
-function closeModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.classList.add("hidden"); // Add the 'hidden' class to hide the modal
-    } else {
-        console.error(`Modal with ID "${modalId}" not found.`);
-    }
-}
-// Function to open the "Create Article" modal
-function openCreateArticleModal() {
-    const modal = document.getElementById("create-article-modal");
-    modal.classList.remove("hidden");
-
-    const form = document.getElementById("create-article-form");
-
-    // Handle the Cancel button click
-    const cancelButton = document.getElementById("create-article-cancel-button");
-    cancelButton.onclick = () => {
-        openConfirmationModal((confirm) => {
-            if (confirm) {
-                closeModal("create-article-modal");
-                form.reset(); // Reset form fields
-            }
-        });
-    };
-
-    // Handle the Save button click
-    const saveButton = document.getElementById("save-article-button"); // Ensure correct ID
+    const saveButton = document.getElementById("save-article-button");
     saveButton.onclick = (event) => {
         event.preventDefault(); // Prevent default form submission
 
@@ -483,19 +404,11 @@ function saveArticle() {
     });
 }
 
-// Confirmation Modal for Save
-function openConfirmationModal(callback) {
-
-    callback(confirm);
-}
-
-
-
 // Function to delete an article by ID
 function deleteArticle(articleId) {
     // Send a DELETE request to the server
     fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/deleteArticle.php?id=${articleId}`, {
-        method: 'DELETE',
+        method: 'DELETE', // Ensure the server handles DELETE method
         headers: {
             'Content-Type': 'application/json'
         }
@@ -504,13 +417,8 @@ function deleteArticle(articleId) {
     .then(data => {
         if (data.success) {
             console.log(`Article with ID ${articleId} deleted successfully.`);
-            // Remove the deleted article's row from the table
-            const row = document.querySelector(`tr[data-article-id="${articleId}"]`);
-            if (row) {
-                row.remove();
-            }
-           
-            
+            // Refresh the articles list
+            fetchArticles();
         } else {
             console.error(`Error deleting article: ${data.error}`);
             alert(`Failed to delete article: ${data.error}`);
@@ -521,51 +429,8 @@ function deleteArticle(articleId) {
         alert('An error occurred while deleting the article. Please try again.');
     });
 }
-function setValue(elementId, value) {
-    const element = document.getElementById(elementId);
-    if (element) {
-        element.value = value || ''; // Safely set value or use empty string if null/undefined
-    } else {
-        console.warn(`Element with ID ${elementId} not found.`);
-    }
-}
 
-function previewImageU(event, id) {
-    const input = event.target; // The file input element
-    const previewElement = document.getElementById(id); // The div for preview
-
-    if (!previewElement) {
-        console.error(`Preview element with ID "${id}" not found.`);
-        return;
-    }
-
-    if (input.files && input.files[0]) {
-        const file = input.files[0];
-
-        // Validate if the file is an image
-        if (!file.type.startsWith('image/')) {
-            console.error('Selected file is not an image.');
-            alert('Please select a valid image file.');
-            return;
-        }
-
-        // Use FileReader to read the file and update the preview
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            previewElement.style.backgroundImage = `url(${e.target.result})`;
-            previewElement.style.backgroundSize = 'cover';
-            previewElement.style.backgroundPosition = 'center';
-            previewElement.classList.remove('hidden');
-        };
-        reader.readAsDataURL(file);
-    } else {
-        previewElement.classList.add('hidden'); // Hide preview if no file selected
-    }
-}
-
-
-
-
+// Function to update an article
 function updateArticle(articleId) {
     const modal = document.getElementById("update-article-modal");
     if (!modal) {
@@ -615,8 +480,10 @@ function updateArticle(articleId) {
     const saveButton = document.getElementById("update-article-save-button");
     if (saveButton) {
         saveButton.onclick = () => {
+            openConfirmationModal((confirm) =>{
             const formData = new FormData();
-
+		
+		if(confirm){
             // Collect updated fields
             formData.append("id", articleId);
             formData.append("article_title", document.getElementById("update-article-title").value);
@@ -631,17 +498,12 @@ function updateArticle(articleId) {
 
             // Add new images if selected
             const image1 = document.getElementById("update-image-1-input").files[0];
-            const image2 = document.getElementById("update-image-2-input").files[0];  // Check file input for img2
-            const image3 = document.getElementById("update-image-3-input").files[0];  // Check file input for img3
+            const image2 = document.getElementById("update-image-2-input").files[0];
+            const image3 = document.getElementById("update-image-3-input").files[0];
 
             if (image1) formData.append("imgu1", image1);
-            if (image2) formData.append("imgu2", image2);  // Ensure imgu2 is added
-            if (image3) formData.append("imgu3", image3);  // Ensure imgu3 is added
-
-            // Log FormData to check if files are being appended
-            for (let pair of formData.entries()) {
-                console.log(pair[0] + ": " + pair[1]);
-            }
+            if (image2) formData.append("imgu2", image2);
+            if (image3) formData.append("imgu3", image3);
 
             fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/updateArticle.php', {
                 method: 'POST',
@@ -650,17 +512,32 @@ function updateArticle(articleId) {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert('Article updated successfully!');
+                    
                     modal.classList.add("hidden");  // Close modal
+                    init(); // Refresh the articles list
                 } else {
                     alert('Error: ' + data.error);
                 }
-            })
+            })   
             .catch(error => {
                 console.error('Error during fetch:', error);
                 alert('An error occurred. Please try again.');
             });
+	}
+});
         }
+    }
+
+    // Handle the Cancel button click in update modal
+    const cancelButton = document.getElementById("update-article-cancel-button");
+    if (cancelButton) {
+        cancelButton.onclick = () => {
+            openConfirmationModal((confirm) => {
+                if (confirm) {
+                    closeModal("update-article-modal");
+                }
+            });
+        };
     }
 }
 
@@ -672,11 +549,12 @@ function setImagePreview(id, src) {
         previewElement.style.backgroundSize = 'cover';
         previewElement.style.backgroundPosition = 'center';
         previewElement.classList.remove('hidden');
-    } else {
+    } else if (previewElement) {
         previewElement.classList.add('hidden');
     }
 }
 
+// Set value for input fields
 function setValue(id, value) {
     const element = document.getElementById(id);
     if (!element) return;
@@ -687,3 +565,40 @@ function setValue(id, value) {
         element.value = value || "";
     }
 }
+
+// Function to preview images in update modal
+function previewImageU(event, id) {
+    const input = event.target; // The file input element
+    const previewElement = document.getElementById(id); // The div for preview
+
+    if (!previewElement) {
+        console.error(`Preview element with ID "${id}" not found.`);
+        return;
+    }
+
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+
+        // Validate if the file is an image
+        if (!file.type.startsWith('image/')) {
+            console.error('Selected file is not an image.');
+            alert('Please select a valid image file.');
+            return;
+        }
+
+        // Use FileReader to read the file and update the preview
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            previewElement.style.backgroundImage = `url(${e.target.result})`;
+            previewElement.style.backgroundSize = 'cover';
+            previewElement.style.backgroundPosition = 'center';
+            previewElement.classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
+    } else {
+        previewElement.classList.add('hidden'); // Hide preview if no file selected
+    }
+}
+
+// Initialize the application when the page loads
+window.onload = init;
