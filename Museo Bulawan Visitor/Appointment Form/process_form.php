@@ -54,7 +54,7 @@ if ($stmt) {
 }
 
 // Insert into appointment table
-$stmt = $connextion->prepare("INSERT INTO appointment (visitorID, preferred_time, preferred_date, population_countID, appointment_dateID, created_at) VALUES (?, ?, ?, ?, ?, NOW())");
+$stmt = $connextion->prepare("INSERT INTO appointment (visitorID, preferred_time, preferred_date, population_countID, appointment_dateID) VALUES (?, ?, ?, ?, ?)");
 
 if ($stmt) {
     // Ensure that the preferred_date is in YYYY-MM-DD format and preferred_time is in HH:MM:SS format
