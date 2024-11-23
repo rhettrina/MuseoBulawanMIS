@@ -83,7 +83,7 @@ function populateTable(donations) {
         // Create and populate cells
         const dateCell = document.createElement('td');
         dateCell.classList.add('px-4', 'py-0','bg-white', 'border-black' , 'rounded-l-[15px]', 'border-t-2', 'border-b-2', 'border-l-2');
-        dateCell.textContent = donation.donation_date;
+        dateCell.textContent = donation.submission_date;
 
 
 const donorCell = document.createElement('td');
