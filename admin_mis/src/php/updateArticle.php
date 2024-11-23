@@ -88,13 +88,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (!empty($uploadedImages)) {
         $stmt = $connextion->prepare("UPDATE articles SET imgu1 = ?, imgu2 = ?, imgu3 = ? WHERE id = ?");
         
-        // Ensure correct number of bind parameters for the images
+        // Binding the image fields and id correctly
         $stmt->bind_param(
-            "ssss", 
+            "ssss", // Correct type definition: three strings for images and one integer for id
             $uploadedImages['imgu1'] ?? '', 
             $uploadedImages['imgu2'] ?? '', 
             $uploadedImages['imgu3'] ?? '', 
-            $id // Bind the id as an integer (no type string required here)
+            $id // id is an integer
         );
 
         if (!$stmt->execute()) {
