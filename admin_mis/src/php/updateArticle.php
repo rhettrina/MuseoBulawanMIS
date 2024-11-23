@@ -39,7 +39,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             p1box_left = ?, 
             p1box_right = ?, 
             imgu2 = ?, 
-            imgu3 = ? 
+            imgu3 = ?, 
+            updated_date = CURRENT_TIMESTAMP
         WHERE id = ?
     ");
     $stmt->bind_param(
