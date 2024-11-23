@@ -595,11 +595,15 @@ function previewImage(event, previewId) {
     if (saveButton) {
         saveButton.onclick = () => {
             const formData = new FormData();
-
+        
             // Collect updated fields
+            const articleTitle = document.getElementById("update-article-title").value;
+            const articleAuthor = document.getElementById("update-article-author").value;
+            const articleId = articleId; // Assuming articleId is passed into the function
+        
             formData.append("id", articleId);
-            formData.append("article_title", document.getElementById("update-article-title").value);
-            formData.append("article_author", document.getElementById("update-article-author").value);
+            formData.append("article_title", articleTitle);
+            formData.append("article_author", articleAuthor);
             formData.append("location", document.getElementById("update-article-location").value);
             formData.append("article_type", document.getElementById("update-article-type").value);
             formData.append("content_left", document.getElementById("update-content-left").value);
@@ -607,22 +611,22 @@ function previewImage(event, previewId) {
             formData.append("image_details", document.getElementById("update-image-details").value);
             formData.append("content_box2", document.getElementById("update-content-box2").value);
             formData.append("content_box3", document.getElementById("update-content-box3").value);
-
-            // Add new images if selected
-            const image1 = document.getElementById("update-image-1-input").files[0];
-            const image2 = document.getElementById("update-image-2-input").files[0];
-            const image3 = document.getElementById("update-image-3-input").files[0];
-
-            if (image1) formData.append("imgu1", image1);
-            if (image2) formData.append("imgu2", image2);
-            if (image3) formData.append("imgu3", image3);
-
-            // Log the FormData to ensure images are appended
+        
+            // Log form data to the console
             for (let pair of formData.entries()) {
                 console.log(pair[0] + ": " + pair[1]);
             }
-
-            // Send updated data to the server
+        
+            // Collect the images
+            const image1 = document.getElementById("update-image-1-input").files[0];
+            const image2 = document.getElementById("update-image-2-input").files[0];
+            const image3 = document.getElementById("update-image-3-input").files[0];
+        
+            if (image1) formData.append("imgu1", image1);
+            if (image2) formData.append("imgu2", image2);
+            if (image3) formData.append("imgu3", image3);
+        
+            // Send the form data (with images) to the server
             fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/updateArticle.php', {
                 method: 'POST',
                 body: formData,
@@ -652,9 +656,8 @@ function previewImage(event, previewId) {
                 alert('An error occurred. Please check the console for details.');
             });
         };
-    } else {
-        console.error("Save button not found.");
-    }
+        
+};
 
     // Handle the Cancel button click
     const cancelButton = document.getElementById("update-article-cancel-button");
