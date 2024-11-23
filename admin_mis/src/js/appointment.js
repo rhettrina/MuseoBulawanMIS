@@ -113,22 +113,19 @@ function populateTable(appointments) {
         actionCell.classList.add('px-4', 'py-2', 'flex', 'justify-center', 'space-x-2', 'bg-white', 'border-black' , 'rounded-r-[15px]', 'border-t-2', 'border-b-2', 'border-r-2');
 
         // Add buttons with event listeners
-        const previewButton = document.createElement('button');
-        previewButton.classList.add('bg-transparent', 'text-black' , 'p-2', 'rounded', 'hover:bg-orange-300');
-        previewButton.innerHTML = `<i class="fas fa-eye"></i>`;
-        previewButton.addEventListener('click', () => handleAction('preview', appointment));
+        
 
         const editButton = document.createElement('button');
         editButton.classList.add('bg-transparent', 'text-black', 'p-2', 'rounded', 'hover:bg-orange-300');
         editButton.innerHTML = `<i class="fas fa-edit"></i>`;
-        editButton.addEventListener('click', () => handleAction('edit', appointment));
+        editButton.addEventListener('click', () => handleAction('edit', appointment,id));
 
         const deleteButton = document.createElement('button');
         deleteButton.classList.add('bg-transparent', 'text-black', 'p-2', 'rounded', 'hover:bg-orange-300');
         deleteButton.innerHTML = `<i class="fas fa-trash"></i>`;
-        deleteButton.addEventListener('click', () => handleAction('delete', appointment));
+        deleteButton.addEventListener('click', () => handleAction('delete', appointment,id));
 
-        actionCell.appendChild(previewButton);
+        
         actionCell.appendChild(editButton);
         actionCell.appendChild(deleteButton);
 

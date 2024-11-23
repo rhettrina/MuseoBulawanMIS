@@ -15,7 +15,7 @@ $appointnId = isset($_GET['id']) ? $_GET['id'] : null;
 
 if ($donationId) {
     // Prepare and execute the DELETE query
-    $query = "DELETE FROM form_data WHERE id = ?";
+    $query = "DELETE FROM appointment WHERE id = ?";
     $stmt = $connextion->prepare($query); // Use $connextion instead of $conn
     $stmt->bind_param("i", $appointId);
 

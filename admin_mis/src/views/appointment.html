@@ -107,3 +107,35 @@
   </div>
 </div>
 </div>
+
+<!-- Appointment edit modal -->
+<div id="appointment-modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden">
+  <div class="bg-white rounded-lg shadow-lg w-full max-w-lg p-6">
+      <h2 class="text-2xl font-bold mb-4">Appointment Details</h2>
+      <div class="mb-4">
+          <label class="block text-gray-700 font-medium">Name:</label>
+          <p id="appointment-name" class="text-gray-900">N/A</p>
+      </div>
+      <div class="mb-4">
+          <label class="block text-gray-700 font-medium">Email:</label>
+          <p id="appointment-email" class="text-gray-900">N/A</p>
+      </div>
+      <div class="mb-4">
+          <label class="block text-gray-700 font-medium">Phone Number:</label>
+          <p id="appointment-phone" class="text-gray-900">N/A</p>
+      </div>
+      <div class="mb-4">
+          <label class="block text-gray-700 font-medium">Preferred Date:</label>
+          <p id="appointment-date" class="text-gray-900">N/A</p>
+      </div>
+      <div class="mb-4">
+          <label class="block text-gray-700 font-medium">Preferred Time:</label>
+          <p id="appointment-time" class="text-gray-900">N/A</p>
+      </div>
+      <div class="flex justify-end mt-6">
+          <button id="close-appointment-modal" class="bg-red-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-red-700">
+              Close
+          </button>
+      </div>
+  </div>
+</div>
