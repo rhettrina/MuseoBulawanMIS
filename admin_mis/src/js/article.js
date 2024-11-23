@@ -545,8 +545,7 @@ function previewImage(event, previewId) {
 
     // Read the selected file as a Data URL (base64-encoded image)
     reader.readAsDataURL(file);
-}
-function updateArticle(articleId) {
+}function updateArticle(articleId) {
     const modal = document.getElementById("update-article-modal");
     if (!modal) {
         console.error("Update article modal not found.");
@@ -628,29 +627,30 @@ function updateArticle(articleId) {
                 method: 'POST',
                 body: formData,
             })
-                .then(response => response.text())
-                .then(text => {
-                    console.log('Response text:', text);
-                    try {
-                        const data = JSON.parse(text);
-                        if (data.success) {
-                            console.log('Article updated successfully');
-                            closeModal("update-article-modal");
-                            init(); // Refresh the articles list
-                        } else {
-                            console.error('Error updating article:', data.error);
-                            alert('Failed to update the article: ' + data.error);
-                        }
-                    } catch (error) {
-                        console.error('Error parsing JSON:', error);
-                        console.error('Response was:', text);
-                        alert('An error occurred while processing the server response. Please try again.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error during update:', error);
-                    alert('An error occurred during the update. Please check the console for details.');
-                });
+            .then(response => response.text())
+            .then(text => {
+                console.log('Response was:', text);
+                let data;
+                try {
+                    data = JSON.parse(text);
+                } catch (error) {
+                    console.error('Error parsing JSON:', error);
+                    alert('An error occurred while processing the server response. Please try again.');
+                    return;
+                }
+                if (data.success) {
+                    console.log('Article updated successfully');
+                    closeModal("update-article-modal");
+                    init(); // Refresh the articles list
+                } else {
+                    console.error('Error updating article:', data.error);
+                    alert('Failed to update the article: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error during update:', error);
+                alert('An error occurred. Please check the console for details.');
+            });
         };
     } else {
         console.error("Save button not found.");
@@ -671,53 +671,43 @@ function updateArticle(articleId) {
     }
 
     // Event listeners for image input changes to update previews
-    const image2Input = document.getElementById("update-image-2-input");
-    const image3Input = document.getElementById("update-image-3-input");
+    ['2', '3'].forEach((i) => {
+        const imageInput = document.getElementById(`update-image-${i}-input`);
+        if (imageInput) {
+            imageInput.addEventListener("change", function () {
+                const file = imageInput.files[0];
+                if (file) {
+                    const imageUrl = URL.createObjectURL(file);
+                    setImagePreview(`update-image-${i}`, imageUrl);
+                }
+            });
+        }
+    });
 
-    if (image2Input) {
-        image2Input.addEventListener("change", function() {
-            const file = image2Input.files[0];
-            if (file) {
-                const imageUrl = URL.createObjectURL(file);
-                setImagePreview("update-image-2", imageUrl);
-            }
-        });
+    // Helper function to set image previews in the modal
+    function setImagePreview(previewId, imageUrl) {
+        const previewElement = document.getElementById(previewId);
+        if (previewElement && imageUrl) {
+            previewElement.style.backgroundImage = `url(${imageUrl})`;
+            previewElement.style.backgroundSize = 'cover';
+            previewElement.style.backgroundPosition = 'center';
+            previewElement.classList.remove('hidden');
+        }
     }
 
-    if (image3Input) {
-        image3Input.addEventListener("change", function() {
-            const file = image3Input.files[0];
-            if (file) {
-                const imageUrl = URL.createObjectURL(file);
-                setImagePreview("update-image-3", imageUrl);
-            }
-        });
+    // Helper function to set form field values
+    function setValue(fieldId, value) {
+        const field = document.getElementById(fieldId);
+        if (field) {
+            field.value = value;
+        }
     }
-}
 
-// Helper function to set image previews in the modal
-function setImagePreview(previewId, imageUrl) {
-    const previewElement = document.getElementById(previewId);
-    if (previewElement && imageUrl) {
-        previewElement.style.backgroundImage = `url(${imageUrl})`;
-        previewElement.style.backgroundSize = 'cover';
-        previewElement.style.backgroundPosition = 'center';
-        previewElement.classList.remove('hidden');
-    }
-}
-
-// Helper function to set form field values
-function setValue(fieldId, value) {
-    const field = document.getElementById(fieldId);
-    if (field) {
-        field.value = value;
-    }
-}
-
-// Function to close modal
-function closeModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.classList.add("hidden");
+    // Function to close modal
+    function closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.classList.add("hidden");
+        }
     }
 }
