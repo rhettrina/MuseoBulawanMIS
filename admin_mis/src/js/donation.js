@@ -278,14 +278,14 @@ function openDeleteModal(callback) {
         if (typeof callback === 'function') {
             callback(true);
         }
-        closeModal('delete-modal');
+        closeDModal('delete-modal');
     });
 
     document.getElementById('delete-cancel-button').addEventListener('click', function () {
         if (typeof callback === 'function') {
             callback(false);
         }
-        closeModal('delete-modal');
+        closeDModal('delete-modal');
     });
 }
 
@@ -297,7 +297,7 @@ function confirmDeleteDonation(donID) {
     });
 }
 
-function closeModal(modalId) {
+function closeDModal(modalId) {
     const modal = document.getElementById(modalId);
     modal.classList.add('hidden');
 }
@@ -388,7 +388,7 @@ function openStatusModal(donID, currentStatus, newStatus, dropdown) {
                 dropdown.value = currentStatus; // Revert dropdown to its previous value
             })
             .finally(() => {
-                closeModal("transfer-status-modal");
+                closeTModal("transfer-status-modal");
             });
     };
 
@@ -396,11 +396,11 @@ function openStatusModal(donID, currentStatus, newStatus, dropdown) {
     cancelButton.onclick = () => {
         console.log(`User canceled the status change for donator ID: ${donID}. Status remains as "${currentStatus}"`);
         dropdown.value = currentStatus; // Revert the dropdown to original value
-        closeModal("transfer-status-modal");
+        closeTModal("transfer-status-modal");
     };
 }
 
-function closeModal(modalId) {
+function closeTModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
         modal.classList.add("hidden");
@@ -417,7 +417,7 @@ function openFormModal(donID, formType) {
       })
       .then(data => {
         if (data.success) {
-          populateModal(data.formDetails, formType);
+          populateFormModal(data.formDetails, formType);
           document.getElementById('form-modal').classList.remove('hidden');
         } else {
           console.error('Error fetching form details:', data.error);
@@ -428,7 +428,7 @@ function openFormModal(donID, formType) {
       });
   }
   
-  function populateModal(details, formType) {
+  function populateFormModal(details, formType) {
     // Populate personal details
     document.getElementById('modal-first-name').textContent = details.first_name;
     document.getElementById('modal-last-name').textContent = details.last_name;
@@ -445,9 +445,9 @@ function openFormModal(donID, formType) {
     document.getElementById('modal-acquisition').textContent = details.acquisition;
     document.getElementById('modal-additional-info').textContent = details.additional_info;
     document.getElementById('modal-narrative').textContent = details.narrative;
-    document.getElementById('modal-images').textContent = details.images;
+    document.getElementById('modal-images').textContent = details.artifact_img;
     document.getElementById('modal-documentation').textContent = details.documentation;
-    document.getElementById('modal-related').textContent = details.related;
+    document.getElementById('modal-related').textContent = details.related_img;
   
     // Handle Lending-Specific Fields
     const lendingFields = document.getElementById('lending-fields');
@@ -465,7 +465,7 @@ function openFormModal(donID, formType) {
     document.getElementById('modal-title').textContent = `${formType} Form Details`;
   }
   
-  function closeModal() {
+  function closeformModal() {
     document.getElementById('form-modal').classList.add('hidden');
   }
   
