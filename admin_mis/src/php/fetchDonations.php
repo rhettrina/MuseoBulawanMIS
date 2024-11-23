@@ -19,7 +19,7 @@ $query = "
     l.lendingID AS formID, 
     CONCAT(dn.first_name, ' ', dn.last_name) AS donor_name, 
     a.artifact_nameID AS artifact_title, 
-    l.lending_durationID AS artifact_type, 
+    a.artifact_typeID AS artifact_type, 
     'To Review' AS status, 
     'Pending' AS transfer_status, 
     'Lending' AS form_type
