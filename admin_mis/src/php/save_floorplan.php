@@ -8,16 +8,25 @@ if (!$connextion) {
     exit;
 }
 
-// Check if the form data exists
-if (!isset($_POST['unique_id']) || !isset($_POST['name']) || !isset($_FILES['image'])) {
-    echo json_encode(['success' => false, 'error' => 'Unique ID, name, and image file are required.']);
+// Retrieve raw POST data
+$data = file_get_contents('php://input');
+$json = json_decode($data, true);
+
+// Make sure that the required keys exist in the POST data
+if (!isset($json['unique_id']) || !isset($json['name']) || !isset($json['imageData']) || !isset($_FILES['image'])) {
+    echo json_encode(['success' => false, 'error' => 'Unique ID, name, image data, and image file are required.']);
     exit;
 }
 
 // Sanitize the input data to prevent SQL injection
-$unique_id = mysqli_real_escape_string($connextion, $_POST['unique_id']);
-$name = mysqli_real_escape_string($connextion, $_POST['name']);
+$unique_id = mysqli_real_escape_string($connextion, $json['unique_id']);
+$name = mysqli_real_escape_string($connextion, $json['name']);
+$imageData = $json['imageData'];
 $image = $_FILES['image'];
+
+// Debugging: Log the $_FILES array
+// This will help ensure the image is being received
+error_log(print_r($_FILES, true));
 
 // Handle image upload
 $imagePath = uploadImage($image);
@@ -53,6 +62,12 @@ function uploadImage($image) {
     // Generate the target file path
     $targetFile = $targetDir . basename($image["name"]);
 
+    // Debugging: Log the target directory and file path
+    error_log("Target directory: " . $targetDir);
+    error_log("Target file path: " . $targetFile);
+
+    $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+
     // Check if the file is an image
     if (getimagesize($image["tmp_name"]) === false) {
         return "File is not an image.";
@@ -60,7 +75,7 @@ function uploadImage($image) {
 
     // Check if the file already exists
     if (file_exists($targetFile)) {
-        return "File already exists.";
+        return "File already exists: " . $targetFile;
     }
 
     // Check file size (max 3MB)
@@ -69,7 +84,7 @@ function uploadImage($image) {
     }
 
     // Check file format (allowed types: jpg, jpeg, png, gif)
-    if (!in_array(strtolower(pathinfo($targetFile, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'gif'])) {
+    if (!in_array($imageFileType, ['jpg', 'jpeg', 'png', 'gif'])) {
         return "Only JPG, JPEG, PNG, and GIF files are allowed.";
     }
 
