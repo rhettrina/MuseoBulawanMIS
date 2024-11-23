@@ -3,9 +3,15 @@
 
   function init() {
     console.log("Initializing layout.js...");
-    fetchAndDisplayFloorplans();
+    fetchAndDisplayFloorplans(); // Initial fetch of floorplans
     setupModal();
     setupPreviewModal(); // Set up the preview modal
+
+    // Attach sort change event listener
+    document.getElementById("sort").addEventListener("change", (event) => {
+      const sortOption = event.target.value; // Get selected sort option
+      fetchAndDisplayFloorplans(sortOption); // Fetch and display floorplans with the selected sorting
+    });
   }
 
   function cleanup() {
@@ -34,7 +40,7 @@
 
   // Add updateTotalLayoutsCount to the global scope
   window.updateTotalLayoutsCount = function (count) {
-    console.log("Updating total layouts count:", count); // Debugging log
+    console.log("Updating total layouts count:", count);
     const totalLayoutsElement = document.getElementById("total-layouts");
     if (!totalLayoutsElement) {
       console.error("Element with id 'total-layouts' not found!");
@@ -44,60 +50,56 @@
   };
 })();
 
-
-async function fetchAndDisplayFloorplans() {
+// Fetch and display floorplans with sorting support
+async function fetchAndDisplayFloorplans(sort = "newest") {
   try {
     const response = await fetch(
-      "https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchLayouts.php"
+      `https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchLayouts.php?sort=${sort}`
     );
     const data = await response.json();
 
-    console.log("API response:", data); // Debugging log
-
-    if (data.status === "success") {
+    if (data.status === "success" && Array.isArray(data.data)) {
       const floorplans = data.data;
-      console.log("Floorplans data:", floorplans); // Debugging log
 
       const container = document.querySelector(
         ".w-full.h-full.flex.flex-wrap.gap-4"
       );
       container.innerHTML = ""; // Clear existing cards
 
-      const baseDirectory =
-        "https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/uploads/layout-made/";
-
       // Dynamically create and append cards
       floorplans.forEach((floorplan) => {
         const { unique_id, name, image_path, created_at } = floorplan;
 
-        const filename = image_path?.split("/").pop() || "default.png";
-        const fullImagePath = `${baseDirectory}${filename}`;
+        // Handle full and relative paths for images
+        const fullImagePath = image_path.startsWith("http")
+          ? image_path
+          : `https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/${image_path}`;
 
         const card = document.createElement("div");
         card.className =
           "bg-orange-200 shadow-md rounded-lg overflow-hidden w-[300px] h-[350px] border-[1px] border-black flex flex-col";
 
         card.innerHTML = `
-                    <div class="flex-1">
-                        <img id="layout-source" src="${fullImagePath}" alt="${name}" class="rounded-lg w-full h-[200px] object-cover">
-                    </div>
-                    <div class="m-[5px] rounded-lg p-2 bg-orange-100">
-                        <h3 class="text-sm font-semibold text-black truncate" id="layout-title">Layout name: ${name}</h3>
-                        <p class="text-black my-2 text-sm">Creation Date: <span id="created-date">${created_at}</span></p>
-                        <div class="flex items-center justify-between">
-                            <button class="set-layout-btn flex items-center text-black text-sm p-2 rounded hover:bg-orange-300">
-                                <i class="fas fa-layer-group mr-2"></i>
-                            </button>
-                            <button class="view-layout-btn flex items-center text-black text-sm p-2 rounded hover:bg-orange-300">
-                                <i class="fas fa-eye mr-2"></i>
-                            </button>
-                            <button class="delete-layout-btn flex items-center text-black text-sm p-2 rounded hover:bg-orange-300">
-                                <i class="fas fa-trash mr-2"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div id="active-status-${unique_id}" class="w-full h-[10px] bg-transparent"></div>
-                `;
+          <div class="flex-1">
+            <img id="layout-source" src="${fullImagePath}" alt="${name}" class="rounded-lg w-full h-[200px] object-cover">
+          </div>
+          <div class="m-[5px] rounded-lg p-2 bg-orange-100">
+            <h3 class="text-sm font-semibold text-black truncate" id="layout-title">Layout name: ${name}</h3>
+            <p class="text-black my-2 text-sm">Creation Date: <span id="created-date">${created_at}</span></p>
+            <div class="flex items-center justify-between">
+              <button class="set-layout-btn flex items-center text-black text-sm p-2 rounded hover:bg-orange-300">
+                <i class="fas fa-layer-group mr-2"></i>
+              </button>
+              <button class="view-layout-btn flex items-center text-black text-sm p-2 rounded hover:bg-orange-300">
+                <i class="fas fa-eye mr-2"></i>
+              </button>
+              <button class="delete-layout-btn flex items-center text-black text-sm p-2 rounded hover:bg-orange-300">
+                <i class="fas fa-trash mr-2"></i>
+              </button>
+            </div>
+          </div>
+          <div id="active-status-${unique_id}" class="w-full h-[10px] bg-transparent"></div>
+        `;
 
         container.appendChild(card);
 
@@ -121,14 +123,20 @@ async function fetchAndDisplayFloorplans() {
       // Update the total layouts count
       updateTotalLayoutsCount(floorplans.length);
     } else {
-      console.error("Error fetching floorplans:", data.message);
+      console.error("No floorplans found or invalid API response.");
+      document.querySelector(
+        ".w-full.h-full.flex.flex-wrap.gap-4"
+      ).innerHTML = `<p class="text-center w-full">No layouts available.</p>`;
     }
   } catch (error) {
     console.error("An unexpected error occurred:", error);
+    document.querySelector(
+      ".w-full.h-full.flex.flex-wrap.gap-4"
+    ).innerHTML = `<p class="text-center w-full text-red-500">Error loading layouts. Please try again.</p>`;
   }
 }
 
-// General handleFunctions to process button clicks
+
 function handleFunctions(action, payload) {
   const { id, name, activeStatus } = payload;
 
@@ -153,20 +161,16 @@ function handleFunctions(action, payload) {
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify({ id }), // Pass the ID to the server
+              body: JSON.stringify({ id }),
             }
           );
 
           const result = await response.json();
           if (result.status === "success") {
             console.log(`Layout with ID: ${id} deleted successfully.`);
-            // Remove the card from the DOM
-            document.querySelector(`#active-status-${id}`).closest("div").remove();
 
-            // Update the total layouts count
-            const totalLayoutsElement = document.getElementById("total-layouts");
-            const currentCount = parseInt(totalLayoutsElement.textContent, 10);
-            updateTotalLayoutsCount(currentCount - 1);
+            // Refresh the floorplans dynamically
+            fetchAndDisplayFloorplans(); // Reload all the cards dynamically
           } else {
             console.error("Error deleting layout:", result.message);
           }
@@ -181,71 +185,18 @@ function handleFunctions(action, payload) {
   }
 }
 
-// Setup preview modal
-function setupPreviewModal() {
-  const previewModalHtml = `
-    <div id="preview-modal-overlay" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden">
-      <div id="preview-modal" class="bg-white rounded-lg shadow-lg w-[80%] h-[80%] p-4 relative">
-        <button id="close-preview" class="absolute top-2 right-2 bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Close</button>
-        <img id="preview-image" src="" alt="Preview" class="w-full h-full object-contain">
-      </div>
-    </div>
-  `;
-  document.body.insertAdjacentHTML("beforeend", previewModalHtml);
-
-  // Close modal when clicking outside of it or on the close button
-  const previewOverlay = document.getElementById("preview-modal-overlay");
-  const closePreviewButton = document.getElementById("close-preview");
-
-  previewOverlay.addEventListener("click", (e) => {
-    if (e.target.id === "preview-modal-overlay") closePreviewModal();
-  });
-
-  closePreviewButton.addEventListener("click", closePreviewModal);
+// Display helper functions
+function displayNoDataMessage() {
+  const container = document.querySelector(".w-full.h-full.flex.flex-wrap.gap-4");
+  container.innerHTML = `<p class="text-center w-full">No layouts available.</p>`;
 }
 
-// Setup preview modal
-function setupPreviewModal() {
-  const previewModalHtml = `
-    <div id="preview-modal-overlay" class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center hidden z-50">
-      <div id="preview-modal" class="bg-white rounded-lg shadow-lg w-4/5 h-4/5 relative p-4 flex flex-col">
-        <button id="close-preview" class="absolute top-2 right-2 bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Close</button>
-        <img id="preview-image" src="" alt="Preview" class="w-full h-full object-contain">
-      </div>
-    </div>
-  `;
-  document.body.insertAdjacentHTML("beforeend", previewModalHtml);
-
-  // Close modal when clicking outside of it or on the close button
-  const previewOverlay = document.getElementById("preview-modal-overlay");
-  const closePreviewButton = document.getElementById("close-preview");
-
-  previewOverlay.addEventListener("click", (e) => {
-    if (e.target.id === "preview-modal-overlay") closePreviewModal();
-  });
-
-  closePreviewButton.addEventListener("click", closePreviewModal);
+function displayErrorMessage() {
+  const container = document.querySelector(".w-full.h-full.flex.flex-wrap.gap-4");
+  container.innerHTML = `<p class="text-center w-full text-red-500">Error loading layouts. Please try again.</p>`;
 }
 
-// Open the preview modal
-function openPreviewModal(imageSrc, title) {
-  const previewOverlay = document.getElementById("preview-modal-overlay");
-  const previewImage = document.getElementById("preview-image");
-
-  previewImage.src = imageSrc;
-  previewImage.alt = title;
-
-  previewOverlay.classList.remove("hidden");
-}
-
-// Close the preview modal
-function closePreviewModal() {
-  const previewOverlay = document.getElementById("preview-modal-overlay");
-  previewOverlay.classList.add("hidden");
-}
-
-
-// Reusable modal setup
+// Modal setup and handling (unchanged)
 function setupModal() {
   const modalHtml = `
         <div id="modal-overlay" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden">
@@ -269,7 +220,6 @@ function setupModal() {
   });
 }
 
-// Open the modal with a custom message and confirm callback
 function openModal(message, onConfirm) {
   const modalOverlay = document.getElementById("modal-overlay");
   const modalMessage = document.getElementById("modal-message");
@@ -278,20 +228,49 @@ function openModal(message, onConfirm) {
   modalMessage.textContent = message;
   modalOverlay.classList.remove("hidden");
 
-  // Remove existing event listeners to prevent duplicates
   const newConfirmButton = confirmButton.cloneNode(true);
   confirmButton.parentNode.replaceChild(newConfirmButton, confirmButton);
 
   newConfirmButton.addEventListener("click", () => {
-    onConfirm(); // Execute the passed-in callback
-    closeModal(); // Close the modal
+    onConfirm();
+    closeModal();
   });
 }
 
-// Close the modal
 function closeModal() {
   const modalOverlay = document.getElementById("modal-overlay");
   modalOverlay.classList.add("hidden");
+}
+
+// Preview modal setup
+function setupPreviewModal() {
+  const previewModalHtml = `
+    <div id="preview-modal-overlay" class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center hidden z-50">
+      <div id="preview-modal" class="bg-white rounded-lg shadow-lg w-4/5 h-4/5 relative p-4 flex flex-col">
+        <button id="close-preview" class="absolute top-2 right-2 bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Close</button>
+        <img id="preview-image" src="" alt="Preview" class="w-full h-full object-contain">
+      </div>
+    </div>
+  `;
+  document.body.insertAdjacentHTML("beforeend", previewModalHtml);
+
+  const closePreviewButton = document.getElementById("close-preview");
+  closePreviewButton.addEventListener("click", closePreviewModal);
+}
+
+function openPreviewModal(imageSrc, title) {
+  const previewOverlay = document.getElementById("preview-modal-overlay");
+  const previewImage = document.getElementById("preview-image");
+
+  previewImage.src = imageSrc;
+  previewImage.alt = title;
+
+  previewOverlay.classList.remove("hidden");
+}
+
+function closePreviewModal() {
+  const previewOverlay = document.getElementById("preview-modal-overlay");
+  previewOverlay.classList.add("hidden");
 }
 
 // Initialize the application when the page loads

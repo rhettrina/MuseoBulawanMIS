@@ -18,8 +18,18 @@ if ($connextion->connect_error) {
     die("Connection failed: " . $connextion->connect_error);
 }
 
-// Fetch floor plans
-$sql = "SELECT id, name, image_url, created_at FROM floorplans ORDER BY created_at DESC";
+// Get sort parameter
+$sort = isset($_GET['sort']) ? $_GET['sort'] : 'newest';
+
+// Adjust SQL query based on sort
+if ($sort === 'newest') {
+    $sql = "SELECT id, name, image_url, created_at FROM floorplans ORDER BY created_at DESC";
+} else if ($sort === 'oldest') {
+    $sql = "SELECT id, name, image_url, created_at FROM floorplans ORDER BY created_at ASC";
+} else {
+    $sql = "SELECT id, name, image_url, created_at FROM floorplans"; // Default query
+}
+
 $result = $connextion->query($sql);
 
 $floorPlans = [];
@@ -32,7 +42,10 @@ if ($result->num_rows > 0) {
 
 // Return as JSON
 header('Content-Type: application/json');
-echo json_encode($floorPlans);
+echo json_encode([
+    'status' => 'success',
+    'data' => $floorPlans
+]);
 
 $connextion->close();
 ?>

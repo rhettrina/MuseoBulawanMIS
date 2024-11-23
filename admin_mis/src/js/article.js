@@ -21,7 +21,7 @@
 // Fetch the total number of articles
 function fetchTotalArticles() {
     fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchTotalArticles.php')
-        .then(response => {
+        .then(response => {                         
             if (!response.ok) {
                 throw new Error('Network response was not ok: ' + response.statusText);
             }
@@ -155,6 +155,7 @@ function handleAction(action, articleId) {
         default:
             console.error('Unknown action:', action);
     }
+    fetchArticles(sort = 'newest');
 }
 
 // Fetch article details for preview
