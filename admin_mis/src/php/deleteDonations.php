@@ -15,7 +15,7 @@ $donationId = isset($_GET['id']) ? $_GET['id'] : null;
 
 if ($donationId) {
     // Retrieve the donatorID for the provided donationID
-    $donatorQuery = "SELECT donatorID FROM Artifact WHERE id = ?";
+    $donatorQuery = "SELECT donatorID FROM artifact WHERE id = ?";
     $stmt = $connextion->prepare($donatorQuery);
     $stmt->bind_param("i", $donationId);
 
