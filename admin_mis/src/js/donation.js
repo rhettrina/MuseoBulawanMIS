@@ -328,7 +328,7 @@ function openStatusModal(donID, currentStatus, newStatus, dropdown) {
     const confirmationMessage = document.getElementById("status-confirmation-message");
 
     if (confirmationMessage) {
-        confirmationMessage.textContent = `Do you want to confirm the change of transfer status from "${currentStatus}" to "${newStatus}" for the form ID: ${donationId}?`;
+        confirmationMessage.textContent = `Do you want to confirm the change of transfer status from "${currentStatus}" to "${newStatus}" for the form ID: ${donID}?`;
 
         console.log(`Opening confirmation modal for form ID: ${donID}, current status: "${currentStatus}", new status: "${newStatus}"`);
 

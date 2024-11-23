@@ -22,25 +22,25 @@ if (!$data) {
 }
 
 // Check if required fields are present in the data
-if (isset($data['id'], $data['transfer_status'])) {
-    $id = $data['id'];
+if (isset($data['donID'], $data['transfer_status'])) {
+    $donID = $data['donID'];
     $transfer_status = $data['transfer_status'];
 
     // Prepare the SQL statement
-    $stmt = $connextion->prepare("UPDATE Artifact SET transfer_status = ?, updated_date = NOW() WHERE id = ?");
+    $stmt = $connextion->prepare("UPDATE Artifact SET transfer_status = ?, updated_date = NOW() WHERE donatorID = ?");
     if (!$stmt) {
         http_response_code(500); // Internal Server Error
         echo json_encode(['success' => false, 'error' => $connextion->error]);
         exit();
     }
 
-    // Bind parameters (string for transfer_status, integer for id)
-    $stmt->bind_param("si", $transfer_status, $id);
+    // Bind parameters (string for transfer_status, integer for donID)
+    $stmt->bind_param("si", $transfer_status, $donID);
 
     // Execute the statement and send the appropriate response
     if ($stmt->execute()) {
         http_response_code(200); // Success
-        echo json_encode(['success' => true]);
+        echo json_encode(['success' => true, 'message' => 'Transfer status updated successfully']);
     } else {
         http_response_code(500); // Internal Server Error
         echo json_encode(['success' => false, 'error' => $stmt->error]);
@@ -50,6 +50,9 @@ if (isset($data['id'], $data['transfer_status'])) {
     $stmt->close();
 } else {
     http_response_code(400); // Bad Request
-    echo json_encode(['success' => false, 'error' => 'Missing required fields (id or transfer_status)']);
+    echo json_encode(['success' => false, 'error' => 'Missing required fields (donID or transfer_status)']);
 }
+
+// Close the database connection
+$connextion->close();
 ?>
