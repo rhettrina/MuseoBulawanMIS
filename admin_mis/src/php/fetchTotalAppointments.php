@@ -17,13 +17,12 @@ $results = [
     'total_appointments' => 0,
     'approved_appointments' => 0,
     'rejected_appointments' => 0,
-    'total_appointment_forms' => 0,
-    'total_pending_appointments' => 0,
+
     'error' => null
 ];
 
 // Query to count total appointments
-$query = "SELECT COUNT(*) AS total FROM form_data";
+$query = "SELECT COUNT(*) AS total FROM appointment";
 $result = mysqli_query($connextion, $query);
 if ($result) {
     $row = mysqli_fetch_assoc($result);
@@ -34,7 +33,7 @@ if ($result) {
 }
 
 // Query to count approved appointments
-$query = "SELECT COUNT(*) AS approved FROM form_data WHERE status = 'Approved'";
+$query = "SELECT COUNT(*) AS approved FROM appointment WHERE status = 'Approved'";
 $result = mysqli_query($connextion, $query);
 if ($result) {
     $row = mysqli_fetch_assoc($result);
@@ -45,35 +44,13 @@ if ($result) {
 }
 
 // Query to count rejected appointments
-$query = "SELECT COUNT(*) AS rejected FROM form_data WHERE status = 'Rejected'";
+$query = "SELECT COUNT(*) AS rejected FROM appointment WHERE status = 'Rejected'";
 $result = mysqli_query($connextion, $query);
 if ($result) {
     $row = mysqli_fetch_assoc($result);
     $results['rejected_appointments'] = (int)$row['rejected'];
 } else {
     $results['error'] = 'Failed to fetch rejected appointments: ' . mysqli_error($connextion);
-    errorHandler($results['error']);
-}
-
-// Query to count total appointment forms
-$query = "SELECT COUNT(*) AS total FROM appointment_form";
-$result = mysqli_query($connextion, $query);
-if ($result) {
-    $row = mysqli_fetch_assoc($result);
-    $results['total_appointment_forms'] = (int)$row['total'];
-} else {
-    $results['error'] = 'Failed to fetch appointment forms: ' . mysqli_error($connextion);
-    errorHandler($results['error']);
-}
-
-// Query to count total pending appointments
-$query = "SELECT COUNT(*) AS total FROM form_data WHERE status = 'Pending'";
-$result = mysqli_query($connextion, $query);
-if ($result) {
-    $row = mysqli_fetch_assoc($result);
-    $results['total_pending_appointments'] = (int)$row['total'];
-} else {
-    $results['error'] = 'Failed to fetch pending appointments: ' . mysqli_error($connextion);
     errorHandler($results['error']);
 }
 

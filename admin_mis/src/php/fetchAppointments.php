@@ -13,15 +13,24 @@ include 'db_connect.php';
 $sort = $_GET['sort'] ?? 'newest'; 
 $order = ($sort === 'oldest') ? 'ASC' : 'DESC';
 
-// Query to fetch sorted donations
-$query = "SELECT id, 
-CONCAT(first_name, ' ', last_name) AS donor_name, 
-preferred_date AS appointment_date, 
-preferred_time AS appointment_time, 
-attendees AS number_of_attendees,  
-status
-FROM form_data 
-ORDER BY preferred_date $order, preferred_time $order"; 
+// Query to fetch sorted appointments with the necessary joins, sorted by created_at
+$query = "
+    SELECT 
+        a.appointmentID AS formID, 
+       v.name AS visitor_name, 
+        a.preferred_time AS appointment_time, 
+        a.preferred_date AS appointment_date, 
+        a.population_countID AS number_of_attendees,  
+        a.status, 
+        a.created_at
+    FROM 
+        appointment AS a
+    JOIN 
+        visitor AS v ON a.visitorID = v.visitorID
+  
+    ORDER BY 
+        a.created_at $order
+";
 
 $result = mysqli_query($connextion, $query);
 
