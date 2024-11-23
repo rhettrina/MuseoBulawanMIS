@@ -30,11 +30,11 @@ if (!filter_var($appointmentID, FILTER_VALIDATE_INT)) {
 // Prepare the query
 $query = "
     SELECT 
-        a.appointmentID AS formID, 
-        v.name AS visitor_name, 
-        v.email AS visitor_email, 
-        v.phone AS visitor_phone, 
-        v.address AS visitor_address, 
+        a.appointmentID, 
+        v.name , 
+        v.email, 
+        v.phone , 
+        v.address , 
         v.organization AS visitor_organization, 
         a.population_countID AS number_of_attendees,  
         a.preferred_date AS appointment_date, 
