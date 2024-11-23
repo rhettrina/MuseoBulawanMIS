@@ -32,8 +32,7 @@ function displayAppointmentErrorMessages() {
     document.getElementById('total-appointments').innerText = errorMessage;
     document.getElementById('total-approved').innerText = errorMessage;
     document.getElementById('total-rejected').innerText = errorMessage;
-    document.getElementById('total-expected-visitors').innerText = errorMessage;
-    document.getElementById('total-present').innerText = errorMessage;
+    
 }
 
 // Function to populate the data from the PHP response for appointments
@@ -41,8 +40,7 @@ function populateTotalAppointmentData(data) {
     document.getElementById('total-appointments').innerText = data.total_appointments || 0;
     document.getElementById('total-approved').innerText = data.total_approved || 0;
     document.getElementById('total-rejected').innerText = data.total_rejected || 0;
-    document.getElementById('total-expected-visitors').innerText = data.total_expected_visitors || 0;
-    document.getElementById('total-present').innerText = data.total_present || 0;
+    
 }
 
 
@@ -89,7 +87,7 @@ function populateTable(appointments) {
         // Create and populate cells
         const dateCell = document.createElement('td');
         dateCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'rounded-l-[15px]', 'border-t-2', 'border-b-2', 'border-l-2');
-        dateCell.textContent = appointment.appointment_date;
+        dateCell.textContent = appointment.created_at;
 
         const timeCell = document.createElement('td');
         timeCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
@@ -97,7 +95,7 @@ function populateTable(appointments) {
 
         const attendeeCell = document.createElement('td');
         attendeeCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
-        attendeeCell.textContent = appointment.donor_name;
+        attendeeCell.textContent = appointment.visitor_name;
 
         const attendeesCountCell = document.createElement('td');
         attendeesCountCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
@@ -107,11 +105,9 @@ function populateTable(appointments) {
         statusCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
         statusCell.textContent = appointment.status;
         
-        const updatedDateCell = document.createElement('td');
-        updatedDateCell.classList.add('px-4', 'py-2','bg-white', 'border-black' , 'border-t-2', 'border-b-2');
-        updatedDateCell.textContent = appointment.updated_date === "Not Edited" || !appointment.updated_date
-            ? "Not Edited"
-            : appointment.updated_date;
+        const createdAtCell = document.createElement('td');
+        createdAtCell.classList.add('px-4', 'py-2','bg-white', 'border-black', 'border-t-2', 'border-b-2');
+        createdAtCell.textContent = appointment.appointment_date;
 
         const actionCell = document.createElement('td');
         actionCell.classList.add('px-4', 'py-2', 'flex', 'justify-center', 'space-x-2', 'bg-white', 'border-black' , 'rounded-r-[15px]', 'border-t-2', 'border-b-2', 'border-r-2');
@@ -132,7 +128,6 @@ function populateTable(appointments) {
         deleteButton.innerHTML = `<i class="fas fa-trash"></i>`;
         deleteButton.addEventListener('click', () => handleAction('delete', appointment));
 
-
         actionCell.appendChild(previewButton);
         actionCell.appendChild(editButton);
         actionCell.appendChild(deleteButton);
@@ -141,11 +136,12 @@ function populateTable(appointments) {
         row.appendChild(dateCell);
         row.appendChild(attendeeCell);
         row.appendChild(timeCell);
+        
         row.appendChild(statusCell);
         row.appendChild(attendeesCountCell);
-        row.appendChild(updatedDateCell);
-        row.appendChild(actionCell);
         
+        row.appendChild(createdAtCell);
+        row.appendChild(actionCell);
 
         tableBody.appendChild(row);
     });

@@ -1226,45 +1226,57 @@ function saveFloorPlan(floorPlanName) {
 
   // Capture the canvas area as an image
   html2canvas(document.getElementById('canvas-area')).then(function (canvas) {
-    const imageData = canvas.toDataURL('image/png');
+    // Convert canvas to image data URL (base64)
+    const imageDataURL = canvas.toDataURL('image/png');
 
-    // Prepare the payload
-    const payload = {
-      unique_id: uniqueId,
-      name: floorPlanName,
-      imageData: imageData,
-    };
+    // Convert base64 to Blob
+    const imageBlob = dataURLToBlob(imageDataURL);
+    const imageFile = new File([imageBlob], 'floorplan.png', { type: 'image/png' });
 
-    // Send the image data and name to the PHP server
+    // Create a FormData object to send image and data as form data
+    const formData = new FormData();
+    formData.append('unique_id', uniqueId);
+    formData.append('name', floorPlanName);
+    formData.append('image', imageFile);
+
+    // Send the image data and other form data to the PHP server
     fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/save_floorplan.php', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
+      body: formData,
     })
-      .then((response) => response.json())
-      .then((data) => {
-        // Hide loading overlay
-        loadingOverlay.classList.add('hidden');
+    .then((response) => response.json())
+    .then((data) => {
+      // Hide loading overlay
+      loadingOverlay.classList.add('hidden');
 
-        // Show success or error result
-        showResultModal(data.success ? 'Success' : 'Error', data.success ? 'Floor plan saved successfully!' : data.error);
-      })
-      .catch((error) => {
-        // Hide loading overlay
-        loadingOverlay.classList.add('hidden');
+      // Show success or error result
+      showResultModal(data.success ? 'Success' : 'Error', data.success ? 'Floor plan saved successfully!' : data.error);
+    })
+    .catch((error) => {
+      // Hide loading overlay
+      loadingOverlay.classList.add('hidden');
 
-        // Show error modal
-        showResultModal('Error', 'An error occurred while saving the floor plan.');
-        console.error('Error:', error);
-      });
+      // Show error modal
+      showResultModal('Error', 'An error occurred while saving the floor plan.');
+      console.error('Error:', error);
+    });
   });
 }
 
 // Utility function to generate a unique ID
 function generateUniqueId() {
   return 'fp_' + Date.now();
+}
+
+// Utility function to convert data URL to Blob
+function dataURLToBlob(dataURL) {
+  const byteString = atob(dataURL.split(',')[1]);
+  const arrayBuffer = new ArrayBuffer(byteString.length);
+  const uintArray = new Uint8Array(arrayBuffer);
+  for (let i = 0; i < byteString.length; i++) {
+    uintArray[i] = byteString.charCodeAt(i);
+  }
+  return new Blob([uintArray], { type: 'image/png' });
 }
 
 // Utility function to show result modal
@@ -1285,7 +1297,6 @@ function showResultModal(title, message) {
     document.querySelector('.modal:last-of-type').remove();
   };
 }
-
 
 
 //wtf is this louis???

@@ -1,117 +1,75 @@
 <?php
-// save_floorplan.php
-
-header('Content-Type: application/json');
-
-// Include the DB connextion details
+// Include the DB connection details
 require_once 'db_connect.php'; // Ensure this file contains the correct $connextion variable
 
-// Check if the connextion was successful
+// Check if the connection was successful
 if (!$connextion) {
-    echo json_encode(['success' => false, 'error' => 'Database connextion failed']);
+    echo json_encode(['success' => false, 'error' => 'Database connection failed']);
     exit;
 }
 
-// Retrieve raw POST data
-$data = file_get_contents('php://input');
-$json = json_decode($data, true);
-
-if (!isset($json['unique_id']) || !isset($json['name']) || !isset($json['imageData'])) {
-    echo json_encode(['success' => false, 'error' => 'Unique ID, name, and image data are required.']);
+// Make sure that the required fields exist in the POST data
+if (!isset($_POST['unique_id']) || !isset($_POST['name']) || !isset($_FILES['image'])) {
+    echo json_encode(['success' => false, 'error' => 'Unique ID, name, and image file are required.']);
     exit;
 }
 
-$unique_id = mysqli_real_escape_string($connextion, $json['unique_id']);
-$name = mysqli_real_escape_string($connextion, $json['name']);
-$imageData = $json['imageData'];
+$unique_id = mysqli_real_escape_string($connextion, $_POST['unique_id']);
+$name = mysqli_real_escape_string($connextion, $_POST['name']);
+$image = $_FILES['image'];
 
-// Validate and decode the base64 image
-if (preg_match('/^data:image\/(\w+);base64,/', $imageData, $type)) {
-    $imageType = strtolower($type[1]); // jpg, png, gif, etc.
-    
-    // Check allowed image types
-    if (!in_array($imageType, ['jpg', 'jpeg', 'png', 'gif'])) {
-        echo json_encode(['success' => false, 'error' => 'Unsupported image type']);
-        exit;
-    }
+// Handle image upload
+$imagePath = uploadImage($image);
 
-    $imageData = substr($imageData, strpos($imageData, ',') + 1);
-    $imageData = base64_decode($imageData);
+if ($imagePath) {
+    // Prepare and execute the database insert query
+    $query = $connextion->prepare("INSERT INTO floorplans 
+        (unique_id, name, image_path, created_at) 
+        VALUES (?, ?, ?, CURRENT_TIMESTAMP)");
 
-    if ($imageData === false) {
-        echo json_encode(['success' => false, 'error' => 'Base64 decode failed']);
-        exit;
-    }
-} else {
-    echo json_encode(['success' => false, 'error' => 'Invalid image data']);
-    exit;
-}
+    $query->bind_param('sss', $unique_id, $name, $imagePath);
 
-// Check if the name already exists in the database and increment it if necessary
-$original_name = $name;
-$counter = 1;
-
-while (true) {
-    $stmt = $connextion->prepare("SELECT COUNT(*) FROM floorplans WHERE name = ?");
-    $stmt->bind_param("s", $name);
-    $stmt->execute();
-    $stmt->bind_result($count);
-    $stmt->fetch();
-    $stmt->close();
-
-    if ($count == 0) {
-        break; // No conflict, use this name
-    }
-
-    // If the name exists, append a number to the name and increment the counter
-    $name = $original_name . "_" . $counter;
-    $counter++;
-}
-
-// Define the directory and filename
-$directory = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'layout-made' . DIRECTORY_SEPARATOR;
-
-if (!file_exists($directory)) {
-    if (!mkdir($directory, 0755, true)) {
-        echo json_encode(['success' => false, 'error' => 'Failed to create directories']);
-        exit;
-    }
-}
-
-$filename = "floorplan_" . $unique_id . "_" . preg_replace('/[^a-zA-Z0-9]/', '_', $name) . "." . ($imageType === 'jpeg' ? 'jpg' : $imageType);
-$filePath = $directory . $filename;
-
-// Check if the file already exists
-if (file_exists($filePath)) {
-    echo json_encode(['success' => false, 'error' => 'File already exists']);
-    exit;
-}
-
-// Save the image to the directory
-if (file_put_contents($filePath, $imageData)) {
-    // Prepare the image path for storage (relative path)
-    $relativePath = 'layout-made/' . $filename;
-
-    // Insert into the database
-    $stmt = $connextion->prepare("INSERT INTO floorplans (unique_id, name, image_path, created_at) VALUES (?, ?, ?, NOW())");
-    if ($stmt) {
-        $stmt->bind_param("sss", $unique_id, $name, $relativePath);
-
-        if ($stmt->execute()) {
-            echo json_encode(['success' => true, 'message' => 'Image saved successfully.', 'path' => $relativePath]);
-        } else {
-            // Remove the uploaded file if database insertion fails
-            unlink($filePath);
-            echo json_encode(['success' => false, 'error' => 'Database insertion failed: ' . $stmt->error]);
-        }
-
-        $stmt->close();
+    if ($query->execute()) {
+        echo json_encode(['success' => true, 'message' => 'Floorplan saved successfully.', 'path' => $imagePath]);
     } else {
-        // Remove the uploaded file if statement preparation fails
-        unlink($filePath);
-        echo json_encode(['success' => false, 'error' => 'Database statement preparation failed: ' . $connextion->error]);
+        echo json_encode(['success' => false, 'error' => $query->error]);
     }
 } else {
-    echo json_encode(['success' => false, 'error' => 'Failed to save the image file.']);
+    echo json_encode(['success' => false, 'error' => 'Image upload failed']);
+}
+
+// Function to handle image upload
+function uploadImage($image) {
+    // Define target directory to save images
+    $targetDir = dirname(__DIR__, 1) . "/uploads/layout-made/";
+    $targetFile = $targetDir . basename($image["name"]);
+    $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+
+    // Check if the file is an image
+    if (getimagesize($image["tmp_name"]) === false) {
+        return "File is not an image.";
+    }
+
+    // Check if file already exists, use the same path
+    if (file_exists($targetFile)) {
+        return $targetFile; // Return the existing file path
+    }
+
+    // Check file size (max 3MB)
+    if ($image["size"] > 3 * 1024 * 1024) {
+        return "File size exceeds 3MB.";
+    }
+
+    // Check file format (allowed types: jpg, jpeg, png, gif)
+    if (!in_array($imageFileType, ['jpg', 'jpeg', 'png', 'gif'])) {
+        return "Only JPG, JPEG, PNG, and GIF files are allowed.";
+    }
+
+    // Try to move the uploaded file to the target directory
+    if (move_uploaded_file($image["tmp_name"], $targetFile)) {
+        return 'uploads/layout-made/' . basename($image["name"]); // Return the relative path
+    } else {
+        return "Error uploading the file: " . $image["error"];
+    }
 }
 ?>
