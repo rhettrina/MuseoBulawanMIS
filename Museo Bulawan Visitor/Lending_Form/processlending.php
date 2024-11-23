@@ -91,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Insert query for the Donator table
     $sql_donatorTB = "INSERT INTO `Donator`(`first_name`, `last_name`, `email`, `phone`, `province`, `street`, `barangay`, `organization`, `age`, `sex`, `city`) 
-                      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql_donatorTB);
     $stmt->bind_param("ssssssssiss", $firstName, $lastName, $email, $phone, $province, $street, $barangay, $organization, $age, $sex, $city);
 
