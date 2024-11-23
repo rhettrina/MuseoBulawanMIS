@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             article_title = ?, 
             location = ?, 
             article_type = ?, 
-            image_details = ?, 
+            imgu1_details = ?, 
             content_left = ?, 
             content_right = ?, 
             content_image2 = ?, 
