@@ -23,7 +23,9 @@ $query = "
         a.artifact_typeID AS artifact_type, 
         'To Review' AS status, 
         'Pending' AS transfer_status, 
-        'Lending' AS form_type
+        'Lending' AS form_type,
+        a.updated_date AS updated_date
+
         
     FROM 
         Lending AS l
@@ -42,7 +44,9 @@ $query = "
         a.artifact_typeID AS artifact_type, 
         'To Review' AS status, 
         'Pending' AS transfer_status, 
-        'Donation' AS form_type
+        'Donation' AS form_type,
+        a.updated_date AS updated_date
+        
         
     FROM 
         Donation AS d
