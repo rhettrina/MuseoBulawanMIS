@@ -15,10 +15,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $article_location = $_POST["location"] ?? "";
     $article_type = $_POST["article_type"] ?? "";
     $image_details = $_POST["imgu1_details"] ?? "";
-    $content_left = $_POST["content-left"] ?? "";
-    $content_right = $_POST["content-right"] ?? "";
-    $content_image2 = $_POST["content-image2"] ?? "";
-    $content_image3 = $_POST["content-image3"] ?? "";
+    $content_left = $_POST["p1box_left"] ?? "";
+    $content_right = $_POST["p1box_right"] ?? "";
+    $content_image2 = $_POST["imgu2"] ?? "";
+    $content_image3 = $_POST["imgu3"] ?? "";
 
     // Validate required fields
     if (empty($id) || empty($article_author) || empty($article_title)) {
@@ -36,10 +36,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             location = ?, 
             article_type = ?, 
             imgu1_details = ?, 
-            content_left = ?, 
-            content_right = ?, 
-            content_image2 = ?, 
-            content_image3 = ? 
+            p1box_left = ?, 
+            p1box_right = ?, 
+            imgu2 = ?, 
+            imgu3 = ? 
         WHERE id = ?
     ");
     $stmt->bind_param(
