@@ -113,24 +113,22 @@ function populateTable(appointments) {
         actionCell.classList.add('px-4', 'py-2', 'flex', 'justify-center', 'space-x-2', 'bg-white', 'border-black' , 'rounded-r-[15px]', 'border-t-2', 'border-b-2', 'border-r-2');
 
         // Add buttons with event listeners
-        const previewButton = document.createElement('button');
-        previewButton.classList.add('bg-transparent', 'text-black' , 'p-2', 'rounded', 'hover:bg-orange-300');
-        previewButton.innerHTML = `<i class="fas fa-eye"></i>`;
-        previewButton.addEventListener('click', () => handleAction('preview', appointment));
+        
 
-        const editButton = document.createElement('button');
-        editButton.classList.add('bg-transparent', 'text-black', 'p-2', 'rounded', 'hover:bg-orange-300');
-        editButton.innerHTML = `<i class="fas fa-edit"></i>`;
-        editButton.addEventListener('click', () => handleAction('edit', appointment));
+            const editButton = document.createElement('button');
+            editButton.classList.add('bg-transparent', 'text-black', 'p-2', 'rounded', 'hover:bg-orange-300');
+            editButton.innerHTML = `<i class="fas fa-edit"></i>`;
+            editButton.addEventListener('click', () => handleAction('edit', appointment));
 
-        const deleteButton = document.createElement('button');
-        deleteButton.classList.add('bg-transparent', 'text-black', 'p-2', 'rounded', 'hover:bg-orange-300');
-        deleteButton.innerHTML = `<i class="fas fa-trash"></i>`;
-        deleteButton.addEventListener('click', () => handleAction('delete', appointment));
 
-        actionCell.appendChild(previewButton);
-        actionCell.appendChild(editButton);
-        actionCell.appendChild(deleteButton);
+            const deleteButton = document.createElement('button');
+            deleteButton.classList.add('bg-transparent', 'text-black', 'p-2', 'rounded', 'hover:bg-orange-300');
+            deleteButton.innerHTML = `<i class="fas fa-trash"></i>`;
+            deleteButton.addEventListener('click', () => handleAction('delete', appointment.id));
+
+            
+            actionCell.appendChild(editButton);
+            actionCell.appendChild(deleteButton);
 
         // Append cells to row
         row.appendChild(dateCell);
@@ -147,24 +145,17 @@ function populateTable(appointments) {
     });
 }
 
-
 function handleAction(action, appointmentId) {
     switch (action) {
-        case 'preview':
-            console.log(`Preview article with ID: ${appointmentId}`);
-            // Implement preview functionality here
-            break;
         case 'edit':
-            console.log(`Edit article with ID: ${appointmentId}`);
-            // Implement edit functionality here
+            showAppointmentModal(appointmentId);
+            init();
             break;
         case 'delete':
-            // Show confirmation modal before deleting
-            openDeleteModal((response) => {
+            openAppointmentDeleteModal((response) => {
                 if (response) {
-                    console.log(`Article with ID ${appointmentId} deleted.`);
-                    // Implement delete functionality here
-                    // For example: deleteArticle(articleId);
+                    console.log(`Appointment with ID ${appointmentId} deleted.`);
+                    init();
                 } else {
                     console.log("Delete action canceled.");
                 }
@@ -175,6 +166,51 @@ function handleAction(action, appointmentId) {
     }
 }
 
+
+
+function fetchAppointmentDetails(appointmentId) {
+    console.log(`Fetching details for appointment ID: ${appointmentId}`);
+    // Mock data - replace with actual API call or database query
+    const appointment = {
+        name: "John Doe",
+        email: "john.doe@example.com",
+        phone: "123-456-7890",
+        address: "123 Main Street, Cityville",
+        purpose: "Business Meeting",
+        organization: "ABC Corp",
+        populationCount: 5,
+        preferredDate: "2024-11-30",
+        preferredTime: "10:00 AM",
+        notes: "Meeting to discuss partnership."
+    };
+
+    // Populate modal fields
+    document.getElementById('appointment-name').textContent = appointment.name || 'N/A';
+    document.getElementById('appointment-email').textContent = appointment.email || 'N/A';
+    document.getElementById('appointment-phone').textContent = appointment.phone || 'N/A';
+    document.getElementById('appointment-address').textContent = appointment.address || 'N/A';
+    document.getElementById('appointment-purpose').textContent = appointment.purpose || 'N/A';
+    document.getElementById('appointment-organization').textContent = appointment.organization || 'N/A';
+    document.getElementById('appointment-population').textContent = appointment.populationCount || 'N/A';
+    document.getElementById('appointment-date').textContent = appointment.preferredDate || 'N/A';
+    document.getElementById('appointment-time').textContent = appointment.preferredTime || 'N/A';
+    document.getElementById('appointment-notes').textContent = appointment.notes || 'N/A';
+
+
+    // Show the modal
+    const modal = document.getElementById('appointment-modal');
+    if (modal) {
+        modal.classList.remove('hidden');
+    } else {
+        console.error('Appointment modal not found.');
+    }
+}
+
+
+function openDeleteModal(callback) {
+    const userResponse = confirm("Are you sure you want to delete this appointment?");
+    callback(userResponse);
+}
 
 
 function displayNoDataMessage() {
@@ -254,6 +290,90 @@ function closeModal(modalId) {
         console.error(`Modal with ID "${modalId}" not found.`);
     }
 }
+
+// Function to show and populate the modal
+function showAppointmentModal(appointment) {
+    if (!appointment) {
+        console.error('Appointment data is undefined or null');
+        return;
+    }
+
+    const modal = document.getElementById('appointment-modal');
+
+    // Populate modal fields
+    document.getElementById('appointment-name').textContent = appointment.name || 'N/A';
+    document.getElementById('appointment-email').textContent = appointment.email || 'N/A';
+    document.getElementById('appointment-phone').textContent = appointment.phone || 'N/A';
+    document.getElementById('appointment-address').textContent = appointment.address || 'N/A';
+    document.getElementById('appointment-purpose').textContent = appointment.purpose || 'N/A';
+    document.getElementById('appointment-organization').textContent = appointment.organization || 'N/A';
+    document.getElementById('appointment-population').textContent = appointment.population || 'N/A';
+    document.getElementById('appointment-date').textContent = appointment.date || 'N/A';
+    document.getElementById('appointment-time').textContent = appointment.time || 'N/A';
+    document.getElementById('appointment-notes').textContent = appointment.notes || 'N/A';
+
+    // Show the modal
+    if (modal) {
+        modal.classList.remove('hidden');
+    }
+}
+
+
+// Close modal logic
+document.getElementById('close-appointment-modal').addEventListener('click', () => {
+    const modal = document.getElementById('appointment-modal');
+    if (modal) {
+        modal.classList.add('hidden');
+    }
+});
+
+document.getElementById('close-appointment-modal-btn').addEventListener('click', () => {
+    const modal = document.getElementById('appointment-modal');
+    if (modal) {
+        modal.classList.add('hidden');
+    }
+});
+
+// Example buttons for testing
+const editButton = document.createElement('button');
+editButton.classList.add('bg-transparent', 'text-black', 'p-2', 'rounded', 'hover:bg-orange-300');
+editButton.innerHTML = `<i class="fas fa-edit"></i>`;
+editButton.addEventListener('click', () => handleAction('edit', {
+    name: "Juan Dela Cruz",
+    email: "juan@example.com",
+    phone: "09786734766",
+    address: "Ofelia Street, Barangay 2, Daet, Camarines Norte",
+    purpose: "Educational Tour",
+    organization: "Juan Dela Cruz Elementary School",
+    population: "51",
+    date: "August 25",
+    time: "10:30-11:59",
+    notes: "Good morning, there might still be changes to our count as some students are catching up."
+}, 1));
+
+const deleteButton = document.createElement('button');
+deleteButton.classList.add('bg-transparent', 'text-black', 'p-2', 'rounded', 'hover:bg-orange-300');
+deleteButton.innerHTML = `<i class="fas fa-trash"></i>`;
+deleteButton.addEventListener('click', () => handleAction('delete', null, 1));
+
+// Append buttons for testing
+const actionCell = document.createElement('div');
+actionCell.appendChild(editButton);
+actionCell.appendChild(deleteButton);
+
+document.body.appendChild(actionCell);
+
+// Handle action function
+function handleAction(action, appointment, id) {
+    if (action === 'edit') {
+        // Show modal with appointment details
+        showAppointmentModal(appointment);
+    } else if (action === 'delete') {
+        console.log(`Delete appointment with ID: ${id}`);
+    }
+}
+
+
 
 init();
 // Fetch appointments and populate the table

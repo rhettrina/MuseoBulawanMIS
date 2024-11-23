@@ -233,59 +233,25 @@ document.getElementById("sort").addEventListener("change", function () {
 });
 
 
-
+// Image Preview Function
 function previewImage(event, previewId) {
-    const file = event.target.files[0];  // Get the selected file
-    const preview = document.getElementById(previewId);  // Get the preview element
-
-    if (!preview) {
-        console.error(`Preview element with id "${previewId}" not found.`);
-        return;
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const preview = document.getElementById(previewId);
+            preview.style.backgroundImage = `url(${e.target.result})`;
+            preview.classList.remove("hidden"); // Show the preview
+        };
+        reader.readAsDataURL(file);
     }
-
-    // Reset preview container if no file is selected
-    function resetPreview() {
-        preview.style.backgroundImage = 'none';  // Remove background image
-        const placeholder = preview.querySelector('span');  // Find the placeholder span
-        if (placeholder) {
-            placeholder.style.display = 'block';  // Show placeholder text
-            placeholder.textContent = 'Choose Image';  // Reset placeholder text
-        }
-        event.target.value = '';  // Reset the file input
-    }
-
-    // If no file is selected, reset the preview
-    if (!file) {
-        resetPreview();  // Reset preview when no file is selected
-        return;
-    }
-
-    // Check file size (3MB limit)
-    if (file.size > 3 * 1024 * 1024) {
-        alert('File size exceeds 3MB. Please choose a smaller file.');
-        resetPreview();  // Reset the preview and file input if file is too large
-        return;
-    }
-
-    // Display the selected image as a background image
-    const reader = new FileReader();
-
-    reader.onload = function (e) {
-        preview.style.backgroundImage = `url(${e.target.result})`;  // Set background image
-        preview.style.backgroundSize = 'cover';  // Ensure the image covers the container
-        preview.style.backgroundPosition = 'center';  // Center the image
-
-        // Hide the placeholder text after an image is selected
-        const placeholder = preview.querySelector('span');
-        if (placeholder) {
-            placeholder.style.display = 'none';  // Hide placeholder text
-        }
-    };
-
-    // Read the selected file as a Data URL (base64-encoded image)
-    reader.readAsDataURL(file);
 }
 
+// Dummy Confirmation Modal for Save
+function openConfirmationModal(callback) {
+    
+    callback(confirm);
+}
 
 
 // Function to open the confirmation modal
@@ -322,24 +288,15 @@ function openConfirmationModal(callback) {
     };
   }
   
-  // Function to close the modal
-  function closeModal(modalId) {
-    const modal = document.getElementById(modalId);
-    modal.classList.add("hidden");
-  }
-  
 
 
-  // Function to open the "Create Article" modal
-  function openCreateArticleModal() {
+// Function to open the "Create Article" modal
+function openCreateArticleModal() {
     const modal = document.getElementById("create-article-modal");
-    modal.classList.remove("hidden"); 
+    modal.classList.remove("hidden");
 
     const form = document.getElementById("create-article-form");
 
-
-
-    
     // Handle the Cancel button click
     const cancelButton = document.getElementById("create-article-cancel-button");
     cancelButton.onclick = () => {
@@ -352,7 +309,7 @@ function openConfirmationModal(callback) {
     };
 
     // Handle the Save button click
-    const saveButton = modal.querySelector('button[type="submit"]');
+    const saveButton = document.getElementById("save-article-button"); // Changed to target by ID
     saveButton.onclick = (event) => {
         event.preventDefault(); // Prevent default form submission
 
@@ -374,10 +331,8 @@ function openConfirmationModal(callback) {
         if (isValid) {
             openConfirmationModal((confirm) => {
                 if (confirm) {
-                    
                     saveArticle();
                     console.log("Article saved successfully!");
-                    init();
                     form.reset();
                 }
             });
@@ -387,11 +342,12 @@ function openConfirmationModal(callback) {
     };
 }
 
+// Open the modal on button click
 document.getElementById("create-article-button").addEventListener("click", () => {
     openCreateArticleModal();
 });
 
-
+// Close modal function
 function closeModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
@@ -400,6 +356,74 @@ function closeModal(modalId) {
         console.error(`Modal with ID "${modalId}" not found.`);
     }
 }
+// Function to open the "Create Article" modal
+function openCreateArticleModal() {
+    const modal = document.getElementById("create-article-modal");
+    modal.classList.remove("hidden");
+
+    const form = document.getElementById("create-article-form");
+
+    // Handle the Cancel button click
+    const cancelButton = document.getElementById("create-article-cancel-button");
+    cancelButton.onclick = () => {
+        openConfirmationModal((confirm) => {
+            if (confirm) {
+                closeModal("create-article-modal");
+                form.reset(); // Reset form fields
+            }
+        });
+    };
+
+    // Handle the Save button click
+    const saveButton = document.getElementById("save-article-button"); // Ensure correct ID
+    saveButton.onclick = (event) => {
+        event.preventDefault(); // Prevent default form submission
+
+        // Validate required fields
+        const requiredFields = form.querySelectorAll("[required]");
+        let isValid = true;
+
+        requiredFields.forEach((field) => {
+            if (!field.value.trim()) {
+                isValid = false;
+                field.classList.add("border-red-500"); // Highlight field with red border
+                field.nextElementSibling?.classList?.remove("hidden"); // Show error message (if any)
+            } else {
+                field.classList.remove("border-red-500");
+                field.nextElementSibling?.classList?.add("hidden"); // Hide error message (if any)
+            }
+        });
+
+        if (isValid) {
+            openConfirmationModal((confirm) => {
+                if (confirm) {
+                    saveArticle();
+                    console.log("Article saved successfully!");
+                    form.reset();
+                }
+            });
+        } else {
+            console.log("Form validation failed. Please fill in all required fields.");
+        }
+    };
+}
+
+// Open the modal on button click
+document.getElementById("create-article-button").addEventListener("click", () => {
+    openCreateArticleModal();
+});
+
+// Close modal function
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.add("hidden"); // Add the 'hidden' class to hide the modal
+    } else {
+        console.error(`Modal with ID "${modalId}" not found.`);
+    }
+}
+
+// Function to save the article
 function saveArticle() {
     const form = document.getElementById("create-article-form");
     const formData = new FormData(form); // Collect form data
@@ -423,6 +447,10 @@ function saveArticle() {
     formData.append("content-right", document.getElementById("content-right").value);
     formData.append("content-image2", document.getElementById("content-image2").value);
     formData.append("content-image3", document.getElementById("content-image3").value);
+
+    // Disable the save button while submitting
+    const saveButton = document.getElementById("save-article-button");
+    saveButton.disabled = true;
 
     // Send form data to server
     fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/saveArticle.php', {
@@ -449,9 +477,17 @@ function saveArticle() {
     .catch(error => {
         console.error('Error during fetch request:', error);
         alert('An error occurred. Please try again.');
+    })
+    .finally(() => {
+        saveButton.disabled = false; // Re-enable the save button after the request completes
     });
 }
 
+// Confirmation Modal for Save
+function openConfirmationModal(callback) {
+
+    callback(confirm);
+}
 
 
 
