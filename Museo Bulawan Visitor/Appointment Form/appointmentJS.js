@@ -25,7 +25,7 @@ function openModal() {
 
     // Custom validation for organization and attendees (if needed)
     const organization = form.querySelector("#organization");
-    const attendees = form.querySelector("#age");
+    const attendees = form.querySelector("#attendees_count");
 
     if (organization && !organization.value.trim()) {
         hasMissingFields = true;

@@ -29,7 +29,7 @@ $city = $_POST['city'];
 $barangay = $_POST['barangay'];
 $street = $_POST['street'];
 $organization = isset($_POST['organization']) ? htmlspecialchars($_POST['organization']) : null; // Organization field
-$attendees = (isset($_POST['age']) && is_numeric($_POST['age']) && $_POST['age'] > 0) ? intval($_POST['age']) : null; // Attendees count
+$attendees = isset($_POST['attendees_count']) && is_numeric($_POST['attendees_count']) && $_POST['attendees_count'] > 0 ? intval($_POST['attendees_count']) : null; // Attendees count
 $preferred_date = $_POST['preferred_date'];
 $preferred_time = $_POST['time'];
 $notes = $_POST['notes'];
@@ -50,9 +50,11 @@ if ($stmt) {
 }
 
 // Insert into appointment table
-$stmt = $connextion->prepare("INSERT INTO appointment (visitor_id, preferred_time, preferred_date, population_count) VALUES (?, ?, ?, ?)");
+$stmt = $connextion->prepare("INSERT INTO appointment (preferred_time, preferred_date, population_countID, appointment_dateID) VALUES (?, ?, ?, ?)");
+
 if ($stmt) {
-    $stmt->bind_param("issi", $visitor_id, $preferred_time, $preferred_date, $attendees);
+    // Make sure to pass the correct variable names for the parameters
+    $stmt->bind_param("ssii", $preferred_time, $preferred_date, $population_countID, $appointment_dateID);
 
     if ($stmt->execute()) {
         $appointment_id = $stmt->insert_id; // Capture the generated appointment ID
@@ -62,27 +64,6 @@ if ($stmt) {
     $stmt->close();
 }
 
-// Insert into attendance table
-$stmt = $connextion->prepare("INSERT INTO attendance (attendanceID, number_of_present, appointment_dateID, appointmentID, visitorID) VALUES (NULL, ?, ?, ?, ?)");
-if ($stmt) {
-    // You must handle the 'appointment_dateID' value here if required.
-    // If 'appointment_dateID' should relate to a specific date, you need to define its logic.
-    $appointment_date_id = null; // Set the logic for appointment_date_id if necessary.
-
-    // Bind the parameters (the 'attendanceID' is auto-incremented, hence NULL passed)
-    $stmt->bind_param("iiii", $attendees, $appointment_date_id, $appointment_id, $visitor_id);
-
-    if ($stmt->execute()) {
-        echo "Appointment and attendance records successfully created!";
-        header("Location: appointindex.html");
-        exit;
-    } else {
-        die("Error inserting into attendance table: " . $stmt->error);
-    }
-    $stmt->close();
-} else {
-    die("Error preparing statement for attendance: " . $connextion->error);
-}
 
 // Close the connection
 $connextion->close();
