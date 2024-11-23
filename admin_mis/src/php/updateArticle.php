@@ -24,15 +24,15 @@ $imagePath = uploadImage($image);
 
 // Check if image upload is successful
 if ($imagePath && $imagePath !== "Error") {
-    // Prepare and execute the database insert query
-    $query = $connextion->prepare("INSERT INTO floorplans 
-        (unique_id, name, image_path, created_at) 
-        VALUES (?, ?, ?, CURRENT_TIMESTAMP)");
+    // Prepare and execute the database update query
+    $query = $connextion->prepare("UPDATE floorplans 
+        SET name = ?, image_path = ?, updated_at = CURRENT_TIMESTAMP 
+        WHERE unique_id = ?");
 
-    $query->bind_param('sss', $unique_id, $name, $imagePath);
+    $query->bind_param('sss', $name, $imagePath, $unique_id);
 
     if ($query->execute()) {
-        echo json_encode(['success' => true, 'message' => 'Floorplan saved successfully.', 'path' => $imagePath]);
+        echo json_encode(['success' => true, 'message' => 'Floorplan updated successfully.', 'path' => $imagePath]);
     } else {
         echo json_encode(['success' => false, 'error' => $query->error]);
     }
