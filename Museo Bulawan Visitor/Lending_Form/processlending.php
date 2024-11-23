@@ -48,7 +48,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $additionalInfo = $conn->real_escape_string($_POST['additionalInfo']);
     $narrative = $conn->real_escape_string($_POST['narrative']);
     
-    $formType = $conn->real_escape_string($_POST['formType']);
 
     // Initialize image file paths
     $art_img_upload_path = '';

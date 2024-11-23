@@ -2,7 +2,7 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json");
 
-require 'db_connect.php'; // Include the database connextion
+require 'db_connect.php'; // Include the database connection
 
 $response = ["success" => false, "error" => ""]; // Default response
 

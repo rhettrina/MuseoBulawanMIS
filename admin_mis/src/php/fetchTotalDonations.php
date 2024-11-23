@@ -23,7 +23,7 @@ $results = [
 ];
 
 // Query to count total donations
-$query = "SELECT COUNT(*) AS total FROM donations";
+$query = "SELECT COUNT(*) AS total FROM Artifact";
 $result = mysqli_query($connextion, $query);
 if ($result) {
     $row = mysqli_fetch_assoc($result);
@@ -33,7 +33,7 @@ if ($result) {
 }
 
 // Query to count accepted donations
-$query = "SELECT COUNT(*) AS accepted FROM donations WHERE status = 'accepted'";
+$query = "SELECT COUNT(*) AS accepted FROM Artifact WHERE status = 'Accepted'";
 $result = mysqli_query($connextion, $query);
 if ($result) {
     $row = mysqli_fetch_assoc($result);
@@ -43,7 +43,7 @@ if ($result) {
 }
 
 // Query to count rejected donations
-$query = "SELECT COUNT(*) AS rejected FROM donations WHERE status = 'rejected'";
+$query = "SELECT COUNT(*) AS rejected FROM Artifact WHERE status = 'Rejected'";
 $result = mysqli_query($connextion, $query);
 if ($result) {
     $row = mysqli_fetch_assoc($result);
@@ -53,7 +53,7 @@ if ($result) {
 }
 
 // Query to count total donation forms
-$query = "SELECT COUNT(*) AS total FROM donation_form";
+$query = "SELECT COUNT(*) AS total FROM Donation";
 $result = mysqli_query($connextion, $query);
 if ($result) {
     $row = mysqli_fetch_assoc($result);
@@ -63,7 +63,7 @@ if ($result) {
 }
 
 // Query to count total lending forms
-$query = "SELECT COUNT(*) AS total FROM lending_form";
+$query = "SELECT COUNT(*) AS total FROM Lending";
 $result = mysqli_query($connextion, $query);
 if ($result) {
     $row = mysqli_fetch_assoc($result);
