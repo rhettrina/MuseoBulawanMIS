@@ -93,7 +93,7 @@ html{
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    font-size: 1vw;
+    font-size: .7em;
     text-align: center;
 }
 
@@ -102,93 +102,11 @@ html{
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    font-size: 1vw;
-}
-
-.fp-nav{
-    display: grid;
-    grid-template-columns: 20vw 15vw 1fr 10vw;
-    grid-template-areas: "brand space buttons search";
-    height: fit-content;
-    width: auto;
-    padding-top: 2vh;
-    border-bottom: 0.4vh solid rgb(255, 255, 255); /* Adds a black bottom border */
-    padding-bottom: 2vh; /* Optional: Adds space between text and border */
-
-}
-.fp-brand{
-    grid-template-areas: brand;
-    display: flex;
-    flex-direction: row;
-    padding-left: 1vw;
-}
-
-.fp-buttons{
-    grid-area: buttons;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-.fp-buttons p{
-   padding-left: 3vw;
-   padding-top: 3vh;
-   font-size: 1.5vw;
-}
-
-.fp-search{
-    grid-area: search;
-}
-.fp-search p{
-    padding-left: 5vw;
-    padding-top: 3vh;
-    font-size: 1.5vw;
-    color: white;
+    font-size: .7em;
 }
 
 
-.logo img{
-    grid-area: logo;
-    width: 5vw;
-    height: auto;
-    margin-right: 4vw;
-  }
-  
-  /* Vertical line and text styling */
-  
-  .logo-container{
-    grid-area: text-logo;
-    display: flex;
-    align-content: center;
-  
-  }
-  .logo-text {
-    display: flex;
-    align-items: center; /* Vertically center the text */
-    color: white; /* Text color */
-    font-family: Arial, sans-serif; /* Adjust font */
-    font-size: 1.5vw; /* Adjust size */
-    font-weight: bold;
-    
-  }
-  
-  /* Vertical line */
-  .logo-text::before {
-    content: '';
-    display: inline-block;
-    width: 0.3vw; /* Line thickness */
-    height: 4vw; /* Line height */
-    background-color: white; /* Line color */
-    margin-right: 1vw; /* Space between line and text */
-  }
-  
-  
-  
-  
-  /* Text alignment */
-  .logo-text span {
-    display: block;
-    line-height: 100%; /* Adjust line height */
-  }
+
 
   .fp-info{
     grid-area: info;
@@ -672,15 +590,6 @@ html{
     color: white;
 }
 
-
-
-
-
-
-
-
-
-
 .nwcb-container4{
     width: 38vw;
     height: 30vh;
@@ -816,4 +725,37 @@ html{
     width: 100vw;
     height: 5vh;
     background-color: #1C1B19;
+}
+
+
+/* Base styles for all devices */
+body {
+    /* Your base styles here */
+}
+
+/* Media Query for PC (desktops and large screens) */
+@media only screen and (min-width: 1024px) {
+    
+}
+
+/* Media Query for Tablets */
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+
+
+    #texttime {
+         font-size: 15px;
+    }
+
+    
+}
+
+/* Media Query for Mobile Devices */
+@media only screen and (max-width: 767px) {
+    .body {
+        padding: 3em;
+    }
+
+    #texttime {
+        font-size: 10px;
+   }
 }

@@ -9,11 +9,29 @@
 </head>
 <body>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 m-[200px]">
-        <div class="bg-white shadow-md rounded-lg overflow-hidden min-w-[200px]">
-            <img src="https://pbs.twimg.com/media/EyAxvs4U4AA0LXk.jpg:large" alt="Image 1" class="w-full h-48 object-cover">
+        <div class="bg-orange-300 shadow-md rounded-lg overflow-hidden min-w-[200px] border-[1px] border-black">
+            <img src="https://pbs.twimg.com/media/EyAxvs4U4AA0LXk.jpg:large" alt="Image 1" class="rounded-lg p-2 w-full h-48 object-cover">
             <div class="p-4">
-                <h3 class="text-lg font-semibold">Card Title 1</h3>
-                <p class="text-gray-600">Description of the image or card content goes here.</p>
+                <h3 class="text-lg font-semibold text-white">Card Title 1</h3>
+                <p class="text-white">Description of the image or card content goes here.</p>
+                <div class="flex items-center space-x-2">
+                    <!-- Set Layout Button -->
+                    <button class="flex items-center bg-blue-500 text-white text-sm px-3 py-2 rounded hover:bg-blue-600">
+                        <i class="fas fa-layer-group mr-2"></i> Set Layout
+                    </button>
+                    <!-- View Button -->
+                    <button class="flex items-center bg-green-500 text-white text-sm px-3 py-2 rounded hover:bg-green-600">
+                        <i class="fas fa-eye mr-2"></i> View
+                    </button>
+                    <!-- Edit Button -->
+                    <button class="flex items-center bg-yellow-500 text-white text-sm px-3 py-2 rounded hover:bg-yellow-600">
+                        <i class="fas fa-edit mr-2"></i> Edit
+                    </button>
+                    <!-- Delete Button -->
+                    <button class="flex items-center bg-red-500 text-white text-sm px-3 py-2 rounded hover:bg-red-600">
+                        <i class="fas fa-trash mr-2"></i> Delete
+                    </button>
+                </div>
             </div>
         </div>
         <div class="bg-white shadow-md rounded-lg overflow-hidden min-w-[200px]">
