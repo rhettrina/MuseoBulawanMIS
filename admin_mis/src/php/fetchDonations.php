@@ -16,36 +16,40 @@ $order = ($sort === 'oldest') ? 'ASC' : 'DESC';
 // Query to fetch sorted donations with the necessary joins
 $query = "
     SELECT 
-    l.lendingID AS formID, 
-    CONCAT(dn.first_name, ' ', dn.last_name) AS donor_name, 
-    a.artifact_nameID AS artifact_title, 
-    a.artifact_typeID AS artifact_type, 
-    'To Review' AS status, 
-    'Pending' AS transfer_status, 
-    'Lending' AS form_type
-FROM 
-    Lending AS l
-JOIN 
-    Donator AS dn ON l.donatorID = dn.donatorID
-JOIN 
-    Artifact AS a ON l.artifact_nameID = a.artifact_nameID
+        l.lendingID AS formID, 
+        CONCAT(dn.first_name, ' ', dn.last_name) AS donor_name, 
+        a.artifact_nameID AS artifact_title, 
+        a.artifact_typeID AS artifact_type, 
+        'To Review' AS status, 
+        'Pending' AS transfer_status, 
+        'Lending' AS form_type,
+        l.submission_date AS submission_date
+    FROM 
+        Lending AS l
+    JOIN 
+        Donator AS dn ON l.donatorID = dn.donatorID
+    JOIN 
+        Artifact AS a ON l.artifact_nameID = a.artifact_nameID
 
-UNION ALL
+    UNION ALL
 
-SELECT 
-    d.donationID AS formID, 
-    CONCAT(dn.first_name, ' ', dn.last_name) AS donor_name, 
-    a.artifact_nameID AS artifact_title, 
-    a.artifact_typeID AS artifact_type, 
-    'To Review' AS status, 
-    'Pending' AS transfer_status, 
-    'Donation' AS form_type
-FROM 
-    Donation AS d
-JOIN 
-    Donator AS dn ON d.donatorID = dn.donatorID
-JOIN 
-    Artifact AS a ON d.artifact_nameID = a.artifact_nameID
+    SELECT 
+        d.donationID AS formID, 
+        CONCAT(dn.first_name, ' ', dn.last_name) AS donor_name, 
+        a.artifact_nameID AS artifact_title, 
+        a.artifact_typeID AS artifact_type, 
+        'To Review' AS status, 
+        'Pending' AS transfer_status, 
+        'Donation' AS form_type,
+        d.submission_date AS submission_date
+    FROM 
+        Donation AS d
+    JOIN 
+        Donator AS dn ON d.donatorID = dn.donatorID
+    JOIN 
+        Artifact AS a ON d.artifact_nameID = a.artifact_nameID
+
+    ORDER BY submission_date $order
 
 ";
 
