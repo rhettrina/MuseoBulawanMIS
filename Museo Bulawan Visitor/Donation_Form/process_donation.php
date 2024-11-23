@@ -1,14 +1,14 @@
 <?php
 error_reporting(E_ALL);
 
-header("Access-Control-Allow-Origin: *"); 
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS"); 
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, x-requested-with");
 
 // Database configuration
-$servername = "localhost"; 
-$username = "u376871621_bomb_squad";       
-$password = "Fujiwara000!";            
+$servername = "localhost";
+$username = "u376871621_bomb_squad";
+$password = "Fujiwara000!";
 $dbname = "u376871621_mb_mis";
 
 // Connect to the database
@@ -33,129 +33,100 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $city = $conn->real_escape_string($_POST['city']);
     $barangay = $conn->real_escape_string($_POST['barangay']);
     $street = $conn->real_escape_string($_POST['street']);
-    
     $artifactTitle = $conn->real_escape_string($_POST['artifactTitle']);
     $artifactDescription = $conn->real_escape_string($_POST['artifactDescription']);
     $acquisition = $conn->real_escape_string($_POST['acquisition']);
     $additionalInfo = $conn->real_escape_string($_POST['additionalInfo']);
     $narrative = $conn->real_escape_string($_POST['narrative']);
-    
     $formType = $conn->real_escape_string($_POST['formType']);
-    
-    // Initialize image file paths
-    $art_img_upload_path = '';
-    $doc_img_upload_path = '';
-    $rel_img_upload_path = '';
 
-    // Image upload handling
+    // Image upload paths
     $allowed_exs = array("jpg", "jpeg", "png");
+    $art_img_upload_path = $doc_img_upload_path = $rel_img_upload_path = '';
 
-    // Handle artifact image upload
+    // Artifact image upload
     if (!empty($_FILES['artifact_img']['name'])) {
-        $art_img_name = $_FILES['artifact_img']['name'];
-        $art_img_size = $_FILES['artifact_img']['size'];
-        $art_tmp_name = $_FILES['artifact_img']['tmp_name'];
-        $art_error = $_FILES['artifact_img']['error'];
-
-        if ($art_error === 0) {
-            if ($art_img_size > 12500000) {
-                $em = "Sorry, the artifact image is too large.";
-                header("Location: donateindex.html?error=$em");
-                exit();
-            } else {
-                $art_img_ex_lc = strtolower(pathinfo($art_img_name, PATHINFO_EXTENSION));
-                if (in_array($art_img_ex_lc, $allowed_exs)) {
-                    $new_art_img_name = uniqid("IMG-", true) . '.' . $art_img_ex_lc;
-                    $art_img_upload_path = 'uploads/artifacts/' . $new_art_img_name;
-                    move_uploaded_file($art_tmp_name, $art_img_upload_path);
-                } else {
-                    $em = "You can't upload files of this type for artifact image.";
-                    header("Location: donateindex.html?error=$em");
-                    exit();
-                }
-            }
-        } else {
-            $em = "Error uploading the artifact image.";
-            header("Location: donateindex.html?error=$em");
-            exit();
-        }
+        $art_img_name = handle_file_upload('artifact_img', $allowed_exs, 'uploads/artifacts/');
+        $art_img_upload_path = $art_img_name;
     }
 
-    // Insert query for the Donator table
-    $sql_donatorTB = "INSERT INTO `Donator`(`first_name`, `last_name`, `email`, `phone`, `province`, `street`, `barangay`, `organization`, `age`, `sex`, `city`, `submission_date`) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
-    $stmt = $conn->prepare($sql_donatorTB);
+    // Documentation image upload
+    if (!empty($_FILES['doc_img']['name'])) {
+        $doc_img_name = handle_file_upload('doc_img', $allowed_exs, 'uploads/documentation/');
+        $doc_img_upload_path = $doc_img_name;
+    }
+
+    // Related image upload
+    if (!empty($_FILES['rel_img']['name'])) {
+        $rel_img_name = handle_file_upload('rel_img', $allowed_exs, 'uploads/related/');
+        $rel_img_upload_path = $rel_img_name;
+    }
+
+    // Insert into Donator table
+    $sql_donator = "INSERT INTO `Donator`(`first_name`, `last_name`, `email`, `phone`, `province`, `street`, `barangay`, `organization`, `age`, `sex`, `city`, `submission_date`) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+    $stmt = $conn->prepare($sql_donator);
     $stmt->bind_param("ssssssssiss", $firstName, $lastName, $email, $phone, $province, $street, $barangay, $organization, $age, $sex, $city);
-
-    // Execute the insert query for Donator
-    if ($stmt->execute()) {
-        header("Location: donateindex.html?error=$em");
-        echo "Donator added successfully!<br>";
-    } else {
-        echo "Error inserting donator: " . $stmt->error;
-        exit();
+    if (!$stmt->execute()) {
+        die("Error inserting Donator: " . $stmt->error);
     }
 
-    // Now retrieve the donatorID from the Donator table
-    $fk_selector = "SELECT `donatorID` FROM `Donator` WHERE `first_name` = ? AND `last_name` = ? AND `email` = ? AND `phone` = ? AND `province` = ? AND `street` = ? AND `barangay` = ? AND `organization` = ? AND `age` = ? AND `sex` = ? AND `city` = ?";
-    $stmt = $conn->prepare($fk_selector);
-    $stmt->bind_param("ssssssssiss", $firstName, $lastName, $email, $phone, $province, $street, $barangay, $organization, $age, $sex, $city);
+    // Retrieve Donator ID
+    $donatorID = $conn->insert_id;
 
-    // Execute the query to get donatorID
-    $stmt->execute();
-
-    // Get the result
-    $result = $stmt->get_result();
-
-    // Fetch the donatorID from the result
-    if ($row = $result->fetch_assoc()) {
-        $donatorID = $row['donatorID'];
-        echo "Donator ID: " . $donatorID . "<br>";
-    } else {
-        echo "No matching donator found.";
-        exit();
+    // Insert into Donation table
+    $sql_donation = "INSERT INTO `Donation`(`donatorID`, `artifact_nameID`, `artifact_description`, `submission_date`) 
+                     VALUES (?, ?, ?, NOW())";
+    $stmt = $conn->prepare($sql_donation);
+    $stmt->bind_param("iss", $donatorID, $artifactTitle, $artifactDescription);
+    if (!$stmt->execute()) {
+        die("Error inserting Donation: " . $stmt->error);
     }
 
-    // Insert query for the Donation table
-    $abt_art = "INSERT INTO `Donation`(`donatorID`, `artifact_nameID`, `artifact_description`, `submission_date`) 
-            VALUES (?, ?, ?, NOW())";
-    $stmt = $conn->prepare($abt_art);
-    $stmt->bind_param("sss", $donatorID, $artifactTitle, $artifactDescription);
-
-    // Execute the query for the Donation table
-    if ($stmt->execute()) {
-        echo "Artifact donation added successfully!<br>";
-        header("Location: donateindex.html?error=$em");
-    } else {
-        echo "Error: " . $stmt->error;
-        exit();
-    }
-
-    // Insert query for the Artifact table
+    // Insert into Artifact table
     $sql_artifact = "INSERT INTO `Artifact`(`artifact_typeID`, `donatorID`, `artifact_description`, `artifact_nameID`, `acquisition`, `additional_info`, `narrative`, `artifact_img`, `documentation`, `related_img`, `submission_date`) 
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
-$stmt = $conn->prepare($sql_artifact);
-$stmt->bind_param("ssssssssss", $type, $donatorID, $artifactDescription, $artifactTitle, $acquisition, $additionalInfo, $narrative, $art_img_name, $doc_img_name, $rel_img_name);
-
-
-    $type = "Donation";  // Setting a default value for artifact type
-
-    // Bind the parameters to the prepared statement
-    $stmt->bind_param("ssssssssss", $type, $donatorID, $artifactDescription, $artifactTitle, $acquisition, $additionalInfo, $narrative, $art_img_name, $doc_img_name, $rel_img_name);
-
-    // Execute the query
-    if ($stmt->execute()) {
-        echo "Artifact added successfully!<br>";
-        header("Location: donateindex.html?error=$em");
-    } else {
-        echo "Error: " . $stmt->error;
-        exit();
+                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+    $type = "Donation";
+    $stmt = $conn->prepare($sql_artifact);
+    $stmt->bind_param("sissssssss", $type, $donatorID, $artifactDescription, $artifactTitle, $acquisition, $additionalInfo, $narrative, $art_img_upload_path, $doc_img_upload_path, $rel_img_upload_path);
+    if (!$stmt->execute()) {
+        die("Error inserting Artifact: " . $stmt->error);
     }
 
-    // Close the statement
-    $stmt->close();
+    // Success
+    echo "All data inserted successfully!";
+    header("Location: donateindex.html?success=true");
+    exit();
 }
 
 // Close the connection
 $conn->close();
-?>
+
+// Function to handle file uploads
+function handle_file_upload($fileKey, $allowed_exs, $uploadDir) {
+    $file = $_FILES[$fileKey];
+    $file_name = $file['name'];
+    $file_size = $file['size'];
+    $tmp_name = $file['tmp_name'];
+    $error = $file['error'];
+
+    if ($error === 0) {
+        if ($file_size > 12500000) {
+            die("Error: File size too large for $fileKey.");
+        }
+
+        $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+        if (in_array($file_ext, $allowed_exs)) {
+            $new_file_name = uniqid("IMG-", true) . '.' . $file_ext;
+            $file_upload_path = $uploadDir . $new_file_name;
+            if (!move_uploaded_file($tmp_name, $file_upload_path)) {
+                die("Error moving uploaded file for $fileKey.");
+            }
+            return $file_upload_path;
+        } else {
+            die("Error: Invalid file type for $fileKey.");
+        }
+    } else {
+        die("Error uploading file for $fileKey.");
+    }
+}
