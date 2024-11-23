@@ -9,7 +9,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
 include 'db_connect.php';
 
-// Get sort parameter from the query string (default is 'newest')
 $sort = $_GET['sort'] ?? 'newest'; 
 $order = ($sort === 'oldest') ? 'ASC' : 'DESC';
 

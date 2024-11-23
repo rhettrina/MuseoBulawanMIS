@@ -87,7 +87,7 @@ function populateTable(appointments) {
         // Create and populate cells
         const dateCell = document.createElement('td');
         dateCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'rounded-l-[15px]', 'border-t-2', 'border-b-2', 'border-l-2');
-        dateCell.textContent = appointment.appointment_date;
+        dateCell.textContent = appointment.created_at;
 
         const timeCell = document.createElement('td');
         timeCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
@@ -107,7 +107,7 @@ function populateTable(appointments) {
         
         const createdAtCell = document.createElement('td');
         createdAtCell.classList.add('px-4', 'py-2','bg-white', 'border-black', 'border-t-2', 'border-b-2');
-        createdAtCell.textContent = appointment.created_at;
+        createdAtCell.textContent = appointment.appointment_date;
 
         const actionCell = document.createElement('td');
         actionCell.classList.add('px-4', 'py-2', 'flex', 'justify-center', 'space-x-2', 'bg-white', 'border-black' , 'rounded-r-[15px]', 'border-t-2', 'border-b-2', 'border-r-2');
@@ -134,10 +134,12 @@ function populateTable(appointments) {
 
         // Append cells to row
         row.appendChild(dateCell);
-        row.appendChild(timeCell);
         row.appendChild(attendeeCell);
-        row.appendChild(attendeesCountCell);
+        row.appendChild(timeCell);
+        
         row.appendChild(statusCell);
+        row.appendChild(attendeesCountCell);
+        
         row.appendChild(createdAtCell);
         row.appendChild(actionCell);
 
