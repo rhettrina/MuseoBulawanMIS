@@ -145,7 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $type = "Lending";  // Setting a default value for artifact type
 
     // Bind the parameters to the prepared statement
-    $stmt->bind_param("ssssssssss", $type, $donatorID, $artifactDescription, $artifactTitle, $acquisition, $additionalInfo, $narrative, $art_img_name, $doc_img_name, $rel_img_name);
+    $stmt->bind_param("sissssssss", $type, $donatorID, $artifactDescription, $artifactTitle, $acquisition, $additionalInfo, $narrative, $art_img_name, $doc_img_name, $rel_img_name);
 
     // Execute the query
     if ($stmt->execute()) {

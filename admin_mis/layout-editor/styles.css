@@ -4,7 +4,8 @@ body {
     margin: 0;
     font-family: Noto Sans, sans-serif;
     height: 100vh;
-    overflow: hidden; /* Prevent body scroll */
+    overflow: hidden;
+    /* Prevent body scroll */
 }
 
 /* Sidebar styling */
@@ -19,17 +20,27 @@ body {
 
 .sidebar h2 {
     text-align: center;
-    background-color: #ffe0b2; /* Soft orange background */
-    padding: 15px 10px; /* Added more padding for better spacing */
-    border-radius: 8px; /* Slightly larger border radius for smoother edges */
+    background-color: #ffe0b2;
+    /* Soft orange background */
+    padding: 15px 10px;
+    /* Added more padding for better spacing */
+    border-radius: 8px;
+    /* Slightly larger border radius for smoother edges */
     margin-bottom: 20px;
-    font-size: 1.5rem; /* Slightly larger text size for better readability */
-    font-weight: bold; /* Make the text stand out */
-    color: #5c4033; /* A darker color for text contrast */
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px 1px 3px rgba(0, 0, 0, 0.06); /* Subtle shadow for depth */
-    border: 1px solid #f9c896; /* Optional border for more definition */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add smooth animation */
+    font-size: 1.5rem;
+    /* Slightly larger text size for better readability */
+    font-weight: bold;
+    /* Make the text stand out */
+    color: #5c4033;
+    /* A darker color for text contrast */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px 1px 3px rgba(0, 0, 0, 0.06);
+    /* Subtle shadow for depth */
+    border: 1px solid #f9c896;
+    /* Optional border for more definition */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* Add smooth animation */
 }
+
 .object-list {
     flex-grow: 1;
     overflow-y: auto;
@@ -39,33 +50,44 @@ body {
 .object {
     display: flex;
     align-items: center;
-    padding: 12px 15px; /* Added more padding for better spacing */
+    padding: 12px 15px;
+    /* Added more padding for better spacing */
     margin-bottom: 15px;
     background-color: #ffffff;
-    border-radius: 8px; /* Rounded corners */
+    border-radius: 8px;
+    /* Rounded corners */
     cursor: grab;
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition for hover and grab */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Enhanced shadow for more depth */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    /* Smooth transition for hover and grab */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Enhanced shadow for more depth */
 }
 
 /* When the object is being grabbed */
 .object:active {
     cursor: grabbing;
-    transform: scale(0.98); /* Slight shrink effect to show the grab action */
+    transform: scale(0.98);
+    /* Slight shrink effect to show the grab action */
 }
 
 /* Hover effect to change background color */
 .object:hover {
-    background-color: #f5f5f5; /* Lighter grey for hover */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* More pronounced shadow on hover */
-    transform: translateY(-2px); /* Lift the object a little when hovering */
+    background-color: #f5f5f5;
+    /* Lighter grey for hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    /* More pronounced shadow on hover */
+    transform: translateY(-2px);
+    /* Lift the object a little when hovering */
 }
 
 /* Symbol or icon inside the object */
 .symbol {
-    width: 45px; /* Slightly bigger icon size */
-    height: 45px; /* Slightly bigger icon size */
-    margin-right: 15px; /* Increased margin for better spacing */
+    width: 45px;
+    /* Slightly bigger icon size */
+    height: 45px;
+    /* Slightly bigger icon size */
+    margin-right: 15px;
+    /* Increased margin for better spacing */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -74,16 +96,22 @@ body {
 
 /* Styling the text */
 .object span {
-    font-size: 18px; /* Larger text size */
-    font-weight: 500; /* Slightly bolder font */
-    color: #333; /* Darker text for better readability */
-    flex-grow: 1; /* Ensure text takes available space */
-    transition: color 0.2s ease; /* Smooth color transition */
+    font-size: 18px;
+    /* Larger text size */
+    font-weight: 500;
+    /* Slightly bolder font */
+    color: #333;
+    /* Darker text for better readability */
+    flex-grow: 1;
+    /* Ensure text takes available space */
+    transition: color 0.2s ease;
+    /* Smooth color transition */
 }
 
 /* Hover effect for the text */
 .object:hover span {
-    color: #5c4033; /* Change text color to blue on hover */
+    color: #5c4033;
+    /* Change text color to blue on hover */
 }
 
 
@@ -93,17 +121,21 @@ body {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* Prevent main area scroll */
+    overflow: hidden;
+    /* Prevent main area scroll */
 }
 
 /* Toolbar styling */
 .toolbar {
-    background-color: #fed7aa; /* Original background color */
+    background-color: #fed7aa;
+    /* Original background color */
     padding: 10px 15px;
     display: flex;
     align-items: center;
-    border-bottom: 1px solid #ddd; /* Light border color */
-    color: #000; /* Set text and icons to black */
+    border-bottom: 1px solid #ddd;
+    /* Light border color */
+    color: #000;
+    /* Set text and icons to black */
 }
 
 /* Toolbar Left and Right sections */
@@ -127,16 +159,19 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: inherit; /* Inherit text color from .toolbar */
+    color: inherit;
+    /* Inherit text color from .toolbar */
 }
 
 .toolbar button .material-icons {
     font-size: 24px;
-    color: inherit; /* Ensure icons are black */
+    color: inherit;
+    /* Ensure icons are black */
 }
 
 .toolbar button:hover {
-    background-color: rgba(0, 0, 0, 0.1); /* Slightly darken on hover */
+    background-color: rgba(0, 0, 0, 0.1);
+    /* Slightly darken on hover */
     border-radius: 5px;
 }
 
@@ -155,18 +190,25 @@ body {
     background-color: white;
     cursor: default;
     display: flex;
-    justify-content: center; /* Center the canvas */
-    align-items: center;     /* Center the canvas */
-    overflow: hidden;        /* Prevent scrolling */
-    height: 70vh;           /* Full viewport height */
-    width: 70vw;            /* Full viewport width */
+    justify-content: center;
+    /* Center the canvas */
+    align-items: center;
+    /* Center the canvas */
+    overflow: hidden;
+    /* Prevent scrolling */
+    height: 70vh;
+    /* Full viewport height */
+    width: 70vw;
+    /* Full viewport width */
 }
 
 .canvas img {
     width: 100rem;
     height: auto;
-    max-width: 100%;         /* Ensure image doesn't overflow */
-    max-height: 100%;        /* Ensure image doesn't overflow */
+    max-width: 100%;
+    /* Ensure image doesn't overflow */
+    max-height: 100%;
+    /* Ensure image doesn't overflow */
 }
 
 /* Remove padding from symbol-container and text-container */
@@ -183,7 +225,8 @@ body {
     width: auto;
     height: auto;
     pointer-events: auto;
-    margin: 0; /* Ensure there's no margin */
+    margin: 0;
+    /* Ensure there's no margin */
 }
 
 /* Ensure the canvas fills the container */
@@ -215,10 +258,13 @@ body {
     background-color: #007bff;
     border: 1px solid #fff;
     border-radius: 50%;
-    z-index: 30; /* Ensure resize handles are above other elements */
+    z-index: 30;
+    /* Ensure resize handles are above other elements */
     display: none;
-    pointer-events: all; /* Allow resize handles to capture mouse events */
-    touch-action: none; /* Prevent default touch behavior on resize handles */
+    pointer-events: all;
+    /* Allow resize handles to capture mouse events */
+    touch-action: none;
+    /* Prevent default touch behavior on resize handles */
     transform-origin: center center;
 }
 
@@ -479,20 +525,26 @@ body {
     margin-top: 10px;
     padding: 8px;
     cursor: pointer;
-    background-color: #ffe0b2; /* Tailwind bg-orange-200 */
-    color: #5c4033; /* Darker text color for contrast */
+    background-color: #ffe0b2;
+    /* Tailwind bg-orange-200 */
+    color: #5c4033;
+    /* Darker text color for contrast */
     border: none;
     width: 100%;
     font-size: 16px;
-    border-radius: 5px; /* Optional: Add rounded corners */
-    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth hover transition */
+    border-radius: 5px;
+    /* Optional: Add rounded corners */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    /* Smooth hover transition */
 }
 
 #lock-button:hover,
 #lock-button-text:hover,
 #lock-button-symbol:hover {
-    background-color: #ffcc80; /* Slightly darker shade for hover */
-    transform: translateY(-2px); /* Slight lift on hover */
+    background-color: #ffcc80;
+    /* Slightly darker shade for hover */
+    transform: translateY(-2px);
+    /* Slight lift on hover */
 }
 
 #lock-button .material-icons,
@@ -502,61 +554,122 @@ body {
 }
 
 /* General slider styles for rotation, height, and width inputs */
+/* General slider input styles */
 #rotation-input,
 #height-input,
-#width-input {
-    -webkit-appearance: none; /* Remove default styling in WebKit browsers */
-    -moz-appearance: none; /* Remove default styling in Firefox */
-    appearance: none; /* Remove default styling in all browsers */
-    width: 100%; /* Full width of the container */
-    height: 8px; /* Track height */
-    background-color: #ffe0b2; /* Track color (match bg-orange-200) */
-    border-radius: 5px; /* Rounded edges for the track */
-    outline: none; /* Remove the outline */
-    cursor: pointer; /* Make it interactive */
-    transition: background-color 0.3s ease; /* Smooth transition for background */
+#width-input,
+#symbol-size-input,
+#symbol-rotation-input,
+#text-size-input,
+#text-rotation-input {
+    -webkit-appearance: none;
+    /* Remove default styling in WebKit browsers */
+    -moz-appearance: none;
+    /* Remove default styling in Firefox */
+    appearance: none;
+    width: 100%;
+    /* Full width of the container */
+    height: 8px;
+    /* Track height */
+    background-color: #ffe0b2;
+    /* Track color (match bg-orange-200) */
+    border-radius: 5px;
+    /* Rounded edges for the track */
+    outline: none;
+    /* Remove the outline */
+    cursor: pointer;
+    /* Make it interactive */
+    transition: background-color 0.3s ease;
+    /* Smooth transition for background */
 }
 
-/* Style the thumb (slider handle) for rotation, height, and width inputs */
+/* Style the thumb (slider handle) for rotation, height, width, symbol size/rotation, and text size/rotation */
 #rotation-input::-webkit-slider-thumb,
 #height-input::-webkit-slider-thumb,
-#width-input::-webkit-slider-thumb {
+#width-input::-webkit-slider-thumb,
+#symbol-size-input::-webkit-slider-thumb,
+#symbol-rotation-input::-webkit-slider-thumb,
+#text-size-input::-webkit-slider-thumb,
+#text-rotation-input::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 20px; /* Width of the thumb */
-    height: 20px; /* Height of the thumb */
-    background-color: #5c4033; /* Thumb color */
-    border-radius: 50%; /* Round thumb */
-    cursor: pointer; /* Pointer cursor */
-    transition: background-color 0.3s ease; /* Smooth transition for thumb */
+    width: 20px;
+    /* Width of the thumb */
+    height: 20px;
+    /* Height of the thumb */
+    background-color: #5c4033;
+    /* Thumb color */
+    border-radius: 50%;
+    /* Round thumb */
+    cursor: pointer;
+    /* Pointer cursor */
+    transition: background-color 0.3s ease;
+    /* Smooth transition for thumb */
 }
 
 #rotation-input::-moz-range-thumb,
 #height-input::-moz-range-thumb,
-#width-input::-moz-range-thumb {
+#width-input::-moz-range-thumb,
+#symbol-size-input::-moz-range-thumb,
+#symbol-rotation-input::-moz-range-thumb,
+#text-size-input::-moz-range-thumb,
+#text-rotation-input::-moz-range-thumb {
     width: 20px;
     height: 20px;
-    background-color: #5c4033; /* Thumb color */
-    border-radius: 50%; /* Round thumb */
+    background-color: #5c4033;
+    /* Thumb color */
+    border-radius: 50%;
+    /* Round thumb */
     cursor: pointer;
 }
 
-/* Focus effect for rotation, height, and width sliders */
+/* Focus effect for all sliders */
 #rotation-input:focus,
 #height-input:focus,
-#width-input:focus {
-    background-color: #ffcc80; /* Slightly darker color on focus */
+#width-input:focus,
+#symbol-size-input:focus,
+#symbol-rotation-input:focus,
+#text-size-input:focus,
+#text-rotation-input:focus {
+    background-color: #ffcc80;
+    /* Slightly darker color on focus */
 }
 
-/* Hover effect for thumb on rotation, height, and width sliders */
+/* Hover effect for thumb on all sliders */
 #rotation-input:hover::-webkit-slider-thumb,
 #height-input:hover::-webkit-slider-thumb,
 #width-input:hover::-webkit-slider-thumb,
+#symbol-size-input:hover::-webkit-slider-thumb,
+#symbol-rotation-input:hover::-webkit-slider-thumb,
+#text-size-input:hover::-webkit-slider-thumb,
+#text-rotation-input:hover::-webkit-slider-thumb,
 #rotation-input:hover::-moz-range-thumb,
 #height-input:hover::-moz-range-thumb,
-#width-input:hover::-moz-range-thumb {
-    background-color: #ff8c00; /* Darker thumb color on hover */
+#width-input:hover::-moz-range-thumb,
+#symbol-size-input:hover::-moz-range-thumb,
+#symbol-rotation-input:hover::-moz-range-thumb,
+#text-size-input:hover::-moz-range-thumb,
+#text-rotation-input:hover::-moz-range-thumb {
+    background-color: #ff8c00;
+    /* Darker thumb color on hover */
 }
+
+/* Optional Custom Style */
+.toggle-button {
+    transition: background-color 0.3s ease;
+}
+
+.toggle-button.active {
+    background-color: #fb923c; /* Darker orange (active state) */
+    border-color: #fb923c; /* Border to match the active background */
+}
+
+.toggle-button.inactive {
+    background-color: #fef3c7; /* Lighter orange (inactive state) */
+    border-color: #fef3c7; /* Border to match the inactive background */
+}
+
+
 
 
 /* Add this to your existing styles.css */
@@ -569,8 +682,10 @@ body {
     width: 100%;
     height: 100%;
     cursor: move;
-    z-index: 10; /* Ensure it's below the resize handles */
-    background: transparent; /* Transparent to avoid visual interference */
+    z-index: 10;
+    /* Ensure it's below the resize handles */
+    background: transparent;
+    /* Transparent to avoid visual interference */
 }
 
 /* Ensure only the bottom-right corner handle is visible for specific symbols */
@@ -591,11 +706,11 @@ body {
 /* Hide selection outlines and resize handles when capturing */
 .canvas.capturing .symbol-container,
 .canvas.capturing .text-container {
-  outline: none;
+    outline: none;
 }
 
 .canvas.capturing .resize-handle {
-  display: none !important;
+    display: none !important;
 }
 
 .modal {
@@ -654,24 +769,86 @@ body {
 
 .loading-spinner {
     border-style: solid;
-  }
+}
 
-  .hidden {
+.hidden {
     display: none;
-  }
+}
 
-  .animate-spin {
+.animate-spin {
     animation: spin 1s linear infinite;
-  }
+}
 
-  @keyframes spin {
+@keyframes spin {
     0% {
-      transform: rotate(0deg);
+        transform: rotate(0deg);
     }
+
     100% {
-      transform: rotate(360deg);
+        transform: rotate(360deg);
     }
-  }
+}
+
+
+/* Basic Styles for Page Load Loading Overlay */
+#page-load-overlay {
+    display: flex;
+}
+
+#page-load-overlay.hidden {
+    display: none;
+}
+
+.w-16 {
+    width: 4rem;
+}
+
+.h-16 {
+    height: 4rem;
+}
+
+.border-4 {
+    border-width: 4px;
+}
+
+.border-gray-300 {
+    border-color: #d1d5db;
+}
+
+.border-t-orange-200 {
+    border-top-color: #fbd38d;
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Text and Button Styles */
+.text-gray-700 {
+    color: #4a4a4a;
+}
+
+.text-lg {
+    font-size: 1.125rem;
+}
+
+.font-semibold {
+    font-weight: 600;
+}
+
+.mt-4 {
+    margin-top: 1rem;
+}
 
 
 /* Responsive adjustments */

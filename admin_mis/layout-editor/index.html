@@ -71,11 +71,11 @@
                 <button id="delete-button" title="Delete Selected">
                     <span class="material-icons">delete</span>
                 </button>
-                <button id="text-button" title="Add Text">
-                    <span class="material-icons">title</span>
+                <button id="text-button" title="Add Text" class="toggle-button">
+                    <span class="material-icons text-gray-800">title</span>
                 </button>
             </div>
-
+        
             <!-- Right Button -->
             <div class="toolbar-right">
                 <button id="save-button" title="Save Floor Plan">
@@ -83,6 +83,8 @@
                 </button>
             </div>
         </div>
+        
+        
 
         <div class="canvas" id="canvas-area">
             <img src="./floorplan.png" alt="img"
@@ -248,6 +250,13 @@
     </div>
   </div>
   
+  <!-- Separate Page Load Loading Animation -->
+  <div id="page-load-overlay" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div class="flex flex-col items-center">
+      <div class="w-16 h-16 border-4 border-gray-300 border-t-orange-200 rounded-full animate-spin"></div>
+      <p class="text-gray-700 mt-4 text-lg font-semibold">Please be patient, the website is loading...</p>
+    </div>
+  </div>
 
 
 

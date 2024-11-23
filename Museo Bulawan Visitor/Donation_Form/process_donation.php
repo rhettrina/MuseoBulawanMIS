@@ -117,8 +117,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Insert query for the Donation table
-    $abt_art = "INSERT INTO `Donation`(`donatorID`, `artifact_nameID`, `artifact_description`, `submission_date`) 
-            VALUES (?, ?, ?, NOW())";
+    $abt_art = "INSERT INTO `Donation`(`donatorID`, `artifact_nameID`, `artifact_description`) 
+            VALUES (?, ?, ?)";
     $stmt = $conn->prepare($abt_art);
     $stmt->bind_param("sss", $donatorID, $artifactTitle, $artifactDescription);
 
@@ -132,16 +132,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Insert query for the Artifact table
-    $sql_artifact = "INSERT INTO `Artifact`(`artifact_typeID`, `donatorID`, `artifact_description`, `artifact_nameID`, `acquisition`, `additional_info`, `narrative`, `artifact_img`, `documentation`, `related_img`, `submission_date`) 
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+    // Insert query for the Artifact table
+    $sql_artifact = "INSERT INTO `Artifact`(`artifact_typeID`, `donatorID`, `artifact_description`, `artifact_nameID`, `acquisition`, `additional_info`, `narrative`, `artifact_img`, `documentation`, `related_img`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql_artifact);
-    $stmt->bind_param("ssssssssss", $type, $donatorID, $artifactDescription, $artifactTitle, $acquisition, $additionalInfo, $narrative, $art_img_name, $doc_img_name, $rel_img_name);
-
 
     $type = "Donation";  // Setting a default value for artifact type
 
     // Bind the parameters to the prepared statement
-    $stmt->bind_param("ssssssssss", $type, $donatorID, $artifactDescription, $artifactTitle, $acquisition, $additionalInfo, $narrative, $art_img_name, $doc_img_name, $rel_img_name);
+    $stmt->bind_param("sissssssss", $type, $donatorID, $artifactDescription, $artifactTitle, $acquisition, $additionalInfo, $narrative, $art_img_name, $doc_img_name, $rel_img_name);
 
     // Execute the query
     if ($stmt->execute()) {

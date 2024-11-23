@@ -232,26 +232,47 @@ function deleteDonation(donationId) {
         if (!response.ok) {
             throw new Error('Failed to delete donation');
         }
-        fetchDonations(); // Refresh the donation list after deletion
+        // Dynamically remove the row from the table
+        const row = document.querySelector(`td[data-id="${donationId}"]`);
+        if (row) {
+            row.remove();
+        }
     })
     .catch(error => {
         console.error('Error deleting donation:', error);
     });
 }
 
+
 function openDeleteModal(callback) {
     const modal = document.getElementById("delete-modal");
     modal.classList.remove("hidden");
 
     document.getElementById("delete-confirm-button").onclick = () => {
-        callback(true);
+        if (typeof callback === "function") {
+            callback(true);
+        } else {
+            console.error("Callback is not a function.");
+        }
         closeModal("delete-modal");
     };
 
     document.getElementById("delete-cancel-button").onclick = () => {
-        callback(false);
+        if (typeof callback === "function") {
+            callback(false);
+        } else {
+            console.error("Callback is not a function.");
+        }
         closeModal("delete-modal");
     };
+}
+
+function confirmDeleteDonation(donationId) {
+    openDeleteModal(donationId, (id, confirmed) => {
+        if (confirmed) {
+            deleteDonation(id);  // Call deleteDonation with the correct ID
+        }
+    });
 }
 
 function closeModal(modalId) {

@@ -10,14 +10,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 // Include database connection file
 include 'db_connect.php';
 
-// Get donation ID from URL query parameter
-$appointnId = isset($_GET['id']) ? $_GET['id'] : null;
+// Get appointment ID from URL query parameter
+$appointmentId = isset($_GET['id']) ? $_GET['id'] : null;
 
-if ($donationId) {
+if ($appointmentId) {
     // Prepare and execute the DELETE query
-    $query = "DELETE FROM appointment WHERE id = ?";
-    $stmt = $connextion->prepare($query); // Use $connextion instead of $conn
-    $stmt->bind_param("i", $appointId);
+    $query = "DELETE FROM appointment WHERE appointmentID = ?";
+    $stmt = $connection->prepare($query); // Correct variable name is $connection, not $connextion
+    $stmt->bind_param("i", $appointmentId); // Bind the appointment ID
 
     if ($stmt->execute()) {
         // Return success message
@@ -30,8 +30,8 @@ if ($donationId) {
     $stmt->close();
 } else {
     // Return error if ID is not provided
-    echo json_encode(['error' => 'Invalid donation ID']);
+    echo json_encode(['error' => 'Invalid appointment ID']);
 }
 
-$connextion->close(); // Close connection using $connextion
+$connection->close(); // Close connection using $connection
 ?>

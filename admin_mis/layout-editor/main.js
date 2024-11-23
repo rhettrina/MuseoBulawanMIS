@@ -64,32 +64,32 @@ function drawRestAreaSymbol() {
 // Symbol drawing implementations
 function drawSymbolByIdOnCanvas(id, ctx, width, height) {
   switch (id) {
-      case "wall-artifact":
-          drawWallArtifactSymbolOnCanvas(ctx, width, height);
-          break;
-      case "container":
-          drawContainerSymbolOnCanvas(ctx, width, height);
-          break;
-      case "restricted":
-          drawRestrictedSymbolOnCanvas(ctx, width, height);
-          break;
-      case "information-desk":
-          drawInformationDeskSymbolOnCanvas(ctx, width, height);
-          break;
-      case "statue":
-          drawStatueSymbolOnCanvas(ctx, width, height);
-          break;
-      case "panels":
-          drawPanelsSymbolOnCanvas(ctx, width, height);
-          break;
-      case "wall-picture":
-          drawWallPictureSymbolOnCanvas(ctx, width, height);
-          break;
-      case "rest-area":
-          drawRestAreaSymbolOnCanvas(ctx, width, height);
-          break;
-      default:
-          break;
+    case "wall-artifact":
+      drawWallArtifactSymbolOnCanvas(ctx, width, height);
+      break;
+    case "container":
+      drawContainerSymbolOnCanvas(ctx, width, height);
+      break;
+    case "restricted":
+      drawRestrictedSymbolOnCanvas(ctx, width, height);
+      break;
+    case "information-desk":
+      drawInformationDeskSymbolOnCanvas(ctx, width, height);
+      break;
+    case "statue":
+      drawStatueSymbolOnCanvas(ctx, width, height);
+      break;
+    case "panels":
+      drawPanelsSymbolOnCanvas(ctx, width, height);
+      break;
+    case "wall-picture":
+      drawWallPictureSymbolOnCanvas(ctx, width, height);
+      break;
+    case "rest-area":
+      drawRestAreaSymbolOnCanvas(ctx, width, height);
+      break;
+    default:
+      break;
   }
 }
 
@@ -163,11 +163,11 @@ function drawInformationDeskSymbolOnCanvas(ctx, width, height) {
   ctx.beginPath();
   const circleRadius = Math.min(width, height) * 0.0833; // 5px in a 60px size canvas
   ctx.arc(
-      width / 2,                // Center x
-      height * 0.4167,          // Center y (25px from the top in a 60px height canvas)
-      circleRadius,
-      0,
-      Math.PI * 2
+    width / 2,                // Center x
+    height * 0.4167,          // Center y (25px from the top in a 60px height canvas)
+    circleRadius,
+    0,
+    Math.PI * 2
   );
   ctx.fill();
   ctx.strokeStyle = "#000"; // Black stroke for the circle
@@ -185,11 +185,11 @@ function drawStatueSymbolOnCanvas(ctx, width, height) {
   ctx.beginPath();
   const circleRadius = Math.min(width, height) * 0.1667; // 10px in a 60px size canvas
   ctx.arc(
-      width / 2,                // Center x
-      height * 0.25,            // Center y (15px from the top in a 60px height canvas)
-      circleRadius,             // Radius
-      0,
-      Math.PI * 2
+    width / 2,                // Center x
+    height * 0.25,            // Center y (15px from the top in a 60px height canvas)
+    circleRadius,             // Radius
+    0,
+    Math.PI * 2
   );
   ctx.fill();
   ctx.strokeStyle = "#000"; // Black stroke
@@ -246,11 +246,11 @@ function drawRestAreaSymbolOnCanvas(ctx, width, height) {
   ctx.beginPath();
   const circleRadius = Math.min(width, height) * 0.05; // 3px in a 60px size canvas
   ctx.arc(
-      width * 0.3667, // 22px in a 60px width canvas
-      height * 0.4167, // 25px from the top in a 60px height canvas
-      circleRadius,
-      0,
-      Math.PI * 2
+    width * 0.3667, // 22px in a 60px width canvas
+    height * 0.4167, // 25px from the top in a 60px height canvas
+    circleRadius,
+    0,
+    Math.PI * 2
   );
   ctx.fill();
   ctx.strokeStyle = "#000"; // Black stroke for circles
@@ -260,11 +260,11 @@ function drawRestAreaSymbolOnCanvas(ctx, width, height) {
   // Draw the right circle
   ctx.beginPath();
   ctx.arc(
-      width * 0.6333, // 38px in a 60px width canvas
-      height * 0.4167, // 25px from the top in a 60px height canvas
-      circleRadius,
-      0,
-      Math.PI * 2
+    width * 0.6333, // 38px in a 60px width canvas
+    height * 0.4167, // 25px from the top in a 60px height canvas
+    circleRadius,
+    0,
+    Math.PI * 2
   );
   ctx.fill();
   ctx.stroke();
@@ -318,7 +318,7 @@ document.addEventListener("DOMContentLoaded", () => {
     saveState();
   });
 
-  
+
 
   function createSymbol(id, x, y) {
     // Create a temporary canvas to determine the size of the symbol
@@ -409,7 +409,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function initializeInteractJS(element) {
     const isTextContainer = element.classList.contains("text-container");
     const isLocked = isElementLocked(element);
-  
+
     // Determine if the element is one of the specified symbols
     const symbolId = element.getAttribute("data-symbol-id");
     const isSpecificSymbol = [
@@ -418,10 +418,10 @@ document.addEventListener("DOMContentLoaded", () => {
       "statue",
       "rest-area",
     ].includes(symbolId);
-  
+
     // Remove any existing InteractJS interactions to prevent duplicates
     interact(element).unset();
-  
+
     // Draggable Options
     const draggableOptions = {
       inertia: false,
@@ -440,14 +440,14 @@ document.addEventListener("DOMContentLoaded", () => {
         move(event) {
           const x = (parseFloat(element.dataset.x) || 0) + event.dx;
           const y = (parseFloat(element.dataset.y) || 0) + event.dy;
-  
+
           element.dataset.x = x;
           element.dataset.y = y;
-  
+
           // Preserve rotation if applicable
           const rotation = parseFloat(element.dataset.rotation) || 0;
           element.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg)`;
-  
+
           updatePropertiesPanel(element);
         },
         end(event) {
@@ -458,10 +458,10 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       enabled: !isLocked,
     };
-  
+
     // Resizable Options
     let resizableOptions = {};
-  
+
     if (isTextContainer) {
       // Resizable options for text elements with max size of 100px
       resizableOptions = {
@@ -470,37 +470,37 @@ document.addEventListener("DOMContentLoaded", () => {
           move(event) {
             var target = event.target;
             if (isElementLocked(target)) return;
-  
+
             // Calculate new width and height
             var newWidth = event.rect.width;
             var newHeight = event.rect.height;
-  
+
             // Enforce maximum size of 100px
             const maxWidth = 125;
             const maxHeight = 125;
-  
+
             if (newWidth > maxWidth) {
               newWidth = maxWidth;
             }
             if (newHeight > maxHeight) {
               newHeight = maxHeight;
             }
-  
+
             // Enforce minimum size of 20px
             const minWidth = 20;
             const minHeight = 20;
-  
+
             if (newWidth < minWidth) {
               newWidth = minWidth;
             }
             if (newHeight < minHeight) {
               newHeight = minHeight;
             }
-  
+
             // Update the element's style
             target.style.width = newWidth + "px";
             target.style.height = newHeight + "px";
-  
+
             // Adjust font size based on height
             const textSpan = target.querySelector("span");
             if (textSpan) {
@@ -508,7 +508,7 @@ document.addEventListener("DOMContentLoaded", () => {
               textSpan.style.fontSize = fontSize + "px";
               updateTextContainerSize(target, textSpan);
             }
-  
+
             updatePropertiesPanel(target);
           },
           end(event) {
@@ -536,17 +536,17 @@ document.addEventListener("DOMContentLoaded", () => {
           move(event) {
             const target = event.target;
             if (isElementLocked(target)) return;
-  
+
             // Calculate new size
             const newSize = Math.max(event.rect.width, event.rect.height);
-  
+
             // Enforce minimum and maximum sizes
             const size = Math.max(20, Math.min(newSize, 800));
-  
+
             // Update the element's style
             target.style.width = size + "px";
             target.style.height = size + "px";
-  
+
             // Update the canvas size
             const canvas = target.querySelector("canvas");
             if (canvas) {
@@ -562,7 +562,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 canvas.height
               );
             }
-  
+
             updatePropertiesPanel(target);
           },
           end(event) {
@@ -606,13 +606,13 @@ document.addEventListener("DOMContentLoaded", () => {
         enabled: !isLocked,
       };
     }
-  
+
     // Initialize Interactions
     interact(element).draggable(draggableOptions).resizable(resizableOptions);
-  
+
     // Ensure the element can be clicked even when locked
     element.style.pointerEvents = "auto";
-  
+
     // Event Listener for Selection
     element.addEventListener("mousedown", (e) => {
       e.stopPropagation();
@@ -796,9 +796,8 @@ document.addEventListener("DOMContentLoaded", () => {
         rotationValue.textContent = `${rotationInput.value}°`;
 
         // Update lock button
-        lockButton.innerHTML = `<span class="material-icons">${
-          isLocked ? "lock" : "lock_open"
-        }</span> ${isLocked ? "Lock" : "Unlock"}`;
+        lockButton.innerHTML = `<span class="material-icons">${isLocked ? "lock" : "lock_open"
+          }</span> ${isLocked ? "Lock" : "Unlock"}`;
 
         // Event listeners for size and rotation
         sizeInput.oninput = () => {
@@ -837,9 +836,8 @@ document.addEventListener("DOMContentLoaded", () => {
         lockButton.onclick = () => {
           const isLockedNow = isElementLocked(element);
           element.dataset.locked = (!isLockedNow).toString();
-          lockButton.innerHTML = `<span class="material-icons">${
-            !isLockedNow ? "lock" : "lock_open"
-          }</span> ${!isLockedNow ? "Lock" : "Unlock"}`;
+          lockButton.innerHTML = `<span class="material-icons">${!isLockedNow ? "lock" : "lock_open"
+            }</span> ${!isLockedNow ? "Lock" : "Unlock"}`;
 
           // Update InteractJS
           interact(element).draggable({ enabled: !isElementLocked(element) });
@@ -878,9 +876,8 @@ document.addEventListener("DOMContentLoaded", () => {
       rotationValue.textContent = `${rotationInput.value}°`;
 
       // Update lock button
-      lockButton.innerHTML = `<span class="material-icons">${
-        isElementLocked(element) ? "lock" : "lock_open"
-      }</span> ${isElementLocked(element) ? "Lock" : "Unlock"}`;
+      lockButton.innerHTML = `<span class="material-icons">${isElementLocked(element) ? "lock" : "lock_open"
+        }</span> ${isElementLocked(element) ? "Lock" : "Unlock"}`;
 
       // Event listeners
       widthInput.oninput = () => {
@@ -935,9 +932,8 @@ document.addEventListener("DOMContentLoaded", () => {
       lockButton.onclick = () => {
         const isLocked = isElementLocked(element);
         element.dataset.locked = (!isLocked).toString();
-        lockButton.innerHTML = `<span class="material-icons">${
-          !isLocked ? "lock" : "lock_open"
-        }</span> ${!isLocked ? "Lock" : "Unlock"}`;
+        lockButton.innerHTML = `<span class="material-icons">${!isLocked ? "lock" : "lock_open"
+          }</span> ${!isLocked ? "Lock" : "Unlock"}`;
 
         // Update InteractJS
         interact(element).draggable({ enabled: !isElementLocked(element) });
@@ -989,9 +985,8 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
       // Update lock button
-      lockButtonText.innerHTML = `<span class="material-icons">${
-        isElementLocked(element) ? "lock" : "lock_open"
-      }</span> ${isElementLocked(element) ? "Lock" : "Unlock"}`;
+      lockButtonText.innerHTML = `<span class="material-icons">${isElementLocked(element) ? "lock" : "lock_open"
+        }</span> ${isElementLocked(element) ? "Lock" : "Unlock"}`;
 
       // Event listeners
       textContentInput.oninput = () => {
@@ -1055,9 +1050,8 @@ document.addEventListener("DOMContentLoaded", () => {
       lockButtonText.onclick = () => {
         const isLocked = isElementLocked(element);
         element.dataset.locked = (!isLocked).toString();
-        lockButtonText.innerHTML = `<span class="material-icons">${
-          !isLocked ? "lock" : "lock_open"
-        }</span> ${!isLocked ? "Lock" : "Unlock"}`;
+        lockButtonText.innerHTML = `<span class="material-icons">${!isLocked ? "lock" : "lock_open"
+          }</span> ${!isLocked ? "Lock" : "Unlock"}`;
 
         // Update InteractJS
         interact(element).draggable({ enabled: !isElementLocked(element) });
@@ -1250,22 +1244,22 @@ function saveFloorPlan(floorPlanName) {
       method: 'POST',
       body: formData,
     })
-    .then((response) => response.json())
-    .then((data) => {
-      // Hide loading overlay
-      loadingOverlay.classList.add('hidden');
+      .then((response) => response.json())
+      .then((data) => {
+        // Hide loading overlay
+        loadingOverlay.classList.add('hidden');
 
-      // Show success or error result
-      showResultModal(data.success ? 'Success' : 'Error', data.success ? 'Floor plan saved successfully!' : data.error);
-    })
-    .catch((error) => {
-      // Hide loading overlay
-      loadingOverlay.classList.add('hidden');
+        // Show success or error result
+        showResultModal(data.success ? 'Success' : 'Error', data.success ? 'Floor plan saved successfully!' : data.error);
+      })
+      .catch((error) => {
+        // Hide loading overlay
+        loadingOverlay.classList.add('hidden');
 
-      // Show error modal
-      showResultModal('Error', 'An error occurred while saving the floor plan.');
-      console.error('Error:', error);
-    });
+        // Show error modal
+        showResultModal('Error', 'An error occurred while saving the floor plan.');
+        console.error('Error:', error);
+      });
   });
 }
 
@@ -1304,5 +1298,23 @@ function showResultModal(title, message) {
   };
 }
 
+window.addEventListener('load', function () {
+  const pageLoadOverlay = document.getElementById('page-load-overlay');
 
-//wtf is this louis???
+  // Hide the page load overlay once the page is fully loaded (with a delay of 2 seconds)
+  setTimeout(function () {
+    pageLoadOverlay.classList.add('hidden');
+  }, 2000); // Adjust the delay if needed (e.g., 2000ms = 2 seconds)
+});
+
+
+// Get the text button element
+const textButton = document.getElementById('text-button');
+
+// Add event listener for toggle functionality
+textButton.addEventListener('click', function () {
+  // Toggle the 'active' and 'inactive' classes
+  textButton.classList.toggle('active');
+  textButton.classList.toggle('inactive');
+});
+
