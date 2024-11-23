@@ -33,7 +33,7 @@ if ($result) {
 }
 
 // Query to count approved appointments
-$query = "SELECT COUNT(*) AS approved FROM appointment WHERE status = 'approved'";
+$query = "SELECT COUNT(*) AS approved FROM appointment WHERE status = 'Approved'";
 $result = mysqli_query($connextion, $query);
 if ($result) {
     $row = mysqli_fetch_assoc($result);
@@ -44,7 +44,7 @@ if ($result) {
 }
 
 // Query to count rejected appointments
-$query = "SELECT COUNT(*) AS rejected FROM appointment WHERE status = 'rejected'";
+$query = "SELECT COUNT(*) AS rejected FROM appointment WHERE status = 'Rejected'";
 $result = mysqli_query($connextion, $query);
 if ($result) {
     $row = mysqli_fetch_assoc($result);
