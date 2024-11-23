@@ -1199,15 +1199,25 @@ document.getElementById('save-button').addEventListener('click', function () {
     };
 
     // Send the image data to the PHP server
-    fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/save_floorplan.php', { // Ensure the path is correct relative to index.html
+    // Replace your existing fetch code with the following
+    fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/save_floorplan.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(payload)
     })
-      .then(response => response.json())
-      .then(data => {
+      .then(response => response.text()) // Get the response as text
+      .then(text => {
+        console.log('Response text:', text); // Log the raw response
+        let data;
+        try {
+          data = JSON.parse(text); // Try parsing the text as JSON
+        } catch (error) {
+          console.error('Failed to parse JSON:', error);
+          alert('An error occurred while processing the response from the server.');
+          return;
+        }
         if (data.success) {
           alert('Floor plan saved successfully!');
           console.log('Saved Path:', data.path);
