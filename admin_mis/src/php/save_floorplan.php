@@ -8,31 +8,20 @@ if (!$connextion) {
     exit;
 }
 
-// Retrieve raw POST data
-$data = file_get_contents('php://input');
-$json = json_decode($data, true);
-
-// Make sure that the required keys exist in the POST data
-if (!isset($json['unique_id']) || !isset($json['name']) || !isset($json['imageData']) || !isset($_FILES['image'])) {
-    echo json_encode(['success' => false, 'error' => 'Unique ID, name, image data, and image file are required.']);
+// Make sure that the required fields exist in the POST data
+if (!isset($_POST['unique_id']) || !isset($_POST['name']) || !isset($_FILES['image'])) {
+    echo json_encode(['success' => false, 'error' => 'Unique ID, name, and image file are required.']);
     exit;
 }
 
-// Sanitize the input data to prevent SQL injection
-$unique_id = mysqli_real_escape_string($connextion, $json['unique_id']);
-$name = mysqli_real_escape_string($connextion, $json['name']);
-$imageData = $json['imageData'];
+$unique_id = mysqli_real_escape_string($connextion, $_POST['unique_id']);
+$name = mysqli_real_escape_string($connextion, $_POST['name']);
 $image = $_FILES['image'];
-
-// Debugging: Log the $_FILES array
-// This will help ensure the image is being received
-error_log(print_r($_FILES, true));
 
 // Handle image upload
 $imagePath = uploadImage($image);
 
-// Check if image upload is successful
-if ($imagePath && $imagePath !== "Error") {
+if ($imagePath) {
     // Prepare and execute the database insert query
     $query = $connextion->prepare("INSERT INTO floorplans 
         (unique_id, name, image_path, created_at) 
@@ -46,26 +35,14 @@ if ($imagePath && $imagePath !== "Error") {
         echo json_encode(['success' => false, 'error' => $query->error]);
     }
 } else {
-    echo json_encode(['success' => false, 'error' => 'Image upload failed: ' . $imagePath]);
+    echo json_encode(['success' => false, 'error' => 'Image upload failed']);
 }
 
 // Function to handle image upload
 function uploadImage($image) {
-    // Define the target directory to save images
+    // Define target directory to save images
     $targetDir = dirname(__DIR__, 1) . "/uploads/layout-made/";
-
-    // Ensure the directory exists
-    if (!is_dir($targetDir)) {
-        return "Upload directory does not exist.";
-    }
-
-    // Generate the target file path
     $targetFile = $targetDir . basename($image["name"]);
-
-    // Debugging: Log the target directory and file path
-    error_log("Target directory: " . $targetDir);
-    error_log("Target file path: " . $targetFile);
-
     $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
 
     // Check if the file is an image
@@ -73,9 +50,9 @@ function uploadImage($image) {
         return "File is not an image.";
     }
 
-    // Check if the file already exists
+    // Check if file already exists, use the same path
     if (file_exists($targetFile)) {
-        return "File already exists: " . $targetFile;
+        return $targetFile; // Return the existing file path
     }
 
     // Check file size (max 3MB)
