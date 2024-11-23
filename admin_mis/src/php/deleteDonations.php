@@ -19,6 +19,23 @@ if ($donationId) {
     $connextion->begin_transaction();
 
     try {
+        // Get the donatorID associated with the artifact
+        $getDonatorIdQuery = "SELECT donatorID FROM Artifact WHERE artifactID = ?";
+        $stmtDonatorId = $connextion->prepare($getDonatorIdQuery);
+        if (!$stmtDonatorId) {
+            throw new Exception('Failed to prepare donator ID retrieval query.');
+        }
+        $stmtDonatorId->bind_param("i", $donationId);
+        $stmtDonatorId->execute();
+        $result = $stmtDonatorId->get_result();
+
+        if ($result->num_rows === 0) {
+            throw new Exception('No artifact found with the provided ID.');
+        }
+
+        $row = $result->fetch_assoc();
+        $donatorID = $row['donatorID'];
+
         // Delete from Artifact table
         $deleteArtifact = "DELETE FROM Artifact WHERE artifactID = ?";
         $stmtArtifact = $connextion->prepare($deleteArtifact);
@@ -45,6 +62,28 @@ if ($donationId) {
         }
         $stmtDonation->bind_param("i", $donationId);
         $stmtDonation->execute();
+
+        // Check if the donator has other artifacts
+        $checkDonatorArtifacts = "SELECT COUNT(*) AS artifactCount FROM Artifact WHERE donatorID = ?";
+        $stmtCheckDonator = $connextion->prepare($checkDonatorArtifacts);
+        if (!$stmtCheckDonator) {
+            throw new Exception('Failed to prepare Donator artifact check query.');
+        }
+        $stmtCheckDonator->bind_param("i", $donatorID);
+        $stmtCheckDonator->execute();
+        $resultCheck = $stmtCheckDonator->get_result();
+        $artifactCount = $resultCheck->fetch_assoc()['artifactCount'];
+
+        // If no other artifacts reference this donator, delete the donator
+        if ($artifactCount == 0) {
+            $deleteDonator = "DELETE FROM Donator WHERE donatorID = ?";
+            $stmtDonator = $connextion->prepare($deleteDonator);
+            if (!$stmtDonator) {
+                throw new Exception('Failed to prepare Donator deletion query.');
+            }
+            $stmtDonator->bind_param("i", $donatorID);
+            $stmtDonator->execute();
+        }
 
         // Commit transaction
         $connextion->commit();
