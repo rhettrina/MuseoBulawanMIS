@@ -1,54 +1,64 @@
 <?php
+// Set headers for CORS and content type
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, x-requested-with");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS, DELETE, UPDATE");
+header("Access-Control-Allow-Headers: Content-Type");
 
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    exit(0); // Respond to OPTIONS pre-flight request
+    exit(0); // Handle preflight requests
 }
 
 // Include database connection
 include 'db_connect.php';
 
-header('Content-Type: application/json');
+// Read and decode JSON payload
+$rawInput = file_get_contents('php://input');
+$data = json_decode($rawInput, true);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $input = json_decode(file_get_contents('php://input'), true);
-
-    if (!isset($input['artifactID']) || !isset($input['newStatus'])) {
-        echo json_encode(['success' => false, 'error' => 'Invalid input']);
-        exit;
-    }
-
-    $artifactID = $input['artifactID'];
-    $newStatus = $input['newStatus'];
-
-    // Validate input
-    $validStatuses = ['Acquired', 'Pending', 'Failed'];
-    if (!in_array($newStatus, $validStatuses)) {
-        echo json_encode(['success' => false, 'error' => 'Invalid transfer status']);
-        exit;
-    }
-
-    // Update query
-    $stmt = $connextion->prepare("UPDATE Artifact SET transfer_status = ?, updated_date = NOW() WHERE artifactID = ?");
-    if (!$stmt) {
-        echo json_encode(['success' => false, 'error' => 'Failed to prepare statement']);
-        exit;
-    }
-
-    $stmt->bind_param("si", $newStatus, $artifactID);
-
-    if ($stmt->execute()) {
-        echo json_encode(['success' => true]);
-    } else {
-        echo json_encode(['success' => false, 'error' => 'Failed to update the database']);
-    }
-
-    $stmt->close();
-} else {
-    echo json_encode(['success' => false, 'error' => 'Invalid request method']);
+// Validate the JSON payload
+if (!$data) {
+    http_response_code(400); // Bad Request
+    echo json_encode([
+        'success' => false, 
+        'error' => 'Invalid JSON input', 
+        'raw_input' => $rawInput, // Log the raw input for debugging
+        'json_last_error' => json_last_error_msg() // Provide detailed error message
+    ]);
+    exit();
 }
 
+// Check if required fields are present in the data
+if (isset($data['donID'], $data['transfer_status'])) {
+    $donID = $data['donID'];
+    $transfer_status = $data['transfer_status'];
+
+    // Prepare the SQL statement
+    $stmt = $connextion->prepare("UPDATE Artifact SET transfer_status = ?, updated_date = NOW() WHERE donatorID = ?");
+    if (!$stmt) {
+        http_response_code(500); // Internal Server Error
+        echo json_encode(['success' => false, 'error' => $connextion->error]);
+        exit();
+    }
+
+    // Bind parameters (string for transfer_status, integer for donID)
+    $stmt->bind_param("si", $transfer_status, $donID);
+
+    // Execute the statement and send the appropriate response
+    if ($stmt->execute()) {
+        http_response_code(200); // Success
+        echo json_encode(['success' => true, 'message' => 'Transfer status updated successfully']);
+    } else {
+        http_response_code(500); // Internal Server Error
+        echo json_encode(['success' => false, 'error' => $stmt->error]);
+    }
+
+    // Close the statement
+    $stmt->close();
+} else {
+    http_response_code(400); // Bad Request
+    echo json_encode(['success' => false, 'error' => 'Missing required fields (donID or transfer_status)']);
+}
+
+// Close the database connection
 $connextion->close();
 ?>
