@@ -239,19 +239,27 @@ function deleteDonation(donationId) {
     });
 }
 
-function openDeleteModal(callback) {
+function openDeleteModal(donationId, callback) {
     const modal = document.getElementById("delete-modal");
     modal.classList.remove("hidden");
 
     document.getElementById("delete-confirm-button").onclick = () => {
-        callback(true);
+        callback(donationId, true);  // Pass the donationId along with confirmation
         closeModal("delete-modal");
     };
 
     document.getElementById("delete-cancel-button").onclick = () => {
-        callback(false);
+        callback(donationId, false); // Pass the donationId with cancellation
         closeModal("delete-modal");
     };
+}
+
+function confirmDeleteDonation(donationId) {
+    openDeleteModal(donationId, (id, confirmed) => {
+        if (confirmed) {
+            deleteDonation(id);  // Call deleteDonation with the correct ID
+        }
+    });
 }
 
 function closeModal(modalId) {

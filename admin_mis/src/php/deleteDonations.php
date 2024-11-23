@@ -20,12 +20,12 @@ if ($donationId) {
         exit;
     }
 
-    // Corrected column name for the query (replace `artifact_id` if needed)
+    // Correct column name for the query (replace `artifact_id` if needed)
     $donatorQuery = "SELECT donatorID FROM Artifact WHERE artifactId = ?";
     $stmt = $connextion->prepare($donatorQuery);
 
     if (!$stmt) {
-        echo json_encode(['error' => 'Failed to prepare query: ' . $connextion->error]);
+        echo json_encode(['error' => 'Database query error']);
         exit;
     }
 
@@ -73,13 +73,13 @@ if ($donationId) {
             echo json_encode(['error' => 'Donation not found']);
         }
     } else {
-        echo json_encode(['error' => 'Failed to retrieve donation information: ' . $stmt->error]);
+        echo json_encode(['error' => 'Failed to retrieve donation information']);
     }
 
     $stmt->close();
 } else {
     // Return error if ID is not provided
-    echo json_encode(['error' => 'Invalid donation ID']);
+    echo json_encode(['error' => 'Donation ID is required']);
 }
 
 $connextion->close(); // Close connection
