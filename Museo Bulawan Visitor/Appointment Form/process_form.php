@@ -64,7 +64,7 @@ if ($stmt) {
         $appointment_id = $stmt->insert_id; // Capture the generated appointment ID
         
         // Success message and redirect to appointmentindex.html
-        echo "<script>alert('Appointment successfully scheduled!'); window.location.href='appointmentindex.html';</script>";
+        echo "<script>alert('Appointment successfully scheduled!'); window.location.href='appointindex.html';</script>";
     } else {
         die("Error inserting into appointment table: " . $stmt->error);
     }
