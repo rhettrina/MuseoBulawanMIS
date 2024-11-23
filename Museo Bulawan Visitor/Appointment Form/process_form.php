@@ -30,8 +30,8 @@ $barangay = $_POST['barangay'];
 $street = $_POST['street'];
 $organization = isset($_POST['organization']) ? htmlspecialchars($_POST['organization']) : null; // Organization field
 $attendees = isset($_POST['attendees_count']) && is_numeric($_POST['attendees_count']) && $_POST['attendees_count'] > 0 ? intval($_POST['attendees_count']) : null; // Attendees count
-$preferred_date = $_POST['preferred_date'];
-$preferred_time = $_POST['time'];
+$preferred_date = $_POST['preferred_date'];  // Ensure this is in YYYY-MM-DD format
+$preferred_time = $_POST['time'];  // Ensure this is in HH:MM:SS format
 $notes = $_POST['notes'];
 
 // Insert into visitor table
@@ -53,9 +53,9 @@ if ($stmt) {
 $stmt = $connextion->prepare("INSERT INTO appointment (visitorID, preferred_time, preferred_date, population_countID, appointment_dateID) VALUES (?, ?, ?, ?, ?)");
 
 if ($stmt) {
-    // Make sure to pass the correct variable names for the parameters
+    // Ensure that the preferred_date is in YYYY-MM-DD format and preferred_time is in HH:MM:SS format
     $population_countID = $attendees; // Assuming the attendees count is stored in population_countID
-    $appointment_dateID = $preferred_date; // Assuming appointment_dateID is same as preferred_date for now (adjust as needed)
+    $appointment_dateID = $preferred_date; // Assuming appointment_dateID is the same as preferred_date for now (adjust as needed)
     
     // Bind the parameters with the appropriate types
     $stmt->bind_param("ssiii", $visitor_id, $preferred_time, $preferred_date, $population_countID, $appointment_dateID);
