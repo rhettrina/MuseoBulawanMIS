@@ -196,32 +196,32 @@
             </div>
         </div>
         <div class="w-full flex flex-col justify-center items-center text-[11px]">
-            <img class="w-1/2 h-auto"  src="../source/456426171_818223347173704_7806646081153137378_n 1.png" id="article-image-1">
+            <img class="w-1/2 h-auto"  src="" id="article-image-1">
             <span class="" id="article-image-1-details">placeholder details</span>
         </div>
-        <div class="flex p-2 justify-between">
+        <div class="flex p-2 justify-between h-[300px]">
             <div class="w-[49.5%]">
-                <textarea class="w-full" name="" id="article-left" readonly >sample</textarea>
+                <textarea class="w-full h-full" name="" id="article-left" readonly >sample</textarea>
             </div>
             <div class="w-[49.5%]">
-                <textarea class="w-full" name="" id="article-right" readonly >sample</textarea>
+                <textarea class="w-full h-full" name="" id="article-right" readonly >sample</textarea>
             </div>
         </div>
-        <div class="flex p-2 justify-left">
+        <div class="flex p-2 justify-left ">
             
                <div class="w-[100px] h-auto bg-yellow-700"></div>
-               <img class="h-[150px] w-auto relative -left-[80px] p-4 z-50"  src="../source/456426171_818223347173704_7806646081153137378_n 1.png" id="article-image-2"> 
+               <img class="h-[150px] w-auto relative -left-[80px] p-4 z-50"  src="" id="article-image-2"> 
             
-            <div class="grow">
-                <textarea class="w-full" name="" id="content-right-2" readonly >sample</textarea>
+            <div class="grow h-auto">
+                <textarea class="w-full h-auto" name="" id="content-right-2" readonly >sample</textarea>
             </div>
         </div>
         <div class="flex p-2 justify-left">
-            <div class="grow">
-                <textarea class="w-full" name="" id="content-right-3" readonly >sample</textarea>
+            <div class="grow h-full">
+                <textarea class="w-full h-full" name="" id="content-right-3" readonly >sample</textarea>
             </div>
             
-            <img class="h-[150px] w-auto relative -right-[80px] p-4 z-50"  src="../source/456426171_818223347173704_7806646081153137378_n 1.png" id="article-image-3"> 
+            <img class="h-[150px] w-auto relative -right-[80px] p-4 z-50"  src="" id="article-image-3"> 
             <div class="w-[100px] h-auto bg-yellow-700"></div>
          
          
@@ -229,3 +229,102 @@
       
     </div>
   </div>
+
+
+
+<!-- Update Article Modal -->
+<div id="update-article-modal" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 overflow-auto">
+    <div class="bg-white rounded-lg w-4/5 max-w-3xl p-6 shadow-lg flex flex-col max-h-[80vh]">
+        <h2 class="text-xl font-semibold mb-4">Update Article</h2>
+        <form id="update-article-form" class="flex p-2 flex-col flex-grow overflow-auto" enctype="multipart/form-data">
+    
+            <div class="mb-4">
+                <label for="update-article-author" class="block text-gray-700 font-medium mb-2">Article Author</label>
+                <input type="text" id="update-article-author" name="article_author" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-300" required />
+            </div>
+            <div class="mb-4">
+                <label for="update-article-title" class="block text-gray-700 font-medium mb-2">Article Title</label>
+                <input type="text" id="update-article-title" name="article_title" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-300" required />
+            </div>
+            <div class="mb-4">
+                <label for="update-article-location" class="block text-gray-700 font-medium mb-2">Article Location</label>
+                <input type="text" id="update-article-location" name="article_location" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-300" required />
+            </div>
+            <div class="mb-4">
+                <label for="update-article-type" class="block text-gray-700 font-medium mb-2">Article Type</label>
+                <select id="update-article-type" name="article_type" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-300" required>
+                    <option value="news">News</option>
+                    <option value="event">Event</option>
+                </select>
+            </div>
+            <div class="mb-4 grid">
+                <div class="flex flex-col space-y-4 items-center">
+                    <label for="update-image-1" class="block text-gray-700 font-medium mb-2">Image 1</label>
+                    <label class="w-40 h-40 flex justify-center items-center rounded-md border-2 border-dashed border-gray-300 cursor-pointer bg-gray-100 overflow-hidden hover:border-orange-400 relative">
+                        <input id="update-image-1-input" type="file" accept="image/*" class="hidden" onchange="previewImage(event, 'update-image-1')" required>
+                        <span class="text-sm text-gray-500">Choose Image 1</span>
+                        <div id="update-image-1" class="absolute inset-0 bg-cover bg-center hidden"></div>
+                    </label>
+                </div>
+                <div class="w-full mt-2">
+                    <label for="update-image-details" class="block mb-2 text-gray-700 font-medium">Image Details</label>
+                    <input type="text" id="update-image-details" name="image-details" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-300" required />
+                </div>
+            </div>
+  
+            <div class="mb-4 flex justify-between gap-x-2">
+                <div class="w-6/12">
+                    <label for="update-content-left" class="block text-gray-700 font-medium mb-2">Content Left</label>
+                    <textarea id="update-content-left" name="content-left" rows="5" class="w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-300" required></textarea>
+                </div>
+                <div class="w-6/12">
+                    <label for="update-content-right" class="block text-gray-700 font-medium mb-2">Content Right</label>
+                    <textarea id="update-content-right" name="content-right" rows="5" class="w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-300" required></textarea>
+                </div>
+            </div>
+  
+            <div class="mb-4 flex justify-between gap-x-2">
+                <div class="flex flex-col space-y-4 w-6/12 items-center">
+                    <label for="update-image-2" class="block text-gray-700 font-medium mb-2">Image 2</label>
+                    <label class="w-40 h-40 flex justify-center items-center rounded-md border-2 border-dashed border-gray-300 cursor-pointer bg-gray-100 overflow-hidden hover:border-orange-400 relative">
+                        <input id="update-image-2-input" type="file" accept="image/*" class="hidden" onchange="previewImage(event, 'update-image-2')" required>
+                        <span class="text-sm text-gray-500">Choose Image 2</span>
+                        <div id="update-image-2" class="absolute inset-0 bg-cover bg-center hidden"></div>
+                    </label>
+                </div>
+                <div class="w-6/12">
+                    <label for="update-content-box2" class="block text-gray-700 font-medium mb-2">Content Image</label>
+                    <textarea id="update-content-box2" name="content-box2" rows="7" class="w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-300" required></textarea>
+                </div>
+            </div>
+  
+            <div class="mb-4 flex justify-between gap-x-2">
+                <div class="w-6/12">
+                    <label for="update-content-box3" class="block text-gray-700 font-medium mb-2">Content Image</label>
+                    <textarea id="update-content-box3" name="content-box3" rows="7" class="w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-300" required></textarea>
+                </div>
+                <div class="flex flex-col space-y-4 w-6/12 items-center">
+                    <label for="update-image-3" class="block text-gray-700 font-medium mb-2">Image 3</label>
+                    <label class="w-40 h-40 flex justify-center items-center rounded-md border-2 border-dashed border-gray-300 cursor-pointer bg-gray-100 overflow-hidden hover:border-orange-400 relative">
+                        <input id="update-image-3-input" type="file" accept="image/*" class="hidden" onchange="previewImage(event, 'update-image-3')" required>
+                        <span class="text-sm text-gray-500">Choose Image 3</span>
+                        <div id="update-image-3" class="absolute inset-0 bg-cover bg-center hidden"></div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Hidden inputs for storing additional data -->
+            <input type="hidden" id="update-article-created-at" value="">
+            <input type="hidden" id="update-article-updated-at" value="">
+            <input type="hidden" id="imgu1" value="">
+            <input type="hidden" id="imgu2" value="">
+            <input type="hidden" id="imgu3" value="">
+  
+        </form>
+  
+        <div class="sticky bottom-0 flex justify-end space-x-4 bg-white px-6 py-4 shadow-md">
+            <button type="button" id="update-article-cancel-button" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">Cancel</button>
+            <button type="button" id="update-article-save-button" class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600">Save</button>
+        </div>
+    </div>
+</div>

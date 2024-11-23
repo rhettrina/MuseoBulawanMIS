@@ -64,32 +64,32 @@ function drawRestAreaSymbol() {
 // Symbol drawing implementations
 function drawSymbolByIdOnCanvas(id, ctx, width, height) {
   switch (id) {
-      case "wall-artifact":
-          drawWallArtifactSymbolOnCanvas(ctx, width, height);
-          break;
-      case "container":
-          drawContainerSymbolOnCanvas(ctx, width, height);
-          break;
-      case "restricted":
-          drawRestrictedSymbolOnCanvas(ctx, width, height);
-          break;
-      case "information-desk":
-          drawInformationDeskSymbolOnCanvas(ctx, width, height);
-          break;
-      case "statue":
-          drawStatueSymbolOnCanvas(ctx, width, height);
-          break;
-      case "panels":
-          drawPanelsSymbolOnCanvas(ctx, width, height);
-          break;
-      case "wall-picture":
-          drawWallPictureSymbolOnCanvas(ctx, width, height);
-          break;
-      case "rest-area":
-          drawRestAreaSymbolOnCanvas(ctx, width, height);
-          break;
-      default:
-          break;
+    case "wall-artifact":
+      drawWallArtifactSymbolOnCanvas(ctx, width, height);
+      break;
+    case "container":
+      drawContainerSymbolOnCanvas(ctx, width, height);
+      break;
+    case "restricted":
+      drawRestrictedSymbolOnCanvas(ctx, width, height);
+      break;
+    case "information-desk":
+      drawInformationDeskSymbolOnCanvas(ctx, width, height);
+      break;
+    case "statue":
+      drawStatueSymbolOnCanvas(ctx, width, height);
+      break;
+    case "panels":
+      drawPanelsSymbolOnCanvas(ctx, width, height);
+      break;
+    case "wall-picture":
+      drawWallPictureSymbolOnCanvas(ctx, width, height);
+      break;
+    case "rest-area":
+      drawRestAreaSymbolOnCanvas(ctx, width, height);
+      break;
+    default:
+      break;
   }
 }
 
@@ -163,11 +163,11 @@ function drawInformationDeskSymbolOnCanvas(ctx, width, height) {
   ctx.beginPath();
   const circleRadius = Math.min(width, height) * 0.0833; // 5px in a 60px size canvas
   ctx.arc(
-      width / 2,                // Center x
-      height * 0.4167,          // Center y (25px from the top in a 60px height canvas)
-      circleRadius,
-      0,
-      Math.PI * 2
+    width / 2,                // Center x
+    height * 0.4167,          // Center y (25px from the top in a 60px height canvas)
+    circleRadius,
+    0,
+    Math.PI * 2
   );
   ctx.fill();
   ctx.strokeStyle = "#000"; // Black stroke for the circle
@@ -185,11 +185,11 @@ function drawStatueSymbolOnCanvas(ctx, width, height) {
   ctx.beginPath();
   const circleRadius = Math.min(width, height) * 0.1667; // 10px in a 60px size canvas
   ctx.arc(
-      width / 2,                // Center x
-      height * 0.25,            // Center y (15px from the top in a 60px height canvas)
-      circleRadius,             // Radius
-      0,
-      Math.PI * 2
+    width / 2,                // Center x
+    height * 0.25,            // Center y (15px from the top in a 60px height canvas)
+    circleRadius,             // Radius
+    0,
+    Math.PI * 2
   );
   ctx.fill();
   ctx.strokeStyle = "#000"; // Black stroke
@@ -246,11 +246,11 @@ function drawRestAreaSymbolOnCanvas(ctx, width, height) {
   ctx.beginPath();
   const circleRadius = Math.min(width, height) * 0.05; // 3px in a 60px size canvas
   ctx.arc(
-      width * 0.3667, // 22px in a 60px width canvas
-      height * 0.4167, // 25px from the top in a 60px height canvas
-      circleRadius,
-      0,
-      Math.PI * 2
+    width * 0.3667, // 22px in a 60px width canvas
+    height * 0.4167, // 25px from the top in a 60px height canvas
+    circleRadius,
+    0,
+    Math.PI * 2
   );
   ctx.fill();
   ctx.strokeStyle = "#000"; // Black stroke for circles
@@ -260,11 +260,11 @@ function drawRestAreaSymbolOnCanvas(ctx, width, height) {
   // Draw the right circle
   ctx.beginPath();
   ctx.arc(
-      width * 0.6333, // 38px in a 60px width canvas
-      height * 0.4167, // 25px from the top in a 60px height canvas
-      circleRadius,
-      0,
-      Math.PI * 2
+    width * 0.6333, // 38px in a 60px width canvas
+    height * 0.4167, // 25px from the top in a 60px height canvas
+    circleRadius,
+    0,
+    Math.PI * 2
   );
   ctx.fill();
   ctx.stroke();
@@ -318,85 +318,7 @@ document.addEventListener("DOMContentLoaded", () => {
     saveState();
   });
 
-  const saveButton = document.getElementById("save-button");
 
-  if (saveButton) {
-    saveButton.addEventListener("click", () => {
-      const canvasArea = document.getElementById("canvas-area");
-
-      // Hide selection outlines and resize handles before capturing
-      const selectedElements = canvasArea.querySelectorAll('.selected');
-      selectedElements.forEach(el => el.classList.remove('selected'));
-
-      // Add a class to indicate that we are capturing
-      canvasArea.classList.add('capturing');
-
-      html2canvas(canvasArea, {
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: null, // Set to null if you want a transparent background
-        scale: 2,
-      })
-        .then((canvas) => {
-          // Remove the capturing class after capturing
-          canvasArea.classList.remove('capturing');
-
-          // Convert canvas to a downloadable image
-          const finalDataURL = canvas.toDataURL("image/png");
-          const link = document.createElement("a");
-          link.href = finalDataURL;
-          link.download = "floor-plan.png"; // File name for download
-
-          // Append the link to the body
-          document.body.appendChild(link);
-
-          // Trigger the download
-          link.click();
-
-          // Remove the link from the document
-          document.body.removeChild(link);
-        })
-        .catch((err) => {
-          // Remove the capturing class in case of error
-          canvasArea.classList.remove('capturing');
-
-          console.error("Error capturing the floor plan:", err);
-          alert(
-            "An error occurred while saving the floor plan. Please try again."
-          );
-        });
-    });
-  } else {
-    console.error("Save button not found in the DOM.");
-  }
-
-  document.addEventListener("DOMContentLoaded", function () {
-    const saveButton = document.getElementById("save-button");
-
-    if (saveButton) {
-      saveButton.addEventListener("click", function () {
-        const canvasArea = document.getElementById("canvas-area");
-
-        html2canvas(canvasArea, { useCORS: true, allowTaint: true })
-          .then((canvas) => {
-            // Convert canvas to a downloadable image
-            const finalDataURL = canvas.toDataURL("image/png");
-            const link = document.createElement("a");
-            link.href = finalDataURL;
-            link.download = "floor-plan.png"; // File name for download
-            link.click(); // Trigger the download
-          })
-          .catch((err) => {
-            console.error("Error capturing the floor plan:", err);
-            alert(
-              "An error occurred while saving the floor plan. Please try again."
-            );
-          });
-      });
-    } else {
-      console.error("Save button not found in the DOM.");
-    }
-  });
 
   function createSymbol(id, x, y) {
     // Create a temporary canvas to determine the size of the symbol
@@ -487,7 +409,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function initializeInteractJS(element) {
     const isTextContainer = element.classList.contains("text-container");
     const isLocked = isElementLocked(element);
-  
+
     // Determine if the element is one of the specified symbols
     const symbolId = element.getAttribute("data-symbol-id");
     const isSpecificSymbol = [
@@ -496,10 +418,10 @@ document.addEventListener("DOMContentLoaded", () => {
       "statue",
       "rest-area",
     ].includes(symbolId);
-  
+
     // Remove any existing InteractJS interactions to prevent duplicates
     interact(element).unset();
-  
+
     // Draggable Options
     const draggableOptions = {
       inertia: false,
@@ -518,14 +440,14 @@ document.addEventListener("DOMContentLoaded", () => {
         move(event) {
           const x = (parseFloat(element.dataset.x) || 0) + event.dx;
           const y = (parseFloat(element.dataset.y) || 0) + event.dy;
-  
+
           element.dataset.x = x;
           element.dataset.y = y;
-  
+
           // Preserve rotation if applicable
           const rotation = parseFloat(element.dataset.rotation) || 0;
           element.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg)`;
-  
+
           updatePropertiesPanel(element);
         },
         end(event) {
@@ -536,10 +458,10 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       enabled: !isLocked,
     };
-  
+
     // Resizable Options
     let resizableOptions = {};
-  
+
     if (isTextContainer) {
       // Resizable options for text elements with max size of 100px
       resizableOptions = {
@@ -548,37 +470,37 @@ document.addEventListener("DOMContentLoaded", () => {
           move(event) {
             var target = event.target;
             if (isElementLocked(target)) return;
-  
+
             // Calculate new width and height
             var newWidth = event.rect.width;
             var newHeight = event.rect.height;
-  
+
             // Enforce maximum size of 100px
             const maxWidth = 125;
             const maxHeight = 125;
-  
+
             if (newWidth > maxWidth) {
               newWidth = maxWidth;
             }
             if (newHeight > maxHeight) {
               newHeight = maxHeight;
             }
-  
+
             // Enforce minimum size of 20px
             const minWidth = 20;
             const minHeight = 20;
-  
+
             if (newWidth < minWidth) {
               newWidth = minWidth;
             }
             if (newHeight < minHeight) {
               newHeight = minHeight;
             }
-  
+
             // Update the element's style
             target.style.width = newWidth + "px";
             target.style.height = newHeight + "px";
-  
+
             // Adjust font size based on height
             const textSpan = target.querySelector("span");
             if (textSpan) {
@@ -586,7 +508,7 @@ document.addEventListener("DOMContentLoaded", () => {
               textSpan.style.fontSize = fontSize + "px";
               updateTextContainerSize(target, textSpan);
             }
-  
+
             updatePropertiesPanel(target);
           },
           end(event) {
@@ -614,17 +536,17 @@ document.addEventListener("DOMContentLoaded", () => {
           move(event) {
             const target = event.target;
             if (isElementLocked(target)) return;
-  
+
             // Calculate new size
             const newSize = Math.max(event.rect.width, event.rect.height);
-  
+
             // Enforce minimum and maximum sizes
             const size = Math.max(20, Math.min(newSize, 800));
-  
+
             // Update the element's style
             target.style.width = size + "px";
             target.style.height = size + "px";
-  
+
             // Update the canvas size
             const canvas = target.querySelector("canvas");
             if (canvas) {
@@ -640,7 +562,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 canvas.height
               );
             }
-  
+
             updatePropertiesPanel(target);
           },
           end(event) {
@@ -684,13 +606,13 @@ document.addEventListener("DOMContentLoaded", () => {
         enabled: !isLocked,
       };
     }
-  
+
     // Initialize Interactions
     interact(element).draggable(draggableOptions).resizable(resizableOptions);
-  
+
     // Ensure the element can be clicked even when locked
     element.style.pointerEvents = "auto";
-  
+
     // Event Listener for Selection
     element.addEventListener("mousedown", (e) => {
       e.stopPropagation();
@@ -874,9 +796,8 @@ document.addEventListener("DOMContentLoaded", () => {
         rotationValue.textContent = `${rotationInput.value}°`;
 
         // Update lock button
-        lockButton.innerHTML = `<span class="material-icons">${
-          isLocked ? "lock" : "lock_open"
-        }</span> ${isLocked ? "Lock" : "Unlock"}`;
+        lockButton.innerHTML = `<span class="material-icons">${isLocked ? "lock" : "lock_open"
+          }</span> ${isLocked ? "Lock" : "Unlock"}`;
 
         // Event listeners for size and rotation
         sizeInput.oninput = () => {
@@ -915,9 +836,8 @@ document.addEventListener("DOMContentLoaded", () => {
         lockButton.onclick = () => {
           const isLockedNow = isElementLocked(element);
           element.dataset.locked = (!isLockedNow).toString();
-          lockButton.innerHTML = `<span class="material-icons">${
-            !isLockedNow ? "lock" : "lock_open"
-          }</span> ${!isLockedNow ? "Lock" : "Unlock"}`;
+          lockButton.innerHTML = `<span class="material-icons">${!isLockedNow ? "lock" : "lock_open"
+            }</span> ${!isLockedNow ? "Lock" : "Unlock"}`;
 
           // Update InteractJS
           interact(element).draggable({ enabled: !isElementLocked(element) });
@@ -956,9 +876,8 @@ document.addEventListener("DOMContentLoaded", () => {
       rotationValue.textContent = `${rotationInput.value}°`;
 
       // Update lock button
-      lockButton.innerHTML = `<span class="material-icons">${
-        isElementLocked(element) ? "lock" : "lock_open"
-      }</span> ${isElementLocked(element) ? "Lock" : "Unlock"}`;
+      lockButton.innerHTML = `<span class="material-icons">${isElementLocked(element) ? "lock" : "lock_open"
+        }</span> ${isElementLocked(element) ? "Lock" : "Unlock"}`;
 
       // Event listeners
       widthInput.oninput = () => {
@@ -1013,9 +932,8 @@ document.addEventListener("DOMContentLoaded", () => {
       lockButton.onclick = () => {
         const isLocked = isElementLocked(element);
         element.dataset.locked = (!isLocked).toString();
-        lockButton.innerHTML = `<span class="material-icons">${
-          !isLocked ? "lock" : "lock_open"
-        }</span> ${!isLocked ? "Lock" : "Unlock"}`;
+        lockButton.innerHTML = `<span class="material-icons">${!isLocked ? "lock" : "lock_open"
+          }</span> ${!isLocked ? "Lock" : "Unlock"}`;
 
         // Update InteractJS
         interact(element).draggable({ enabled: !isElementLocked(element) });
@@ -1067,9 +985,8 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
       // Update lock button
-      lockButtonText.innerHTML = `<span class="material-icons">${
-        isElementLocked(element) ? "lock" : "lock_open"
-      }</span> ${isElementLocked(element) ? "Lock" : "Unlock"}`;
+      lockButtonText.innerHTML = `<span class="material-icons">${isElementLocked(element) ? "lock" : "lock_open"
+        }</span> ${isElementLocked(element) ? "Lock" : "Unlock"}`;
 
       // Event listeners
       textContentInput.oninput = () => {
@@ -1133,9 +1050,8 @@ document.addEventListener("DOMContentLoaded", () => {
       lockButtonText.onclick = () => {
         const isLocked = isElementLocked(element);
         element.dataset.locked = (!isLocked).toString();
-        lockButtonText.innerHTML = `<span class="material-icons">${
-          !isLocked ? "lock" : "lock_open"
-        }</span> ${!isLocked ? "Lock" : "Unlock"}`;
+        lockButtonText.innerHTML = `<span class="material-icons">${!isLocked ? "lock" : "lock_open"
+          }</span> ${!isLocked ? "Lock" : "Unlock"}`;
 
         // Update InteractJS
         interact(element).draggable({ enabled: !isElementLocked(element) });
@@ -1263,3 +1179,60 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initialize the undo stack with the initial state
   saveState();
 });
+
+
+document.getElementById('save-button').addEventListener('click', function () {
+  // Generate a unique ID for the floor plan
+  const uniqueId = generateUniqueId(); // Implement this function as needed
+
+  // Notify the user that saving has started (optional)
+  alert('Saving floor plan...');
+
+  // Capture the canvas area as an image
+  html2canvas(document.getElementById('canvas-area')).then(function (canvas) {
+    const imageData = canvas.toDataURL('image/png'); // You can change the format if needed
+
+    // Prepare the payload
+    const payload = {
+      unique_id: uniqueId,
+      imageData: imageData
+    };
+
+    // Send the image data to the PHP server
+    // Replace your existing fetch code with the following
+    fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/save_floorplan.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    })
+      .then(response => response.text()) // Get the response as text
+      .then(text => {
+        console.log('Response text:', text); // Log the raw response
+        let data;
+        try {
+          data = JSON.parse(text); // Try parsing the text as JSON
+        } catch (error) {
+          console.error('Failed to parse JSON:', error);
+          alert('An error occurred while processing the response from the server.');
+          return;
+        }
+        if (data.success) {
+          alert('Floor plan saved successfully!');
+          console.log('Saved Path:', data.path);
+        } else {
+          alert('Failed to save floor plan: ' + data.error);
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        alert('An error occurred while saving the floor plan.');
+      });
+  });
+});
+
+// Utility function to generate a unique ID (simple example)
+function generateUniqueId() {
+  return 'fp_' + Date.now();
+}
