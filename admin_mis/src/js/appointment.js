@@ -38,8 +38,8 @@ function displayAppointmentErrorMessages() {
 // Function to populate the data from the PHP response for appointments
 function populateTotalAppointmentData(data) {
     document.getElementById('total-appointments').innerText = data.total_appointments || 0;
-    document.getElementById('total-approved').innerText = data.total_approved || 0;
-    document.getElementById('total-rejected').innerText = data.total_rejected || 0;
+    document.getElementById('total-approved').innerText = data.approved_appointments || 0;
+    document.getElementById('total-rejected').innerText = data.rejected_appointments || 0;
     
 }
 
@@ -87,7 +87,7 @@ function populateTable(appointments) {
         // Create and populate cells
         const dateCell = document.createElement('td');
         dateCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'rounded-l-[15px]', 'border-t-2', 'border-b-2', 'border-l-2');
-        dateCell.textContent = appointment.appointment_date;
+        dateCell.textContent = appointment.appointment_created_at;
 
         const timeCell = document.createElement('td');
         timeCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
@@ -103,11 +103,11 @@ function populateTable(appointments) {
 
         const statusCell = document.createElement('td');
         statusCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
-        statusCell.textContent = appointment.status;
+        statusCell.textContent = appointment.appointment_status;
         
         const createdAtCell = document.createElement('td');
         createdAtCell.classList.add('px-4', 'py-2','bg-white', 'border-black', 'border-t-2', 'border-b-2');
-        createdAtCell.textContent = appointment.created_at;
+        createdAtCell.textContent = appointment.appointment_confirmation_date;
 
         const actionCell = document.createElement('td');
         actionCell.classList.add('px-4', 'py-2', 'flex', 'justify-center', 'space-x-2', 'bg-white', 'border-black' , 'rounded-r-[15px]', 'border-t-2', 'border-b-2', 'border-r-2');
@@ -131,15 +131,15 @@ function populateTable(appointments) {
             actionCell.appendChild(deleteButton);
 
         // Append cells to row
-        row.appendChild(createdAtCell);
+        row.appendChild(dateCell);
         row.appendChild(attendeeCell);
         row.appendChild(timeCell);
         
         row.appendChild(statusCell);
         row.appendChild(attendeesCountCell);
         
+        row.appendChild(createdAtCell);
         
-        row.appendChild(dateCell);
         row.appendChild(actionCell);
 
         tableBody.appendChild(row);
