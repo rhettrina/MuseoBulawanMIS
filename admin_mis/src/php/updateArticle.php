@@ -26,22 +26,24 @@ try {
         }
 
         // Handle file uploads
-        $uploadDir = 'uploads/articlesUploads/';
+        $targetDir = dirname(__DIR__, 1) . "/uploads/articlesUploads/"; // Directory path
         $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
 
+        // Ensure the directory exists
+        if (!is_dir($targetDir)) {
+            mkdir($targetDir, 0777, true); // Create directory if it doesn't exist
+        }
+
+        // Array to store uploaded images
         $uploadedImages = [];
         $imageFields = ['imgu1', 'imgu2', 'imgu3'];
 
+        // Loop through each image field and handle the upload
         foreach ($imageFields as $imageField) {
             if (isset($_FILES[$imageField]) && $_FILES[$imageField]['error'] == UPLOAD_ERR_OK) {
                 $fileTmpPath = $_FILES[$imageField]['tmp_name'];
-                $fileName = time() . '_' . $_FILES[$imageField]['name'];
-                $destination = $uploadDir . $fileName;
-
-                // Ensure the directory exists
-                if (!is_dir($uploadDir)) {
-                    mkdir($uploadDir, 0777, true);
-                }
+                $fileName = time() . '_' . $_FILES[$imageField]['name']; // Ensure unique file name
+                $destination = $targetDir . $fileName; // Destination file path
 
                 // Validate the file type and size
                 $fileType = mime_content_type($fileTmpPath);
@@ -53,9 +55,9 @@ try {
                     throw new Exception("File size for $imageField exceeds 5MB limit.");
                 }
 
-                // Move file to target directory
+                // Move the file to the target directory
                 if (move_uploaded_file($fileTmpPath, $destination)) {
-                    $uploadedImages[$imageField] = $fileName;
+                    $uploadedImages[$imageField] = $fileName; // Store the file name
                 } else {
                     throw new Exception("Error moving file for $imageField.");
                 }
