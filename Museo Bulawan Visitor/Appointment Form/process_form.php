@@ -46,7 +46,7 @@ if ($stmt) {
     $stmt->bind_param("sssss", $full_name, $email, $phone, $address, $organization);
 
     if ($stmt->execute()) {
-        $visitor_id = $stmt->insert_id; 
+        $visitor_id = $stmt->insert_id; // Capture the generated visitor ID
     } else {
         die("Error inserting into visitor table: " . $stmt->error);
     }
@@ -54,7 +54,7 @@ if ($stmt) {
 }
 
 // Insert into appointment table
-$stmt = $connextion->prepare("INSERT INTO appointment (visitorID, preferred_time, preferred_date, population_countID, appointment_dateID) VALUES (?, ?, ?, ?, ?)");
+$stmt = $connextion->prepare("INSERT INTO appointment (visitorID, preferred_time, preferred_date, population_countID, appointment_dateID, created_at) VALUES (?, ?, ?, ?, ?, NOW())");
 
 if ($stmt) {
     // Ensure that the preferred_date is in YYYY-MM-DD format and preferred_time is in HH:MM:SS format
@@ -74,6 +74,7 @@ if ($stmt) {
     }
     $stmt->close();
 }
+
 
 // Close the connection
 $connextion->close();
