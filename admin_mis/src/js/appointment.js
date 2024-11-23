@@ -284,11 +284,7 @@ function closeModal(modalId) {
         console.error(`Modal with ID "${modalId}" not found.`);
     }
 }
-
-// Function to show and populate the modal
 function showAppointmentModal(appointment) {
-
-    
     if (!appointment) {
         console.error('Appointment data is undefined or null');
         return;
@@ -308,12 +304,215 @@ function showAppointmentModal(appointment) {
     document.getElementById('appointment-time').textContent = appointment.appointment_time || 'N/A';
     document.getElementById('appointment-notes').textContent = appointment.appointment_notes || 'N/A';
 
+    // Store the appointment ID in the modal for action buttons
+    modal.dataset.appointmentId = appointment.appointmentID;
+
     // Show the modal
     if (modal) {
         modal.classList.remove('hidden');
     }
 }
 
+// Function to close the modal
+function closeAppointmentModal() {
+    const modal = document.getElementById('appointment-modal');
+    if (modal) {
+        modal.classList.add('hidden');
+        modal.dataset.appointmentId = '';
+    }
+}
+
+// Event listeners for closing the modal
+document.getElementById('close-appointment-modal').addEventListener('click', closeAppointmentModal);
+document.getElementById('close-appointment-modal-btn').addEventListener('click', closeAppointmentModal);
+
+// Event listeners for Approve and Reject buttons
+document.getElementById('approve-appointment-btn').addEventListener('click', function() {
+    handleAppointmentAction('approve');
+});
+
+document.getElementById('reject-appointment-btn').addEventListener('click', function() {
+    handleAppointmentAction('reject');
+});
+
+// Function to handle Approve/Reject actions
+function handleAppointmentAction(action) {
+    const modal = document.getElementById('appointment-modal');
+    const appointmentId = modal.dataset.appointmentId;
+
+    if (!appointmentId) {
+        console.error('No appointment ID found.');
+        return;
+    }
+
+    // Confirmation prompt
+    const confirmation = confirm(`Are you sure you want to ${action} this appointment?`);
+    if (!confirmation) {
+        return;
+    }
+
+    // Send the action to the server via AJAX (Fetch API)
+    fetch('process_appointment.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            appointmentID: appointmentId,
+            action: action
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.success);
+            // Optionally, update the UI without reloading
+            // For simplicity, reload the page to reflect changes
+            location.reload();
+        } else if (data.error) {
+            alert('Error: ' + data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An unexpected error occurred.');
+    });
+}
+
+// Event listeners for appointment links to open the modal
+document.querySelectorAll('.appointment-link').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const appointmentData = JSON.parse(this.getAttribute('data-appointment'));
+        showAppointmentModal(appointmentData);
+    });
+});
+
+// Function to close the modal
+function closeAppointmentModal() {
+    const modal = document.getElementById('appointment-modal');
+    if (modal) {
+        modal.classList.add('hidden');
+        modal.dataset.appointmentId = '';
+    }
+}
+
+// Event listeners for closing the modal
+document.getElementById('close-appointment-modal').addEventListener('click', closeAppointmentModal);
+document.getElementById('close-appointment-modal-btn').addEventListener('click', closeAppointmentModal);
+
+// Event listeners for Approve and Reject buttons
+document.getElementById('approve-appointment-btn').addEventListener('click', function() {
+    handleAppointmentAction('approve');
+});
+
+document.getElementById('reject-appointment-btn').addEventListener('click', function() {
+    handleAppointmentAction('reject');
+});
+// Function to show and populate the modal
+function showAppointmentModal(appointment) {
+    if (!appointment) {
+        console.error('Appointment data is undefined or null');
+        return;
+    }
+
+    const modal = document.getElementById('appointment-modal');
+
+    // Populate modal fields
+    document.getElementById('appointment-name').textContent = appointment.visitor_name || 'N/A';
+    document.getElementById('appointment-email').textContent = appointment.visitor_email || 'N/A';
+    document.getElementById('appointment-phone').textContent = appointment.visitor_phone || 'N/A';
+    document.getElementById('appointment-address').textContent = appointment.visitor_address || 'N/A';
+    document.getElementById('appointment-purpose').textContent = appointment.appointment_purpose || 'N/A';
+    document.getElementById('appointment-organization').textContent = appointment.visitor_organization || 'N/A';
+    document.getElementById('appointment-population').textContent = appointment.number_of_attendees || 'N/A';
+    document.getElementById('appointment-date').textContent = appointment.appointment_date || 'N/A';
+    document.getElementById('appointment-time').textContent = appointment.appointment_time || 'N/A';
+    document.getElementById('appointment-notes').textContent = appointment.appointment_notes || 'N/A';
+
+    // Store the appointment ID in the modal for action buttons
+    modal.dataset.appointmentId = appointment.appointmentID;
+
+    // Show the modal
+    if (modal) {
+        modal.classList.remove('hidden');
+    }
+}
+
+// Function to close the modal
+function closeAppointmentModal() {
+    const modal = document.getElementById('appointment-modal');
+    if (modal) {
+        modal.classList.add('hidden');
+        modal.dataset.appointmentId = '';
+    }
+}
+
+// Event listeners for closing the modal
+document.getElementById('close-appointment-modal').addEventListener('click', closeAppointmentModal);
+document.getElementById('close-appointment-modal-btn').addEventListener('click', closeAppointmentModal);
+
+// Event listeners for Approve and Reject buttons
+document.getElementById('approve-appointment-btn').addEventListener('click', function() {
+    handleAppointmentAction('approve');
+});
+
+document.getElementById('reject-appointment-btn').addEventListener('click', function() {
+    handleAppointmentAction('reject');
+});
+
+// Function to handle Approve/Reject actions
+function handleAppointmentAction(action) {
+    const modal = document.getElementById('appointment-modal');
+    const appointmentId = modal.dataset.appointmentId;
+
+    if (!appointmentId) {
+        console.error('No appointment ID found.');
+        return;
+    }
+
+    // Confirmation prompt
+    const confirmation = confirm(`Are you sure you want to ${action} this appointment?`);
+    if (!confirmation) {
+        return;
+    }
+
+    // Prepare the data to send
+    const formData = new FormData();
+    formData.append('appointmentID', appointmentId);
+    formData.append('action', action);
+
+    // Send the action to the server via AJAX (Fetch API)
+    fetch('process_appointment.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.success);
+            // Optionally, update the UI without reloading
+            // For simplicity, reload the page to reflect changes
+            location.reload();
+        } else if (data.error) {
+            alert('Error: ' + data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An unexpected error occurred.');
+    });
+}
+
+// Example: Event listener for appointment links to open the modal
+// Assuming your appointment links have the class 'appointment-link' and a data attribute 'data-appointment'
+document.querySelectorAll('.appointment-link').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const appointmentData = JSON.parse(this.getAttribute('data-appointment'));
+        showAppointmentModal(appointmentData);
+    });
+});
 
 
 

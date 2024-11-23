@@ -1,14 +1,26 @@
 <?php
+// process_appointment.php
+
+header('Content-Type: application/json'); // Ensure the response is in JSON format
 
 session_start();
 
-// Replace this with your actual authentication check
+// Authentication Check
 if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
     echo json_encode(['error' => 'Unauthorized access.']);
     exit;
 }
 
-// Read the raw POST data
+// Include the database connection
+include 'db_connect.php';
+
+// Function to sanitize input data
+function sanitize_input($data) {
+    return htmlspecialchars(trim($data));
+}
+
+// Retrieve and sanitize POST data
+// Since the user is sending JSON data, we need to decode it accordingly
 $rawData = file_get_contents("php://input");
 $data = json_decode($rawData, true);
 
@@ -36,30 +48,23 @@ if (!in_array($action, ['approve', 'reject'])) {
 // Determine the new status
 $newStatus = ($action === 'approve') ? 'Approved' : 'Rejected';
 
-include 'db_connect.php';
-
-// Update the appointment status using prepared statements
-$stmt = $connextion->prepare("UPDATE appointment SET status = ? WHERE appointmentID = ?");
+// Prepare and execute the update statement
+// Update both 'status' and 'confirmation_date'
+$stmt = $connection->prepare("UPDATE appointment SET status = ?, confirmation_date = NOW() WHERE appointmentID = ?");
 if ($stmt) {
     $stmt->bind_param("si", $newStatus, $appointmentID);
     if ($stmt->execute()) {
-        // Optionally, send an email notification to the user about the approval/rejection
-        // Fetch user email and name from the visitor and appointment tables
-        $fetchStmt = $connextion->prepare("
-            SELECT v.email, v.name, a.purpose 
-            FROM appointment a 
-            JOIN visitor v ON a.visitorID = v.visitorID 
-            WHERE a.appointmentID = ?
-        ");
-        
-
-        echo json_encode(['success' => "Appointment successfully {$newStatus}."]);
+        echo json_encode(['success' => "Appointment successfully {$newStatus}."], JSON_UNESCAPED_SLASHES);
     } else {
-        echo json_encode(['error' => "Error updating appointment status: " . $stmt->error]);
+        // Log the error internally without exposing sensitive details to the user
+        error_log("Error updating appointment status: " . $stmt->error);
+        echo json_encode(['error' => 'Failed to update appointment status. Please try again later.']);
     }
     $stmt->close();
 } else {
-    echo json_encode(['error' => "Error preparing statement: " . $connection->error]);
+    // Log the error internally
+    error_log("Error preparing statement: " . $connection->error);
+    echo json_encode(['error' => 'Server error. Please try again later.']);
 }
 
 // Close the database connection
