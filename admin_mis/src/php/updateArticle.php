@@ -1,117 +1,126 @@
 <?php
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json");
+
 require 'db_connect.php'; // Include the database connection
 
 $response = ["success" => false, "error" => ""]; // Default response
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Retrieve text inputs
-    $id = $_POST["id"] ?? null;
-    $article_title = $_POST["article_title"] ?? "";
-    $article_type = $_POST["article_type"] ?? "";
-    $location = $_POST["article_location"] ?? "";
-    $author = $_POST["article_author"] ?? "";
-    $imgu1_details = $_POST["image-details"] ?? "";
-    $p1box_left = $_POST["content-left"] ?? "";
-    $p1box_right = $_POST["content-right"] ?? "";
-    $p2box = $_POST["content-image2"] ?? ""; // Textarea input
-    $p3box = $_POST["content-image3"] ?? ""; // Textarea input
+try {
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        // Retrieve text inputs
+        $id = $_POST["id"] ?? null;
+        $article_title = $_POST["article_title"] ?? "";
+        $article_type = $_POST["article_type"] ?? "";
+        $location = $_POST["location"] ?? "";
+        $author = $_POST["author"] ?? "";
+        $imgu1_details = $_POST["imgu1_details"] ?? "";
+        $content_left = $_POST["p1box_left"] ?? "";
+        $content_right = $_POST["p1box_right"] ?? "";
+        $p2box = $_POST["p2box"] ?? "";
+        $p3box = $_POST["p3box"] ?? "";
 
-    // Validate required fields
-    if (empty($id) || empty($article_title) || empty($author)) {
-        $response["error"] = "Missing required fields.";
-        echo json_encode($response);
-        exit;
-    }
+        // Validate required fields
+        if (empty($id) || empty($article_title) || empty($author)) {
+            throw new Exception("Missing required fields.");
+        }
 
-    // Handle created_at and updated_date timestamps
-    $updated_date = date("Y-m-d H:i:s");
+        // Handle file uploads
+        $uploadDir = 'uploads/articlesUploads/';
+        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
 
-    // Initialize placeholders for images
-    $imgu1 = $imgu2 = $imgu3 = null;
+        $uploadedImages = [];
+        $imageFields = ['imgu1', 'imgu2', 'imgu3'];
 
-    // Handle image uploads
-    $imageFields = [
-        "update-image-1-input" => "imgu1",
-        "update-image-2-input" => "imgu2",
-        "update-image-3-input" => "imgu3"
-    ];
+        foreach ($imageFields as $imageField) {
+            if (isset($_FILES[$imageField]) && $_FILES[$imageField]['error'] == UPLOAD_ERR_OK) {
+                $fileTmpPath = $_FILES[$imageField]['tmp_name'];
+                $fileName = time() . '_' . $_FILES[$imageField]['name'];
+                $destination = $uploadDir . $fileName;
 
-    foreach ($imageFields as $inputName => $dbColumn) {
-        if (isset($_FILES[$inputName]) && $_FILES[$inputName]["error"] === UPLOAD_ERR_OK) {
-            $fileTmpPath = $_FILES[$inputName]["tmp_name"];
-            $fileName = time() . "_" . basename($_FILES[$inputName]["name"]);
-            $uploadDir = "uploads/";
+                // Ensure the directory exists
+                if (!is_dir($uploadDir)) {
+                    mkdir($uploadDir, 0777, true);
+                }
 
-            // Ensure upload directory exists
-            if (!is_dir($uploadDir)) {
-                if (!mkdir($uploadDir, 0777, true)) {
-                    $response["error"] = "Failed to create upload directory.";
-                    echo json_encode($response);
-                    exit;
+                // Validate the file type and size
+                $fileType = mime_content_type($fileTmpPath);
+                if (!in_array($fileType, $allowedTypes)) {
+                    throw new Exception("Invalid file type for $imageField. Allowed types: JPEG, PNG, GIF.");
+                }
+
+                if ($_FILES[$imageField]['size'] > 5 * 1024 * 1024) {
+                    throw new Exception("File size for $imageField exceeds 5MB limit.");
+                }
+
+                // Move file to target directory
+                if (move_uploaded_file($fileTmpPath, $destination)) {
+                    $uploadedImages[$imageField] = $fileName;
+                } else {
+                    throw new Exception("Error moving file for $imageField.");
                 }
             }
-
-            $destination = $uploadDir . $fileName;
-
-            if (move_uploaded_file($fileTmpPath, $destination)) {
-                // Assign the uploaded file path to the corresponding variable
-                $$dbColumn = $destination;
-            } else {
-                $response["error"] = "Failed to upload file for $inputName.";
-                echo json_encode($response);
-                exit;
-            }
         }
+
+        // Retrieve uploaded file names or keep existing ones
+        $imgu1 = $uploadedImages['imgu1'] ?? $_POST['existing_imgu1'] ?? '';
+        $imgu2 = $uploadedImages['imgu2'] ?? $_POST['existing_imgu2'] ?? '';
+        $imgu3 = $uploadedImages['imgu3'] ?? $_POST['existing_imgu3'] ?? '';
+
+        // Prepare and execute the update query
+        $query = "UPDATE articles SET 
+                    article_title = ?, 
+                    article_type = ?, 
+                    location = ?, 
+                    author = ?, 
+                    imgu1 = ?, 
+                    imgu1_details = ?, 
+                    p1box_left = ?, 
+                    p1box_right = ?, 
+                    imgu2 = ?, 
+                    p2box = ?, 
+                    p3box = ?, 
+                    imgu3 = ?, 
+                    updated_date = ? 
+                  WHERE id = ?";
+
+        $stmt = $connextion->prepare($query);
+        if (!$stmt) {
+            throw new Exception("Failed to prepare statement: " . $connextion->error);
+        }
+
+        $updated_date = date("Y-m-d H:i:s");
+        $stmt->bind_param(
+            "sssssssssssssi",
+            $article_title,
+            $article_type,
+            $location,
+            $author,
+            $imgu1,
+            $imgu1_details,
+            $content_left,
+            $content_right,
+            $imgu2,
+            $p2box,
+            $p3box,
+            $imgu3,
+            $updated_date,
+            $id
+        );
+
+        if (!$stmt->execute()) {
+            throw new Exception("Failed to execute statement: " . $stmt->error);
+        }
+
+        $stmt->close();
+
+        // Successful response
+        $response["success"] = true;
+    } else {
+        throw new Exception("Invalid request method.");
     }
-
-    // Prepare the update query
-    $stmt = $connextion->prepare("
-        UPDATE articles 
-        SET 
-            article_title = ?, 
-            article_type = ?, 
-            location = ?, 
-            author = ?, 
-            imgu1 = ?, 
-            imgu1_details = ?, 
-            p1box_left = ?, 
-            p1box_right = ?, 
-            imgu2 = ?, 
-            p2box = ?, 
-            p3box = ?, 
-            imgu3 = ?, 
-            updated_date = ?
-        WHERE id = ?
-    ");
-
-    $stmt->bind_param(
-        "ssssssssssssi", 
-        $article_title, 
-        $article_type, 
-        $location, 
-        $author, 
-        $imgu1, 
-        $imgu1_details, 
-        $p1box_left, 
-        $p1box_right, 
-        $imgu2, 
-        $p2box, 
-        $p3box, 
-        $imgu3, 
-        $updated_date, 
-        $id
-    );
-
-    if (!$stmt->execute()) {
-        $response["error"] = "Failed to update article: " . $stmt->error;
-        echo json_encode($response);
-        exit;
-    }
-
-    // If everything was successful
-    $response["success"] = true;
-} else {
-    $response["error"] = "Invalid request method.";
+} catch (Exception $e) {
+    $response["error"] = $e->getMessage();
 }
 
 // Send response back as JSON
