@@ -169,35 +169,42 @@ function handleAction(action, appointmentId) {
 
 
 function fetchAppointmentDetails(appointmentId) {
-    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/previewAppointments.php?sort=${appointmentId}`);
+    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/previewAppointments.php?id=${appointmentId}`)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.error) {
+            console.error('Error fetching article:', data.error);
+        } else {
+            populateModal(data);
+        }
+    })
+    .catch(error => {
+        console.error('Error fetching article details:', error);
+    });
     
-    // Populate modal fields
-    document.getElementById('appointment-name').textContent = appointment.name || 'N/A';
-    document.getElementById('appointment-email').textContent = appointment.email || 'N/A';
-    document.getElementById('appointment-phone').textContent = appointment.phone || 'N/A';
-    document.getElementById('appointment-address').textContent = appointment.address || 'N/A';
-    document.getElementById('appointment-purpose').textContent = appointment.purpose || 'N/A';
-    document.getElementById('appointment-organization').textContent = appointment.organization || 'N/A';
-    document.getElementById('appointment-population').textContent = appointment.populationCount || 'N/A';
-    document.getElementById('appointment-date').textContent = appointment.preferredDate || 'N/A';
-    document.getElementById('appointment-time').textContent = appointment.preferredTime || 'N/A';
-    document.getElementById('appointment-notes').textContent = appointment.notes || 'N/A';
-
-
-    // Show the modal
-    const modal = document.getElementById('appointment-modal');
-    if (modal) {
-        modal.classList.remove('hidden');
-    } else {
-        console.error('Appointment modal not found.');
-    }
 }
 
 
-function openDeleteModal(callback) {
-    const userResponse = confirm("Are you sure you want to delete this appointment?");
-    callback(userResponse);
-}
+function openAppointmentDeleteModal(callback) {
+    const modal = document.getElementById("delete-modal");
+    modal.classList.remove("hidden");
+  
+    // Handling button clicks
+    document.getElementById("delete-confirm-button").onclick = () => {
+      callback(true);  // Return 'true' if 'Delete' is clicked
+      closeModal("delete-modal");
+    };
+  
+    document.getElementById("delete-cancel-button").onclick = () => {
+      callback(false);  // Return 'false' if 'Cancel' is clicked
+      closeModal("delete-modal");
+    };
+  }
 
 
 function displayNoDataMessage() {
@@ -280,6 +287,8 @@ function closeModal(modalId) {
 
 // Function to show and populate the modal
 function showAppointmentModal(appointment) {
+
+    
     if (!appointment) {
         console.error('Appointment data is undefined or null');
         return;
@@ -288,7 +297,7 @@ function showAppointmentModal(appointment) {
     const modal = document.getElementById('appointment-modal');
 
     // Populate modal fields
-    document.getElementById('appointment-name').textContent = appointment.name || 'N/A';
+    document.getElementById('appointment-name').textContent = appointment.name || 'hafshashfahf/A';
     document.getElementById('appointment-email').textContent = appointment.email || 'N/A';
     document.getElementById('appointment-phone').textContent = appointment.phone || 'N/A';
     document.getElementById('appointment-address').textContent = appointment.address || 'N/A';
@@ -321,44 +330,7 @@ document.getElementById('close-appointment-modal-btn').addEventListener('click',
     }
 });
 
-// Example buttons for testing
-const editButton = document.createElement('button');
-editButton.classList.add('bg-transparent', 'text-black', 'p-2', 'rounded', 'hover:bg-orange-300');
-editButton.innerHTML = `<i class="fas fa-edit"></i>`;
-editButton.addEventListener('click', () => handleAction('edit', {
-    name: "Juan Dela Cruz",
-    email: "juan@example.com",
-    phone: "09786734766",
-    address: "Ofelia Street, Barangay 2, Daet, Camarines Norte",
-    purpose: "Educational Tour",
-    organization: "Juan Dela Cruz Elementary School",
-    population: "51",
-    date: "August 25",
-    time: "10:30-11:59",
-    notes: "Good morning, there might still be changes to our count as some students are catching up."
-}, 1));
 
-const deleteButton = document.createElement('button');
-deleteButton.classList.add('bg-transparent', 'text-black', 'p-2', 'rounded', 'hover:bg-orange-300');
-deleteButton.innerHTML = `<i class="fas fa-trash"></i>`;
-deleteButton.addEventListener('click', () => handleAction('delete', null, 1));
-
-// Append buttons for testing
-const actionCell = document.createElement('div');
-actionCell.appendChild(editButton);
-actionCell.appendChild(deleteButton);
-
-document.body.appendChild(actionCell);
-
-// Handle action function
-function handleAction(action, appointment, id) {
-    if (action === 'edit') {
-        // Show modal with appointment details
-        showAppointmentModal(appointment);
-    } else if (action === 'delete') {
-        console.log(`Delete appointment with ID: ${id}`);
-    }
-}
 
 
 
