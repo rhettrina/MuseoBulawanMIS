@@ -78,6 +78,7 @@ if (!file_exists($directory)) {
         exit;
     }
 }
+
 $filename = "floorplan_" . $unique_id . "_" . preg_replace('/[^a-zA-Z0-9]/', '_', $name) . "." . ($imageType === 'jpeg' ? 'jpg' : $imageType);
 $filePath = $directory . $filename;
 
@@ -90,7 +91,7 @@ if (file_exists($filePath)) {
 // Save the image to the directory
 if (file_put_contents($filePath, $imageData)) {
     // Prepare the image path for storage (relative path)
-    $relativePath = 'layout-made/' . $filename;
+    $relativePath = 'layout-editor/layout-made/' . $filename;
 
     // Insert into the database
     $stmt = $connextion->prepare("INSERT INTO floorplans (unique_id, name, image_path, created_at) VALUES (?, ?, ?, NOW())");
