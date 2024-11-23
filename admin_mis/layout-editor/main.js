@@ -1236,7 +1236,7 @@ function saveFloorPlan(floorPlanName) {
     };
 
     // Send the image data and name to the PHP server
-    fetch('save_floorplan.php', {
+    fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/save_floorplan.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
