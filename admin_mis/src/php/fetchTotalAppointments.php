@@ -33,22 +33,22 @@ if ($result) {
 }
 
 // Query to count approved appointments
-$query = "SELECT COUNT(*) AS approved FROM appointment WHERE status = 'Approved'";
+$query = "SELECT COUNT(*) AS approved FROM appointment WHERE status = 'approved'";
 $result = mysqli_query($connextion, $query);
 if ($result) {
     $row = mysqli_fetch_assoc($result);
-    $results['approved_appointments'] = (int)$row['total-approved'];
+    $results['approved_appointments'] = (int)$row['approved'];
 } else {
     $results['error'] = 'Failed to fetch approved appointments: ' . mysqli_error($connextion);
     errorHandler($results['error']);
 }
 
 // Query to count rejected appointments
-$query = "SELECT COUNT(*) AS rejected FROM appointment WHERE status = 'Rejected'";
+$query = "SELECT COUNT(*) AS rejected FROM appointment WHERE status = 'rejected'";
 $result = mysqli_query($connextion, $query);
 if ($result) {
     $row = mysqli_fetch_assoc($result);
-    $results['rejected_appointments'] = (int)$row['total-rejected'];
+    $results['rejected_appointments'] = (int)$row['rejected'];
 } else {
     $results['error'] = 'Failed to fetch rejected appointments: ' . mysqli_error($connextion);
     errorHandler($results['error']);
