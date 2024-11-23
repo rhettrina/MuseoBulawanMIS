@@ -20,7 +20,7 @@ if ($donationId) {
 
     try {
         // Get the donatorID associated with the artifact
-        $getDonatorIdQuery = "SELECT donatorID FROM Artifact WHERE artifactID = ?";
+        $getDonatorIdQuery = "SELECT artifactID FROM Artifact WHERE donatorID = ?";
         $stmtDonatorId = $connextion->prepare($getDonatorIdQuery);
         if (!$stmtDonatorId) {
             throw new Exception('Failed to prepare donator ID retrieval query.');
@@ -37,7 +37,7 @@ if ($donationId) {
         $donatorID = $row['donatorID'];
 
         // Delete from Artifact table
-        $deleteArtifact = "DELETE FROM Artifact WHERE artifactID = ?";
+        $deleteArtifact = "DELETE FROM Artifact WHERE donatorID = ?";
         $stmtArtifact = $connextion->prepare($deleteArtifact);
         if (!$stmtArtifact) {
             throw new Exception('Failed to prepare Artifact deletion query.');
@@ -46,7 +46,7 @@ if ($donationId) {
         $stmtArtifact->execute();
 
         // Delete from Lending table
-        $deleteLending = "DELETE FROM Lending WHERE artifactID = ?";
+        $deleteLending = "DELETE FROM Lending WHERE donatorID = ?";
         $stmtLending = $connextion->prepare($deleteLending);
         if (!$stmtLending) {
             throw new Exception('Failed to prepare Lending deletion query.');
@@ -55,7 +55,7 @@ if ($donationId) {
         $stmtLending->execute();
 
         // Delete from Donation table
-        $deleteDonation = "DELETE FROM Donation WHERE artifactID = ?";
+        $deleteDonation = "DELETE FROM Donation WHERE donatorID = ?";
         $stmtDonation = $connextion->prepare($deleteDonation);
         if (!$stmtDonation) {
             throw new Exception('Failed to prepare Donation deletion query.');
