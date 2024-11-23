@@ -46,7 +46,7 @@ if ($stmt) {
     $stmt->bind_param("sssss", $full_name, $email, $phone, $address, $organization);
 
     if ($stmt->execute()) {
-        $visitor_id = $stmt->insert_id; 
+        $visitor_id = $stmt->insert_id; // Capture the generated visitor ID
     } else {
         die("Error inserting into visitor table: " . $stmt->error);
     }
@@ -74,6 +74,7 @@ if ($stmt) {
     }
     $stmt->close();
 }
+
 
 // Close the connection
 $connextion->close();
