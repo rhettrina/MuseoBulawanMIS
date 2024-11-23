@@ -1,83 +1,112 @@
 <?php
-// Include the DB connection details
-require_once 'db_connect.php'; // Ensure this file contains the correct $connextion variable
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json");
 
-// Check if the connection was successful
-if (!$connextion) {
-    echo json_encode(['success' => false, 'error' => 'Database connection failed']);
-    exit;
+require 'db_connect.php'; // Include the database connection
+
+$response = ["success" => false, "error" => ""]; // Default response
+
+try {
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        // Retrieve text inputs
+        $id = $_POST["id"] ?? null;
+        $article_title = $_POST["article_title"] ?? "";
+        $article_type = $_POST["article_type"] ?? "";
+        $location = $_POST["location"] ?? "";
+        $author = $_POST["article_author"] ?? "";
+        $imgu1_details = $_POST["image_details"] ?? "";
+        $content_left = $_POST["content_left"] ?? "";
+        $content_right = $_POST["content_right"] ?? "";
+        $p2box = $_POST["content_box2"] ?? "";
+        $p3box = $_POST["content_box3"] ?? "";
+
+        // Validate required fields
+        if (empty($id) || empty($article_title) || empty($author)) {
+            throw new Exception("Missing required fields.");
+        }
+
+        // Handle file uploads
+        $targetDir = dirname(__DIR__, 1) . "/uploads/articlesUploads/"; // Directory path
+        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+
+        // Ensure the directory exists
+        if (!is_dir($targetDir)) {
+            mkdir($targetDir, 0777, true); // Create directory if it doesn't exist
+        }
+
+        // Array to store uploaded images
+        $uploadedImages = [];
+        $imageFields = ['imgu1', 'imgu2', 'imgu3'];
+
+        // Loop through each image field and handle the upload
+        foreach ($imageFields as $imageField) {
+            if (isset($_FILES[$imageField]) && $_FILES[$imageField]['error'] == UPLOAD_ERR_OK) {
+                $fileTmpPath = $_FILES[$imageField]['tmp_name'];
+                $fileName = time() . '_' . $_FILES[$imageField]['name']; // Ensure unique file name
+                $destination = $targetDir . $fileName; // Destination file path
+
+                // Validate the file type and size
+                $fileType = mime_content_type($fileTmpPath);
+                if (!in_array($fileType, $allowedTypes)) {
+                    throw new Exception("Invalid file type for $imageField. Allowed types: JPEG, PNG, GIF.");
+                }
+
+                if ($_FILES[$imageField]['size'] > 5 * 1024 * 1024) {
+                    throw new Exception("File size for $imageField exceeds 5MB limit.");
+                }
+
+                // Move the file to the target directory
+                if (move_uploaded_file($fileTmpPath, $destination)) {
+                    $uploadedImages[$imageField] = $fileName; // Store the file name
+                } else {
+                    throw new Exception("Error moving file for $imageField.");
+                }
+            }
+        }
+
+        // Retrieve uploaded file names or keep existing ones
+        $imgu1 = $uploadedImages['imgu1'] ?? $_POST['existing_imgu1'] ?? '';
+        $imgu2 = $uploadedImages['imgu2'] ?? $_POST['existing_imgu2'] ?? '';
+        $imgu3 = $uploadedImages['imgu3'] ?? $_POST['existing_imgu3'] ?? '';
+
+        // Escaping the input to prevent SQL injection
+        $article_title = $connextion->real_escape_string($article_title);
+        $article_type = $connextion->real_escape_string($article_type);
+        $location = $connextion->real_escape_string($location);
+        $author = $connextion->real_escape_string($author);
+        $imgu1_details = $connextion->real_escape_string($imgu1_details);
+        $content_left = $connextion->real_escape_string($content_left);
+        $content_right = $connextion->real_escape_string($content_right);
+        $p2box = $connextion->real_escape_string($p2box);
+        $p3box = $connextion->real_escape_string($p3box);
+
+        // Prepare the SQL query using direct variable substitution (escaped for security)
+        $query = "UPDATE articles SET 
+                    article_title = '$article_title', 
+                    article_type = '$article_type', 
+                    location = '$location', 
+                    author = '$author', 
+                    imgu1 = '$imgu1', 
+                    imgu1_details = '$imgu1_details', 
+                    p1box_left = '$content_left', 
+                    p1box_right = '$content_right', 
+                    imgu2 = '$imgu2', 
+                    p2box = '$p2box', 
+                    p3box = '$p3box', 
+                    imgu3 = '$imgu3', 
+                    updated_date = NOW() 
+                  WHERE id = $id";
+
+        // Execute the query
+        if ($connextion->query($query)) {
+            $response["success"] = true;
+        } else {
+            throw new Exception("Failed to update article.");
+        }
+    }
+} catch (Exception $e) {
+    $response["error"] = $e->getMessage();
 }
 
-// Check if the form data exists
-if (!isset($_POST['unique_id']) || !isset($_POST['name']) || !isset($_FILES['image'])) {
-    echo json_encode(['success' => false, 'error' => 'Unique ID, name, and image file are required.']);
-    exit;
-}
-
-// Sanitize the input data to prevent SQL injection
-$unique_id = mysqli_real_escape_string($connextion, $_POST['unique_id']);
-$name = mysqli_real_escape_string($connextion, $_POST['name']);
-$image = $_FILES['image'];
-
-// Handle image upload
-$imagePath = uploadImage($image);
-
-// Check if image upload is successful
-if ($imagePath && $imagePath !== "Error") {
-    // Prepare and execute the database insert query
-    $query = $connextion->prepare("INSERT INTO floorplans 
-        (unique_id, name, image_path, created_at) 
-        VALUES (?, ?, ?, CURRENT_TIMESTAMP)");
-
-    $query->bind_param('sss', $unique_id, $name, $imagePath);
-
-    if ($query->execute()) {
-        echo json_encode(['success' => true, 'message' => 'Floorplan saved successfully.', 'path' => $imagePath]);
-    } else {
-        echo json_encode(['success' => false, 'error' => $query->error]);
-    }
-} else {
-    echo json_encode(['success' => false, 'error' => 'Image upload failed: ' . $imagePath]);
-}
-
-// Function to handle image upload
-function uploadImage($image) {
-    // Define the target directory to save images
-    $targetDir = dirname(__DIR__, 1) . "/uploads/layout-made/";
-
-    // Ensure the directory exists
-    if (!is_dir($targetDir)) {
-        return "Upload directory does not exist.";
-    }
-
-    // Generate the target file path
-    $targetFile = $targetDir . basename($image["name"]);
-
-    // Check if the file is an image
-    if (getimagesize($image["tmp_name"]) === false) {
-        return "File is not an image.";
-    }
-
-    // Check if the file already exists
-    if (file_exists($targetFile)) {
-        return "File already exists.";
-    }
-
-    // Check file size (max 3MB)
-    if ($image["size"] > 3 * 1024 * 1024) {
-        return "File size exceeds 3MB.";
-    }
-
-    // Check file format (allowed types: jpg, jpeg, png, gif)
-    if (!in_array(strtolower(pathinfo($targetFile, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'gif'])) {
-        return "Only JPG, JPEG, PNG, and GIF files are allowed.";
-    }
-
-    // Try to move the uploaded file to the target directory
-    if (move_uploaded_file($image["tmp_name"], $targetFile)) {
-        return 'uploads/layout-made/' . basename($image["name"]); // Return the relative path
-    } else {
-        return "Error uploading the file: " . $image["error"];
-    }
-}
+echo json_encode($response);
 ?>
