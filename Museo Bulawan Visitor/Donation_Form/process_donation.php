@@ -120,7 +120,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $abt_art = "INSERT INTO `Donation`(`donatorID`, `artifact_nameID`, `artifact_description`, `submission_date`) 
             VALUES (?, ?, ?, NOW())";
     $stmt = $conn->prepare($abt_art);
-    $stmt->bind_param("sss", $donatorID, $artifactTitle, $artifactDescription);
+    $stmt->bind_param("iss", $donatorID, $artifactTitle, $artifactDescription );
 
     // Execute the query for the Donation table
     if ($stmt->execute()) {
