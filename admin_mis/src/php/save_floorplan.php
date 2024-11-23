@@ -69,15 +69,15 @@ while (true) {
 }
 
 // Define the directory and filename
-$directory = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'layout-made' . DIRECTORY_SEPARATOR;
+$directory = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'admin_mis' . DIRECTORY_SEPARATOR . 'layout-editor' . DIRECTORY_SEPARATOR . 'layout-made' . DIRECTORY_SEPARATOR;
 
+// Ensure the directory exists, create it if it doesn't
 if (!file_exists($directory)) {
     if (!mkdir($directory, 0755, true)) {
         echo json_encode(['success' => false, 'error' => 'Failed to create directories']);
         exit;
     }
 }
-
 $filename = "floorplan_" . $unique_id . "_" . preg_replace('/[^a-zA-Z0-9]/', '_', $name) . "." . ($imageType === 'jpeg' ? 'jpg' : $imageType);
 $filePath = $directory . $filename;
 
