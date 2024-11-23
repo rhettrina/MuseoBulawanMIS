@@ -181,7 +181,7 @@ function createTransferStatusCell(donation) {
     const dropdown = document.createElement('select');
     dropdown.classList.add('border','rounded');
 
-    const statuses = ['ACQUIRED', 'FAILED', 'PENDING'];
+    const statuses = ['Acquired', 'Failed', 'Pending'];
     statuses.forEach(status => {
         const option = document.createElement('option');
         option.value = status.toUpperCase();
