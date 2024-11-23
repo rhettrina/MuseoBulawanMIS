@@ -5,11 +5,7 @@ header('Content-Type: application/json'); // Ensure the response is in JSON form
 
 session_start();
 
-// Authentication Check
-if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
-    echo json_encode(['error' => 'Unauthorized access.']);
-    exit;
-}
+
 
 // Include the database connection
 include 'db_connect.php';
@@ -20,7 +16,6 @@ function sanitize_input($data) {
 }
 
 // Retrieve and sanitize POST data
-// Since the user is sending JSON data, we need to decode it accordingly
 $rawData = file_get_contents("php://input");
 $data = json_decode($rawData, true);
 
@@ -50,7 +45,7 @@ $newStatus = ($action === 'approve') ? 'Approved' : 'Rejected';
 
 // Prepare and execute the update statement
 // Update both 'status' and 'confirmation_date'
-$stmt = $connection->prepare("UPDATE appointment SET status = ?, confirmation_date = NOW() WHERE appointmentID = ?");
+$stmt = $connextion->prepare("UPDATE appointment SET status = ?, confirmation_date = NOW() WHERE appointmentID = ?");
 if ($stmt) {
     $stmt->bind_param("si", $newStatus, $appointmentID);
     if ($stmt->execute()) {
@@ -63,7 +58,7 @@ if ($stmt) {
     $stmt->close();
 } else {
     // Log the error internally
-    error_log("Error preparing statement: " . $connection->error);
+    error_log("Error preparing statement: " . $connextion->error);
     echo json_encode(['error' => 'Server error. Please try again later.']);
 }
 
