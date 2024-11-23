@@ -1,9 +1,23 @@
-// Initialize the application
-function init() {
-    fetchTotalArticles();
-    fetchArticles();
-}
 
+
+(() => {
+    let currentActiveCard = null; // Scoped to layout.js
+
+    function init() {
+        console.log("Initializing layout.js...");
+        fetchTotalArticles();
+    fetchArticles();
+    }
+
+    function cleanup() {
+        console.log("Cleaning up layout.js...");
+        currentActiveCard = null;
+        // Remove other event listeners or reset state if needed
+    }
+
+    window.init = init; // Expose `init` for router.js
+    window.cleanup = cleanup; // Expose `cleanup` for router.js
+})();
 // Fetch the total number of articles
 function fetchTotalArticles() {
     fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchTotalArticles.php')
