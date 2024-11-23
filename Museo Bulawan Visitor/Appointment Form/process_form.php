@@ -42,8 +42,7 @@ $attendees = isset($_POST['attendees_count']) && is_numeric($_POST['attendees_co
 $preferred_date = sanitize_input($_POST['preferred_date']);
 $preferred_time = sanitize_input($_POST['time']);
 $notes = isset($_POST['notes']) ? sanitize_input($_POST['notes']) : null;
-$purpose = sanitize_input($_POST['purpose']); // Purpose of Visit
-
+$purpose = sanitize_input($_POST['purpose']);
 // Validate preferred_date format (YYYY-MM-DD)
 if (DateTime::createFromFormat('Y-m-d', $preferred_date) === false) {
     die('Invalid date format. Please use YYYY-MM-DD.');
@@ -73,12 +72,11 @@ if ($visitor_stmt) {
 }
 
 // Insert into appointment table using prepared statements
-$appointment_stmt = $connection->prepare("INSERT INTO appointment (visitorID, preferred_time, preferred_date, population_countID, purpose, notes) VALUES (?, ?, ?, ?, ?, ?)");
+$appointment_stmt = $connection->prepare("INSERT INTO appointment (visitorID, preferred_time, preferred_date, population_countID, notes, purpose) VALUES (?, ?, ?, ?, ?, ?)");
 
 if ($appointment_stmt) {
-    // Bind parameters: 
-    // visitorID (int), preferred_time (string), preferred_date (string), population_countID (int), purpose (string), notes (string)
-    $appointment_stmt->bind_param("ississ", $visitor_id, $preferred_time, $preferred_date, $attendees, $purpose, $notes);
+  
+    $appointment_stmt->bind_param("ississ", $visitor_id, $preferred_time, $preferred_date, $attendees, $notes, $purpose);
 
     if ($appointment_stmt->execute()) {
         $appointment_id = $appointment_stmt->insert_id; // Get the inserted appointment ID
