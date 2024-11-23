@@ -30,9 +30,13 @@ $barangay = $_POST['barangay'];
 $street = $_POST['street'];
 $organization = isset($_POST['organization']) ? htmlspecialchars($_POST['organization']) : null; // Organization field
 $attendees = isset($_POST['attendees_count']) && is_numeric($_POST['attendees_count']) && $_POST['attendees_count'] > 0 ? intval($_POST['attendees_count']) : null; // Attendees count
-$preferred_date = $_POST['preferred_date'];
-$preferred_time = $_POST['time'];
+$preferred_date = $_POST['preferred_date']; 
+$preferred_time = $_POST['time']; 
 $notes = $_POST['notes'];
+
+if (DateTime::createFromFormat('Y-m-d', $preferred_date) === false) {
+    die('Invalid date format. Please use YYYY-MM-DD.');
+}
 
 // Insert into visitor table
 $stmt = $connextion->prepare("INSERT INTO visitor (name, email, phone, address, organization) VALUES (?, ?, ?, ?, ?)");
@@ -42,7 +46,7 @@ if ($stmt) {
     $stmt->bind_param("sssss", $full_name, $email, $phone, $address, $organization);
 
     if ($stmt->execute()) {
-        $visitor_id = $stmt->insert_id; // Capture the generated visitor ID
+        $visitor_id = $stmt->insert_id; 
     } else {
         die("Error inserting into visitor table: " . $stmt->error);
     }
@@ -53,18 +57,18 @@ if ($stmt) {
 $stmt = $connextion->prepare("INSERT INTO appointment (visitorID, preferred_time, preferred_date, population_countID, appointment_dateID) VALUES (?, ?, ?, ?, ?)");
 
 if ($stmt) {
-    // Make sure to pass the correct variable names for the parameters
+    // Ensure that the preferred_date is in YYYY-MM-DD format and preferred_time is in HH:MM:SS format
     $population_countID = $attendees; // Assuming the attendees count is stored in population_countID
-    $appointment_dateID = $preferred_date; // Assuming appointment_dateID is same as preferred_date for now (adjust as needed)
+    $appointment_dateID = $preferred_date; // Assuming appointment_dateID is the same as preferred_date for now (adjust as needed)
     
     // Bind the parameters with the appropriate types
-    $stmt->bind_param("ssiii", $visitor_id, $preferred_time, $preferred_date, $population_countID, $appointment_dateID);
+    $stmt->bind_param("sssii", $visitor_id, $preferred_time, $preferred_date, $population_countID, $appointment_dateID);
 
     if ($stmt->execute()) {
         $appointment_id = $stmt->insert_id; // Capture the generated appointment ID
         
         // Success message and redirect to appointmentindex.html
-        echo "<script>alert('Appointment successfully scheduled!'); window.location.href='appointmentindex.html';</script>";
+        echo "<script>alert('Appointment successfully scheduled!'); window.location.href='appointindex.html';</script>";
     } else {
         die("Error inserting into appointment table: " . $stmt->error);
     }
