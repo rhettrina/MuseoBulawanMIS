@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $article_title = $_POST["article_title"] ?? "";
     $article_location = $_POST["location"] ?? "";
     $article_type = $_POST["article_type"] ?? "";
-    $image_details = $_POST["image-details"] ?? "";
+    $image_details = $_POST["imgu1_details"] ?? "";
     $content_left = $_POST["content-left"] ?? "";
     $content_right = $_POST["content-right"] ?? "";
     $content_image2 = $_POST["content-image2"] ?? "";
