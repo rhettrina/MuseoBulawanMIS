@@ -46,7 +46,7 @@ if ($stmt) {
     } else {
         die("Error inserting into visitor table: " . $stmt->error);
     }
-    $stmt->close();
+
 }
 
 // Insert into appointment table
