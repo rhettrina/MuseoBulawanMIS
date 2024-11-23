@@ -19,46 +19,75 @@ body {
 
 .sidebar h2 {
     text-align: center;
-    background-color: #ffe0b2;
-    padding: 10px;
-    border-radius: 5px;
+    background-color: #ffe0b2; /* Soft orange background */
+    padding: 15px 10px; /* Added more padding for better spacing */
+    border-radius: 8px; /* Slightly larger border radius for smoother edges */
     margin-bottom: 20px;
+    font-size: 1.5rem; /* Slightly larger text size for better readability */
+    font-weight: bold; /* Make the text stand out */
+    color: #5c4033; /* A darker color for text contrast */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px 1px 3px rgba(0, 0, 0, 0.06); /* Subtle shadow for depth */
+    border: 1px solid #f9c896; /* Optional border for more definition */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add smooth animation */
 }
 .object-list {
     flex-grow: 1;
     overflow-y: auto;
 }
 
+/* Container for each object */
 .object {
     display: flex;
     align-items: center;
-    padding: 10px;
+    padding: 12px 15px; /* Added more padding for better spacing */
     margin-bottom: 15px;
-    background-color: #fff;
-    border-radius: 5px;
+    background-color: #ffffff;
+    border-radius: 8px; /* Rounded corners */
     cursor: grab;
-    transition: background-color 0.2s;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Added shadow */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition for hover and grab */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Enhanced shadow for more depth */
 }
 
+/* When the object is being grabbed */
 .object:active {
     cursor: grabbing;
+    transform: scale(0.98); /* Slight shrink effect to show the grab action */
 }
 
+/* Hover effect to change background color */
 .object:hover {
-    background-color: #e0e0e0;
+    background-color: #f5f5f5; /* Lighter grey for hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* More pronounced shadow on hover */
+    transform: translateY(-2px); /* Lift the object a little when hovering */
 }
 
+/* Symbol or icon inside the object */
 .symbol {
-    width: 40px;
-    height: 40px;
-    margin-right: 10px;
+    width: 45px; /* Slightly bigger icon size */
+    height: 45px; /* Slightly bigger icon size */
+    margin-right: 15px; /* Increased margin for better spacing */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
+/* Styling the text */
 .object span {
-    font-size: 16px;
-    flex-grow: 1;
+    font-size: 18px; /* Larger text size */
+    font-weight: 500; /* Slightly bolder font */
+    color: #333; /* Darker text for better readability */
+    flex-grow: 1; /* Ensure text takes available space */
+    transition: color 0.2s ease; /* Smooth color transition */
 }
+
+/* Hover effect for the text */
+.object:hover span {
+    color: #5c4033; /* Change text color to blue on hover */
+}
+
+
+
 
 .main {
     flex-grow: 1;
@@ -450,11 +479,20 @@ body {
     margin-top: 10px;
     padding: 8px;
     cursor: pointer;
-    background-color: #007bff;
-    color: #fff;
+    background-color: #ffe0b2; /* Tailwind bg-orange-200 */
+    color: #5c4033; /* Darker text color for contrast */
     border: none;
     width: 100%;
     font-size: 16px;
+    border-radius: 5px; /* Optional: Add rounded corners */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth hover transition */
+}
+
+#lock-button:hover,
+#lock-button-text:hover,
+#lock-button-symbol:hover {
+    background-color: #ffcc80; /* Slightly darker shade for hover */
+    transform: translateY(-2px); /* Slight lift on hover */
 }
 
 #lock-button .material-icons,
@@ -462,6 +500,64 @@ body {
     vertical-align: middle;
     margin-right: 5px;
 }
+
+/* General slider styles for rotation, height, and width inputs */
+#rotation-input,
+#height-input,
+#width-input {
+    -webkit-appearance: none; /* Remove default styling in WebKit browsers */
+    -moz-appearance: none; /* Remove default styling in Firefox */
+    appearance: none; /* Remove default styling in all browsers */
+    width: 100%; /* Full width of the container */
+    height: 8px; /* Track height */
+    background-color: #ffe0b2; /* Track color (match bg-orange-200) */
+    border-radius: 5px; /* Rounded edges for the track */
+    outline: none; /* Remove the outline */
+    cursor: pointer; /* Make it interactive */
+    transition: background-color 0.3s ease; /* Smooth transition for background */
+}
+
+/* Style the thumb (slider handle) for rotation, height, and width inputs */
+#rotation-input::-webkit-slider-thumb,
+#height-input::-webkit-slider-thumb,
+#width-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px; /* Width of the thumb */
+    height: 20px; /* Height of the thumb */
+    background-color: #5c4033; /* Thumb color */
+    border-radius: 50%; /* Round thumb */
+    cursor: pointer; /* Pointer cursor */
+    transition: background-color 0.3s ease; /* Smooth transition for thumb */
+}
+
+#rotation-input::-moz-range-thumb,
+#height-input::-moz-range-thumb,
+#width-input::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background-color: #5c4033; /* Thumb color */
+    border-radius: 50%; /* Round thumb */
+    cursor: pointer;
+}
+
+/* Focus effect for rotation, height, and width sliders */
+#rotation-input:focus,
+#height-input:focus,
+#width-input:focus {
+    background-color: #ffcc80; /* Slightly darker color on focus */
+}
+
+/* Hover effect for thumb on rotation, height, and width sliders */
+#rotation-input:hover::-webkit-slider-thumb,
+#height-input:hover::-webkit-slider-thumb,
+#width-input:hover::-webkit-slider-thumb,
+#rotation-input:hover::-moz-range-thumb,
+#height-input:hover::-moz-range-thumb,
+#width-input:hover::-moz-range-thumb {
+    background-color: #ff8c00; /* Darker thumb color on hover */
+}
+
 
 /* Add this to your existing styles.css */
 
@@ -501,6 +597,82 @@ body {
 .canvas.capturing .resize-handle {
   display: none !important;
 }
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.modal-buttons {
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 5px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.btn-secondary:hover {
+    background-color: #495057;
+}
+
+.loading-spinner {
+    border-style: solid;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .animate-spin {
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
 
 /* Responsive adjustments */
 @media (max-width: 768px) {

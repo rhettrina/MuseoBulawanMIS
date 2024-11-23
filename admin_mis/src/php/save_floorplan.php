@@ -8,19 +8,14 @@ if (!$connextion) {
     exit;
 }
 
-// Retrieve raw POST data
-$data = file_get_contents('php://input');
-$json = json_decode($data, true);
-
-// Make sure that the required keys exist in the POST data
-if (!isset($json['unique_id']) || !isset($json['name']) || !isset($json['imageData']) || !isset($_FILES['image'])) {
-    echo json_encode(['success' => false, 'error' => 'Unique ID, name, image data, and image file are required.']);
+// Make sure that the required fields exist in the POST data
+if (!isset($_POST['unique_id']) || !isset($_POST['name']) || !isset($_FILES['image'])) {
+    echo json_encode(['success' => false, 'error' => 'Unique ID, name, and image file are required.']);
     exit;
 }
 
-$unique_id = mysqli_real_escape_string($connextion, $json['unique_id']);
-$name = mysqli_real_escape_string($connextion, $json['name']);
-$imageData = $json['imageData'];
+$unique_id = mysqli_real_escape_string($connextion, $_POST['unique_id']);
+$name = mysqli_real_escape_string($connextion, $_POST['name']);
 $image = $_FILES['image'];
 
 // Handle image upload
@@ -49,7 +44,7 @@ function uploadImage($image) {
     $targetDir = dirname(__DIR__, 1) . "/uploads/layout-made/";
     $targetFile = $targetDir . basename($image["name"]);
     $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
-    
+
     // Check if the file is an image
     if (getimagesize($image["tmp_name"]) === false) {
         return "File is not an image.";
