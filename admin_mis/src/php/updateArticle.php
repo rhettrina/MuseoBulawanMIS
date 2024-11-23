@@ -13,12 +13,12 @@ try {
         $article_title = $_POST["article_title"] ?? "";
         $article_type = $_POST["article_type"] ?? "";
         $location = $_POST["location"] ?? "";
-        $author = $_POST["author"] ?? "";
-        $imgu1_details = $_POST["imgu1_details"] ?? "";
-        $content_left = $_POST["p1box_left"] ?? "";
-        $content_right = $_POST["p1box_right"] ?? "";
-        $p2box = $_POST["p2box"] ?? "";
-        $p3box = $_POST["p3box"] ?? "";
+        $author = $_POST["article_author"] ?? "";
+        $imgu1_details = $_POST["image_details"] ?? "";
+        $content_left = $_POST["content_left"] ?? "";
+        $content_right = $_POST["content_right"] ?? "";
+        $p2box = $_POST["content_box2"] ?? "";
+        $p3box = $_POST["content_box3"] ?? "";
 
         // Validate required fields
         if (empty($id) || empty($article_title) || empty($author)) {
@@ -81,48 +81,24 @@ try {
                     p2box = ?, 
                     p3box = ?, 
                     imgu3 = ?, 
-                    updated_date = ? 
+                    updated_date = NOW() 
                   WHERE id = ?";
 
-        $stmt = $connextion->prepare($query);
-        if (!$stmt) {
-            throw new Exception("Failed to prepare statement: " . $connextion->error);
+        $stmt = $mysqli->prepare($query);
+        $stmt->bind_param("sssssssssssssi", 
+            $article_title, $article_type, $location, $author, 
+            $imgu1, $imgu1_details, $content_left, $content_right, 
+            $imgu2, $p2box, $p3box, $imgu3, $id);
+
+        if ($stmt->execute()) {
+            $response["success"] = true;
+        } else {
+            throw new Exception("Failed to update article.");
         }
-
-        $updated_date = date("Y-m-d H:i:s");
-        $stmt->bind_param(
-            "sssssssssssssi",
-            $article_title,
-            $article_type,
-            $location,
-            $author,
-            $imgu1,
-            $imgu1_details,
-            $content_left,
-            $content_right,
-            $imgu2,
-            $p2box,
-            $p3box,
-            $imgu3,
-            $updated_date,
-            $id
-        );
-
-        if (!$stmt->execute()) {
-            throw new Exception("Failed to execute statement: " . $stmt->error);
-        }
-
-        $stmt->close();
-
-        // Successful response
-        $response["success"] = true;
-    } else {
-        throw new Exception("Invalid request method.");
     }
 } catch (Exception $e) {
     $response["error"] = $e->getMessage();
 }
 
-// Send response back as JSON
 echo json_encode($response);
 ?>
