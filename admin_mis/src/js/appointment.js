@@ -170,7 +170,7 @@ function handleAction(action, appointmentId) {
 
 function fetchAppointmentDetails(appointmentId) {
     console.log(`Fetching details for appointment ID: ${appointmentId}`);
-    // Mock data - replace with actual API call or database query
+    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/previewAppointments.php?sort=${appointmentId}`);
     const appointment = {
         name: "John Doe",
         email: "john.doe@example.com",
