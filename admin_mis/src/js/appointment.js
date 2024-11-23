@@ -169,21 +169,8 @@ function handleAction(action, appointmentId) {
 
 
 function fetchAppointmentDetails(appointmentId) {
-    console.log(`Fetching details for appointment ID: ${appointmentId}`);
     fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/previewAppointments.php?sort=${appointmentId}`);
-    const appointment = {
-        name: "John Doe",
-        email: "john.doe@example.com",
-        phone: "123-456-7890",
-        address: "123 Main Street, Cityville",
-        purpose: "Business Meeting",
-        organization: "ABC Corp",
-        populationCount: 5,
-        preferredDate: "2024-11-30",
-        preferredTime: "10:00 AM",
-        notes: "Meeting to discuss partnership."
-    };
-
+    
     // Populate modal fields
     document.getElementById('appointment-name').textContent = appointment.name || 'N/A';
     document.getElementById('appointment-email').textContent = appointment.email || 'N/A';
