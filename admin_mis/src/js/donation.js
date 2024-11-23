@@ -187,7 +187,7 @@ function createTransferStatusCell(donation) {
     return container; // Return the container
 }
 
-function openStatusModal(artifactID, currentStatus, newStatus, dropdownElement) {
+function openStatusModal(artifactID, currentStatus, newStatus, dropdownElement, formType) {
     const modal = document.getElementById('transfer-status-modal');
     const confirmationMessage = document.getElementById('status-confirmation-message');
     const confirmButton = document.getElementById('status-confirm-button');
@@ -203,19 +203,30 @@ function openStatusModal(artifactID, currentStatus, newStatus, dropdownElement) 
     confirmButton.onclick = () => {
         modal.classList.add('hidden');
 
+        // Prepare URL-encoded data
+        const params = new URLSearchParams({
+            artifactID: artifactID,
+            newStatus: newStatus,
+            formType: formType
+        });
+
         // Send update request to server
         fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/updateTransferStatus.php', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ artifactID, newStatus })
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: params.toString()
         })
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Failed to update transfer status');
                 }
-                return response.json();
+                return response.text(); // Parse as plain text since we're not using JSON
             })
-            .then(data => {
+            .then(responseText => {
+                console.log("Response from server:", responseText);
+                const data = JSON.parse(responseText); // Convert response to JSON manually if needed
                 if (data.success) {
                     alert('Transfer status updated successfully!');
                     dropdownElement.value = newStatus; // Reflect the change in the dropdown
@@ -236,8 +247,6 @@ function openStatusModal(artifactID, currentStatus, newStatus, dropdownElement) 
         dropdownElement.value = currentStatus; // Revert the dropdown
     };
 }
-
-
 
 
 function createActionButton(icon, action, donation) {
