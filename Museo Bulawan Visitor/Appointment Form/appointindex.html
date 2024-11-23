@@ -184,13 +184,48 @@
             </div>
     
             <div class="form-group row align-items-center mt-4">
+                <label for="purpose" class="col-sm-2 col-form-label fs-5"><b>Purpose of Visit</b> <span class="text-danger">*</span></label>
+                <div class="col-sm-9">
+                    <select class="form-control border-2 border-dark" id="purpose" name="purpose" required>
+                        <option value="" disabled selected>Select Purpose of Visit</option>
+                        
+                        <optgroup label="Educational Purposes">
+                            <option value="Research">Research: Accessing archives, collections, or specialized materials for academic or professional studies.</option>
+                            <option value="Thesis or Dissertation Work">Thesis or Dissertation Work: Consulting artifacts or resources relevant to a study.</option>
+                            <option value="School Field Trips">School Field Trips: Coordinating visits for educational tours.</option>
+                            <option value="Workshops or Classes">Workshops or Classes: Attending or organizing art or history workshops.</option>
+                        </optgroup>
+                        
+                        <optgroup label="Professional Engagements">
+                            <option value="Interviews">Interviews: Meeting museum staff, historians, or curators.</option>
+                            <option value="Collaboration Meetings">Collaboration Meetings: Planning joint projects, exhibits, or events with museum personnel.</option>
+                            <option value="Photography or Media Projects">Photography or Media Projects: Arranging for photo shoots or filming inside the museum.</option>
+                            <option value="Conservation Consultation">Conservation Consultation: Seeking advice or services for preserving artifacts.</option>
+                            <option value="Donations">Donations: Offering items or funds to the museum's collection or endowment.</option>
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row align-items-center mt-4">
                 <label for="organization" class="col-sm-2 col-form-label fs-5"><b>Organization</b></label>
                 <div class="col-sm-5">
-                    <input type="text" class="form-control border-2 border-dark" id="organization" name="organization" placeholder="School/Institution/etc">
+                    <input 
+                        type="text" 
+                        class="form-control border-2 border-dark" 
+                        id="organization" 
+                        name="organization" 
+                        placeholder="School/Institution/etc">
                 </div>
                 <label for="age" class="col-sm-2 col-form-label fs-5"><b>Attendees</b> <span class="text-danger">*</span></label>
                 <div class="col-sm-2">
-                    <input type="number" class="form-control border-2 border-dark" id="age" name="age" placeholder="Count" required min="0">
+                    <input 
+                        type="number" 
+                        class="form-control border-2 border-dark" 
+                        id="age" 
+                        name="age" 
+                        placeholder="Count" 
+                        required 
+                        min="0">
                 </div>
             </div>
             

@@ -10,21 +10,41 @@ function fetchTotalAppointments() {
             if (!response.ok) {
                 throw new Error('Network response was not ok: ' + response.statusText);
             }
-            return response.json();
+            return response.json(); // Parse JSON response
         })
         .then(data => {
             if (data.error) {
                 console.error('Error from PHP:', data.error);
-                document.getElementById('total-appointments').innerText = "Error fetching data";
+                displayAppointmentErrorMessages(); // Display error messages
             } else {
-                document.getElementById('total-appointments').innerText = data.total_appointments;
+                populateTotalAppointmentData(data); // Populate appointment data on success
             }
         })
         .catch(error => {
             console.error('Error fetching total appointments:', error);
-            document.getElementById('total-appointments').innerText = "Error fetching data";
+            displayAppointmentErrorMessages(); // Handle fetch errors
         });
 }
+
+// Function to display error messages in all relevant fields for appointments
+function displayAppointmentErrorMessages() {
+    const errorMessage = "Error fetching data";
+    document.getElementById('total-appointments').innerText = errorMessage;
+    document.getElementById('total-approved').innerText = errorMessage;
+    document.getElementById('total-rejected').innerText = errorMessage;
+    document.getElementById('total-expected-visitors').innerText = errorMessage;
+    document.getElementById('total-present').innerText = errorMessage;
+}
+
+// Function to populate the data from the PHP response for appointments
+function populateTotalAppointmentData(data) {
+    document.getElementById('total-appointments').innerText = data.total_appointments || 0;
+    document.getElementById('total-approved').innerText = data.total_approved || 0;
+    document.getElementById('total-rejected').innerText = data.total_rejected || 0;
+    document.getElementById('total-expected-visitors').innerText = data.total_expected_visitors || 0;
+    document.getElementById('total-present').innerText = data.total_present || 0;
+}
+
 
 // Fetch and populate the appointment table
 function fetchAppointments(sort = 'newest') {
