@@ -17,8 +17,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $image_details = $_POST["imgu1_details"] ?? "";
     $content_left = $_POST["p1box_left"] ?? "";
     $content_right = $_POST["p1box_right"] ?? "";
-    $content_image2 = $_POST["imgu2"] ?? "";
-    $content_image3 = $_POST["imgu3"] ?? "";
 
     // Validate required fields
     if (empty($id) || empty($article_author) || empty($article_title)) {
@@ -37,13 +35,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             imgu1_details = ?, 
             p1box_left = ?, 
             p1box_right = ?, 
-            imgu2 = ?, 
-            imgu3 = ?, 
             updated_date = CURRENT_TIMESTAMP
         WHERE id = ?");
-    
+
     $stmt->bind_param(
-        "sssssssssi", 
+        "ssssssssi", 
         $article_author, 
         $article_title, 
         $article_location, 
@@ -51,8 +47,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $image_details, 
         $content_left, 
         $content_right, 
-        $content_image2, 
-        $content_image3, 
         $id
     );
 
@@ -62,39 +56,52 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 
-    // Handle image uploads (image_1, image_2, image_3)
-    $imageFields = ["imgu1", "imgu2", "imgu3"];  // Match the field names with the form input names
+    // Handle image uploads (imgu1, imgu2, imgu3)
+    $imageFields = ["imgu1", "imgu2", "imgu3"];
+    $uploadDir = 'uploads/articlesUploads/';
+    $uploadedImages = [];  // Array to hold the uploaded image file names
+    
     foreach ($imageFields as $imageField) {
-        if (isset($_FILES['imgu1']) && $_FILES['imgu1']['error'] == UPLOAD_ERR_OK) {
-            $fileTmpPath = $_FILES['imgu1']['tmp_name'];
-            $fileName = time() . '_' . $_FILES['imgu1']['name'];
-            $uploadDir = 'uploads/';
-        
-            // Debug: Check if file was received
-            error_log("File received: " . $_FILES['imgu1']['name']);
-            error_log("Temp path: " . $fileTmpPath);
-            error_log("Destination: " . $uploadDir . $fileName);
-        
-            // Ensure the directory exists or create it
+        if (isset($_FILES[$imageField]) && $_FILES[$imageField]['error'] == UPLOAD_ERR_OK) {
+            $fileTmpPath = $_FILES[$imageField]['tmp_name'];
+            $fileName = time() . '_' . $_FILES[$imageField]['name']; // Make filename unique
+            $destination = $uploadDir . $fileName;
+            
+            // Ensure the directory exists
             if (!is_dir($uploadDir)) {
                 mkdir($uploadDir, 0777, true);
             }
-        
-            $destination = $uploadDir . $fileName;
+            
+            // Move the uploaded file to the target directory
             if (move_uploaded_file($fileTmpPath, $destination)) {
-                echo "File uploaded successfully!";
+                $uploadedImages[$imageField] = $fileName;  // Store the file name
             } else {
-                echo "Error moving file.";
+                $response["error"] = "Error moving file for $imageField.";
+                echo json_encode($response);
+                exit;
             }
-        } else {
-            error_log("File upload error: " . $_FILES['imgu1']['error']);
         }
-        
-        
-         // If no new file was uploaded, skip updating the image field
     }
 
-    // If everything was successful
+    // If any images were uploaded, update the database
+    if (!empty($uploadedImages)) {
+        $stmt = $connextion->prepare("UPDATE articles SET imgu1 = ?, imgu2 = ?, imgu3 = ? WHERE id = ?");
+        $stmt->bind_param(
+            "ssss", 
+            $uploadedImages['imgu1'] ?? '', 
+            $uploadedImages['imgu2'] ?? '', 
+            $uploadedImages['imgu3'] ?? '', 
+            $id
+        );
+
+        if (!$stmt->execute()) {
+            $response["error"] = "Failed to update image fields: " . $stmt->error;
+            echo json_encode($response);
+            exit;
+        }
+    }
+
+    // Successful response
     $response["success"] = true;
 } else {
     $response["error"] = "Invalid request method.";
