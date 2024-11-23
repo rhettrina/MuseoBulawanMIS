@@ -8,15 +8,22 @@ if (!$connextion) {
     exit;
 }
 
-// Sanitize and collect form data
-$unique_id = mysqli_real_escape_string($connextion, $_POST['unique_id']);
-$name = mysqli_real_escape_string($connextion, $_POST['name']);
-$image_data = mysqli_real_escape_string($connextion, $_POST['imageData']); // Image data (base64)
+// Retrieve raw POST data
+$data = file_get_contents('php://input');
+$json = json_decode($data, true);
+
+// Make sure that the required keys exist in the POST data
+if (!isset($json['unique_id']) || !isset($json['name']) || !isset($json['imageData']) || !isset($_FILES['image'])) {
+    echo json_encode(['success' => false, 'error' => 'Unique ID, name, image data, and image file are required.']);
+    exit;
+}
+
+$unique_id = mysqli_real_escape_string($connextion, $json['unique_id']);
+$name = mysqli_real_escape_string($connextion, $json['name']);
+$imageData = $json['imageData'];
+$image = $_FILES['image'];
 
 // Handle image upload
-$image = $_FILES['image']; // Assuming a single image upload field for the floorplan image
-
-// Process image upload
 $imagePath = uploadImage($image);
 
 if ($imagePath) {
@@ -28,7 +35,7 @@ if ($imagePath) {
     $query->bind_param('sss', $unique_id, $name, $imagePath);
 
     if ($query->execute()) {
-        echo json_encode(['success' => true, 'message' => 'Floorplan saved successfully.']);
+        echo json_encode(['success' => true, 'message' => 'Floorplan saved successfully.', 'path' => $imagePath]);
     } else {
         echo json_encode(['success' => false, 'error' => $query->error]);
     }
