@@ -40,13 +40,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $liabilityConcerns = $conn->real_escape_string($_POST['liabilityConcerns']);
     $lendingReason = $conn->real_escape_string($_POST['lendingReason']);
 
+    
+
     $artifactTitle = $conn->real_escape_string($_POST['artifactTitle']);
     $artifactDescription = $conn->real_escape_string($_POST['artifactDescription']);
     $acquisition = $conn->real_escape_string($_POST['acquisition']);
     $additionalInfo = $conn->real_escape_string($_POST['additionalInfo']);
     $narrative = $conn->real_escape_string($_POST['narrative']);
     
-    $formType = $conn->real_escape_string($_POST['formType']);
 
     // Initialize image file paths
     $art_img_upload_path = '';
@@ -87,34 +88,76 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // Handle other image uploads similarly (documentation, related images)
-    // ...
+    // Insert query for the Donator table
+    $sql_donatorTB = "INSERT INTO `Donator`(`first_name`, `last_name`, `email`, `phone`, `province`, `street`, `barangay`, `organization`, `age`, `sex`, `city`) 
+                      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql_donatorTB);
+    $stmt->bind_param("ssssssssiss", $firstName, $lastName, $email, $phone, $province, $street, $barangay, $organization, $age, $sex, $city);
 
-    // Insert into lending_form table
-    $sql = "INSERT INTO lending_form (first_name, last_name, age, sex, email, phone, organization, province, city, barangay, street, loan_duration, display_conditions, liability_concerns, lending_reason, artifact_title, artifact_description, acquisition_details, additional_info, narrative, link_art_img, artifact_images, link_doc_img, documentation, link_rel_img, related_images)
-            VALUES ('$firstName', '$lastName', '$age', '$sex', '$email', '$phone', '$organization', '$province', '$city', '$barangay', '$street', '$loanDuration', '$displayConditions', '$liabilityConcerns', '$lendingReason', '$artifactTitle', '$artifactDescription', '$acquisition', '$additionalInfo', '$narrative', '$linkartimg', '$art_img_name', '$linkdocimg', '$doc_img_name', '$linkrelimg', '$rel_img_name')";
-
-    if ($conn->query($sql) === TRUE) {
-        date_default_timezone_set('Asia/Manila');
-        $donor_name = $firstName . ' ' . $lastName;
-        $item_name = $artifactTitle;
-        $donation_date = (new DateTime())->format('Y-m-d');
-        $status = "TO REVIEW";
-        $transfer_status = "PENDING";
-
-        // Insert into donations table
-        $donation_sql = "INSERT INTO donations (donor_name, item_name, type, donation_date, status, transfer_status)
-                         VALUES ('$donor_name', '$item_name', '$formType', '$donation_date', '$status', '$transfer_status')";
-
-        if ($conn->query($donation_sql) === TRUE) {
-            echo "Donation submitted successfully!";
-            header("Location: lendindex.html");
-        } else {
-            echo "Error inserting into donations table: " . $conn->error;
-        }
+    // Execute the insert query for Donator
+    if ($stmt->execute()) {
+        header("Location: lendindex.html?error=$em");
+        echo "Donator added successfully!<br>";
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error inserting donator: " . $stmt->error;
+        exit();
     }
+
+    // Now retrieve the donatorID from the Donator table
+    $fk_selector = "SELECT `donatorID` FROM `Donator` WHERE `first_name` = ? AND `last_name` = ? AND `email` = ? AND `phone` = ? AND `province` = ? AND `street` = ? AND `barangay` = ? AND `organization` = ? AND `age` = ? AND `sex` = ? AND `city` = ?";
+    $stmt = $conn->prepare($fk_selector);
+    $stmt->bind_param("ssssssssiss", $firstName, $lastName, $email, $phone, $province, $street, $barangay, $organization, $age, $sex, $city);
+
+    // Execute the query to get donatorID
+    $stmt->execute();
+
+    // Get the result
+    $result = $stmt->get_result();
+
+    // Fetch the donatorID from the result
+    if ($row = $result->fetch_assoc()) {
+        $donatorID = $row['donatorID'];
+        echo "Donator ID: " . $donatorID . "<br>";
+    } else {
+        echo "No matching donator found.";
+        exit();
+    }
+
+    // Insert query for the Donation table
+    $abt_art = "INSERT INTO `Lending`(`donatorID`, `artifact_nameID`, `lending_durationID`,  
+    `display_conditions`, `liability_concerns`, `lending_reason`) VALUES (?, ?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($abt_art);
+    $stmt->bind_param("isssss", $donatorID, $artifactTitle, $loanDuration , $displayConditions, $liabilityConcerns , $lendingReason);
+
+    // Execute the query for the Donation table
+    if ($stmt->execute()) {
+        echo "Artifact donation added successfully!<br>";
+        header("Location: lendindex.html?error=$em");
+    } else {
+        echo "Error: " . $stmt->error;
+        exit();
+    }
+
+    // Insert query for the Artifact table
+    $sql_artifact = "INSERT INTO `Artifact`(`artifact_typeID`, `donatorID`, `artifact_description`, `artifact_nameID`, `acquisition`, `additional_info`, `narrative`, `artifact_img`, `documentation`, `related_img`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql_artifact);
+
+    $type = "Lending";  // Setting a default value for artifact type
+
+    // Bind the parameters to the prepared statement
+    $stmt->bind_param("ssssssssss", $type, $donatorID, $artifactDescription, $artifactTitle, $acquisition, $additionalInfo, $narrative, $art_img_name, $doc_img_name, $rel_img_name);
+
+    // Execute the query
+    if ($stmt->execute()) {
+        echo "Artifact added successfully!<br>";
+        header("Location: lendindex.html?error=$em");
+    } else {
+        echo "Error: " . $stmt->error;
+        exit();
+    }
+
+    // Close the statement
+    $stmt->close();
 }
 
 // Close the connection
