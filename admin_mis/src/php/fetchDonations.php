@@ -47,7 +47,6 @@ $query = "
         'Donation' AS form_type,
         a.updated_date AS updated_date
         
-        
     FROM 
         Donation AS d
     JOIN 
@@ -66,12 +65,12 @@ if (!$result) {
     exit;
 }
 
-$donations = [];
+$Donation = [];
 while ($row = mysqli_fetch_assoc($result)) {
-    $donations[] = $row;
+    $Donation[] = $row;
 }
 
 // Return JSON response
-echo json_encode($donations);
+echo json_encode($Donation);
 
 ?>
