@@ -283,28 +283,39 @@ function closeModal(modalId) {
 }
 
 function updateTransferStatus(donationId, newStatus) {
+    // Make a request to update the transfer status in the database
     fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/updateTransferStatus.php', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ donatorID: donationId, transfer_status: newStatus })
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            donatorID: donationId,
+            transfer_status: newStatus
+        })
     })
     .then(response => {
         if (!response.ok) {
             throw new Error('Failed to update transfer status');
         }
-        return response.json();
+        return response.json(); // Parse the response as JSON
     })
     .then(data => {
         if (data.success) {
-            fetchDonations(); // Refresh the table to reflect updates
+            // On success, update the UI and refresh the donations table
+            console.log('Transfer status updated successfully');
+            fetchDonations(); // Refresh the donations list to reflect the changes
         } else {
             console.error('Failed to update transfer status:', data.error);
+            alert('Error updating transfer status');
         }
     })
     .catch(error => {
         console.error('Error updating transfer status:', error);
+        alert('There was an issue updating the transfer status');
     });
 }
+
 
 function openStatusModal(donationId, currentStatus, newStatus, dropdown) {
     const modal = document.getElementById("transfer-status-modal");
