@@ -21,7 +21,7 @@ try {
         $query = "SELECT d.*, dn.first_name, dn.last_name, dn.age, dn.sex, dn.email, dn.phone, 
                          dn.organization, dn.street, dn.barangay, dn.city, dn.province,
                          a.artifact_nameID, a.artifact_description, a.acquisition, 
-                         a.additional_info, a.narrative, a.images, a.documentation, a.related
+                         a.additional_info, a.narrative, a.artifact_img, a.documentation, a.related_img
                   FROM Donation AS d
                   JOIN Donator AS dn ON d.donatorID = dn.donatorID
                   JOIN Artifact AS a ON d.artifact_nameID = a.artifact_nameID
@@ -30,7 +30,7 @@ try {
         $query = "SELECT l.*, dn.first_name, dn.last_name, dn.age, dn.sex, dn.email, dn.phone, 
                          dn.organization, dn.street, dn.barangay, dn.city, dn.province,
                          a.artifact_nameID, a.artifact_description, a.acquisition, 
-                         a.additional_info, a.narrative, a.images, a.documentation, a.related
+                         a.additional_info, a.narrative, a.artifact_img, a.documentation, a.related_img
                   FROM Lending AS l
                   JOIN Donator AS dn ON l.donatorID = dn.donatorID
                   JOIN Artifact AS a ON l.artifact_nameID = a.artifact_nameID
