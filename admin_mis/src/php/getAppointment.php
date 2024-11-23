@@ -1,18 +1,29 @@
 <?php
-header("Access-Control-Allow-Origin: *"); 
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS"); 
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, x-requested-with");
 
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    exit(0); 
+    exit(0); // Handle preflight
 }
 
 include 'db_connect.php';
 
-$sort = $_GET['sort'] ?? 'newest'; 
-$order = ($sort === 'oldest') ? 'ASC' : 'DESC';
+if (!$connextion) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Database connection failed']);
+    exit;
+}
 
-// Query to fetch sorted appointments with the necessary joins, sorted by created_at
+$appointmentID = $_GET['id'] ?? null;
+
+if (!$appointmentID) {
+    http_response_code(400); // Bad Request
+    echo json_encode(['error' => 'Missing appointment ID']);
+    exit;
+}
+
+// Query to fetch a single appointment
 $query = "
     SELECT 
         a.appointmentID AS formID, 
@@ -32,24 +43,24 @@ $query = "
         appointment AS a
     JOIN 
         visitor AS v ON a.visitorID = v.visitorID
-    ORDER BY 
-        a.created_at $order
+    WHERE 
+        a.appointmentID = ?
 ";
 
+$stmt = $connextion->prepare($query);
+$stmt->bind_param("i", $appointmentID);
+$stmt->execute();
+$result = $stmt->get_result();
 
-$result = mysqli_query($connextion, $query);
-
-if (!$result) {
-    echo json_encode(['error' => 'Database query failed']);
+if ($result->num_rows === 0) {
+    http_response_code(404); // Not Found
+    echo json_encode(['error' => 'Appointment not found']);
     exit;
 }
 
-$appointments = [];
-while ($row = mysqli_fetch_assoc($result)) {
-    $appointments[] = $row;
-}
+$appointment = $result->fetch_assoc();
 
-// Return JSON response
+// Return the appointment as JSON
 header('Content-Type: application/json');
-echo json_encode($appointments);
+echo json_encode($appointment);
 ?>
