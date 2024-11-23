@@ -226,198 +226,56 @@ document.getElementById("sorts").addEventListener("change", function () {
     fetchDonations(this.value);
 });
   
-function deleteDonation(donation) {
-    const donationId = donation.artifactID;
-    fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/deleteDonations.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ id: donationId })
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Failed to delete donation');
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.success) {
-            // Remove the row from the UI
-            const row = document.querySelector(`tr[data-donation-id="${donationId}"]`);
-            if (row) {
-                row.remove();
-            }
-        } else {
-            console.error('Failed to delete donation:', data.error);
-        }
-    })
-    .catch(error => {
-        console.error('Error deleting donation:', error);
-    });
-}
+function openStatusModal(artifactID, currentStatus, newStatus, dropdownElement) {
+    const modal = document.getElementById('transfer-status-modal');
+    const confirmationMessage = document.getElementById('status-confirmation-message');
+    const confirmButton = document.getElementById('status-confirm-button');
+    const cancelButton = document.getElementById('status-cancel-button');
 
+    // Update modal message
+    confirmationMessage.textContent = `Are you sure you want to change the transfer status from "${currentStatus}" to "${newStatus}"?`;
 
-function openDeleteModal(callback) {
-    const modal = document.getElementById("delete-modal");
-    modal.classList.remove("hidden");
+    // Show modal
+    modal.classList.remove('hidden');
 
-    document.getElementById("delete-confirm-button").addEventListener("click", function() {
-        if (typeof callback === 'function') {
-            callback(true);
-        } else {
-            console.log("Callback is not a function.");
-        }
-    });
+    // Add click event for confirm
+    confirmButton.onclick = () => {
+        modal.classList.add('hidden');
 
-    document.getElementById("delete-cancel-button").onclick = () => {
-        if (typeof callback === "function") {
-            callback(false);
-        }
-        closeModal("delete-modal");
+        // Send update request to server
+        fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/updateTransferStatus.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ artifactID, newStatus })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to update transfer status');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    alert('Transfer status updated successfully!');
+                    dropdownElement.value = newStatus; // Reflect the change in the dropdown
+                } else {
+                    alert('Failed to update transfer status: ' + data.error);
+                    dropdownElement.value = currentStatus; // Revert the dropdown
+                }
+            })
+            .catch(error => {
+                console.error('Error updating transfer status:', error);
+                dropdownElement.value = currentStatus; // Revert the dropdown
+            });
+    };
+
+    // Add click event for cancel
+    cancelButton.onclick = () => {
+        modal.classList.add('hidden');
+        dropdownElement.value = currentStatus; // Revert the dropdown
     };
 }
 
-
-function confirmDeleteDonation(donationId) {
-    openDeleteModal(donationId, (artifactID, confirmed) => {
-        if (confirmed) {
-            deleteDonation();  // Call deleteDonation with the correct ID
-        }
-    });
-}
-
-function closeModal(modalId) {
-    const modal = document.getElementById(modalId);
-    modal.classList.add("hidden");
-}
-function updateTransferStatus(donationId, newStatus) {
-    fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/updateTransferStatus.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            artifactID: donationId, // Match the key expected in PHP
-            transfer_status: newStatus
-        })
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`Failed to update transfer status: ${response.statusText}`);
-        }
-        return response.text(); // Read the response as plain text
-    })
-    .then(responseText => {
-        if (responseText === "success") {
-            console.log('Transfer status updated successfully');
-            fetchDonations(); // Refresh the donations list
-        } else {
-            console.error('Failed to update transfer status:', responseText);
-        }
-    })
-    .catch(error => {
-        console.error('Error updating transfer status:', error);
-    });
-}
-
-
-
-
-function openStatusModal(donationId, currentStatus, newStatus, dropdown) {
-    const modal = document.getElementById("transfer-status-modal");
-    modal.classList.remove("hidden");
-
-    // Ensure the modal body element exists
-    const confirmationMessage = document.getElementById("status-confirmation-message");
-
-    if (confirmationMessage) {
-        confirmationMessage.textContent = `Do you want to confirm the change of transfer status from "${currentStatus}" to "${newStatus}" for the form ID: ${donationId}?`;
-
-        console.log(`Opening confirmation modal for form ID: ${donationId}, current status: "${currentStatus}", new status: "${newStatus}"`);
-
-        // When the user confirms
-        document.getElementById("status-confirm-button").onclick = () => {
-            console.log(`User confirmed the change for form ID: ${donationId}, changing status from "${currentStatus}" to "${newStatus}"`);
-            updateTransferStatus(donationId, newStatus);
-            closeModal("transfer-status-modal");
-        };
-
-        // When the user cancels
-        document.getElementById("status-cancel-button").onclick = () => {
-            console.log(`User canceled the status change for form ID: ${donationId}. Status remains as "${currentStatus}"`);
-            dropdown.value = currentStatus; // Revert the dropdown to its previous value
-            closeModal("transfer-status-modal");
-        };
-    } else {
-        console.error('Confirmation message element not found');
-    }
-}
-
-
-
-  
-  function openPreviewModal() {
-    const modal = document.getElementById("preview-modal");
-    modal.classList.remove("hidden"); // Remove the hidden class to display the modal
-  }
-  
-  function previewRow(formType, rowId) {
-    // Set the modal to "Loading..." by default
-    document.getElementById('preview-donor-name').textContent = "Loading...";
-    document.getElementById('preview-item-name').textContent = "Loading...";
-    document.getElementById('preview-donation-date').textContent = "Loading...";
-    document.getElementById('preview-status').textContent = "Loading...";
-    document.getElementById('preview-transfer-status').textContent = "Loading...";
-
-    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetch-row.php?type=${type}&id=${rowId}`, {
-        method: 'GET',
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                // Populate modal with the fetched data
-                document.getElementById('preview-donor-name').textContent = `${data.row.first_name} ${data.row.last_name}`;
-                document.getElementById('preview-item-name').textContent = data.row.artifact_title;
-                document.getElementById('preview-donation-date').textContent = data.row.submission_date || data.row.submitted_at;
-                document.getElementById('preview-status').textContent = data.row.status || 'N/A';
-                document.getElementById('preview-transfer-status').textContent = data.row.transfer_status || 'N/A';
-                
-                // Show the modal using Bootstrap
-                const previewModal = new bootstrap.Modal(document.getElementById('preview-modal'));
-                previewModal.show();
-            } else {
-                console.error('Failed to fetch data:', data.error);
-                // Handle error (e.g., show an error message in the modal)
-                document.getElementById('preview-donor-name').textContent = "Error loading data";
-                document.getElementById('preview-item-name').textContent = "Error loading data";
-                document.getElementById('preview-donation-date').textContent = "Error loading data";
-                document.getElementById('preview-status').textContent = "Error loading data";
-                document.getElementById('preview-transfer-status').textContent = "Error loading data";
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching row data:', error);
-            // Handle fetch error (e.g., show a general error message)
-            document.getElementById('preview-donor-name').textContent = "Error loading data";
-            document.getElementById('preview-item-name').textContent = "Error loading data";
-            document.getElementById('preview-donation-date').textContent = "Error loading data";
-            document.getElementById('preview-status').textContent = "Error loading data";
-            document.getElementById('preview-transfer-status').textContent = "Error loading data";
-        });
-}
-
-
-  // Close modal logic
-  document.getElementById("preview-close-button").addEventListener("click", () => {
-    const modal = document.getElementById("preview-modal");
-    modal.classList.add("hidden"); // Add the hidden class to hide the modal
-  });
   
   
 init();  // Initialize everything when the script runs

@@ -8,38 +8,43 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 }
 
 // Include database connection
-require_once('db_connect.php');
+// Database connection
+include 'db_connect.php';
 
-// Ensure no extra output
-ob_start();
+header('Content-Type: application/json');
 
-// Capture incoming request
-$data = json_decode(file_get_contents('php://input'), true);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $input = json_decode(file_get_contents('php://input'), true);
 
-if (isset($data['artifactID']) && isset($data['transfer_status'])) {
-    $artifactID = $data['artifactID'];
-    $transferStatus = $data['transfer_status'];
+    if (!isset($input['artifactID']) || !isset($input['newStatus'])) {
+        echo json_encode(['success' => false, 'error' => 'Invalid input']);
+        exit;
+    }
 
-    // Prepare and execute the SQL query
-    $sql = "UPDATE donations SET transfer_status = ? WHERE artifactID = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("si", $transferStatus, $artifactID);
+    $artifactID = $input['artifactID'];
+    $newStatus = $input['newStatus'];
+
+    // Validate input
+    $validStatuses = ['ACQUIRED', 'FAILED', 'PENDING'];
+    if (!in_array(strtoupper($newStatus), $validStatuses)) {
+        echo json_encode(['success' => false, 'error' => 'Invalid transfer status']);
+        exit;
+    }
+
+    // Update query
+    $stmt = $connextion->prepare("UPDATE donations SET transfer_status = ?, updated_date = NOW() WHERE artifactID = ?");
+    $stmt->bind_param("si", $newStatus, $artifactID);
 
     if ($stmt->execute()) {
-        echo "success"; // Return a plain text success message
+        echo json_encode(['success' => true]);
     } else {
-        error_log("Database error: " . $stmt->error);
-        echo "error: Database update failed"; // Return a plain text error message
+        echo json_encode(['success' => false, 'error' => 'Failed to update the database']);
     }
 
     $stmt->close();
 } else {
-    error_log("Invalid data received: " . print_r($data, true));
-    echo "error: Invalid input data"; // Return an error message for invalid input
+    echo json_encode(['success' => false, 'error' => 'Invalid request method']);
 }
 
-// Ensure clean output
-$content = ob_get_clean();
-echo trim($content);
-$conn->close();
+$connextion->close();
 ?>
