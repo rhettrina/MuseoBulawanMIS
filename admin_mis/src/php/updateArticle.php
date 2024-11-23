@@ -90,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         
         // Binding the image fields and id correctly
         $stmt->bind_param(
-            "ssss", // Correct type definition: three strings for images and one integer for id
+            "sssi", // Correct type definition: three strings for images and one integer for id
             $uploadedImages['imgu1'] ?? '', 
             $uploadedImages['imgu2'] ?? '', 
             $uploadedImages['imgu3'] ?? '', 
