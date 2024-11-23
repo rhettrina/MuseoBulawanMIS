@@ -12,7 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
     <!-- html2canvas Library from UNPKG -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>
@@ -92,121 +92,163 @@
     </div>
 
     <!-- Properties Panel -->
-    <div class="properties-panel active" id="properties-panel">
-        <h3>Properties</h3>
+<div class="properties-panel active" id="properties-panel">
+    <h3>Properties</h3>
 
-        <!-- No Selection Message -->
-        <div id="no-selection">
-            <p>No object selected.</p>
-        </div>
-
-        <!-- Object Properties -->
-        <div id="object-properties" style="display: none;">
-            <fieldset>
-                <legend>Size & Rotation</legend>
-                <label for="width-input">Width (px):</label>
-                <input type="range" id="width-input" min="20" max="800" value="100">
-                <span id="width-value">100</span> px
-
-                <label for="height-input">Height (px):</label>
-                <input type="range" id="height-input" min="20" max="800" value="100">
-                <span id="height-value">100</span> px
-
-                <label for="rotation-input">Rotation:</label>
-                <input type="range" id="rotation-input" min="0" max="315" step="45" value="0">
-                <span id="rotation-value">0°</span>
-            </fieldset>
-
-
-
-            <button id="lock-button" title="Lock/Unlock">
-                <span class="material-icons">lock_open</span> Unlock
-            </button>
-        </div>
-
-
-        <!-- Specific Symbol Properties -->
-        <div id="symbol-properties" style="display: none;">
-            <fieldset>
-                <legend>Size & Rotation</legend>
-                <label for="symbol-size-input">Size (px):</label>
-                <input type="range" id="symbol-size-input" min="20" max="800" value="100">
-                <span id="symbol-size-value">100</span> px
-
-                <label for="symbol-rotation-input">Rotation:</label>
-                <input type="range" id="symbol-rotation-input" min="0" max="315" step="45" value="0">
-                <span id="symbol-rotation-value">0°</span>
-            </fieldset>
-
-            <button id="lock-button-symbol" title="Lock/Unlock">
-                <span class="material-icons">lock_open</span> Unlock
-            </button>
-        </div>
-
-
-        <!-- Text Properties -->
-        <div id="text-properties" style="display: none;">
-            <fieldset>
-                <legend>Text Settings</legend>
-                <label for="text-content-input">Text:</label>
-                <input type="text" id="text-content-input" placeholder="Enter text here">
-
-                <label for="text-color-input">Text Color:</label>
-                <input type="color" id="text-color-input" value="#000000" list="preset-text-colors">
-                <datalist id="preset-text-colors">
-                    <option value="#000000">Black</option>
-                    <option value="#FFFFFF">White</option>
-                    <option value="#FF0000">Red</option>
-                    <option value="#FFA500">Orange</option>
-                    <option value="#FFFF00">Yellow</option>
-                    <option value="#008000">Green</option>
-                    <option value="#00FFFF">Cyan</option>
-                    <option value="#0000FF">Blue</option>
-                    <option value="#800080">Purple</option>
-                    <option value="#FF00FF">Magenta</option>
-                    <option value="#A52A2A">Brown</option>
-                    <option value="#808080">Gray</option>
-                    <option value="#FFC0CB">Pink</option>
-                    <option value="#FFD700">Gold</option>
-                    <option value="#008080">Teal</option>
-                    <option value="#4B0082">Indigo</option>
-                    <option value="#EE82EE">Violet</option>
-                    <option value="#000080">Navy</option>
-                    <option value="#800000">Maroon</option>
-                    <option value="#808000">Olive</option>
-                    <option value="#C0C0C0">Silver</option>
-                </datalist>
-
-                <label for="text-size-input">Text Size (px):</label>
-                <input type="range" id="text-size-input" min="10" max="100" value="16">
-                <span id="text-size-value">16</span> px
-
-                <label for="text-rotation-input">Rotation:</label>
-                <input type="range" id="text-rotation-input" min="0" max="315" step="45" value="0">
-                <span id="text-rotation-value">0°</span>
-            </fieldset>
-
-            <!-- Inside the Text Properties section -->
-            <fieldset>
-                <legend>Style</legend>
-                <div class="text-style-buttons">
-                    <button id="bold-button" title="Bold">
-                        <span class="material-icons">format_bold</span>
-                    </button>
-                    <button id="italic-button" title="Italic">
-                        <span class="material-icons">format_italic</span>
-                    </button>
-                    <button id="underline-button" title="Underline">
-                        <span class="material-icons">format_underlined</span>
-                    </button>
-                </div>
-            </fieldset>
-
-            <button id="lock-button-text" title="Lock/Unlock">
-                <span class="material-icons">lock_open</span> Unlock
-            </button>
-        </div>
+    <!-- No Selection Message -->
+    <div id="no-selection">
+        <p>No object selected.</p>
     </div>
+
+    <!-- Object Properties -->
+    <div id="object-properties" style="display: none;">
+        <fieldset>
+            <legend>Size & Rotation</legend>
+            <label for="width-input">Width (px):</label>
+            <input type="range" id="width-input" class="slider-input" min="20" max="800" value="100">
+            <span id="width-value">100</span> px
+
+            <label for="height-input">Height (px):</label>
+            <input type="range" id="height-input" class="slider-input" min="20" max="800" value="100">
+            <span id="height-value">100</span> px
+
+            <label for="rotation-input">Rotation:</label>
+            <input type="range" id="rotation-input" class="slider-input" min="0" max="315" step="45" value="0">
+            <span id="rotation-value">0°</span>
+        </fieldset>
+
+        <button id="lock-button" title="Lock/Unlock">
+            <span class="material-icons">lock_open</span> Unlock
+        </button>
+    </div>
+
+    <!-- Specific Symbol Properties -->
+    <div id="symbol-properties" style="display: none;">
+        <fieldset>
+            <legend>Size & Rotation</legend>
+            <label for="symbol-size-input">Size (px):</label>
+            <input type="range" id="symbol-size-input" class="slider-input" min="20" max="800" value="100">
+            <span id="symbol-size-value">100</span> px
+
+            <label for="symbol-rotation-input">Rotation:</label>
+            <input type="range" id="symbol-rotation-input" class="slider-input" min="0" max="315" step="45" value="0">
+            <span id="symbol-rotation-value">0°</span>
+        </fieldset>
+
+        <button id="lock-button-symbol" title="Lock/Unlock">
+            <span class="material-icons">lock_open</span> Unlock
+        </button>
+    </div>
+
+    <!-- Text Properties -->
+    <div id="text-properties" style="display: none;">
+        <fieldset>
+            <legend>Text Settings</legend>
+            <label for="text-content-input">Text:</label>
+            <input type="text" id="text-content-input" placeholder="Enter text here">
+
+            <label for="text-color-input">Text Color:</label>
+            <input type="color" id="text-color-input" value="#000000" list="preset-text-colors">
+            <datalist id="preset-text-colors">
+                <option value="#000000">Black</option>
+                <option value="#FFFFFF">White</option>
+                <option value="#FF0000">Red</option>
+                <option value="#FFA500">Orange</option>
+                <option value="#FFFF00">Yellow</option>
+                <option value="#008000">Green</option>
+                <option value="#00FFFF">Cyan</option>
+                <option value="#0000FF">Blue</option>
+                <option value="#800080">Purple</option>
+                <option value="#FF00FF">Magenta</option>
+                <option value="#A52A2A">Brown</option>
+                <option value="#808080">Gray</option>
+                <option value="#FFC0CB">Pink</option>
+                <option value="#FFD700">Gold</option>
+                <option value="#008080">Teal</option>
+                <option value="#4B0082">Indigo</option>
+                <option value="#EE82EE">Violet</option>
+                <option value="#000080">Navy</option>
+                <option value="#800000">Maroon</option>
+                <option value="#808000">Olive</option>
+                <option value="#C0C0C0">Silver</option>
+            </datalist>
+
+            <label for="text-size-input">Text Size (px):</label>
+            <input type="range" id="text-size-input" class="slider-input" min="10" max="100" value="16">
+            <span id="text-size-value">16</span> px
+
+            <label for="text-rotation-input">Rotation:</label>
+            <input type="range" id="text-rotation-input" class="slider-input" min="0" max="315" step="45" value="0">
+            <span id="text-rotation-value">0°</span>
+        </fieldset>
+
+        <!-- Inside the Text Properties section -->
+        <fieldset>
+            <legend>Style</legend>
+            <div class="text-style-buttons">
+                <button id="bold-button" title="Bold">
+                    <span class="material-icons">format_bold</span>
+                </button>
+                <button id="italic-button" title="Italic">
+                    <span class="material-icons">format_italic</span>
+                </button>
+                <button id="underline-button" title="Underline">
+                    <span class="material-icons">format_underlined</span>
+                </button>
+            </div>
+        </fieldset>
+
+        <button id="lock-button-text" title="Lock/Unlock">
+            <span class="material-icons">lock_open</span> Unlock
+        </button>
+    </div>
+</div>
+
+
+    <!-- Confirmation Modal -->
+<div id="confirmation-modal" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div class="bg-white rounded-lg w-96 p-6 text-center shadow-lg">
+      <p id="confirmation-message" class="text-lg font-semibold mb-4 text-gray-700">
+        Enter a name for your floor plan
+      </p>
+      <input
+        type="text"
+        id="floorPlanNameInput"
+        class="border border-gray-300 rounded w-full p-2 focus:ring-2 focus:ring-gray-400 focus:outline-none"
+        placeholder="Floor plan name"
+      />
+      <div class="mt-4 flex justify-center gap-4">
+        <button
+          id="saveNameButton"
+          class="bg-orange-200 text-gray-800 px-6 py-2 rounded-lg hover:bg-orange-300 transition"
+        >
+          Save
+        </button>
+        <button
+          id="cancelButton"
+          class="bg-gray-300 text-gray-800 px-6 py-2 rounded-lg hover:bg-gray-400 transition"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Loading Animation -->
+  <div id="loading-overlay" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div class="flex flex-col items-center">
+      <div class="w-16 h-16 border-4 border-gray-300 border-t-orange-200 rounded-full animate-spin"></div>
+      <p class="text-gray-700 mt-4 text-lg font-semibold">Saving floor plan...</p>
+      <button
+        id="closeLoadingButton"
+        class="hidden mt-4 bg-orange-200 text-gray-800 px-6 py-2 rounded-lg hover:bg-orange-300 transition"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+  
+
 
 
     <script src="main.js"></script>
