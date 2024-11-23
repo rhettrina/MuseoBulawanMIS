@@ -1,62 +1,91 @@
 <?php
 // Include the database connection
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Origin: *"); 
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS"); 
 header("Access-Control-Allow-Headers: Content-Type, x-requested-with");
-header("Content-Type: application/json"); // Ensure response is in JSON format
+header('Content-Type: application/json');
 
-// Handle preflight requests
+// Handle preflight OPTIONS request
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit(0); 
 }
 
-// Include database connection
 include('db_connect.php');
 
-// Check if connection was successful
-if (!$connextion) {
-    responseWithError('Database connection failed');
-    exit();
-}
-
-// Define queries to get counts for various statistics
-$queries = [
-    'total_appointments' => "SELECT COUNT(*) AS total_appointments FROM form_data",
-    'approved' => "SELECT COUNT(*) AS total_approved FROM form_data WHERE status = 'Approved'",
-    'rejected' => "SELECT COUNT(*) AS total_rejected FROM form_data WHERE status = 'Rejected'",
-    'expected_visitors' => "SELECT SUM(number_of_attendees) AS total_expected_visitors FROM form_data WHERE status = 'Approved'",
-    'present' => "SELECT COUNT(*) AS total_present FROM form_data WHERE status = 'Present'"
+// Initialize an array to store results with default values
+$results = [
+    'total_appointments' => 0,
+    'approved_appointments' => 0,
+    'rejected_appointments' => 0,
+    'total_appointment_forms' => 0,
+    'total_pending_appointments' => 0,
+    'error' => null
 ];
 
-// Initialize the response array
-$response = [];
-
-// Execute each query and store the result
-foreach ($queries as $key => $query) {
-    $result = mysqli_query($connextion, $query);
-
-    if ($result) {
-        $row = mysqli_fetch_assoc($result);
-        $response[$key] = $row ? $row["total_$key"] ?? 0 : 0;
-    } else {
-        responseWithError("Error executing query for $key");
-        exit();
-    }
+// Query to count total appointments
+$query = "SELECT COUNT(*) AS total FROM form_data";
+$result = mysqli_query($connextion, $query);
+if ($result) {
+    $row = mysqli_fetch_assoc($result);
+    $results['total_appointments'] = (int)$row['total'];
+} else {
+    $results['error'] = 'Failed to fetch total appointments: ' . mysqli_error($connextion);
+    errorHandler($results['error']);
 }
 
-// Send the response as JSON
-echo json_encode($response);
+// Query to count approved appointments
+$query = "SELECT COUNT(*) AS approved FROM form_data WHERE status = 'Approved'";
+$result = mysqli_query($connextion, $query);
+if ($result) {
+    $row = mysqli_fetch_assoc($result);
+    $results['approved_appointments'] = (int)$row['approved'];
+} else {
+    $results['error'] = 'Failed to fetch approved appointments: ' . mysqli_error($connextion);
+    errorHandler($results['error']);
+}
+
+// Query to count rejected appointments
+$query = "SELECT COUNT(*) AS rejected FROM form_data WHERE status = 'Rejected'";
+$result = mysqli_query($connextion, $query);
+if ($result) {
+    $row = mysqli_fetch_assoc($result);
+    $results['rejected_appointments'] = (int)$row['rejected'];
+} else {
+    $results['error'] = 'Failed to fetch rejected appointments: ' . mysqli_error($connextion);
+    errorHandler($results['error']);
+}
+
+// Query to count total appointment forms
+$query = "SELECT COUNT(*) AS total FROM appointment_form";
+$result = mysqli_query($connextion, $query);
+if ($result) {
+    $row = mysqli_fetch_assoc($result);
+    $results['total_appointment_forms'] = (int)$row['total'];
+} else {
+    $results['error'] = 'Failed to fetch appointment forms: ' . mysqli_error($connextion);
+    errorHandler($results['error']);
+}
+
+// Query to count total pending appointments
+$query = "SELECT COUNT(*) AS total FROM form_data WHERE status = 'Pending'";
+$result = mysqli_query($connextion, $query);
+if ($result) {
+    $row = mysqli_fetch_assoc($result);
+    $results['total_pending_appointments'] = (int)$row['total'];
+} else {
+    $results['error'] = 'Failed to fetch pending appointments: ' . mysqli_error($connextion);
+    errorHandler($results['error']);
+}
+
+// Return the results as JSON
+echo json_encode($results);
 
 // Close the database connection
 mysqli_close($connextion);
 
-/**
- * Utility function to send an error response in JSON format
- *
- * @param string $message The error message to send
- */
-function responseWithError($message) {
-    echo json_encode(['error' => $message]);
-    exit();
+// Function to handle errors
+function errorHandler($error) {
+    // Log the error to the console (for debugging purposes)
+    echo "<script>console.error('Error: $error');</script>";
 }
 ?>

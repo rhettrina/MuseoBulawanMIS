@@ -11,13 +11,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 include 'db_connect.php';
 
 // Get donation ID from URL query parameter
-$donationId = isset($_GET['id']) ? $_GET['id'] : null;
+$appointnId = isset($_GET['id']) ? $_GET['id'] : null;
 
 if ($donationId) {
     // Prepare and execute the DELETE query
     $query = "DELETE FROM form_data WHERE id = ?";
     $stmt = $connextion->prepare($query); // Use $connextion instead of $conn
-    $stmt->bind_param("i", $donationId);
+    $stmt->bind_param("i", $appointId);
 
     if ($stmt->execute()) {
         // Return success message
