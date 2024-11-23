@@ -14,10 +14,9 @@ include 'db_connect.php';
 $appointmentId = isset($_GET['id']) ? $_GET['id'] : null;
 
 if ($appointmentId) {
-    // Prepare and execute the DELETE query
     $query = "DELETE FROM appointment WHERE appointmentID = ?";
-    $stmt = $connection->prepare($query); // Correct variable name is $connection, not $connextion
-    $stmt->bind_param("i", $appointmentId); // Bind the appointment ID
+    $stmt = $connextion->prepare($query);
+    $stmt->bind_param("i", $appointmentId); 
 
     if ($stmt->execute()) {
         // Return success message
