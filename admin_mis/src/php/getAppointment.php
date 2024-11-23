@@ -2,28 +2,32 @@
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, x-requested-with");
+header('Content-Type: application/json'); // Set Content-Type early
 
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit(0); // Handle preflight
 }
 
 include 'db_connect.php';
 
-if (!$connextion) {
+// Check database connection
+if (!$connection) { // Assuming $connection is the correct variable name
     http_response_code(500);
+    error_log('Database connection failed: ' . mysqli_connect_error());
     echo json_encode(['error' => 'Database connection failed']);
     exit;
 }
 
+// Validate and sanitize appointment ID
 $appointmentID = $_GET['id'] ?? null;
 
-if (!$appointmentID) {
+if (!filter_var($appointmentID, FILTER_VALIDATE_INT)) {
     http_response_code(400); // Bad Request
-    echo json_encode(['error' => 'Missing appointment ID']);
+    echo json_encode(['error' => 'Invalid or missing appointment ID']);
     exit;
 }
 
-// Query to fetch a single appointment
+// Prepare the query
 $query = "
     SELECT 
         a.appointmentID AS formID, 
@@ -47,11 +51,31 @@ $query = "
         a.appointmentID = ?
 ";
 
-$stmt = $connextion->prepare($query);
-$stmt->bind_param("i", $appointmentID);
-$stmt->execute();
-$result = $stmt->get_result();
+$stmt = $connection->prepare($query);
+if (!$stmt) {
+    http_response_code(500); // Internal Server Error
+    error_log('Prepare failed: ' . $connection->error);
+    echo json_encode(['error' => 'Failed to prepare the statement']);
+    exit;
+}
 
+// Bind parameters
+if (!$stmt->bind_param("i", $appointmentID)) {
+    http_response_code(500); // Internal Server Error
+    error_log('Bind failed: ' . $stmt->error);
+    echo json_encode(['error' => 'Failed to bind parameters']);
+    exit;
+}
+
+// Execute the statement
+if (!$stmt->execute()) {
+    http_response_code(500); // Internal Server Error
+    error_log('Execute failed: ' . $stmt->error);
+    echo json_encode(['error' => 'Failed to execute the statement']);
+    exit;
+}
+
+$result = $stmt->get_result();
 if ($result->num_rows === 0) {
     http_response_code(404); // Not Found
     echo json_encode(['error' => 'Appointment not found']);
@@ -61,6 +85,9 @@ if ($result->num_rows === 0) {
 $appointment = $result->fetch_assoc();
 
 // Return the appointment as JSON
-header('Content-Type: application/json');
 echo json_encode($appointment);
+
+// Close resources
+$stmt->close();
+$connection->close();
 ?>
