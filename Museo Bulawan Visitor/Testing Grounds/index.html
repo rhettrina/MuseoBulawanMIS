@@ -8,64 +8,36 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <div id="preview-modal" class="modal fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 ">
-        <div class="modal-content bg-white p-6 rounded-lg w-2/4 h-[90%] text-center overflow-y-auto">
-          <div class="w-full sticky flex justify-between mb-4">
-            <p class="text-xl font-semi-bold">Article Preview</p>
-            <button class="bg-orange-300 text-white px-6 py-2 rounded-lg hover:bg-orange-400">Close</button>
-          </div>
-          
-            <span id="article-title" class="">Placeholder title</span>
-            <div class="w-full flex items-center justify-center py-4">
-                <div class="border-[1px] border-black w-fit p-4 text-xs">
-                    <p class="text-[8px] font-bold">Date</p>
-                    <p id="article-date">placeholder date</p>
-                </div>
-                <div class="border-[1px] border-black w-fit p-4 text-xs">
-                    <p class="text-[8px] font-bold">Location</p>
-                    <p id="article-location">placeholder location</p>
-                </div><div class="border-[1px] border-black w-fit p-4 text-xs">
-                    <p class="text-[8px] font-bold">Type</p>
-                    <p id="article-type">placeholder type</p>
-                </div>
-                <div class="border-[1px] border-black w-fit p-4 text-xs">
-                    <p class="text-[8px] font-bold">Author</p>
-                    <p id="article-author">placeholder author</p>
-                </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 m-[200px]">
+        <div class="bg-white shadow-md rounded-lg overflow-hidden min-w-[200px]">
+            <img src="https://pbs.twimg.com/media/EyAxvs4U4AA0LXk.jpg:large" alt="Image 1" class="w-full h-48 object-cover">
+            <div class="p-4">
+                <h3 class="text-lg font-semibold">Card Title 1</h3>
+                <p class="text-gray-600">Description of the image or card content goes here.</p>
             </div>
-            <div class="w-full flex flex-col justify-center items-center text-[11px]">
-                <img class="w-1/2 h-auto"  src="../source/456426171_818223347173704_7806646081153137378_n 1.png" id="article-image-1">
-                <span class="" id="article-image-1-details">placeholder details</span>
-            </div>
-            <div class="flex p-2 justify-between">
-                <div class="w-[49.5%]">
-                    <textarea class="w-full" name="" id="article-left" readonly >sample</textarea>
-                </div>
-                <div class="w-[49.5%]">
-                    <textarea class="w-full" name="" id="article-right" readonly >sample</textarea>
-                </div>
-            </div>
-            <div class="flex p-2 justify-left">
-                
-                   <div class="w-[100px] h-auto bg-yellow-700"></div>
-                   <img class="h-[150px] w-auto relative -left-[80px] p-4 z-50"  src="../source/456426171_818223347173704_7806646081153137378_n 1.png" id="article-image-2"> 
-                
-                <div class="grow">
-                    <textarea class="w-full" name="" id="content-right-2" readonly >sample</textarea>
-                </div>
-            </div>
-            <div class="flex p-2 justify-left">
-                <div class="grow">
-                    <textarea class="w-full" name="" id="content-right-3" readonly >sample</textarea>
-                </div>
-                
-                <img class="h-[150px] w-auto relative -right-[80px] p-4 z-50"  src="../source/456426171_818223347173704_7806646081153137378_n 1.png" id="article-image-3"> 
-                <div class="w-[100px] h-auto bg-yellow-700"></div>
-             
-             
-         </div>
-          
         </div>
-      </div>
+        <div class="bg-white shadow-md rounded-lg overflow-hidden min-w-[200px]">
+            <img src="https://pbs.twimg.com/media/EyAxvs4U4AA0LXk.jpg:large" alt="Image 2" class="w-full h-48 object-cover">
+            <div class="p-4">
+                <h3 class="text-lg font-semibold">Card Title 2</h3>
+                <p class="text-gray-600">Description of the image or card content goes here.</p>
+            </div>
+        </div>
+        <div class="bg-white shadow-md rounded-lg overflow-hidden min-w-[200px]">
+            <img src="https://pbs.twimg.com/media/EyAxvs4U4AA0LXk.jpg:large" alt="Image 3" class="w-full h-48 object-cover">
+            <div class="p-4">
+                <h3 class="text-lg font-semibold">Card Title 3</h3>
+                <p class="text-gray-600">Description of the image or card content goes here.</p>
+            </div>
+        </div>
+        <div class="bg-white shadow-md rounded-lg overflow-hidden min-w-[200px]">
+            <img src="https://pbs.twimg.com/media/EyAxvs4U4AA0LXk.jpg:large" alt="Image 4" class="w-full h-48 object-cover">
+            <div class="p-4">
+                <h3 class="text-lg font-semibold">Card Title 4</h3>
+                <p class="text-gray-600">Description of the image or card content goes here.</p>
+            </div>
+        </div>
+    </div>
+    
 </body>
 </html>

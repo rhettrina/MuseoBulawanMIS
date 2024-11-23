@@ -22,8 +22,9 @@ if ($donationId) {
     }
 
     // Query to get donor ID using the donation ID
-    $donorQuery = "SELECT donorID FROM Artifact WHERE artifactId = ?";
-    $stmt = $connection->prepare($donorQuery);
+    $donorQuery = "SELECT donatorID FROM Artifact WHERE donatorID = ?";
+    
+    $stmt = $connextion->prepare($donorQuery);
 
     if (!$stmt) {
         echo json_encode(['error' => 'Database query preparation error.']);
@@ -36,15 +37,15 @@ if ($donationId) {
         $result = $stmt->get_result();
         if ($result->num_rows > 0) {
             $donorData = $result->fetch_assoc();
-            $donorId = $donorData['donorID'];
+            $donorId = $donorData['donatorID'];
 
             // Begin deletion process
-            $connection->begin_transaction();
+            $connextion->begin_transaction();
 
             try {
                 // Delete records from the Lending table
-                $deleteLending = "DELETE FROM Lending WHERE donorID = ?";
-                $stmtLending = $connection->prepare($deleteLending);
+                $deleteLending = "DELETE FROM Lending WHERE donatorID = ?";
+                $stmtLending = $connextion->prepare($deleteLending);
                 if (!$stmtLending) {
                     throw new Exception('Failed to prepare Lending deletion query.');
                 }
@@ -52,8 +53,8 @@ if ($donationId) {
                 $stmtLending->execute();
 
                 // Delete records from the Donation table
-                $deleteDonation = "DELETE FROM Donation WHERE donorID = ?";
-                $stmtDonation = $connection->prepare($deleteDonation);
+                $deleteDonation = "DELETE FROM Donation WHERE donatorID = ?";
+                $stmtDonation = $connextion->prepare($deleteDonation);
                 if (!$stmtDonation) {
                     throw new Exception('Failed to prepare Donation deletion query.');
                 }
@@ -61,8 +62,8 @@ if ($donationId) {
                 $stmtDonation->execute();
 
                 // Delete records from the Donor table
-                $deleteDonor = "DELETE FROM Donor WHERE donorID = ?";
-                $stmtDonor = $connection->prepare($deleteDonor);
+                $deleteDonor = "DELETE FROM Donator WHERE donatorID = ?";
+                $stmtDonor = $connextion->prepare($deleteDonor);
                 if (!$stmtDonor) {
                     throw new Exception('Failed to prepare Donor deletion query.');
                 }
@@ -70,11 +71,11 @@ if ($donationId) {
                 $stmtDonor->execute();
 
                 // Commit transaction
-                $connection->commit();
+                $connextion->commit();
                 echo json_encode(['message' => 'All related records deleted successfully.']);
             } catch (Exception $e) {
                 // Rollback transaction on failure
-                $connection->rollback();
+                $connextion->rollback();
                 echo json_encode(['error' => 'Deletion failed: ' . $e->getMessage()]);
             }
         } else {
@@ -91,5 +92,5 @@ if ($donationId) {
 }
 
 // Close the database connection
-$connection->close();
+$connextion->close();
 ?>
