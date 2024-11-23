@@ -1,19 +1,19 @@
 <?php
-// Include the database connection file
+// Include the database $connextion file
 include 'db_connect.php';
 
-// Check if the connection is established
-if ($connection->connect_error) {
+// Check if the $connextion is established
+if ($connextion->connect_error) {
     die(json_encode([
         'status' => 'error',
-        'message' => 'Database connection failed: ' . $connection->connect_error
+        'message' => 'Database connection failed: ' . $connextion->connect_error
     ]));
 }
 
 try {
     // SQL query to fetch all rows from the 'floorplans' table
     $query = "SELECT `unique_id`, `name`, `image_path`, `created_at` FROM `floorplans` WHERE 1";
-    $result = $connection->query($query);
+    $result = $connextion->query($query);
 
     // Check if the query was successful
     if ($result) {
@@ -33,7 +33,7 @@ try {
         // Handle query failure
         echo json_encode([
             'status' => 'error',
-            'message' => 'Query failed: ' . $connection->error
+            'message' => 'Query failed: ' . $connextion->error
         ]);
     }
 } catch (Exception $e) {
@@ -44,6 +44,6 @@ try {
     ]);
 }
 
-// Close the database connection
-$connection->close();
+// Close the database $connextion
+$connextion->close();
 ?>
