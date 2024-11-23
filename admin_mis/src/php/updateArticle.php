@@ -94,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $uploadedImages['imgu1'] ?? '', 
             $uploadedImages['imgu2'] ?? '', 
             $uploadedImages['imgu3'] ?? '', 
-            $id
+            $id // Bind the id as an integer (no type string required here)
         );
 
         if (!$stmt->execute()) {
