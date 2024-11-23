@@ -228,87 +228,73 @@ document.getElementById("sorts").addEventListener("change", function () {
     fetchDonations(this.value);
 });
   
-function deleteDonation(donation) {
-    const formID = donation.formID; // Corrected from 'artifactrID' to 'artifactID'
+function deleteDonation(formID) {
     fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/deleteDonations.php?id=${formID}`, {
         method: 'DELETE',
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Failed to delete donation');
-        }
-        // Dynamically remove the row from the table
-        const row = document.querySelector(`td[data-id="${formID}"]`);
-        if (row) {
-            row.remove();
-        }
-    })
-    .catch(error => {
-        console.error('Error deleting donation:', error);
-    });
-}
-function openDeleteModal(callback) {
-    const modal = document.getElementById("delete-modal");
-    modal.classList.remove("hidden");
-
-    const confirmButton = document.getElementById("delete-confirm-button");
-    const cancelButton = document.getElementById("delete-cancel-button");
-
-    // Remove existing event listeners to avoid stacking
-    confirmButton.replaceWith(confirmButton.cloneNode(true));
-    cancelButton.replaceWith(cancelButton.cloneNode(true));
-
-    document.getElementById("delete-confirm-button").addEventListener("click", function () {
-        if (typeof callback === 'function') {
-            callback(true);
-        }
-        closeModal("delete-modal");
-    });
-
-    document.getElementById("delete-cancel-button").addEventListener("click", function () {
-        if (typeof callback === "function") {
-            callback(false);
-        }
-        closeModal("delete-modal");
-    });
-}
-
-function confirmDeleteDonation(donationId) {
-    openDeleteModal((confirmed) => {
-        if (confirmed) {
-            deleteDonation(donationId); // Call deleteDonation with the correct ID
-        }
-    });
-}
-
-function deleteDonation(donationId) {
-    fetch(`delete_endpoint.php?id=${donationId}`, {
-        method: "DELETE",
-    })
         .then((response) => {
             if (!response.ok) {
-                throw new Error("Failed to delete the donation.");
+                throw new Error('Failed to delete the donation.');
             }
             return response.json();
         })
         .then((data) => {
             if (data.message) {
                 alert(data.message);
-                // Refresh the list of donations here, if necessary
-                // Example: fetchDonations();
+
+                // Dynamically remove the row from the table
+                const row = document.querySelector(`[data-id="${formID}"]`);
+                if (row) {
+                    row.parentNode.removeChild(row);
+                }
             } else {
-                console.error(data.error || "Unknown error occurred.");
+                console.error(data.error || 'Unknown error occurred.');
             }
         })
         .catch((error) => {
-            console.error("Error deleting donation:", error);
+            console.error('Error deleting donation:', error);
         });
+}
+
+function openDeleteModal(callback) {
+    const modal = document.getElementById('delete-modal');
+    modal.classList.remove('hidden');
+
+    const confirmButton = document.getElementById('delete-confirm-button');
+    const cancelButton = document.getElementById('delete-cancel-button');
+
+    // Remove existing event listeners to avoid stacking
+    confirmButton.replaceWith(confirmButton.cloneNode(true));
+    cancelButton.replaceWith(cancelButton.cloneNode(true));
+
+    document.getElementById('delete-confirm-button').addEventListener('click', function () {
+        if (typeof callback === 'function') {
+            callback(true);
+        }
+        closeModal('delete-modal');
+    });
+
+    document.getElementById('delete-cancel-button').addEventListener('click', function () {
+        if (typeof callback === 'function') {
+            callback(false);
+        }
+        closeModal('delete-modal');
+    });
+}
+
+function confirmDeleteDonation(formID) {
+    openDeleteModal((confirmed) => {
+        if (confirmed) {
+            deleteDonation(formID); // Call deleteDonation with the correct ID
+        }
+    });
 }
 
 function closeModal(modalId) {
     const modal = document.getElementById(modalId);
-    modal.classList.add("hidden");
+    modal.classList.add('hidden');
 }
+
 
 function updateTransferStatus(formID, newStatus) {
     fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/updateTransferStatus.php', {
