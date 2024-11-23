@@ -229,7 +229,7 @@ document.getElementById("sorts").addEventListener("change", function () {
 });
   
 function deleteDonation(donation) {
-    const donationId = donation.artifactID; // Corrected from 'artifactrID' to 'artifactID'
+    const formID = donation.formID; // Corrected from 'artifactrID' to 'artifactID'
     fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/deleteDonations.php?id=${formID}`, {
         method: 'DELETE',
     })
@@ -247,9 +247,6 @@ function deleteDonation(donation) {
         console.error('Error deleting donation:', error);
     });
 }
-
-
-
 function openDeleteModal(callback) {
     const modal = document.getElementById("delete-modal");
     modal.classList.remove("hidden");
