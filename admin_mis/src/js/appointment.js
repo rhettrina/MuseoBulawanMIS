@@ -118,7 +118,8 @@ function populateTable(appointments) {
             const editButton = document.createElement('button');
             editButton.classList.add('bg-transparent', 'text-black', 'p-2', 'rounded', 'hover:bg-orange-300');
             editButton.innerHTML = `<i class="fas fa-edit"></i>`;
-            editButton.addEventListener('click', () => handleAction('edit', appointment.id));
+            editButton.addEventListener('click', () => handleAction('edit', appointment));
+
 
             const deleteButton = document.createElement('button');
             deleteButton.classList.add('bg-transparent', 'text-black', 'p-2', 'rounded', 'hover:bg-orange-300');
@@ -292,6 +293,11 @@ function closeModal(modalId) {
 
 // Function to show and populate the modal
 function showAppointmentModal(appointment) {
+    if (!appointment) {
+        console.error('Appointment data is undefined or null');
+        return;
+    }
+
     const modal = document.getElementById('appointment-modal');
 
     // Populate modal fields
@@ -311,6 +317,7 @@ function showAppointmentModal(appointment) {
         modal.classList.remove('hidden');
     }
 }
+
 
 // Close modal logic
 document.getElementById('close-appointment-modal').addEventListener('click', () => {
