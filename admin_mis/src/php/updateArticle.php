@@ -24,7 +24,7 @@ try {
         }
 
         // Update main fields (article details)
-        $stmt = $connection->prepare("UPDATE articles 
+        $stmt = $connextion->prepare("UPDATE articles 
             SET 
                 author = ?, 
                 article_title = ?, 
@@ -78,7 +78,7 @@ try {
 
         // If any images were uploaded, update the database
         if (!empty($uploadedImages)) {
-            $stmt = $connection->prepare("UPDATE articles SET imgu1 = ?, imgu2 = ?, imgu3 = ? WHERE id = ?");
+            $stmt = $connextion->prepare("UPDATE articles SET imgu1 = ?, imgu2 = ?, imgu3 = ? WHERE id = ?");
 
             $stmt->bind_param(
                 "sssi", // 4 variables: 3 strings and 1 integer
