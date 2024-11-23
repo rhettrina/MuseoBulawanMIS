@@ -67,30 +67,36 @@ try {
         $imgu2 = $uploadedImages['imgu2'] ?? $_POST['existing_imgu2'] ?? '';
         $imgu3 = $uploadedImages['imgu3'] ?? $_POST['existing_imgu3'] ?? '';
 
-        // Prepare and execute the update query
+        // Escaping the input to prevent SQL injection
+        $article_title = $connextion->real_escape_string($article_title);
+        $article_type = $connextion->real_escape_string($article_type);
+        $location = $connextion->real_escape_string($location);
+        $author = $connextion->real_escape_string($author);
+        $imgu1_details = $connextion->real_escape_string($imgu1_details);
+        $content_left = $connextion->real_escape_string($content_left);
+        $content_right = $connextion->real_escape_string($content_right);
+        $p2box = $connextion->real_escape_string($p2box);
+        $p3box = $connextion->real_escape_string($p3box);
+
+        // Prepare the SQL query using direct variable substitution (escaped for security)
         $query = "UPDATE articles SET 
-                    article_title = ?, 
-                    article_type = ?, 
-                    location = ?, 
-                    author = ?, 
-                    imgu1 = ?, 
-                    imgu1_details = ?, 
-                    p1box_left = ?, 
-                    p1box_right = ?, 
-                    imgu2 = ?, 
-                    p2box = ?, 
-                    p3box = ?, 
-                    imgu3 = ?, 
+                    article_title = '$article_title', 
+                    article_type = '$article_type', 
+                    location = '$location', 
+                    author = '$author', 
+                    imgu1 = '$imgu1', 
+                    imgu1_details = '$imgu1_details', 
+                    p1box_left = '$content_left', 
+                    p1box_right = '$content_right', 
+                    imgu2 = '$imgu2', 
+                    p2box = '$p2box', 
+                    p3box = '$p3box', 
+                    imgu3 = '$imgu3', 
                     updated_date = NOW() 
-                  WHERE id = ?";
+                  WHERE id = $id";
 
-        $stmt = $mysqli->prepare($query);
-        $stmt->bind_param("sssssssssssssi", 
-            $article_title, $article_type, $location, $author, 
-            $imgu1, $imgu1_details, $content_left, $content_right, 
-            $imgu2, $p2box, $p3box, $imgu3, $id);
-
-        if ($stmt->execute()) {
+        // Execute the query
+        if ($connextion->query($query)) {
             $response["success"] = true;
         } else {
             throw new Exception("Failed to update article.");
