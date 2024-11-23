@@ -65,12 +65,12 @@ if (!$result) {
     exit;
 }
 
-$Donation = [];
+$donations = [];
 while ($row = mysqli_fetch_assoc($result)) {
-    $Donation[] = $row;
+    $donations[] = $row;
 }
 
 // Return JSON response
-echo json_encode($Donation);
+echo json_encode($donations);
 
 ?>
