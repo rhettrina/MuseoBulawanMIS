@@ -440,7 +440,7 @@ function openFormModal(donID, formType) {
     document.getElementById('modal-address').textContent = `${details.street}, ${details.barangay}, ${details.city}, ${details.province}`;
   
     // Populate artifact details
-    document.getElementById('modal-artifact-title').textContent = details.artifact_title;
+    document.getElementById('modal-artifact-title').textContent = details.artifact_nameID;
     document.getElementById('modal-artifact-description').textContent = details.artifact_description;
     document.getElementById('modal-acquisition').textContent = details.acquisition;
     document.getElementById('modal-additional-info').textContent = details.additional_info;
@@ -464,11 +464,19 @@ function openFormModal(donID, formType) {
     // Set modal title
     document.getElementById('modal-title').textContent = `${formType} Form Details`;
   }
-  
-  function closeformModal() {
-    document.getElementById('form-modal').classList.add('hidden');
-  }
-  
+  document.querySelectorAll('[data-modal-close]').forEach(button => {
+    button.addEventListener('click', closeformModal);
+});
+
+function closeformModal() {
+    const modal = document.getElementById('form-modal');
+    if (modal) {
+        modal.classList.add('hidden');
+    } else {
+        console.error('Modal with id "form-modal" not found');
+    }
+}
+
 
 
   
