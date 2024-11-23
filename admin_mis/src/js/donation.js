@@ -159,6 +159,16 @@ function handleAction(action, donation) {
             break;
         case 'delete':
             console.log(`Delete donation with ID: ${donation.formID}`);
+              // Open delete confirmation modal
+              openDeleteModal((confirmed) => {
+                if (confirmed) {
+                    // Call delete function
+                    deleteDonation(donation.formID);
+                } else {
+                    console.log(`Deletion canceled for ID: ${donation.formID}`);
+                }
+            });
+            break;
             break;
         default:
             console.error('Unknown action:', action);
@@ -244,29 +254,58 @@ function openDeleteModal(callback) {
     const modal = document.getElementById("delete-modal");
     modal.classList.remove("hidden");
 
-    document.getElementById("delete-confirm-button").addEventListener("click", function() {
+    const confirmButton = document.getElementById("delete-confirm-button");
+    const cancelButton = document.getElementById("delete-cancel-button");
+
+    // Remove existing event listeners to avoid stacking
+    confirmButton.replaceWith(confirmButton.cloneNode(true));
+    cancelButton.replaceWith(cancelButton.cloneNode(true));
+
+    document.getElementById("delete-confirm-button").addEventListener("click", function () {
         if (typeof callback === 'function') {
             callback(true);
-        } else {
-            console.log("Callback is not a function.");
         }
+        closeModal("delete-modal");
     });
 
-    document.getElementById("delete-cancel-button").onclick = () => {
+    document.getElementById("delete-cancel-button").addEventListener("click", function () {
         if (typeof callback === "function") {
             callback(false);
         }
         closeModal("delete-modal");
-    };
+    });
 }
 
-
 function confirmDeleteDonation(donationId) {
-    openDeleteModal(donationId, (artifactID, confirmed) => {
+    openDeleteModal((confirmed) => {
         if (confirmed) {
-            deleteDonation();  // Call deleteDonation with the correct ID
+            deleteDonation(donationId); // Call deleteDonation with the correct ID
         }
     });
+}
+
+function deleteDonation(donationId) {
+    fetch(`delete_endpoint.php?id=${donationId}`, {
+        method: "DELETE",
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Failed to delete the donation.");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            if (data.message) {
+                alert(data.message);
+                // Refresh the list of donations here, if necessary
+                // Example: fetchDonations();
+            } else {
+                console.error(data.error || "Unknown error occurred.");
+            }
+        })
+        .catch((error) => {
+            console.error("Error deleting donation:", error);
+        });
 }
 
 function closeModal(modalId) {

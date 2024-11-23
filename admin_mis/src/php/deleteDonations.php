@@ -12,16 +12,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 include 'db_connect.php';
 
 // Get donation ID from the URL query parameter
-$donationId = isset($_GET['id']) ? $_GET['id'] : null;
+$donationId = isset($_GET['id']) ? intval($_GET['id']) : null;
 
 if ($donationId) {
-    // Validate donationId to ensure it's numeric
-    if (!is_numeric($donationId)) {
-        echo json_encode(['error' => 'Invalid donation ID format. ID must be numeric.']);
-        exit;
-    }
-
-    // Query to get donatorID from the Artifact table using the donation ID
+    // Query to check if the donation exists
     $donorQuery = "SELECT donatorID FROM Artifact WHERE artifactID = ?";
     $stmt = $connextion->prepare($donorQuery);
 
@@ -38,17 +32,17 @@ if ($donationId) {
             $donorData = $result->fetch_assoc();
             $donorId = $donorData['donatorID'];
 
-            // Begin deletion process
+            // Begin transaction
             $connextion->begin_transaction();
 
             try {
                 // Delete records from the Artifact table
-                $deleteArtifact = "DELETE FROM Artifact WHERE donatorID = ?";
+                $deleteArtifact = "DELETE FROM Artifact WHERE artifactID = ?";
                 $stmtArtifact = $connextion->prepare($deleteArtifact);
                 if (!$stmtArtifact) {
                     throw new Exception('Failed to prepare Artifact deletion query.');
                 }
-                $stmtArtifact->bind_param("i", $donorId);
+                $stmtArtifact->bind_param("i", $donationId);
                 $stmtArtifact->execute();
 
                 // Delete related records from the Lending table
