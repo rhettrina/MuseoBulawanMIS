@@ -21,7 +21,7 @@ $query = "
     a.artifact_nameID AS artifact_title, 
     l.lending_durationID AS artifact_type, 
     'To Review' AS status, 
-    'To Review' AS transfer_status, 
+    'Pending' AS transfer_status, 
     'Lending' AS form_type
 FROM 
     Lending AS l
@@ -38,7 +38,7 @@ SELECT
     a.artifact_nameID AS artifact_title, 
     a.artifact_typeID AS artifact_type, 
     'To Review' AS status, 
-    'To Review' AS transfer_status, 
+    'Pending' AS transfer_status, 
     'Donation' AS form_type
 FROM 
     Donation AS d
