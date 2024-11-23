@@ -1215,7 +1215,6 @@ document.getElementById('save-button').addEventListener('click', function () {
     confirmationModal.classList.add('hidden');
   };
 });
-
 function saveFloorPlan(floorPlanName) {
   // Show loading overlay
   const loadingOverlay = document.getElementById('loading-overlay');
@@ -1238,6 +1237,11 @@ function saveFloorPlan(floorPlanName) {
     formData.append('unique_id', uniqueId);
     formData.append('name', floorPlanName);
     formData.append('image', imageFile);
+
+    // Debugging: Log FormData content
+    for (let pair of formData.entries()) {
+      console.log(pair[0] + ': ' + pair[1]);
+    }
 
     // Send the image data and other form data to the PHP server
     fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/save_floorplan.php', {
@@ -1278,6 +1282,7 @@ function dataURLToBlob(dataURL) {
   }
   return new Blob([uintArray], { type: 'image/png' });
 }
+
 
 // Utility function to show result modal
 function showResultModal(title, message) {
