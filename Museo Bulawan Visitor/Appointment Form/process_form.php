@@ -63,7 +63,7 @@ if ($stmt) {
     $appointment_dateID = $preferred_date; // Assuming appointment_dateID is the same as preferred_date for now (adjust as needed)
     
     // Bind the parameters with the appropriate types
-    $stmt->bind_param("ssiii", $visitor_id, $preferred_time, $preferred_date, $population_countID, $appointment_dateID);
+    $stmt->bind_param("sssii", $visitor_id, $preferred_time, $preferred_date, $population_countID, $appointment_dateID);
 
     if ($stmt->execute()) {
         $appointment_id = $stmt->insert_id; // Capture the generated appointment ID
