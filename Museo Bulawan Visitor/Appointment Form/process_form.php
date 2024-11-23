@@ -34,6 +34,11 @@ $preferred_date = $_POST['preferred_date'];  // Ensure this is in YYYY-MM-DD for
 $preferred_time = $_POST['time'];  // Ensure this is in HH:MM:SS format
 $notes = $_POST['notes'];
 
+// Validate preferred_date format (YYYY-MM-DD)
+if (DateTime::createFromFormat('Y-m-d', $preferred_date) === false) {
+    die('Invalid date format. Please use YYYY-MM-DD.');
+}
+
 // Insert into visitor table
 $stmt = $connextion->prepare("INSERT INTO visitor (name, email, phone, address, organization) VALUES (?, ?, ?, ?, ?)");
 if ($stmt) {
