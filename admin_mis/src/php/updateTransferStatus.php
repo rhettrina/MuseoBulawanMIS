@@ -17,7 +17,7 @@ if (isset($data['id'], $data['transfer_status'])) {
     $transfer_status = $data['transfer_status'];
 
     // Update query
-    $stmt = $connextion->prepare("UPDATE donations SET transfer_status = ?, updated_date = NOW() WHERE id = ?");
+    $stmt = $connextion->prepare("UPDATE Artifact SET transfer_status = ?, updated_date = NOW() WHERE id = ?");
     $stmt->bind_param("si", $transfer_status, $id);
 
     if ($stmt->execute()) {

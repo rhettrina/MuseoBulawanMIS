@@ -160,7 +160,7 @@ function createTransferStatusCell(donation) {
 
     dropdown.addEventListener('change', () => {
         const newStatus = dropdown.value;
-        openStatusModal(donation.id, donation.transfer_status, newStatus, dropdown);
+        openStatusModal(donation.artifactID, donation.transfer_status, newStatus, dropdown);
     });
 
     cell.appendChild(dropdown);
@@ -182,27 +182,28 @@ function createActionButtons(donation) {
     return cell;
 }
 
+
 function createActionButton(icon, action, donation) {
     const button = document.createElement('button');
     button.classList.add('bg-orange-400', 'text-white', 'p-2', 'rounded', 'hover:bg-orange-300');
     button.innerHTML = `<i class="fas fa-${icon}"></i>`;
-    button.addEventListener('click', () => handleAction(action, donation.id));
+    button.addEventListener('click', () => handleAction(action, donation));
     return button;
 }
 
-function handleAction(action, donationId) {
+function handleAction(action, donation) {
     switch (action) {
         case 'preview':
             openPreviewModal();
-            console.log(`Preview donation with ID: ${donationId}`);
+            console.log(`Preview donation with ID: ${donation.artifactID}`);
             break;
         case 'edit':
-            console.log(`Edit donation with ID: ${donationId}`);
+            console.log(`Edit donation with ID: ${donation.artifactID}`);
             break;
         case 'delete':
             openDeleteModal(response => {
                 if (response) {
-                    deleteDonation(donationId);
+                    deleteDonation(donation); // Pass the whole donation object
                 }
             });
             break;
@@ -210,6 +211,7 @@ function handleAction(action, donationId) {
             console.error('Unknown action:', action);
     }
 }
+
 
 function displayNoDataMessage() {
     const tableBody = document.querySelector('tbody');
@@ -224,7 +226,8 @@ document.getElementById("sorts").addEventListener("change", function () {
     fetchDonations(this.value);
 });
   
-function deleteDonation(donationId) {
+function deleteDonation(donation) {
+    const donationId = donation.artifactID; // Corrected from 'artifactrID' to 'artifactID'
     fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/deleteDonations.php?id=${donationId}`, {
         method: 'DELETE',
     })
@@ -244,33 +247,32 @@ function deleteDonation(donationId) {
 }
 
 
+
 function openDeleteModal(callback) {
     const modal = document.getElementById("delete-modal");
     modal.classList.remove("hidden");
 
-    document.getElementById("delete-confirm-button").onclick = () => {
-        if (typeof callback === "function") {
+    document.getElementById("delete-confirm-button").addEventListener("click", function() {
+        if (typeof callback === 'function') {
             callback(true);
         } else {
-            console.error("Callback is not a function.");
+            console.log("Callback is not a function.");
         }
-        closeModal("delete-modal");
-    };
+    });
 
     document.getElementById("delete-cancel-button").onclick = () => {
         if (typeof callback === "function") {
             callback(false);
-        } else {
-            console.error("Callback is not a function.");
         }
         closeModal("delete-modal");
     };
 }
 
+
 function confirmDeleteDonation(donationId) {
-    openDeleteModal(donationId, (id, confirmed) => {
+    openDeleteModal(donationId, (artifactID, confirmed) => {
         if (confirmed) {
-            deleteDonation(id);  // Call deleteDonation with the correct ID
+            deleteDonation();  // Call deleteDonation with the correct ID
         }
     });
 }
@@ -284,7 +286,7 @@ function updateTransferStatus(donationId, newStatus) {
     fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/updateTransferStatus.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: donationId, transfer_status: newStatus })
+        body: JSON.stringify({ donatorID: donationId, transfer_status: newStatus })
     })
     .then(response => {
         if (!response.ok) {
