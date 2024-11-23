@@ -235,9 +235,9 @@ document.getElementById("sort").addEventListener("change", function () {
 
 
 function previewImage(event, previewId) {
-    const file = event.target.files[0];
-    const preview = document.getElementById(previewId);
-    
+    const file = event.target.files[0];  // Get the selected file
+    const preview = document.getElementById(previewId);  // Get the preview element
+
     if (!preview) {
         console.error(`Preview element with id "${previewId}" not found.`);
         return;
@@ -245,41 +245,47 @@ function previewImage(event, previewId) {
 
     // Reset preview container if no file is selected
     function resetPreview() {
-        preview.style.backgroundImage = 'none';
+        preview.style.backgroundImage = 'none';  // Remove background image
+        const placeholder = preview.querySelector('span');  // Find the placeholder span
+        if (placeholder) {
+            placeholder.style.display = 'block';  // Show placeholder text
+            placeholder.textContent = 'Choose Image';  // Reset placeholder text
+        }
+        event.target.value = '';  // Reset the file input
+    }
+
+    // If no file is selected, reset the preview
+    if (!file) {
+        resetPreview();  // Reset preview when no file is selected
+        return;
+    }
+
+    // Check file size (3MB limit)
+    if (file.size > 3 * 1024 * 1024) {
+        alert('File size exceeds 3MB. Please choose a smaller file.');
+        resetPreview();  // Reset the preview and file input if file is too large
+        return;
+    }
+
+    // Display the selected image as a background image
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+        preview.style.backgroundImage = `url(${e.target.result})`;  // Set background image
+        preview.style.backgroundSize = 'cover';  // Ensure the image covers the container
+        preview.style.backgroundPosition = 'center';  // Center the image
+
+        // Hide the placeholder text after an image is selected
         const placeholder = preview.querySelector('span');
         if (placeholder) {
-            placeholder.style.display = 'block';
-            placeholder.textContent = 'Choose Image';
+            placeholder.style.display = 'none';  // Hide placeholder text
         }
-        event.target.value = ''; // Reset the file input
-    }
+    };
 
-    if (file) {
-        if (file.size > 3 * 1024 * 1024) {
-            alert('File size exceeds 3MB. Please choose a smaller file.');
-            resetPreview();
-            return;
-        }
-
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            preview.style.backgroundImage = `url(${e.target.result})`;  // Set the image as background
-            preview.style.backgroundSize = 'cover';
-            preview.style.backgroundPosition = 'center';
-            preview.style.display = 'block';  // Make the preview visible
-
-            const placeholder = preview.querySelector('span');
-            if (placeholder) {
-                placeholder.style.display = 'none';  // Hide the placeholder text
-            }
-        };
-        reader.readAsDataURL(file);
-    } else {
-        resetPreview();
-    }
+    // Read the selected file as a Data URL (base64-encoded image)
+    reader.readAsDataURL(file);
 }
 
-  
 
 
 // Function to open the confirmation modal
@@ -488,7 +494,60 @@ function setValue(elementId, value) {
     }
 }
 
-// Handle the Save button click inside the updateArticle function
+// Function to preview the image and show a background in the preview area
+function previewImage(event, previewId) {
+    const file = event.target.files[0];  // Get the selected file
+    const preview = document.getElementById(previewId);  // Get the preview element
+
+    if (!preview) {
+        console.error(`Preview element with id "${previewId}" not found.`);
+        return;
+    }
+
+    // Reset preview container if no file is selected
+    function resetPreview() {
+        preview.style.backgroundImage = 'none';  // Remove background image
+        const placeholder = preview.querySelector('span');  // Find the placeholder span
+        if (placeholder) {
+            placeholder.style.display = 'block';  // Show placeholder text
+            placeholder.textContent = 'Choose Image';  // Reset placeholder text
+        }
+        event.target.value = '';  // Reset the file input
+    }
+
+    // If no file is selected, reset the preview
+    if (!file) {
+        resetPreview();  // Reset preview when no file is selected
+        return;
+    }
+
+    // Check file size (3MB limit)
+    if (file.size > 3 * 1024 * 1024) {
+        alert('File size exceeds 3MB. Please choose a smaller file.');
+        resetPreview();  // Reset the preview and file input if file is too large
+        return;
+    }
+
+    // Display the selected image as a background image
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+        preview.style.backgroundImage = `url(${e.target.result})`;  // Set background image
+        preview.style.backgroundSize = 'cover';  // Ensure the image covers the container
+        preview.style.backgroundPosition = 'center';  // Center the image
+
+        // Hide the placeholder text after an image is selected
+        const placeholder = preview.querySelector('span');
+        if (placeholder) {
+            placeholder.style.display = 'none';  // Hide placeholder text
+        }
+    };
+
+    // Read the selected file as a Data URL (base64-encoded image)
+    reader.readAsDataURL(file);
+}
+
+// Function to update the article (fetches the existing article data)
 function updateArticle(articleId) {
     const modal = document.getElementById("update-article-modal");
     if (!modal) {
@@ -517,11 +576,14 @@ function updateArticle(articleId) {
 
                 // Base URL for images
                 const baseUrl = "https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/uploads/articlesUploads/";
+
+                // Helper function to adjust image URL
                 const adjustImageUrl = (filePath) => filePath ? baseUrl + filePath.split('/').pop() : '';
 
-                setValue("imgu1", adjustImageUrl(data.imgu1));
-                setValue("imgu2", adjustImageUrl(data.imgu2));
-                setValue("imgu3", adjustImageUrl(data.imgu3));
+                // Set image previews using the URLs from the database
+                setImagePreview("update-image-1", adjustImageUrl(data.imgu1));
+                setImagePreview("update-image-2", adjustImageUrl(data.imgu2));
+                setImagePreview("update-image-3", adjustImageUrl(data.imgu3));
             } else {
                 console.error('Error fetching article details:', data.error);
                 alert('Failed to fetch article details. Please try again.');
@@ -549,9 +611,6 @@ function updateArticle(articleId) {
             formData.append("image_details", document.getElementById("update-image-details").value);
             formData.append("content_box2", document.getElementById("update-content-box2").value);
             formData.append("content_box3", document.getElementById("update-content-box3").value);
-            formData.append("content_image1", document.getElementById("article-image-1").value);
-            formData.append("content_image2", document.getElementById("article-image-2").value);
-            formData.append("content_image3", document.getElementById("article-image-3").value);
 
             // Add new images if selected
             const image1 = document.getElementById("update-image-1-input").files[0];
@@ -567,20 +626,28 @@ function updateArticle(articleId) {
                 method: 'POST',
                 body: formData,
             })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        console.log('Article updated successfully');
-                        closeModal("update-article-modal");
-                        init(); // Refresh the articles list
-                    } else {
-                        console.error('Error updating article:', data.error);
-                        alert('Failed to update the article. Please try again.');
+                .then(response => response.text())
+                .then(text => {
+                    console.log('Response text:', text);
+                    try {
+                        const data = JSON.parse(text);
+                        if (data.success) {
+                            console.log('Article updated successfully');
+                            closeModal("update-article-modal");
+                            init(); // Refresh the articles list
+                        } else {
+                            console.error('Error updating article:', data.error);
+                            alert('Failed to update the article: ' + data.error);
+                        }
+                    } catch (error) {
+                        console.error('Error parsing JSON:', error);
+                        console.error('Response was:', text);
+                        alert('An error occurred while processing the server response. Please try again.');
                     }
                 })
                 .catch(error => {
                     console.error('Error during update:', error);
-                    alert('An error occurred. Please try again.');
+                    alert('An error occurred during the update. Please check the console for details.');
                 });
         };
     } else {
@@ -599,5 +666,16 @@ function updateArticle(articleId) {
         };
     } else {
         console.error("Cancel button not found.");
+    }
+}
+
+// Helper function to set image previews in the modal
+function setImagePreview(previewId, imageUrl) {
+    const previewElement = document.getElementById(previewId);
+    if (previewElement && imageUrl) {
+        previewElement.style.backgroundImage = `url(${imageUrl})`;
+        previewElement.style.backgroundSize = 'cover';
+        previewElement.style.backgroundPosition = 'center';
+        previewElement.classList.remove('hidden');
     }
 }
