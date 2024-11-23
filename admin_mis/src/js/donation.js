@@ -148,24 +148,24 @@ function createTableCell(content) {
 function handleAction(action, donation) {
     console.log(`Action: ${action}`);
     console.log(`Donation Data:`, donation); // Log the full donation object
-    console.log(`Artifact ID: ${donation.formID}`); // Log the specific ID for debugging
+    console.log(`Artifact ID: ${donation.donID}`); // Log the specific ID for debugging
 
     switch (action) {
         case 'preview':
-            console.log(`Preview donation with ID: ${donation.formID}`);
+            console.log(`Preview donation with ID: ${donation.donID}`);
             break;
         case 'edit':
-            console.log(`Edit donation with ID: ${donation.formID}`);
+            console.log(`Edit donation with ID: ${donation.donID}`);
             break;
         case 'delete':
-            console.log(`Delete donation with ID: ${donation.formID}`);
+            console.log(`Delete donation with ID: ${donation.donID}`);
               // Open delete confirmation modal
               openDeleteModal((confirmed) => {
                 if (confirmed) {
                     // Call delete function
-                    deleteDonation(donation.formID);
+                    deleteDonation(donation.donID);
                 } else {
-                    console.log(`Deletion canceled for ID: ${donation.formID}`);
+                    console.log(`Deletion canceled for ID: ${donation.donID}`);
                 }
             });
             break;
@@ -192,7 +192,7 @@ function createTransferStatusCell(donation) {
 
     dropdown.addEventListener('change', () => {
         const newStatus = dropdown.value;
-        openStatusModal(donation.formID, donation.transfer_status, newStatus, dropdown);
+        openStatusModal(donation.donID, donation.transfer_status, newStatus, dropdown);
     });
 
     cell.appendChild(dropdown);
@@ -228,8 +228,8 @@ document.getElementById("sorts").addEventListener("change", function () {
     fetchDonations(this.value);
 });
   
-function deleteDonation(formID) {
-    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/deleteDonations.php?id=${formID}`, {
+function deleteDonation(donID) {
+    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/deleteDonations.php?id=${donID}`, {
         method: 'DELETE',
     })
         .then((response) => {
@@ -243,7 +243,7 @@ function deleteDonation(formID) {
                 alert(data.message);
 
                 // Dynamically remove the row from the table
-                const row = document.querySelector(`[data-id="${formID}"]`);
+                const row = document.querySelector(`[data-id="${donID}"]`);
                 if (row) {
                     row.parentNode.removeChild(row);
                 }
@@ -282,10 +282,10 @@ function openDeleteModal(callback) {
     });
 }
 
-function confirmDeleteDonation(formID) {
+function confirmDeleteDonation(donID) {
     openDeleteModal((confirmed) => {
         if (confirmed) {
-            deleteDonation(formID); // Call deleteDonation with the correct ID
+            deleteDonation(donID); // Call deleteDonation with the correct ID
         }
     });
 }
@@ -296,11 +296,11 @@ function closeModal(modalId) {
 }
 
 
-function updateTransferStatus(formID, newStatus) {
+function updateTransferStatus(donID, newStatus) {
     fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/updateTransferStatus.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ donation: formID, transfer_status: newStatus })
+        body: JSON.stringify({ donation: donID, transfer_status: newStatus })
     })
     .then(response => {
         if (!response.ok) {
@@ -320,7 +320,7 @@ function updateTransferStatus(formID, newStatus) {
     });
 }
 
-function openStatusModal(formID, currentStatus, newStatus, dropdown) {
+function openStatusModal(donID, currentStatus, newStatus, dropdown) {
     const modal = document.getElementById("transfer-status-modal");
     modal.classList.remove("hidden");
 
@@ -330,18 +330,18 @@ function openStatusModal(formID, currentStatus, newStatus, dropdown) {
     if (confirmationMessage) {
         confirmationMessage.textContent = `Do you want to confirm the change of transfer status from "${currentStatus}" to "${newStatus}" for the form ID: ${donationId}?`;
 
-        console.log(`Opening confirmation modal for form ID: ${formID}, current status: "${currentStatus}", new status: "${newStatus}"`);
+        console.log(`Opening confirmation modal for form ID: ${donID}, current status: "${currentStatus}", new status: "${newStatus}"`);
 
         // When the user confirms
         document.getElementById("status-confirm-button").onclick = () => {
-            console.log(`User confirmed the change for form ID: ${formID}, changing status from "${currentStatus}" to "${newStatus}"`);
-            updateTransferStatus(formID, newStatus);
+            console.log(`User confirmed the change for form ID: ${donID}, changing status from "${currentStatus}" to "${newStatus}"`);
+            updateTransferStatus(donID, newStatus);
             closeModal("transfer-status-modal");
         };
 
         // When the user cancels
         document.getElementById("status-cancel-button").onclick = () => {
-            console.log(`User canceled the status change for form ID: ${formID}. Status remains as "${currentStatus}"`);
+            console.log(`User canceled the status change for form ID: ${donID}. Status remains as "${currentStatus}"`);
             dropdown.value = currentStatus; // Revert the dropdown to its previous value
             closeModal("transfer-status-modal");
         };

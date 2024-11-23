@@ -24,7 +24,8 @@ $query = "
         'To Review' AS status, 
         'Pending' AS transfer_status, 
         'Lending' AS form_type,
-        a.updated_date AS updated_date
+        a.updated_date AS updated_date, 
+        dn.donatorID AS donID
 
         
     FROM 
@@ -45,7 +46,8 @@ $query = "
         'To Review' AS status, 
         'Pending' AS transfer_status, 
         'Donation' AS form_type,
-        a.updated_date AS updated_date
+        a.updated_date AS updated_date,
+        dn.donatorID AS donID
         
     FROM 
         Donation AS d
