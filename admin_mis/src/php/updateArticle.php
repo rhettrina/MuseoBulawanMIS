@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $id = $_POST["id"] ?? null;
     $article_author = $_POST["article_author"] ?? "";
     $article_title = $_POST["article_title"] ?? "";
-    $article_location = $_POST["article_location"] ?? "";
+    $article_location = $_POST["location"] ?? "";
     $article_type = $_POST["article_type"] ?? "";
     $image_details = $_POST["image-details"] ?? "";
     $content_left = $_POST["content-left"] ?? "";
@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         SET 
             author = ?, 
             article_title = ?, 
-            article_location = ?, 
+            location = ?, 
             article_type = ?, 
             image_details = ?, 
             content_left = ?, 
