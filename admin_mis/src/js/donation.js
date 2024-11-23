@@ -227,25 +227,35 @@ document.getElementById("sorts").addEventListener("change", function () {
 });
   
 function deleteDonation(donation) {
-    const donationId = donation.artifactID; // Corrected from 'artifactrID' to 'artifactID'
-    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/deleteDonations.php?id=${donationId}`, {
-        method: 'DELETE',
+    const donationId = donation.artifactID;
+    fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/deleteDonations.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id: donationId })
     })
     .then(response => {
         if (!response.ok) {
             throw new Error('Failed to delete donation');
         }
-        // Dynamically remove the row from the table
-        const row = document.querySelector(`td[data-id="${donationId}"]`);
-        if (row) {
-            row.remove();
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            // Remove the row from the UI
+            const row = document.querySelector(`tr[data-donation-id="${donationId}"]`);
+            if (row) {
+                row.remove();
+            }
+        } else {
+            console.error('Failed to delete donation:', data.error);
         }
     })
     .catch(error => {
         console.error('Error deleting donation:', error);
     });
 }
-
 
 
 function openDeleteModal(callback) {
@@ -281,40 +291,36 @@ function closeModal(modalId) {
     const modal = document.getElementById(modalId);
     modal.classList.add("hidden");
 }
-
 function updateTransferStatus(donationId, newStatus) {
-    // Make a request to update the transfer status in the database
     fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/updateTransferStatus.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            donatorID: donationId,
+            artifactID: donationId, // Match the backend expected key
             transfer_status: newStatus
         })
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error('Failed to update transfer status');
+            throw new Error(`Failed to update transfer status: ${response.statusText}`);
         }
-        return response.json(); // Parse the response as JSON
+        return response.json();
     })
     .then(data => {
         if (data.success) {
-            // On success, update the UI and refresh the donations table
             console.log('Transfer status updated successfully');
-            fetchDonations(); // Refresh the donations list to reflect the changes
+            fetchDonations(); // Refresh the donations list
         } else {
             console.error('Failed to update transfer status:', data.error);
-            alert('Error updating transfer status');
         }
     })
     .catch(error => {
         console.error('Error updating transfer status:', error);
-        alert('There was an issue updating the transfer status');
     });
 }
+
 
 
 function openStatusModal(donationId, currentStatus, newStatus, dropdown) {
