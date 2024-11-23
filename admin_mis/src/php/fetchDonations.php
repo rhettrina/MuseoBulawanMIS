@@ -17,13 +17,13 @@ $order = ($sort === 'oldest') ? 'ASC' : 'DESC';
 $query = "
     SELECT 
         l.lendingID AS formID, 
-        l.submission_date AS submission_date
+        l.submission_date AS submission_date,
         CONCAT(dn.first_name, ' ', dn.last_name) AS donor_name, 
         a.artifact_nameID AS artifact_title, 
         a.artifact_typeID AS artifact_type, 
         'To Review' AS status, 
         'Pending' AS transfer_status, 
-        'Lending' AS form_type,
+        'Lending' AS form_type
         
     FROM 
         Lending AS l
@@ -36,13 +36,13 @@ $query = "
 
     SELECT 
         d.donationID AS formID, 
-        d.submission_date AS submission_date
+        d.submission_date AS submission_date,
         CONCAT(dn.first_name, ' ', dn.last_name) AS donor_name, 
         a.artifact_nameID AS artifact_title, 
         a.artifact_typeID AS artifact_type, 
         'To Review' AS status, 
         'Pending' AS transfer_status, 
-        'Donation' AS form_type,
+        'Donation' AS form_type
         
     FROM 
         Donation AS d
