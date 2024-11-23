@@ -28,8 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     // Update main fields (article details)
-    $stmt = $connextion->prepare("
-        UPDATE articles 
+    $stmt = $connextion->prepare("UPDATE articles 
         SET 
             author = ?, 
             article_title = ?, 
@@ -41,8 +40,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             imgu2 = ?, 
             imgu3 = ?, 
             updated_date = CURRENT_TIMESTAMP
-        WHERE id = ?
-    ");
+        WHERE id = ?");
+    
     $stmt->bind_param(
         "sssssssssi", 
         $article_author, 
@@ -64,37 +63,35 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     // Handle image uploads (image_1, image_2, image_3)
-    $imageFields = ["image_1", "image_2", "image_3"];
+    $imageFields = ["imgu1", "imgu2", "imgu3"];  // Match the field names with the form input names
     foreach ($imageFields as $imageField) {
-        if (isset($_FILES[$imageField]) && $_FILES[$imageField]["error"] === UPLOAD_ERR_OK) {
-            $fileTmpPath = $_FILES[$imageField]["tmp_name"];
-            $fileName = time() . "_" . basename($_FILES[$imageField]["name"]);
-            $uploadDir = "uploads/";
-
-            // Ensure the upload directory exists
+        if (isset($_FILES['imgu1']) && $_FILES['imgu1']['error'] == UPLOAD_ERR_OK) {
+            $fileTmpPath = $_FILES['imgu1']['tmp_name'];
+            $fileName = time() . '_' . $_FILES['imgu1']['name'];
+            $uploadDir = 'uploads/';
+        
+            // Debug: Check if file was received
+            error_log("File received: " . $_FILES['imgu1']['name']);
+            error_log("Temp path: " . $fileTmpPath);
+            error_log("Destination: " . $uploadDir . $fileName);
+        
+            // Ensure the directory exists or create it
             if (!is_dir($uploadDir)) {
                 mkdir($uploadDir, 0777, true);
             }
-
+        
             $destination = $uploadDir . $fileName;
-
-            // Move the file to the uploads folder
             if (move_uploaded_file($fileTmpPath, $destination)) {
-                // Update the database with the new image path for the respective field
-                $stmt = $connextion->prepare("UPDATE articles SET $imageField = ? WHERE id = ?");
-                $stmt->bind_param("si", $destination, $id);
-
-                if (!$stmt->execute()) {
-                    $response["error"] = "Failed to update $imageField: " . $stmt->error;
-                    echo json_encode($response);
-                    exit;
-                }
+                echo "File uploaded successfully!";
             } else {
-                $response["error"] = "Failed to upload $imageField.";
-                echo json_encode($response);
-                exit;
+                echo "Error moving file.";
             }
-        } // If no new file was uploaded, skip updating the image field
+        } else {
+            error_log("File upload error: " . $_FILES['imgu1']['error']);
+        }
+        
+        
+         // If no new file was uploaded, skip updating the image field
     }
 
     // If everything was successful
