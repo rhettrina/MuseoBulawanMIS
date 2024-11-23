@@ -297,22 +297,24 @@ function showAppointmentModal(appointment) {
     const modal = document.getElementById('appointment-modal');
 
     // Populate modal fields
-    document.getElementById('appointment-name').textContent = appointment.name || 'hafshashfahf/A';
-    document.getElementById('appointment-email').textContent = appointment.email || 'N/A';
-    document.getElementById('appointment-phone').textContent = appointment.phone || 'N/A';
-    document.getElementById('appointment-address').textContent = appointment.address || 'N/A';
-    document.getElementById('appointment-purpose').textContent = appointment.purpose || 'N/A';
-    document.getElementById('appointment-organization').textContent = appointment.organization || 'N/A';
-    document.getElementById('appointment-population').textContent = appointment.population || 'N/A';
-    document.getElementById('appointment-date').textContent = appointment.date || 'N/A';
-    document.getElementById('appointment-time').textContent = appointment.time || 'N/A';
-    document.getElementById('appointment-notes').textContent = appointment.notes || 'N/A';
+    document.getElementById('appointment-name').textContent = appointment.visitor_name || 'N/A';
+    document.getElementById('appointment-email').textContent = appointment.visitor_email || 'N/A';
+    document.getElementById('appointment-phone').textContent = appointment.visitor_phone || 'N/A';
+    document.getElementById('appointment-address').textContent = appointment.visitor_address || 'N/A';
+    document.getElementById('appointment-purpose').textContent = appointment.appointment_purpose || 'N/A';
+    document.getElementById('appointment-organization').textContent = appointment.visitor_organization || 'N/A';
+    document.getElementById('appointment-population').textContent = appointment.number_of_attendees || 'N/A';
+    document.getElementById('appointment-date').textContent = appointment.appointment_date || 'N/A';
+    document.getElementById('appointment-time').textContent = appointment.appointment_time || 'N/A';
+    document.getElementById('appointment-notes').textContent = appointment.appointment_notes || 'N/A';
 
     // Show the modal
     if (modal) {
         modal.classList.remove('hidden');
     }
 }
+
+
 
 
 // Close modal logic

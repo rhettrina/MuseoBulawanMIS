@@ -25,6 +25,7 @@ $query = "
         a.preferred_date AS appointment_date, 
         a.preferred_time AS appointment_time, 
         a.notes AS appointment_notes, 
+        a.purpose AS appointment_purpose, 
         a.status AS appointment_status, 
         a.confirmation_date AS appointment_confirmation_date, 
         a.created_at AS appointment_created_at

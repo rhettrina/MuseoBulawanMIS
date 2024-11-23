@@ -4,7 +4,7 @@
 <!-- Summary Section -->
 <div class="table-content flex flex-col">
     <div
-        class="w-full min-h-28 pt-6 rounded-md flex flex-col lg:flex-row md:flex-row justify-center md:justify-between lg:justify-between gap-y-6 mb-5 items-center">
+        class="w-full min-h-28 pt-6 rounded-md flex flex-col lg:flex-row md:flex-row justify-start md:justify-between lg:justify-between gap-y-6 mb-5 items-center">
 
         <!-- Total Appointments -->
         <div class="p-2 max-w-44 max-h-24 rounded-md bg-orange-200 flex justify-center items-center">
@@ -110,26 +110,26 @@
 
 <!-- Modal Structure -->
 <div id="appointment-modal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center hidden">
-  <div class="bg-white w-11/12 max-w-3xl rounded-lg shadow-lg p-6">
-      <div class="flex justify-between items-center mb-4">
-          <h2 class="text-xl font-bold">Appointment Details</h2>
-          <button id="close-appointment-modal" class="text-gray-500 hover:text-gray-800">&times;</button>
-      </div>
-      <div class="space-y-4">
-          <div><strong>Name:</strong> <span id="appointment-name"></span></div>
-          <div><strong>Email:</strong> <span id="appointment-email"></span></div>
-          <div><strong>Phone Number:</strong> <span id="appointment-phone"></span></div>
-          <div><strong>Address:</strong> <span id="appointment-address"></span></div>
-          <div><strong>Purpose of Visit:</strong> <span id="appointment-purpose"></span></div>
-          <div><strong>Organization:</strong> <span id="appointment-organization"></span></div>
-          <div><strong>Population Count:</strong> <span id="appointment-population"></span></div>
-          <div><strong>Preferred Date:</strong> <span id="appointment-date"></span></div>
-          <div><strong>Preferred Time:</strong> <span id="appointment-time"></span></div>
-          <div><strong>Notes:</strong> <span id="appointment-notes"></span></div>
-      </div>
-      <div class="mt-6 flex justify-end">
-          <button id="close-appointment-modal-btn" class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">Close</button>
-      </div>
-  </div>
+    <div class="bg-white w-11/12 max-w-3xl rounded-lg shadow-lg p-6">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-bold">Appointment Details</h2>
+            <button id="close-appointment-modal" class="text-gray-500 hover:text-gray-800">&times;</button>
+        </div>
+        <div class="space-y-4">
+            <div><strong>Name:</strong> <span id="appointment-name"></span></div>
+            <div><strong>Email:</strong> <span id="appointment-email"></span></div>
+            <div><strong>Phone Number:</strong> <span id="appointment-phone"></span></div>
+            <div><strong>Address:</strong> <span id="appointment-address"></span></div>
+            <div><strong>Purpose of Visit:</strong> <span id="appointment-purpose"></span></div>
+            <div><strong>Organization:</strong> <span id="appointment-organization"></span></div>
+            <div><strong>Population Count:</strong> <span id="appointment-population"></span></div>
+            <div><strong>Preferred Date:</strong> <span id="appointment-date"></span></div>
+            <div><strong>Preferred Time:</strong> <span id="appointment-time"></span></div>
+            <div><strong>Notes:</strong> <span id="appointment-notes"></span></div>
+        </div>
+        <div class="mt-6 flex justify-end">
+            <button id="close-appointment-modal-btn" class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">Close</button>
+        </div>
+    </div>
 </div>
 

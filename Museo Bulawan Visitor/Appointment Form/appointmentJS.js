@@ -42,20 +42,31 @@ function openModal() {
         document.getElementById("confirmationModal").style.display = "flex";
     }
 }
+// appointmentJS.js
 
-// Close modal
+// Function to open the confirmation modal
+function openModal(event) {
+    event.preventDefault(); // Prevent the form from submitting immediately
+    const modal = document.getElementById('confirmationModal');
+    modal.style.display = 'block'; // Show the modal
+}
+
+// Function to close the confirmation modal
 function closeModal() {
-    document.getElementById("confirmationModal").style.display = "none";
+    const modal = document.getElementById('confirmationModal');
+    modal.style.display = 'none'; // Hide the modal
 }
 
-// Confirm and submit form
-function confirmSubmission() {
+// Event listeners for modal buttons
+document.getElementById('confirmBtn').addEventListener('click', function() {
+    // Submit the form after confirmation
+    document.getElementById('appointmentForm').submit();
     closeModal();
-    form.submit(); // Programmatically submit the form after confirmation
-}
+});
 
-// Add event listener for confirm button
-document.getElementById("confirmBtn").addEventListener("click", confirmSubmission);
+document.getElementById('closeModalBtn').addEventListener('click', function() {
+    closeModal();
+});
 
-// Add event listener for close button
-document.getElementById("closeModalBtn").addEventListener("click", closeModal);
+// Attach the openModal function to the form's submit event
+document.getElementById('appointmentForm').addEventListener('submit', openModal);
