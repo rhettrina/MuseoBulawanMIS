@@ -21,7 +21,7 @@ if ($donationId) {
     }
 
     // Corrected column name for the query (replace `artifact_id` if needed)
-    $donatorQuery = "SELECT donatorID FROM Artifact WHERE artifact_id = ?";
+    $donatorQuery = "SELECT donatorID FROM Artifact WHERE artifactId = ?";
     $stmt = $connextion->prepare($donatorQuery);
 
     if (!$stmt) {
