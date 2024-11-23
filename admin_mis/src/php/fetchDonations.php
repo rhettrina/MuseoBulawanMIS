@@ -13,11 +13,41 @@ include 'db_connect.php';
 $sort = $_GET['sort'] ?? 'newest'; 
 $order = ($sort === 'oldest') ? 'ASC' : 'DESC';
 
-// Query to fetch sorted donations
-$query = "SELECT id, donor_name, item_name, type, donation_date, status, transfer_status, 
-                 IFNULL(updated_date, 'Not Edited') AS updated_date 
-          FROM donations 
-          ORDER BY donation_date $order";
+// Query to fetch sorted donations with the necessary joins
+$query = "
+    SELECT 
+    l.lendingID AS formID, 
+    CONCAT(dn.first_name, ' ', dn.last_name) AS donor_name, 
+    a.artifact_nameID AS artifact_title, 
+    l.lending_durationID AS artifact_type, 
+    'To Review' AS status, 
+    'Pending' AS transfer_status, 
+    'Lending' AS form_type
+FROM 
+    Lending AS l
+JOIN 
+    Donator A S dn ON l.donatorID = dn.donatorID
+JOIN 
+    Artifact AS a ON l.artifact_nameID = a.artifact_nameID
+
+UNION ALL
+
+SELECT 
+    d.donationID AS formID, 
+    CONCAT(dn.first_name, ' ', dn.last_name) AS donor_name, 
+    a.artifact_nameID AS artifact_title, 
+    a.artifact_typeID AS artifact_type, 
+    'To Review' AS status, 
+    'Pending' AS transfer_status, 
+    'Donation' AS form_type
+FROM 
+    Donation AS d
+JOIN 
+    Donator AS dn ON d.donatorID = dn.donatorID
+JOIN 
+    Artifact AS a ON d.artifact_nameID = a.artifact_nameID
+
+";
 
 $result = mysqli_query($connextion, $query);
 
@@ -33,6 +63,5 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 // Return JSON response
 echo json_encode($donations);
-
 
 ?>
