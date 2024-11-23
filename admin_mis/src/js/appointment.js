@@ -87,7 +87,7 @@ function populateTable(appointments) {
         // Create and populate cells
         const dateCell = document.createElement('td');
         dateCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'rounded-l-[15px]', 'border-t-2', 'border-b-2', 'border-l-2');
-        dateCell.textContent = appointment.created_at;
+        dateCell.textContent = appointment.appointment_date;
 
         const timeCell = document.createElement('td');
         timeCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
@@ -107,7 +107,7 @@ function populateTable(appointments) {
         
         const createdAtCell = document.createElement('td');
         createdAtCell.classList.add('px-4', 'py-2','bg-white', 'border-black', 'border-t-2', 'border-b-2');
-        createdAtCell.textContent = appointment.appointment_date;
+        createdAtCell.textContent = appointment.created_at;
 
         const actionCell = document.createElement('td');
         actionCell.classList.add('px-4', 'py-2', 'flex', 'justify-center', 'space-x-2', 'bg-white', 'border-black' , 'rounded-r-[15px]', 'border-t-2', 'border-b-2', 'border-r-2');
@@ -131,14 +131,15 @@ function populateTable(appointments) {
             actionCell.appendChild(deleteButton);
 
         // Append cells to row
-        row.appendChild(dateCell);
+        row.appendChild(createdAtCell);
         row.appendChild(attendeeCell);
         row.appendChild(timeCell);
         
         row.appendChild(statusCell);
         row.appendChild(attendeesCountCell);
         
-        row.appendChild(createdAtCell);
+        
+        row.appendChild(dateCell);
         row.appendChild(actionCell);
 
         tableBody.appendChild(row);
@@ -297,22 +298,24 @@ function showAppointmentModal(appointment) {
     const modal = document.getElementById('appointment-modal');
 
     // Populate modal fields
-    document.getElementById('appointment-name').textContent = appointment.name || 'hafshashfahf/A';
-    document.getElementById('appointment-email').textContent = appointment.email || 'N/A';
-    document.getElementById('appointment-phone').textContent = appointment.phone || 'N/A';
-    document.getElementById('appointment-address').textContent = appointment.address || 'N/A';
-    document.getElementById('appointment-purpose').textContent = appointment.purpose || 'N/A';
-    document.getElementById('appointment-organization').textContent = appointment.organization || 'N/A';
-    document.getElementById('appointment-population').textContent = appointment.population || 'N/A';
-    document.getElementById('appointment-date').textContent = appointment.date || 'N/A';
-    document.getElementById('appointment-time').textContent = appointment.time || 'N/A';
-    document.getElementById('appointment-notes').textContent = appointment.notes || 'N/A';
+    document.getElementById('appointment-name').textContent = appointment.visitor_name || 'N/A';
+    document.getElementById('appointment-email').textContent = appointment.visitor_email || 'N/A';
+    document.getElementById('appointment-phone').textContent = appointment.visitor_phone || 'N/A';
+    document.getElementById('appointment-address').textContent = appointment.visitor_address || 'N/A';
+    document.getElementById('appointment-purpose').textContent = appointment.appointment_purpose || 'N/A';
+    document.getElementById('appointment-organization').textContent = appointment.visitor_organization || 'N/A';
+    document.getElementById('appointment-population').textContent = appointment.number_of_attendees || 'N/A';
+    document.getElementById('appointment-date').textContent = appointment.appointment_date || 'N/A';
+    document.getElementById('appointment-time').textContent = appointment.appointment_time || 'N/A';
+    document.getElementById('appointment-notes').textContent = appointment.appointment_notes || 'N/A';
 
     // Show the modal
     if (modal) {
         modal.classList.remove('hidden');
     }
 }
+
+
 
 
 // Close modal logic
