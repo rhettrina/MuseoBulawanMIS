@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $narrative = $conn->real_escape_string($_POST['narrative']);
     
     $formType = $conn->real_escape_string($_POST['formType']);
-
+    
     // Initialize image file paths
     $art_img_upload_path = '';
     $doc_img_upload_path = '';
@@ -85,10 +85,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql_donatorTB = "INSERT INTO `Donator`(`first_name`, `last_name`, `email`, `phone`, `province`, `street`, `barangay`, `organization`, `age`, `city`) 
                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql_donatorTB);
-    $stmt->bind_param("ssssssssss", $firstName, $lastName, $email, $phone, $province, $street, $barangay, $organization, $age, $city);
+    $stmt->bind_param("ssssssssis", $firstName, $lastName, $email, $phone, $province, $street, $barangay, $organization, $age, $city);
 
     // Execute the insert query for Donator
     if ($stmt->execute()) {
+        header("Location: donateindex.html?error=$em");
         echo "Donator added successfully!<br>";
     } else {
         echo "Error inserting donator: " . $stmt->error;
@@ -98,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Now retrieve the donatorID from the Donator table
     $fk_selector = "SELECT `donatorID` FROM `Donator` WHERE `first_name` = ? AND `last_name` = ? AND `email` = ? AND `phone` = ? AND `province` = ? AND `street` = ? AND `barangay` = ? AND `organization` = ? AND `age` = ? AND `city` = ?";
     $stmt = $conn->prepare($fk_selector);
-    $stmt->bind_param("ssssssssss", $firstName, $lastName, $email, $phone, $province, $street, $barangay, $organization, $age, $city);
+    $stmt->bind_param("ssssssssis", $firstName, $lastName, $email, $phone, $province, $street, $barangay, $organization, $age, $city);
 
     // Execute the query to get donatorID
     $stmt->execute();
@@ -123,23 +124,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Execute the query for the Donation table
     if ($stmt->execute()) {
         echo "Artifact donation added successfully!<br>";
+        header("Location: donateindex.html?error=$em");
     } else {
         echo "Error: " . $stmt->error;
         exit();
     }
 
     // Insert query for the Artifact table
-    $sql_artifact = "INSERT INTO `Artifact`(`artifact_typeID`, `donatorID`, `artifact_description`, `artifact_nameID`) VALUES (?, ?, ?, ?)";
+    $sql_artifact = "INSERT INTO `Artifact`(`artifact_typeID`, `donatorID`, `artifact_description`, `artifact_nameID`, `acquisition`, `additional_info`, `narrative`, `artifact_img`, `documentation`, `related_img`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql_artifact);
 
     $type = "Donation";  // Setting a default value for artifact type
 
     // Bind the parameters to the prepared statement
-    $stmt->bind_param("ssss", $type, $donatorID, $artifactDescription, $artifactTitle);
+    $stmt->bind_param("ssssssssss", $type, $donatorID, $artifactDescription, $artifactTitle, $acquisition, $additionalInfo, $narrative, $art_img_name, $doc_img_name, $rel_img_name);
 
     // Execute the query
     if ($stmt->execute()) {
         echo "Artifact added successfully!<br>";
+        header("Location: donateindex.html?error=$em");
     } else {
         echo "Error: " . $stmt->error;
         exit();
