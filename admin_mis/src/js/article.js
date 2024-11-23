@@ -545,8 +545,7 @@ function previewImage(event, previewId) {
 
     // Read the selected file as a Data URL (base64-encoded image)
     reader.readAsDataURL(file);
-}
-function updateArticle(articleId) {
+}function updateArticle(articleId) {
     const modal = document.getElementById("update-article-modal");
     if (!modal) {
         console.error("Update article modal not found.");
@@ -596,11 +595,15 @@ function updateArticle(articleId) {
     if (saveButton) {
         saveButton.onclick = () => {
             const formData = new FormData();
-
+        
             // Collect updated fields
+            const articleTitle = document.getElementById("update-article-title").value;
+            const articleAuthor = document.getElementById("update-article-author").value;
+            const articleId = articleId; // Assuming articleId is passed into the function
+        
             formData.append("id", articleId);
-            formData.append("article_title", document.getElementById("update-article-title").value);
-            formData.append("article_author", document.getElementById("update-article-author").value);
+            formData.append("article_title", articleTitle);
+            formData.append("article_author", articleAuthor);
             formData.append("location", document.getElementById("update-article-location").value);
             formData.append("article_type", document.getElementById("update-article-type").value);
             formData.append("content_left", document.getElementById("update-content-left").value);
@@ -608,53 +611,53 @@ function updateArticle(articleId) {
             formData.append("image_details", document.getElementById("update-image-details").value);
             formData.append("content_box2", document.getElementById("update-content-box2").value);
             formData.append("content_box3", document.getElementById("update-content-box3").value);
-
-            // Add new images if selected
-            const image1 = document.getElementById("update-image-1-input").files[0];
-            const image2 = document.getElementById("update-image-2-input").files[0];
-            const image3 = document.getElementById("update-image-3-input").files[0];
-
-            if (image1) formData.append("imgu1", image1);
-            if (image2) formData.append("imgu2", image2);
-            if (image3) formData.append("imgu3", image3);
-
-            // Log the FormData to ensure images are appended
+        
+            // Log form data to the console
             for (let pair of formData.entries()) {
                 console.log(pair[0] + ": " + pair[1]);
             }
-
-            // Send updated data to the server
+        
+            // Collect the images
+            const image1 = document.getElementById("update-image-1-input").files[0];
+            const image2 = document.getElementById("update-image-2-input").files[0];
+            const image3 = document.getElementById("update-image-3-input").files[0];
+        
+            if (image1) formData.append("imgu1", image1);
+            if (image2) formData.append("imgu2", image2);
+            if (image3) formData.append("imgu3", image3);
+        
+            // Send the form data (with images) to the server
             fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/updateArticle.php', {
                 method: 'POST',
                 body: formData,
             })
-                .then(response => response.text())
-                .then(text => {
-                    console.log('Response text:', text);
-                    try {
-                        const data = JSON.parse(text);
-                        if (data.success) {
-                            console.log('Article updated successfully');
-                            closeModal("update-article-modal");
-                            init(); // Refresh the articles list
-                        } else {
-                            console.error('Error updating article:', data.error);
-                            alert('Failed to update the article: ' + data.error);
-                        }
-                    } catch (error) {
-                        console.error('Error parsing JSON:', error);
-                        console.error('Response was:', text);
-                        alert('An error occurred while processing the server response. Please try again.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error during update:', error);
-                    alert('An error occurred during the update. Please check the console for details.');
-                });
+            .then(response => response.text())
+            .then(text => {
+                console.log('Response was:', text);
+                let data;
+                try {
+                    data = JSON.parse(text);
+                } catch (error) {
+                    console.error('Error parsing JSON:', error);
+                    alert('An error occurred while processing the server response. Please try again.');
+                    return;
+                }
+                if (data.success) {
+                    console.log('Article updated successfully');
+                    closeModal("update-article-modal");
+                    init(); // Refresh the articles list
+                } else {
+                    console.error('Error updating article:', data.error);
+                    alert('Failed to update the article: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error during update:', error);
+                alert('An error occurred. Please check the console for details.');
+            });
         };
-    } else {
-        console.error("Save button not found.");
-    }
+        
+};
 
     // Handle the Cancel button click
     const cancelButton = document.getElementById("update-article-cancel-button");
@@ -671,53 +674,43 @@ function updateArticle(articleId) {
     }
 
     // Event listeners for image input changes to update previews
-    const image2Input = document.getElementById("update-image-2-input");
-    const image3Input = document.getElementById("update-image-3-input");
+    ['2', '3'].forEach((i) => {
+        const imageInput = document.getElementById(`update-image-${i}-input`);
+        if (imageInput) {
+            imageInput.addEventListener("change", function () {
+                const file = imageInput.files[0];
+                if (file) {
+                    const imageUrl = URL.createObjectURL(file);
+                    setImagePreview(`update-image-${i}`, imageUrl);
+                }
+            });
+        }
+    });
 
-    if (image2Input) {
-        image2Input.addEventListener("change", function() {
-            const file = image2Input.files[0];
-            if (file) {
-                const imageUrl = URL.createObjectURL(file);
-                setImagePreview("update-image-2", imageUrl);
-            }
-        });
+    // Helper function to set image previews in the modal
+    function setImagePreview(previewId, imageUrl) {
+        const previewElement = document.getElementById(previewId);
+        if (previewElement && imageUrl) {
+            previewElement.style.backgroundImage = `url(${imageUrl})`;
+            previewElement.style.backgroundSize = 'cover';
+            previewElement.style.backgroundPosition = 'center';
+            previewElement.classList.remove('hidden');
+        }
     }
 
-    if (image3Input) {
-        image3Input.addEventListener("change", function() {
-            const file = image3Input.files[0];
-            if (file) {
-                const imageUrl = URL.createObjectURL(file);
-                setImagePreview("update-image-3", imageUrl);
-            }
-        });
+    // Helper function to set form field values
+    function setValue(fieldId, value) {
+        const field = document.getElementById(fieldId);
+        if (field) {
+            field.value = value;
+        }
     }
-}
 
-// Helper function to set image previews in the modal
-function setImagePreview(previewId, imageUrl) {
-    const previewElement = document.getElementById(previewId);
-    if (previewElement && imageUrl) {
-        previewElement.style.backgroundImage = `url(${imageUrl})`;
-        previewElement.style.backgroundSize = 'cover';
-        previewElement.style.backgroundPosition = 'center';
-        previewElement.classList.remove('hidden');
-    }
-}
-
-// Helper function to set form field values
-function setValue(fieldId, value) {
-    const field = document.getElementById(fieldId);
-    if (field) {
-        field.value = value;
-    }
-}
-
-// Function to close modal
-function closeModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.classList.add("hidden");
+    // Function to close modal
+    function closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.classList.add("hidden");
+        }
     }
 }
