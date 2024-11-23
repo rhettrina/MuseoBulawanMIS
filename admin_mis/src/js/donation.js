@@ -212,7 +212,7 @@ function createActionButtons(donation) {
 
     // Loop through the actions to create buttons
     actions.forEach(({ icon, action }) => {
-        console.log(`Creating ${action} button for donation ID: ${donation.artifactID}`);
+        
         const button = document.createElement('button');
         button.classList.add('bg-orange-400', 'text-white', 'p-2', 'rounded', 'hover:bg-orange-300');
         button.innerHTML = `<i class="fas fa-${icon}"></i>`;
@@ -322,10 +322,13 @@ function updateTransferStatus(donID, newStatus) {
 
 function openStatusModal(donID, currentStatus, newStatus, dropdown) {
     // Validate inputs
-    if (!donID || !currentStatus || !newStatus || !dropdown) {
+    if (!donID || !newStatus || !dropdown) {
         console.error('Invalid parameters passed to openStatusModal:', { donID, currentStatus, newStatus, dropdown });
         return;
     }
+
+    // Dynamically retrieve the actual current status from the dropdown to ensure correctness
+    currentStatus = dropdown.getAttribute("data-current-status") || currentStatus;
 
     const modal = document.getElementById("transfer-status-modal");
     const confirmButton = document.getElementById("status-confirm-button");
@@ -365,8 +368,9 @@ function openStatusModal(donID, currentStatus, newStatus, dropdown) {
             })
             .then((data) => {
                 if (data.success) {
-                    console.log('Transfer status updated successfully');
-                    dropdown.value = newStatus; // Update the dropdown to the new value
+                    console.log(`Transfer status successfully changed from "${currentStatus}" to "${newStatus}"`);
+                    dropdown.setAttribute("data-current-status", newStatus); // Update the current status reference
+                    dropdown.value = newStatus; // Reflect the change in the dropdown
                 } else {
                     console.error('Failed to update transfer status:', data.error);
                     dropdown.value = currentStatus; // Revert dropdown to its previous value
