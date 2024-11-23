@@ -417,7 +417,7 @@ function saveArticle() {
     // Collect other form fields
     formData.append("article_title", document.getElementById("article-title").value);
     formData.append("article_author", document.getElementById("article-author").value);
-    formData.append("article_location", document.getElementById("article-location").value);
+    formData.append("location", document.getElementById("update-article-location").value);
     formData.append("article_type", document.getElementById("article-type").value);
     formData.append("content-left", document.getElementById("content-left").value);
     formData.append("content-right", document.getElementById("content-right").value);
@@ -546,7 +546,6 @@ function previewImage(event, previewId) {
     // Read the selected file as a Data URL (base64-encoded image)
     reader.readAsDataURL(file);
 }
-
 // Function to update the article (fetches the existing article data)
 function updateArticle(articleId) {
     const modal = document.getElementById("update-article-modal");
@@ -564,7 +563,7 @@ function updateArticle(articleId) {
                 // Populate form fields with existing data
                 setValue("update-article-title", data.article_title);
                 setValue("update-article-author", data.author);
-                setValue("update-article-location", data.location);
+                setValue("update-article-location", data.location);  // Updated here
                 setValue("update-article-type", data.article_type);
                 setValue("update-content-left", data.p1box_left);
                 setValue("update-content-right", data.p1box_right);
@@ -604,7 +603,7 @@ function updateArticle(articleId) {
             formData.append("id", articleId);
             formData.append("article_title", document.getElementById("update-article-title").value);
             formData.append("article_author", document.getElementById("update-article-author").value);
-            formData.append("article_location", document.getElementById("update-article-location").value);
+            formData.append("location", document.getElementById("update-article-location").value); // Updated here
             formData.append("article_type", document.getElementById("update-article-type").value);
             formData.append("content_left", document.getElementById("update-content-left").value);
             formData.append("content_right", document.getElementById("update-content-right").value);
@@ -679,3 +678,20 @@ function setImagePreview(previewId, imageUrl) {
         previewElement.classList.remove('hidden');
     }
 }
+
+// Helper function to set form field values
+function setValue(fieldId, value) {
+    const field = document.getElementById(fieldId);
+    if (field) {
+        field.value = value;
+    }
+}
+
+// Function to close modal
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.add("hidden");
+    }
+}
+
