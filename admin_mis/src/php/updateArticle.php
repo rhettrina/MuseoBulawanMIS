@@ -37,7 +37,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             p1box_right = ?, 
             updated_date = CURRENT_TIMESTAMP
         WHERE id = ?");
-
+    
+    // Binding params for the first query
     $stmt->bind_param(
         "ssssssssi", 
         $article_author, 
@@ -86,6 +87,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // If any images were uploaded, update the database
     if (!empty($uploadedImages)) {
         $stmt = $connextion->prepare("UPDATE articles SET imgu1 = ?, imgu2 = ?, imgu3 = ? WHERE id = ?");
+        
+        // Ensure correct number of bind parameters for the images
         $stmt->bind_param(
             "ssss", 
             $uploadedImages['imgu1'] ?? '', 
