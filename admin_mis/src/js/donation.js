@@ -298,7 +298,7 @@ function updateTransferStatus(donationId, newStatus) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            artifactID: donationId, // Match the backend expected key
+            artifactID: donationId, // Match the key expected in PHP
             transfer_status: newStatus
         })
     })
@@ -306,20 +306,21 @@ function updateTransferStatus(donationId, newStatus) {
         if (!response.ok) {
             throw new Error(`Failed to update transfer status: ${response.statusText}`);
         }
-        return response.json();
+        return response.text(); // Read the response as plain text
     })
-    .then(data => {
-        if (data.success) {
+    .then(responseText => {
+        if (responseText === "success") {
             console.log('Transfer status updated successfully');
             fetchDonations(); // Refresh the donations list
         } else {
-            console.error('Failed to update transfer status:', data.error);
+            console.error('Failed to update transfer status:', responseText);
         }
     })
     .catch(error => {
         console.error('Error updating transfer status:', error);
     });
 }
+
 
 
 
