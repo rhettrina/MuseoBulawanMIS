@@ -68,15 +68,15 @@ try {
         $imgu3 = $uploadedImages['imgu3'] ?? $_POST['existing_imgu3'] ?? '';
 
         // Escaping the input to prevent SQL injection
-        $article_title = $mysqli->real_escape_string($article_title);
-        $article_type = $mysqli->real_escape_string($article_type);
-        $location = $mysqli->real_escape_string($location);
-        $author = $mysqli->real_escape_string($author);
-        $imgu1_details = $mysqli->real_escape_string($imgu1_details);
-        $content_left = $mysqli->real_escape_string($content_left);
-        $content_right = $mysqli->real_escape_string($content_right);
-        $p2box = $mysqli->real_escape_string($p2box);
-        $p3box = $mysqli->real_escape_string($p3box);
+        $article_title = $connextion->real_escape_string($article_title);
+        $article_type = $connextion->real_escape_string($article_type);
+        $location = $connextion->real_escape_string($location);
+        $author = $connextion->real_escape_string($author);
+        $imgu1_details = $connextion->real_escape_string($imgu1_details);
+        $content_left = $connextion->real_escape_string($content_left);
+        $content_right = $connextion->real_escape_string($content_right);
+        $p2box = $connextion->real_escape_string($p2box);
+        $p3box = $connextion->real_escape_string($p3box);
 
         // Prepare the SQL query using direct variable substitution (escaped for security)
         $query = "UPDATE articles SET 
@@ -96,7 +96,7 @@ try {
                   WHERE id = $id";
 
         // Execute the query
-        if ($mysqli->query($query)) {
+        if ($connextion->query($query)) {
             $response["success"] = true;
         } else {
             throw new Exception("Failed to update article.");
