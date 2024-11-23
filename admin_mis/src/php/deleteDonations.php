@@ -14,9 +14,21 @@ include 'db_connect.php';
 $donationId = isset($_GET['id']) ? $_GET['id'] : null;
 
 if ($donationId) {
-    // Retrieve the donatorID for the provided donationID
-    $donatorQuery = "SELECT donatorID FROM Artifact WHERE id = ?";
+    // Validate donationId to ensure it's numeric
+    if (!is_numeric($donationId)) {
+        echo json_encode(['error' => 'Invalid donation ID format']);
+        exit;
+    }
+
+    // Corrected column name for the query (replace `artifact_id` if needed)
+    $donatorQuery = "SELECT donatorID FROM Artifact WHERE artifactId = ?";
     $stmt = $connextion->prepare($donatorQuery);
+
+    if (!$stmt) {
+        echo json_encode(['error' => 'Failed to prepare query: ' . $connextion->error]);
+        exit;
+    }
+
     $stmt->bind_param("i", $donationId);
 
     if ($stmt->execute()) {
@@ -61,7 +73,7 @@ if ($donationId) {
             echo json_encode(['error' => 'Donation not found']);
         }
     } else {
-        echo json_encode(['error' => 'Failed to retrieve donation information']);
+        echo json_encode(['error' => 'Failed to retrieve donation information: ' . $stmt->error]);
     }
 
     $stmt->close();
