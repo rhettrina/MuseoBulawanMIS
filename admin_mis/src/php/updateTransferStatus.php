@@ -25,14 +25,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newStatus = $input['newStatus'];
 
     // Validate input
-    $validStatuses = ['ACQUIRED', 'FAILED', 'PENDING'];
+    $validStatuses = ['Acquired', 'Failed', 'Pending'];
     if (!in_array(strtoupper($newStatus), $validStatuses)) {
         echo json_encode(['success' => false, 'error' => 'Invalid transfer status']);
         exit;
     }
 
     // Update query
-    $stmt = $connextion->prepare("UPDATE donations SET transfer_status = ?, updated_date = NOW() WHERE artifactID = ?");
+    $stmt = $connextion->prepare("UPDATE Artifact SET transfer_status = ?, updated_date = NOW() WHERE artifactID = ?");
     $stmt->bind_param("si", $newStatus, $artifactID);
 
     if ($stmt->execute()) {
