@@ -86,78 +86,68 @@
     </div>
     
 
-   <!-- Confirmation Modal -->
-   <div id="transfer-status-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-    <div class="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
-        <h2 class="text-lg font-semibold text-gray-800 mb-4">Confirm Status Change</h2>
-        <!-- Dynamic message will be inserted here -->
-        <p id="status-confirmation-message" class="text-gray-600 mb-6"></p>
-        <div class="flex justify-end space-x-3">
-            
-            <button id="status-confirm-button" 
-                class="px-4 py-2 text-sm text-white bg-orange-400 rounded-lg hover:bg-orange-500">
-                Confirm
-            </button>
-            <button id="status-cancel-button" 
-                class="px-4 py-2 text-sm text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">
-                Cancel
-            </button>
-        </div>
-    </div>
-</div>
-
-
-
 <!-- Delete Confirmation Modal -->
-<div id="delete-modal" class="modal hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 ">
+<div id="delete-modal" class="modal hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
   <div class="modal-content bg-white p-6 rounded-lg w-96 text-center">
-    <p id="delete-message" class="text-lg">Are you sure you want to delete this item?</p>
-    <div class="mt-4">
-      <button id="delete-confirm-button" class="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600 mr-4">Delete</button>
-      <button id="delete-cancel-button" class="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600">Cancel</button>
-    </div>
+      <p id="delete-message" class="text-lg">Are you sure you want to delete this item?</p>
+      <div class="mt-4">
+          <button id="delete-confirm-button" class="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600 mr-4">
+              Delete
+          </button>
+          <button id="delete-cancel-button" class="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600">
+              Cancel
+          </button>
+      </div>
   </div>
 </div>
 
-<!-- Modal -->
-<div id="form-modal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-  <div class="bg-white rounded-lg shadow-lg w-3/4 p-6">
-    <h2 id="modal-title" class="text-xl font-bold mb-4">Form Details</h2>
-    <div id="modal-content">
-      <!-- Personal Details -->
-      <h3 class="font-semibold mb-2">Personal Details</h3>
-      <p><strong>First Name:</strong> <span id="modal-first-name"></span></p>
-      <p><strong>Last Name:</strong> <span id="modal-last-name"></span></p>
-      <p><strong>Age:</strong> <span id="modal-age"></span></p>
-      <p><strong>Sex:</strong> <span id="modal-sex"></span></p>
-      <p><strong>Email:</strong> <span id="modal-email"></span></p>
-      <p><strong>Phone:</strong> <span id="modal-phone"></span></p>
-      <p><strong>Organization:</strong> <span id="modal-organization"></span></p>
-      <p><strong>Address:</strong> <span id="modal-address"></span></p>
-
-      <!-- Artifact Details -->
-      <h3 class="font-semibold mt-4 mb-2">Artifact Details</h3>
-      <p><strong>Title:</strong> <span id="modal-artifact-title"></span></p>
-      <p><strong>Description:</strong> <span id="modal-artifact-description"></span></p>
-      <p><strong>Acquisition:</strong> <span id="modal-acquisition"></span></p>
-      <p><strong>Additional Info:</strong> <span id="modal-additional-info"></span></p>
-      <p><strong>Narrative:</strong> <span id="modal-narrative"></span></p>
-      <p><strong>Images:</strong> <span id="modal-images"></span></p>
-      <p><strong>Documentation:</strong> <span id="modal-documentation"></span></p>
-      <p><strong>Related:</strong> <span id="modal-related"></span></p>
-
-      <!-- Lending-Specific Fields -->
-      <div id="lending-fields" class="hidden">
-        <h3 class="font-semibold mt-4 mb-2">Lending Details</h3>
-        <p><strong>Loan Duration:</strong> <span id="modal-loan-duration"></span></p>
-        <p><strong>Display Condition:</strong> <span id="modal-display-condition"></span></p>
-        <p><strong>Liability Concern:</strong> <span id="modal-liability-concern"></span></p>
-        <p><strong>Reason for Lending:</strong> <span id="modal-reason"></span></p>
+<!-- Transfer Status Confirmation Modal -->
+<div id="transfer-status-modal" class="modal hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+  <div class="modal-content bg-white p-6 rounded-lg w-96 text-center">
+      <h2 class="text-lg font-semibold mb-4">Confirm Status Change</h2>
+      <p id="status-confirmation-message" class="text-gray-600 mb-6"></p>
+      <div class="flex justify-end space-x-3">
+          <button id="status-confirm-button" class="px-4 py-2 text-sm text-white bg-orange-400 rounded-lg hover:bg-orange-500">
+              Confirm
+          </button>
+          <button id="status-cancel-button" class="px-4 py-2 text-sm text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">
+              Cancel
+          </button>
       </div>
-    </div>
-    <div class="mt-4 text-right">
-      <button onclick="closeModal()" class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-500">Close</button>
-    </div>
+  </div>
+</div>
+
+<!-- Form Details Modal -->
+<div id="form-modal" class="modal hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+  <div class="modal-content bg-white rounded-lg shadow-lg w-3/4 p-6">
+      <h2 id="modal-title" class="text-xl font-bold mb-4">Form Details</h2>
+      <div id="modal-content">
+          <h3 class="font-semibold mb-2">Personal Details</h3>
+          <p><strong>First Name:</strong> <span id="modal-first-name"></span></p>
+          <p><strong>Last Name:</strong> <span id="modal-last-name"></span></p>
+          <p><strong>Age:</strong> <span id="modal-age"></span></p>
+          <p><strong>Sex:</strong> <span id="modal-sex"></span></p>
+          <p><strong>Email:</strong> <span id="modal-email"></span></p>
+          <p><strong>Phone:</strong> <span id="modal-phone"></span></p>
+          <p><strong>Organization:</strong> <span id="modal-organization"></span></p>
+          <p><strong>Address:</strong> <span id="modal-address"></span></p>
+
+          <h3 class="font-semibold mt-4 mb-2">Artifact Details</h3>
+          <p><strong>Title:</strong> <span id="modal-artifact-title"></span></p>
+          <p><strong>Description:</strong> <span id="modal-artifact-description"></span></p>
+          <p><strong>Acquisition:</strong> <span id="modal-acquisition"></span></p>
+          <p><strong>Additional Info:</strong> <span id="modal-additional-info"></span></p>
+          <p><strong>Narrative:</strong> <span id="modal-narrative"></span></p>
+
+          <div id="lending-fields" class="hidden">
+              <h3 class="font-semibold mt-4 mb-2">Lending Details</h3>
+              <p><strong>Loan Duration:</strong> <span id="modal-loan-duration"></span></p>
+              <p><strong>Display Condition:</strong> <span id="modal-display-condition"></span></p>
+          </div>
+      </div>
+      <div class="mt-4 text-right">
+          <button data-modal-close class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-500">Close</button>
+      </div>
   </div>
 </div>
 
