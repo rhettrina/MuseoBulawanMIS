@@ -119,7 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Insert query for the Donation table
     $abt_art = "INSERT INTO `Donation`(`donatorID`, `artifact_nameID`, `artifact_description`) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($abt_art);
-    $stmt->bind_param("sis", $donatorID, $artifactTitle, $artifactDescription);
+    $stmt->bind_param("sss", $donatorID, $artifactTitle, $artifactDescription);
 
     // Execute the query for the Donation table
     if ($stmt->execute()) {
@@ -131,7 +131,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Insert query for the Artifact table
-    $sql_artifact = "INSERT INTO `Artifact`(`artifact_typeID`, `donatorID`, `artifact_description`, `artifact_nameID`, `acquisition`, `additional_info`, `narrative`, `artifact_img`, `documentation`, `related_img`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?. ?)";
+    $sql_artifact = "INSERT INTO `Artifact`(`artifact_typeID`, `donatorID`, `artifact_description`, `artifact_nameID`, `acquisition`, `additional_info`, `narrative`, `artifact_img`, `documentation`, `related_img`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql_artifact);
 
     $type = "Donation";  // Setting a default value for artifact type
