@@ -1,17 +1,23 @@
 document.addEventListener("DOMContentLoaded", () => {
     const links = document.querySelectorAll(".nav-link");
     const content = document.getElementById("content");
-  
+    let currentScript = null; // Keep track of the currently loaded script
+    let cleanupFunctions = {}; // Store cleanup functions for specific pages
 
     const savedPage = localStorage.getItem("currentPage") || "dashboard";
-  
-   
+
     function loadContent(page) {
-        fetch(`src/views/${page}.html`) 
+        if (typeof window.cleanup === "function") {
+            console.log("Calling cleanup for current page...");
+            window.cleanup(); // Call the page's cleanup function
+            window.cleanup = null; // Reset cleanup for the next page
+        }
+    
+        fetch(`src/views/${page}.html`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error(
-                      `Error loading page: ${response.statusText} (status code: ${response.status})`,
+                        `Error loading page: ${response.statusText} (status code: ${response.status})`,
                     );
                 }
                 return response.text();
@@ -19,33 +25,53 @@ document.addEventListener("DOMContentLoaded", () => {
             .then((html) => {
                 content.innerHTML = html;
                 updateActiveTab(page);
-        
+    
+                unloadScript(); // Remove the previous page script
                 loadScript(page);
             })
             .catch((error) => {
                 content.innerHTML = `<p class="text-red-500">Error: ${error.message}</p>`;
-                console.error("Content Load Error:", error); 
+                console.error("Content Load Error:", error);
             });
     }
-  
+
     function loadScript(page) {
         const script = document.createElement("script");
-        script.src = `src/js/${page}.js`; 
+        script.src = `src/js/${page}.js`;
         script.onload = () => {
             console.log(`${page}.js loaded successfully`);
-      
+
+            // Call the page-specific initialization if it exists
             if (typeof init === "function") {
-              init();
+                init();
+            }
+
+            // Check if the current page requires floorplans
+            if (page === "floorplans" && typeof fetchAndDisplayFloorplans === "function") {
+                fetchAndDisplayFloorplans();
+            }
+
+            // Optionally store cleanup functions for the page
+            if (typeof cleanup === "function") {
+                cleanupFunctions[page] = cleanup;
             }
         };
         script.onerror = () => {
             console.error(`Failed to load ${page}.js`);
         };
+
         document.body.appendChild(script);
+        currentScript = script; // Keep track of the current script
     }
-  
-    loadContent(savedPage);
-  
+
+    function unloadScript() {
+        if (currentScript) {
+            console.log(`Unloading script: ${currentScript.src}`);
+            document.body.removeChild(currentScript);
+            currentScript = null;
+        }
+    }
+
     function updateActiveTab(activePage) {
         links.forEach((link) => {
             const page = link.getAttribute("data-page");
@@ -56,30 +82,30 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-  
+
+    loadContent(savedPage);
 
     updateActiveTab(savedPage);
-  
+
     links.forEach((link) => {
         link.addEventListener("click", (e) => {
             e.preventDefault();
-      
+
             const page = link.getAttribute("data-page");
-      
+
             loadContent(page);
-      
+
             localStorage.setItem("currentPage", page);
 
             updateActiveTab(page);
         });
     });
-  
+
     const logoutButton = document.getElementById("logout-button");
     logoutButton.addEventListener("click", () => {
-        localStorage.removeItem("currentPage"); 
-        window.location.href = "\Museo Bulawan Visitor\admin_login\login.html"; 
+        localStorage.removeItem("currentPage");
+        window.location.href = "\Museo Bulawan Visitor\admin_login\login.html";
     });
-
 
     const notificationButton = document.getElementById('notification-button');
     const notificationModal = document.getElementById('notification-modal');
@@ -123,21 +149,9 @@ document.addEventListener("DOMContentLoaded", () => {
             notificationModal.classList.add('hidden');
         }
     });
-    
 });
-  
+
 function toggleSidebar() {
     const sidebar = document.getElementById("sidebar");
     sidebar.classList.toggle("hidden");
 }
-
-// Close sidebar if clicked outside
-document.addEventListener("click", function(event) {
-    const sidebar = document.getElementById("sidebar");
-    const button = document.querySelector("button[onclick='toggleSidebar()']"); // Sidebar toggle button
-    
-    // Check if the clicked element is not the sidebar or the toggle button
-    if (!sidebar.contains(event.target) && !button.contains(event.target)) {
-        sidebar.classList.add("hidden");
-    }
-});

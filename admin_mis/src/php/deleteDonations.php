@@ -11,94 +11,76 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 // Include database connection file
 include 'db_connect.php';
 
-// Get donation ID from the URL query parameter
-$donationId = isset($_GET['id']) ? $_GET['id'] : null;
+// Get donator ID from the URL query parameter
+$donatorID = isset($_GET['id']) ? intval($_GET['id']) : null;
 
-if ($donationId) {
-    // Validate donationId to ensure it's numeric
-    if (!is_numeric($donationId)) {
-        echo json_encode(['error' => 'Invalid donation ID format. ID must be numeric.']);
-        exit;
-    }
+if ($donatorID) {
+    // Start transaction
+    $connextion->begin_transaction();
 
-    // Query to get donatorID from the Artifact table using the donation ID
-    $donorQuery = "SELECT donatorID FROM Artifact WHERE artifactID = ?";
-    $stmt = $connextion->prepare($donorQuery);
-
-    if (!$stmt) {
-        echo json_encode(['error' => 'Database query preparation error.']);
-        exit;
-    }
-
-    $stmt->bind_param("i", $donationId);
-
-    if ($stmt->execute()) {
-        $result = $stmt->get_result();
-        if ($result->num_rows > 0) {
-            $donorData = $result->fetch_assoc();
-            $donorId = $donorData['donatorID'];
-
-            // Begin deletion process
-            $connextion->begin_transaction();
-
-            try {
-                // Delete records from the Artifact table
-                $deleteArtifact = "DELETE FROM Artifact WHERE donatorID = ?";
-                $stmtArtifact = $connextion->prepare($deleteArtifact);
-                if (!$stmtArtifact) {
-                    throw new Exception('Failed to prepare Artifact deletion query.');
-                }
-                $stmtArtifact->bind_param("i", $donorId);
-                $stmtArtifact->execute();
-
-                // Delete related records from the Lending table
-                $deleteLending = "DELETE FROM Lending WHERE donatorID = ?";
-                $stmtLending = $connextion->prepare($deleteLending);
-                if (!$stmtLending) {
-                    throw new Exception('Failed to prepare Lending deletion query.');
-                }
-                $stmtLending->bind_param("i", $donorId);
-                $stmtLending->execute();
-
-                // Delete related records from the Donation table
-                $deleteDonation = "DELETE FROM Donation WHERE donatorID = ?";
-                $stmtDonation = $connextion->prepare($deleteDonation);
-                if (!$stmtDonation) {
-                    throw new Exception('Failed to prepare Donation deletion query.');
-                }
-                $stmtDonation->bind_param("i", $donorId);
-                $stmtDonation->execute();
-
-                // Delete the Donator record
-                $deleteDonor = "DELETE FROM Donator WHERE donatorID = ?";
-                $stmtDonor = $connextion->prepare($deleteDonor);
-                if (!$stmtDonor) {
-                    throw new Exception('Failed to prepare Donor deletion query.');
-                }
-                $stmtDonor->bind_param("i", $donorId);
-                $stmtDonor->execute();
-
-                // Commit transaction
-                $connextion->commit();
-                echo json_encode(['message' => 'All related records deleted successfully.']);
-            } catch (Exception $e) {
-                // Rollback transaction on failure
-                $connextion->rollback();
-                echo json_encode(['error' => 'Deletion failed: ' . $e->getMessage()]);
-            }
-        } else {
-            echo json_encode(['error' => 'No matching artifact found for the provided ID.']);
+    try {
+        // Delete related records from Artifact table
+        $deleteArtifact = "DELETE FROM Artifact WHERE donatorID = ?";
+        $stmtArtifact = $connextion->prepare($deleteArtifact);
+        if (!$stmtArtifact) {
+            throw new Exception('Failed to prepare Artifact deletion query.');
         }
-    } else {
-        echo json_encode(['error' => 'Failed to execute donor ID retrieval query.']);
-    }
+        $stmtArtifact->bind_param("i", $donatorID);
+        $stmtArtifact->execute();
 
-    $stmt->close();
+        // Delete related records from Lending table
+        $deleteLending = "DELETE FROM Lending WHERE donatorID = ?";
+        $stmtLending = $connextion->prepare($deleteLending);
+        if (!$stmtLending) {
+            throw new Exception('Failed to prepare Lending deletion query.');
+        }
+        $stmtLending->bind_param("i", $donatorID);
+        $stmtLending->execute();
+
+        // Delete related records from Donation table
+        $deleteDonation = "DELETE FROM Donation WHERE donatorID = ?";
+        $stmtDonation = $connextion->prepare($deleteDonation);
+        if (!$stmtDonation) {
+            throw new Exception('Failed to prepare Donation deletion query.');
+        }
+        $stmtDonation->bind_param("i", $donatorID);
+        $stmtDonation->execute();
+
+        // Check if the donator has any remaining artifacts
+        $checkArtifacts = "SELECT COUNT(*) AS artifactCount FROM Artifact WHERE donatorID = ?";
+        $stmtCheckArtifacts = $connextion->prepare($checkArtifacts);
+        if (!$stmtCheckArtifacts) {
+            throw new Exception('Failed to prepare artifact check query.');
+        }
+        $stmtCheckArtifacts->bind_param("i", $donatorID);
+        $stmtCheckArtifacts->execute();
+        $resultCheck = $stmtCheckArtifacts->get_result();
+        $artifactCount = $resultCheck->fetch_assoc()['artifactCount'];
+
+        // If no other artifacts reference this donator, delete the donator record
+        if ($artifactCount == 0) {
+            $deleteDonator = "DELETE FROM Donator WHERE donatorID = ?";
+            $stmtDonator = $connextion->prepare($deleteDonator);
+            if (!$stmtDonator) {
+                throw new Exception('Failed to prepare Donator deletion query.');
+            }
+            $stmtDonator->bind_param("i", $donatorID);
+            $stmtDonator->execute();
+        }
+
+        // Commit transaction
+        $connextion->commit();
+        echo json_encode(['message' => 'Donator and related records deleted successfully.']);
+    } catch (Exception $e) {
+        // Rollback transaction in case of failure
+        $connextion->rollback();
+        echo json_encode(['error' => 'Deletion failed: ' . $e->getMessage()]);
+    }
 } else {
-    // Error if donation ID is not provided
-    echo json_encode(['error' => 'Donation ID is required.']);
+    // Error if donator ID is not provided
+    echo json_encode(['error' => 'Donator ID is required.']);
 }
 
-// Close the database connection
+// Close database connection
 $connextion->close();
 ?>
