@@ -3,12 +3,12 @@
 
 header('Content-Type: application/json');
 
-// Include the DB connection details
-require_once 'db_connect.php'; // Ensure this file contains the correct $connection variable
+// Include the DB connextion details
+require_once 'db_connect.php'; // Ensure this file contains the correct $connextion variable
 
-// Check if the connection was successful
-if (!$connection) {
-    echo json_encode(['success' => false, 'error' => 'Database connection failed']);
+// Check if the connextion was successful
+if (!$connextion) {
+    echo json_encode(['success' => false, 'error' => 'Database connextion failed']);
     exit;
 }
 
@@ -16,12 +16,13 @@ if (!$connection) {
 $data = file_get_contents('php://input');
 $json = json_decode($data, true);
 
-if (!isset($json['unique_id']) || !isset($json['imageData'])) {
-    echo json_encode(['success' => false, 'error' => 'Unique ID and image data are required.']);
+if (!isset($json['unique_id']) || !isset($json['name']) || !isset($json['imageData'])) {
+    echo json_encode(['success' => false, 'error' => 'Unique ID, name, and image data are required.']);
     exit;
 }
 
-$unique_id = mysqli_real_escape_string($connection, $json['unique_id']);
+$unique_id = mysqli_real_escape_string($connextion, $json['unique_id']);
+$name = mysqli_real_escape_string($connextion, $json['name']);
 $imageData = $json['imageData'];
 
 // Validate and decode the base64 image
@@ -46,6 +47,27 @@ if (preg_match('/^data:image\/(\w+);base64,/', $imageData, $type)) {
     exit;
 }
 
+// Check if the name already exists in the database and increment it if necessary
+$original_name = $name;
+$counter = 1;
+
+while (true) {
+    $stmt = $connextion->prepare("SELECT COUNT(*) FROM floorplans WHERE name = ?");
+    $stmt->bind_param("s", $name);
+    $stmt->execute();
+    $stmt->bind_result($count);
+    $stmt->fetch();
+    $stmt->close();
+
+    if ($count == 0) {
+        break; // No conflict, use this name
+    }
+
+    // If the name exists, append a number to the name and increment the counter
+    $name = $original_name . "_" . $counter;
+    $counter++;
+}
+
 // Define the directory and filename
 $directory = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'layout-made' . DIRECTORY_SEPARATOR;
 
@@ -56,7 +78,7 @@ if (!file_exists($directory)) {
     }
 }
 
-$filename = "floorplan_" . $unique_id . "." . ($imageType === 'jpeg' ? 'jpg' : $imageType);
+$filename = "floorplan_" . $unique_id . "_" . preg_replace('/[^a-zA-Z0-9]/', '_', $name) . "." . ($imageType === 'jpeg' ? 'jpg' : $imageType);
 $filePath = $directory . $filename;
 
 // Check if the file already exists
@@ -71,9 +93,9 @@ if (file_put_contents($filePath, $imageData)) {
     $relativePath = 'layout-made/' . $filename;
 
     // Insert into the database
-    $stmt = $connection->prepare("INSERT INTO floorplans (unique_id, image_path) VALUES (?, ?)");
+    $stmt = $connextion->prepare("INSERT INTO floorplans (unique_id, name, image_path, created_at) VALUES (?, ?, ?, NOW())");
     if ($stmt) {
-        $stmt->bind_param("ss", $unique_id, $relativePath);
+        $stmt->bind_param("sss", $unique_id, $name, $relativePath);
 
         if ($stmt->execute()) {
             echo json_encode(['success' => true, 'message' => 'Image saved successfully.', 'path' => $relativePath]);
@@ -87,7 +109,7 @@ if (file_put_contents($filePath, $imageData)) {
     } else {
         // Remove the uploaded file if statement preparation fails
         unlink($filePath);
-        echo json_encode(['success' => false, 'error' => 'Database statement preparation failed: ' . $connection->error]);
+        echo json_encode(['success' => false, 'error' => 'Database statement preparation failed: ' . $connextion->error]);
     }
 } else {
     echo json_encode(['success' => false, 'error' => 'Failed to save the image file.']);
