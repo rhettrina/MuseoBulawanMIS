@@ -50,11 +50,15 @@ if ($stmt) {
 }
 
 // Insert into appointment table
-$stmt = $connextion->prepare("INSERT INTO appointment (preferred_time, preferred_date, population_countID, appointment_dateID) VALUES (?, ?, ?, ?)");
+$stmt = $connextion->prepare("INSERT INTO appointment (visitorID, preferred_time, preferred_date, population_countID, appointment_dateID) VALUES (?, ?, ?, ?, ?)");
 
 if ($stmt) {
     // Make sure to pass the correct variable names for the parameters
-    $stmt->bind_param("ssii", $preferred_time, $preferred_date, $population_countID, $appointment_dateID);
+    $population_countID = $attendees; // Assuming the attendees count is stored in population_countID
+    $appointment_dateID = $preferred_date; // Assuming appointment_dateID is same as preferred_date for now (adjust as needed)
+    
+    // Bind the parameters with the appropriate types
+    $stmt->bind_param("ssiii", $visitor_id, $preferred_time, $preferred_date, $population_countID, $appointment_dateID);
 
     if ($stmt->execute()) {
         $appointment_id = $stmt->insert_id; // Capture the generated appointment ID
@@ -63,7 +67,6 @@ if ($stmt) {
     }
     $stmt->close();
 }
-
 
 // Close the connection
 $connextion->close();
