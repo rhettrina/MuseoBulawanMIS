@@ -85,8 +85,7 @@ function populateTable(donations) {
         dateCell.classList.add('px-4', 'py-0','bg-white', 'border-black' , 'rounded-l-[15px]', 'border-t-2', 'border-b-2', 'border-l-2');
         dateCell.textContent = donation.donation_date;
 
-        
-      // Donor Cell
+
 const donorCell = document.createElement('td');
 donorCell.classList.add('px-4', 'py-0', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
 donorCell.textContent = donation.donor_name;
