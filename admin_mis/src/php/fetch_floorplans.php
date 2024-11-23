@@ -19,7 +19,7 @@ if ($connextion->connect_error) {
 }
 
 // Fetch floor plans
-$sql = "SELECT id, name, image_url, created_at FROM floor_plans ORDER BY created_at DESC";
+$sql = "SELECT id, name, image_url, created_at FROM floorplans ORDER BY created_at DESC";
 $result = $connextion->query($sql);
 
 $floorPlans = [];
