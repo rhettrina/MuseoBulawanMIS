@@ -26,7 +26,7 @@ $query = "
 FROM 
     Lending AS l
 JOIN 
-    Donator A S dn ON l.donatorID = dn.donatorID
+    Donator AS dn ON l.donatorID = dn.donatorID
 JOIN 
     Artifact AS a ON l.artifact_nameID = a.artifact_nameID
 
