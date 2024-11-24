@@ -54,7 +54,7 @@
 async function fetchAndDisplayFloorplans(sort = "newest") {
   try {
     const response = await fetch(
-      `https://museobulawan.online/admin_mis/src/php/fetchLayouts.php?sort=${sort}`
+      `https://museobulawan.online/development/admin_mis/src/php/fetchLayouts.php?sort=${sort}`
     );
     const data = await response.json();
 
@@ -73,7 +73,7 @@ async function fetchAndDisplayFloorplans(sort = "newest") {
         // Handle full and relative paths for images
         const fullImagePath = image_path.startsWith("http")
           ? image_path
-          : `https://museobulawan.online/admin_mis/src/${image_path}`;
+          : `https://museobulawan.online/development/admin_mis/src/${image_path}`;
 
         const card = document.createElement("div");
         card.className =
@@ -155,7 +155,7 @@ function handleFunctions(action, payload) {
       openModal(`Are you sure you want to delete layout "${name}"?`, async () => {
         try {
           const response = await fetch(
-            `https://museobulawan.online/admin_mis/src/php/deleteLayout.php`,
+            `https://museobulawan.online/development/admin_mis/src/php/deleteLayout.php`,
             {
               method: "POST",
               headers: {
