@@ -6,7 +6,7 @@ function init() {
 
 // Fetch total appointments data
 function fetchTotalAppointments() {
-    fetch('https://museobulawan.online/admin_mis/src/php/fetchTotalAppointments.php')
+    fetch('https://museobulawan.online/development/admin_mis/src/php/fetchTotalAppointments.php')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok: ' + response.statusText);
@@ -50,7 +50,7 @@ document.getElementById('sortA').addEventListener('change', function () {
 
 // Fetch and populate the appointment table
 function fetchAppointments(sort = 'newest') {
-    fetch(`https://museobulawan.online/admin_mis/src/php/fetchAppointments.php?sort=${sort}`)
+    fetch(`https://museobulawan.online/development/admin_mis/src/php/fetchAppointments.php?sort=${sort}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok: ' + response.statusText);
@@ -200,7 +200,7 @@ function displayNoDataMessage() {
 
 // Function to update appointment status
 function updateAppointmentStatus(action, formID) {
-    fetch('https://museobulawan.online/admin_mis/src/php/processAppointment.php', { 
+    fetch('https://museobulawan.online/development/admin_mis/src/php/processAppointment.php', { 
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -344,7 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 function deleteAppointment(fkID) {
-    return fetch(`https://museobulawan.online/admin_mis/src/php/deleteAppointments.php?id=${fkID}`, {
+    return fetch(`https://museobulawan.online/development/admin_mis/src/php/deleteAppointments.php?id=${fkID}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
