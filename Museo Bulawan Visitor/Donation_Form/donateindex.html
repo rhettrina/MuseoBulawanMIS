@@ -112,7 +112,7 @@
         <h1 class="ms-5 py-3">Donation Form</h1>
     </div>
         <form method="POST" action="https://museobulawan.online/development/Museo%20Bulawan%20Visitor/Donation_Form/process_donation.php" enctype="multipart/form-data" id="donationForm">
-        <input type="hidden" name="formType" value="Donation"> <!-- Valid example with a set value -->
+        <input type="hidden" name="formType" value="Donation">
 
         <div class="intro container p-5 mt-4">
             <p>In addition to preserving your historic objects it is important to remember to preserve the history or
@@ -272,50 +272,34 @@
             </div>
 
             <div class="form-group row align-items-center mt-5 justify-content-between">
-                <label for="artifactImages" class="col-sm-3 col-form-label fs-5"><b>Images of the artifact</b> <span
-                        class="text-danger">*</span></label>
-                <div class="col-sm-2"></div>
+                <label for="artifact_img" class="col-sm-3 col-form-label fs-5"><b>Images of the Artifact</b> <span class="text-danger">*</span></label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control border-2 border-dark mb-2" id="artifactImages" name="artifactImages"
-                        placeholder="Paste Link" required>
-                    <input type="file" class="form-control border-2 border-dark" id="artifactFiles" name="artifact_img" multiple>
+                    <input type="file" class="form-control border-2 border-dark" id="artifact_img" name="artifact_img[]" multiple>
                 </div>
             </div>
-
+        
+            <!-- File Input for Relevant Documentation -->
             <div class="form-group row align-items-center mt-4 justify-content-between">
-                <div class="col-sm-5">
-                    <label for="documentation" class="col-form-label fs-5"><b>Relevant Documentation</b></label>
-                    <p>Such as Provenance Documents, Historical Records, Research Papers, Certificates of Authenticity,
-                        Catalogs or Inventories.</p>
-                </div>
+                <label for="documentation" class="col-sm-3 col-form-label fs-5"><b>Relevant Documentation</b></label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control border-2 border-dark mb-2" id="documentation" name="documentation"
-                        placeholder="Paste Link">
-                    <input type="file" class="form-control border-2 border-dark" id="documentationFiles" 
-                    name="documentation_img" multiple>
+                    <input type="file" class="form-control border-2 border-dark" id="documentation" name="documentation[]" multiple>
                 </div>
             </div>
-
+        
+            <!-- File Input for Related Images -->
             <div class="form-group row align-items-center mt-4 justify-content-between">
-                <div class="col-sm-5">
-                    <label for="relatedImages" class="col-form-label fs-5"><b>Any related images</b></label>
-                    <p>For example an image of your grandfather wearing the clothes, of image of an artifact while being
-                        used.</p>
-                </div>
+                <label for="related_img" class="col-sm-3 col-form-label fs-5"><b>Any Related Images</b></label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control border-2 border-dark mb-2" id="relatedImages" name="relatedImages"
-                        placeholder="Paste Link">
-                    <input type="file" class="form-control border-2 border-dark" id="relatedFiles" name="related_img" multiple>
+                    <input type="file" class="form-control border-2 border-dark" id="related_img" name="related_img[]" multiple>
                 </div>
             </div>
+        
             <div class="col-md-12 d-flex justify-content-end mt-5">
-                <button type="submit" class="btn btn-light px-5 py-2" onclick="openModal()" >Submit</button>
+                <button type="submit" class="btn btn-primary px-5 py-2">Submit</button>
             </div>
-            </div>
-   
-           
-        </form> 
-
+        
+        </form>
+    </div>
     <!-- Confirmation Modal -->
 <div id="confirmationModal" class="modal" aria-hidden="true">
     <div class="modal-content">
