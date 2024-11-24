@@ -169,102 +169,60 @@ function handleAction(action, data) {
     }
 }
 /*-----------------------------------------------------------------------------------------------------------------------------------------------*/
-// Function to create action buttons like Edit or Delete
-function createActionButton(label, iconClass, onClick) {
-    const button = document.createElement('button');
-    button.classList.add('action-btn', 'flex', 'items-center', 'space-x-2');
-    const icon = document.createElement('i');
-    icon.classList.add(iconClass);
-    const text = document.createElement('span');
-    text.innerText = label;
-    button.appendChild(icon);
-    button.appendChild(text);
-    button.addEventListener('click', onClick);
-    return button;
+// Approve button handler
+document.getElementById("approve-appointment-btn").addEventListener("click", () => {
+    const appointmentId = getAppointmentId();
+    updateAppointmentStatus(appointmentId, "approved");
+});
+
+// Reject button handler
+document.getElementById("reject-appointment-btn").addEventListener("click", () => {
+    const appointmentId = getAppointmentId();
+    updateAppointmentStatus(appointmentId, "rejected");
+});
+
+// Get the appointment ID from the modal
+function getAppointmentId() {
+    return document.getElementById("appointment-modal").dataset.appointmentId;
 }
 
-// Function to create the action cell (Edit/Delete)
-function createActionCell(appointment) {
-    const cell = document.createElement('td');
-    cell.classList.add('px-4', 'py-2', 'flex', 'justify-center', 'space-x-2', 'bg-white', 'border-black');
-
-    const editButton = createActionButton('Edit', 'fas fa-edit', () => handleAction('edit', appointment));
-    const deleteButton = createActionButton('Delete', 'fas fa-trash', () => handleAction('delete', appointment.fkID));
-
-    cell.append(editButton, deleteButton);
-    return cell;
-}
-function handleAppointmentAction(action, data) {
-    fetch('https://museobulawan.online/admin_mis/src/php/processAppointment.php', {
-        method: 'POST',
+// Function to update the appointment status
+function updateAppointmentStatus(appointmentId, status) {
+    fetch(`https://museobulawan.online/development/admin_mis/src/php/updateAppointment.php`, {
+        method: "POST",
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            "Content-Type": "application/json",
         },
-        body: new URLSearchParams({
-            action: action, // 'approve' or 'reject'
-            id: data.id,    // Appointment ID
+        body: JSON.stringify({
+            appointmentId: appointmentId,
+            status: status,
         }),
     })
-        .then(response => response.json())
-        .then(result => {
-            if (result.success) {
-                alert(result.message);
-                console.log(`Appointment ID ${data.id} status updated: ${action}`);
-                closeModal('appointment-modal');
-                init(); // Refresh the table or appointments list
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            if (data.success) {
+                alert("Appointment status updated successfully!");
+                closeModal();
+                fetchAppointments(); // Refresh the table
             } else {
-                alert(`Error: ${result.error}`);
-                console.error(result.error);
+                alert("Failed to update appointment: " + data.message);
             }
         })
-        .catch(error => {
-            console.error("Error:", error);
-            alert("An unexpected error occurred.");
+        .catch((error) => {
+            console.error("Error updating appointment:", error);
         });
 }
 
-
-// Event listeners for Approve and Reject buttons
-document.getElementById('approve-appointment-btn').addEventListener('click', () => {
-    const appointmentData = getAppointmentDataFromModal();
-    if (appointmentData) {
-        handleAppointmentAction('approve', appointmentData);
-    }
-});
-
-document.getElementById('reject-appointment-btn').addEventListener('click', () => {
-    const appointmentData = getAppointmentDataFromModal();
-    if (appointmentData) {
-        handleAppointmentAction('reject', appointmentData);
-    }
-});
-
-// Function to retrieve data from the modal
-function getAppointmentDataFromModal() {
-    const appointmentID = document.getElementById('appointment-id')?.textContent || null; // Assuming 'appointment-id' exists in the modal
-
-    if (!appointmentID) {
-        console.error("Appointment ID is missing in the modal.");
-        return null; // Return null if appointment ID is missing
-    }
-
-    return {
-        id: appointmentID, // This is required to identify the appointment in the database
-    };
+// Close modal function
+function closeModal() {
+    const modal = document.getElementById("appointment-modal");
+    modal.classList.add("hidden");
 }
-
-// Function to close a modal by ID
-function closeModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.classList.add('hidden');
-    } else {
-        console.error(`Modal with ID "${modalId}" not found.`);
-    }
-}
-
-
-
 
 /*-----------------------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -289,7 +247,7 @@ function updateAppointmentStatus(action, formID) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            appointmentID: appointmentId,
+            appointmentID: formID, // Use formID here if it holds the correct value
             action: action 
         })
     })
@@ -331,10 +289,12 @@ function showAppointmentModal(appointment) {
     document.getElementById('appointment-time').textContent = appointment.appointment_time || 'N/A';
     document.getElementById('appointment-notes').textContent = appointment.appointment_notes || 'N/A';
 
+    modal.dataset.appointmentId = appointment.formID;
     // Show the modal
     if (modal) {
         modal.classList.remove('hidden');
     }
+    
 }
 
 // Close modal logic
