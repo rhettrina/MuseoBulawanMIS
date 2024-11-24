@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let cleanupFunctions = {}; // Store cleanup functions for specific pages
 
     const savedPage = localStorage.getItem("currentPage") || "dashboard";
-
+ 
     function loadContent(page) {
         if (typeof window.cleanup === "function") {
             console.log("Calling cleanup for current page...");
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.error("Content Load Error:", error);
             });
     }
-
+ 
     function loadScript(page) {
         const script = document.createElement("script");
         script.src = `src/js/${page}.js`;
@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
         script.onerror = () => {
             console.error(`Failed to load ${page}.js`);
         };
-
+ 
         document.body.appendChild(script);
         currentScript = script; // Keep track of the current script
     }
@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
             currentScript = null;
         }
     }
-
+ 
     function updateActiveTab(activePage) {
         links.forEach((link) => {
             const page = link.getAttribute("data-page");
