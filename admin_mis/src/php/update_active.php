@@ -1,43 +1,35 @@
 <?php
-// Include the database connection file
-include 'db_connect.php'; // Ensure this file properly sets $connextion
+include 'db_connect.php';
 
-// Retrieve and decode the input data
 $input = json_decode(file_get_contents("php://input"), true);
 
 if (isset($input['unique_id'])) {
     $unique_id = $input['unique_id'];
 
-    // Validate unique_id (e.g., check if it's not empty)
-    if (empty($unique_id)) {
-        echo json_encode(["success" => false, "message" => "unique_id is empty"]);
-        exit;
-    }
+    // Set all layouts to inactive
+    $resetSql = "UPDATE floorplans SET active = 0";
+    $connextion->query($resetSql);
 
-    // Prepare the SQL statement to increment the `active` field
-    $sql = "UPDATE floorplans SET active = active + 1 WHERE unique_id = ?";
+    // Set the selected layout as active
+    $sql = "UPDATE floorplans SET active = 1 WHERE unique_id = ?";
     $stmt = $connextion->prepare($sql);
 
     if ($stmt) {
-        // Bind the `unique_id` parameter to the prepared statement
         $stmt->bind_param('s', $unique_id);
 
-        // Execute the statement
         if ($stmt->execute()) {
-            echo json_encode(["success" => true, "message" => "Active field updated successfully"]);
+            echo json_encode(["success" => true, "message" => "Layout set as active successfully"]);
         } else {
-            echo json_encode(["success" => false, "message" => "Failed to update the active field"]);
+            echo json_encode(["success" => false, "message" => "Failed to update layout as active"]);
         }
 
-        // Close the statement
         $stmt->close();
     } else {
-        echo json_encode(["success" => false, "message" => "Failed to prepare the SQL statement"]);
+        echo json_encode(["success" => false, "message" => "Failed to prepare SQL statement"]);
     }
 } else {
     echo json_encode(["success" => false, "message" => "unique_id not provided"]);
 }
 
-// Close the database connection
 $connextion->close();
 ?>

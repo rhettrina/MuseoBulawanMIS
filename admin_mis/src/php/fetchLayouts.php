@@ -12,7 +12,7 @@ if ($connextion->connect_error) {
 
 try {
     // SQL query to fetch all rows from the 'floorplans' table
-    $query = "SELECT `unique_id`, `name`, `image_path`, `created_at` FROM `floorplans` WHERE 1";
+    $query = "SELECT `unique_id`, `name`, `image_path`, `created_at`, `active` FROM `floorplans` WHERE 1";
     $result = $connextion->query($query);
 
     // Check if the query was successful
