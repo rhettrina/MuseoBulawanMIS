@@ -144,7 +144,7 @@ function handleFunctions(action, payload) {
     case "set":
       openModal(`Are you sure you want to set layout "${name}" as active?`, () => {
         toggleActiveStatus(activeStatus);
-        updateActive(${id});
+        updateActive(id);
       });
       break;
 
@@ -277,7 +277,7 @@ function closePreviewModal() {
 
 
 function updateActive(uniqueId) {
-  fetch('update_active.php', {
+  fetch('https://museobulawan.online/development/admin_mis/src/php/update_active.php', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json',
