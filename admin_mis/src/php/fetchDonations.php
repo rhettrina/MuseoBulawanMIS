@@ -9,18 +9,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
 include 'db_connect.php';
 
-// Get sort parameter from the query string (default is 'newest')
-$sort = $_GET['sort'] ?? 'newest'; 
-$order = ($sort === 'oldest') ? 'ASC' : 'DESC';
+// Validate and set sort parameter
+$sort = isset($_GET['sort']) && $_GET['sort'] === 'oldest' ? 'ASC' : 'DESC';
 
-// Query to fetch sorted donations with the necessary joins
+// Query to fetch sorted donations with necessary joins
 $query = "
-    SELECT 
+    SELECT DISTINCT
         l.lendingID AS formID, 
         l.submission_date AS submission_date,
         CONCAT(dn.first_name, ' ', dn.last_name) AS donor_name, 
         a.artifact_nameID AS artifact_title, 
-        'Lending' AS form_type, -- Explicitly set form type as 'Lending'
+        'Lending' AS form_type, 
         'To Review' AS status, 
         'Pending' AS transfer_status, 
         a.updated_date AS updated_date, 
@@ -34,12 +33,12 @@ $query = "
 
     UNION ALL
 
-    SELECT 
+    SELECT DISTINCT
         d.donationID AS formID, 
         d.submission_date AS submission_date,
         CONCAT(dn.first_name, ' ', dn.last_name) AS donor_name, 
         a.artifact_nameID AS artifact_title, 
-        'Donation' AS form_type, -- Explicitly set form type as 'Donation'
+        'Donation' AS form_type, 
         'To Review' AS status, 
         'Pending' AS transfer_status, 
         a.updated_date AS updated_date,
@@ -51,14 +50,15 @@ $query = "
     JOIN 
         Artifact AS a ON d.artifact_nameID = a.artifact_nameID
 
-    ORDER BY submission_date $order
-
+    ORDER BY submission_date $sort
 ";
 
+// Execute the query
 $result = mysqli_query($connextion, $query);
 
 if (!$result) {
-    echo json_encode(['error' => 'Database query failed']);
+    // Improved error message
+    echo json_encode(['error' => 'Database query failed: ' . mysqli_error($connextion)]);
     exit;
 }
 
@@ -69,5 +69,4 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 // Return JSON response
 echo json_encode($donations);
-
 ?>
