@@ -5,13 +5,14 @@ header('Content-Type: application/json');
 // Start session for admin authentication
 session_start();
 
+// Check if admin is logged in
+if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
+    echo json_encode(['error' => 'Unauthorized access.']);
+    exit;
+}
+
 // Include the database connection
 include 'db_connect.php';
-
-// Function to sanitize input data
-function sanitize_input($data) {
-    return htmlspecialchars(trim($data));
-}
 
 // Retrieve and decode raw JSON input
 $rawData = file_get_contents("php://input");
@@ -39,11 +40,11 @@ if (!in_array($action, ['approve', 'reject'])) {
     exit;
 }
 
-// Determine the new status and confirmation date
+// Determine the new status
 $newStatus = ($action === 'approve') ? 'Approved' : 'Rejected';
 
 // Prepare and execute the update statement
-$stmt = $connextion->prepare("UPDATE appointment SET status = ?, confirmation_date = NOW() WHERE appointmentID = ?");
+$stmt = $connection->prepare("UPDATE appointment SET status = ?, confirmation_date = NOW() WHERE appointmentID = ?");
 if ($stmt) {
     $stmt->bind_param("si", $newStatus, $appointmentID);
 
@@ -58,10 +59,11 @@ if ($stmt) {
     $stmt->close();
 } else {
     // Log preparation error
-    error_log("Error preparing statement: " . $connextion->error);
+    error_log("Error preparing statement: " . $connection->error);
     echo json_encode(['error' => 'Server error. Please try again later.']);
 }
 
 // Close the database connection
-$connextion->close();
+$connection->close();
 ?>
+    
