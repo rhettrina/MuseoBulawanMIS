@@ -88,9 +88,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql_donatorTB = "INSERT INTO `Donator`(`first_name`, `last_name`, `email`, `phone`, `province`, `street`, `barangay`, `organization`, `age`, `sex`, `city`) 
                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql_donatorTB);
+    if (!$stmt) {
+        die("Prepare failed for Donator: " . $conn->error);
+    }
     $stmt->bind_param("ssssssssiss", $firstName, $lastName, $email, $phone, $province, $street, $barangay, $organization, $age, $sex, $city);
 
-    // Execute the insert query for Donator
     if ($stmt->execute()) {
         $donatorID = $conn->insert_id;  // Get the inserted ID directly
     } else {
@@ -99,11 +101,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Insert query for the Donation table
     $abt_art = "INSERT INTO `Donation`(`donatorID`, `artifact_nameID`, `artifact_description`, `submission_date`) 
-                VALUES (?, ?, ?, NOW())"; // Add submission date
+                VALUES (?, ?, ?, NOW())";
+    echo "Preparing the query for Donation table...\n";
     $stmt = $conn->prepare($abt_art);
+    if (!$stmt) {
+        die("Prepare failed for Donation table: " . $conn->error);
+    }
     $stmt->bind_param("iss", $donatorID, $artifactTitle, $artifactDescription);
-
-    // Execute the query for the Donation table
     if (!$stmt->execute()) {
         die("Error inserting donation: " . $stmt->error);
     }
@@ -116,9 +120,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $query = $conn->prepare("INSERT INTO `Artifact`(`artifact_typeID`, `donatorID`, `artifact_description`, `artifact_nameID`, `acquisition`, `additional_info`, `narrative`, `artifact_img`, `documentation_img`, `related_img`, `submission_date`, `updated_date`) 
                              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())");
+    if (!$query) {
+        die("Prepare failed for Artifact table: " . $conn->error);
+    }
     $query->bind_param('sissssssss', $artifactType, $donatorID, $artifactDescription, $artifactTitle, $acquisition, $additionalInfo, $narrative, $artifact_img_path, $documentation_img_path, $related_img_path);
 
-    // Execute the query for the Artifact table
     if (!$query->execute()) {
         die("Error inserting artifact: " . $query->error);
     }
