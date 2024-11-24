@@ -21,9 +21,9 @@ if ($conn->connect_error) {
 
 // Function to handle single or multiple file uploads
 function uploadFiles($files, $uploadDir, $allowedExtensions) {
-    $uploadedPaths = [];
+    $uploadedFileNames = [];
     if (!isset($files['name'])) {
-        return $uploadedPaths; // Return empty array if no files provided
+        return $uploadedFileNames; // Return empty array if no files provided
     }
 
     foreach ($files['name'] as $index => $name) {
@@ -38,12 +38,12 @@ function uploadFiles($files, $uploadDir, $allowedExtensions) {
                 }
 
                 if (move_uploaded_file($files['tmp_name'][$index], $fileUploadPath)) {
-                    $uploadedPaths[] = $fileUploadPath;
+                    $uploadedFileNames[] = $newFileName; // Store only the file name
                 }
             }
         }
     }
-    return $uploadedPaths;
+    return $uploadedFileNames;
 }
 
 // Check if the form was submitted
@@ -76,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $documentationFiles = isset($_FILES['documentation']) ? uploadFiles($_FILES['documentation'], $uploadDir, $allowedExtensions) : [];
     $relatedImages = isset($_FILES['related_img']) ? uploadFiles($_FILES['related_img'], $uploadDir, $allowedExtensions) : [];
 
-    // Convert file paths to JSON strings for database storage
+    // Convert file names to JSON strings for database storage
     $artifactImagesJson = json_encode($artifactImages);
     $documentationFilesJson = json_encode($documentationFiles);
     $relatedImagesJson = json_encode($relatedImages);
