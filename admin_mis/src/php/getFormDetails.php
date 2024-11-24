@@ -23,7 +23,7 @@ try {
                   FROM Donation AS d
                   JOIN Donator AS dn ON d.donatorID = dn.donatorID
                   JOIN Artifact AS a ON d.artifact_nameID = a.artifact_nameID
-                  WHERE d.donationID = ?";
+                  WHERE d.donatorID = ?";
     } elseif ($formType === 'Lending') {
         $query = "SELECT l.*, dn.first_name, dn.last_name, dn.age, dn.sex, dn.email, dn.phone, 
                          dn.organization, dn.street, dn.barangay, dn.city, dn.province,
@@ -34,7 +34,7 @@ try {
                   FROM Lending AS l
                   JOIN Donator AS dn ON l.donatorID = dn.donatorID
                   JOIN Artifact AS a ON l.artifact_nameID = a.artifact_nameID
-                  WHERE l.lendingID = ?";
+                  WHERE l.donatorID = ?";
     } else {
         echo json_encode(['success' => false, 'error' => 'Invalid form type']);
         exit();
