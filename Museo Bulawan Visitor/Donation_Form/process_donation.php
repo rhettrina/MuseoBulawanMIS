@@ -76,10 +76,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $documentationFiles = isset($_FILES['documentation']) ? uploadFiles($_FILES['documentation'], $uploadDir, $allowedExtensions) : [];
     $relatedImages = isset($_FILES['related_img']) ? uploadFiles($_FILES['related_img'], $uploadDir, $allowedExtensions) : [];
 
-    // Convert file names to JSON strings for database storage
-    $artifactImagesJson = json_encode($artifactImages);
-    $documentationFilesJson = json_encode($documentationFiles);
-    $relatedImagesJson = json_encode($relatedImages);
+    // Convert file names to comma-separated strings for database storage
+    $artifactImagesStr = implode(',', $artifactImages);
+    $documentationFilesStr = implode(',', $documentationFiles);
+    $relatedImagesStr = implode(',', $relatedImages);
 
     // Insert data into Donator table
     $sql_donatorTB = "INSERT INTO `Donator`(`first_name`, `last_name`, `email`, `phone`, `province`, `street`, `barangay`, `organization`, `age`, `sex`, `city`) 
@@ -106,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $artifactType = "Donation";
     $query = $conn->prepare("INSERT INTO `Artifact`(`artifact_typeID`, `submission_date`, `donatorID`, `artifact_description`, `artifact_nameID`, `acquisition`, `additional_info`, `narrative`, `artifact_img`, `documentation`, `related_img`, `status`, `transfer_status`, `updated_date`, `display_status`) 
                              VALUES (?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'To Review', 'Pending', NULL, 'true')");
-    $query->bind_param('sissssssss', $artifactType, $donatorID, $artifactDescription, $artifactTitle, $acquisition, $additionalInfo, $narrative, $artifactImagesJson, $documentationFilesJson, $relatedImagesJson);
+    $query->bind_param('sissssssss', $artifactType, $donatorID, $artifactDescription, $artifactTitle, $acquisition, $additionalInfo, $narrative, $artifactImagesStr, $documentationFilesStr, $relatedImagesStr);
 
     if (!$query->execute()) {
         die(json_encode(['success' => false, 'message' => 'Error inserting artifact: ' . $query->error]));
