@@ -3,8 +3,10 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET");
 header("Access-Control-Allow-Headers: Content-Type");
 
+// Include database connection
 include 'db_connect.php';
 
+// Validate and fetch parameters
 $donID = isset($_GET['donID']) ? intval($_GET['donID']) : null;
 $formType = isset($_GET['formType']) ? $_GET['formType'] : null;
 
@@ -14,6 +16,7 @@ if (!$donID || !$formType) {
 }
 
 try {
+    // Build query based on form type
     if ($formType === 'Donation') {
         $query = "SELECT d.*, dn.first_name, dn.last_name, dn.age, dn.sex, dn.email, dn.phone, 
                          dn.organization, dn.street, dn.barangay, dn.city, dn.province,
@@ -37,6 +40,7 @@ try {
         exit();
     }
 
+    // Prepare and execute statement
     $stmt = $connextion->prepare($query);
     $stmt->bind_param("i", $donID);
     $stmt->execute();
