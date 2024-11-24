@@ -1,6 +1,6 @@
 <?php
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS, DELETE"); 
+header("Access-Control-Allow-Methods: POST, DELETE, OPTIONS"); 
 header("Access-Control-Allow-Headers: Content-Type, x-requested-with");
 
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
@@ -10,27 +10,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 // Include database connection file
 include 'db_connect.php';
 
-// Get appointment ID from URL query parameter
-$appointmentId = isset($_GET['id']) ? $_GET['id'] : null;
-
-if ($appointmentId) {
-    $query = "DELETE FROM appointment WHERE appointmentID = ?";
-    $stmt = $connextion->prepare($query);
-    $stmt->bind_param("i", $appointmentId); 
-
-    if ($stmt->execute()) {
-        // Return success message
-        echo json_encode(['message' => 'Appointment deleted successfully']);
-    } else {
-        // Return error message
-        echo json_encode(['error' => 'Failed to delete appointment']);
-    }
-
-    $stmt->close();
-} else {
-    // Return error if ID is not provided
-    echo json_encode(['error' => 'Invalid appointment ID']);
+// Check for valid HTTP method
+if ($_SERVER['REQUEST_METHOD'] !== 'POST' && $_SERVER['REQUEST_METHOD'] !== 'DELETE') {
+    http_response_code(405); // Method Not Allowed
+    echo json_encode(['error' => 'Invalid HTTP method']);
+    exit;
 }
 
-$connection->close(); // Close connection using $connection
+// Decode input data for POST or GET
+$data = json_decode(file_get_contents("php://input"), true);
+$appointmentId = isset($data['id']) ? intval($data['id']) : null;
+
+if (!$appointmentId) {
+    http_response_code(400); // Bad Request
+    echo json_encode(['error' => 'Invalid or missing appointment ID']);
+    exit;
+}
+
+$query = "DELETE FROM appointment WHERE appointmentID = ?";
+$stmt = $connextion->prepare($query);
+
+if (!$stmt) {
+    http_response_code(500); // Internal Server Error
+    echo json_encode(['error' => 'Failed to prepare database statement']);
+    exit;
+}
+
+$stmt->bind_param("i", $appointmentId);
+
+if ($stmt->execute()) {
+    // Return success message
+    http_response_code(200); // OK
+    echo json_encode(['message' => 'Appointment deleted successfully']);
+} else {
+    // Return error message
+    http_response_code(500); // Internal Server Error
+    echo json_encode(['error' => 'Failed to delete appointment']);
+}
+
+$stmt->close();
+$connextion->close(); // Close database connection
 ?>
