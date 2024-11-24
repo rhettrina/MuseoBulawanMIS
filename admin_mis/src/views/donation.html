@@ -1,56 +1,56 @@
 <h2 class="text-2xl font-semibold">Donation</h2>
 <p class="text-gray-600">Welcome to the Donation!</p>
 
-<div class=" w-full min-h-28 pt-6 rounded-md flex flex-col lg:flex-row md:flex-row justify-center md:justify-between lg:justify-start gap-y-2 mb-10">
-  <div class="flex justify-around flex-wrap gap-6">
-    <div class="border-[1px] border-black p-2 max-w-44 max-h-24 rounded-md bg-orange-200 flex justify-center items-center">
-      <div></div>
-      <div class="flex justify-center align-items-center w-20 h-16 rounded-md items-center">
-        <span class="text-center text-sm font-bold">Total Forms</span>
+<div class="table-content flex flex-col">
+    <div class="w-full min-h-28 pt-6 rounded-md flex flex-col lg:flex-row md:flex-row justify-center md:justify-between lg:justify-between gap-y-6 mb-5 items-center">
+      <div class="border-[1px] border-black p-2 max-w-44 max-h-24 rounded-md bg-orange-200 flex justify-center items-center">
+        <div class="flex justify-center align-items-center w-20 h-16 rounded-md items-center">
+          <span class="text-center text-sm font-bold">Total Forms</span>
+        </div>
+        <div class="border-[1px] border-black flex justify-center align-items-center w-20 h-16 rounded-md bg-white items-center">
+          <span id="total-donations" class="text-xl font-bold">0</span>
+        </div>
       </div>
-      <div class="border-[1px] border-black flex justify-center align-items-center w-20 h-16 rounded-md bg-white items-center">
-        <span id="total-donations" class="text-xl font-bold">0</span>
+      
+      <div class="border-[1px] border-black p-2 max-w-44 max-h-24 rounded-md bg-orange-200 flex justify-center items-center">
+        <div class="flex justify-center align-items-center w-20 h-16 rounded-md items-center">
+          <span class="text-center text-sm font-bold">Total Accepted</span>
+        </div>
+        <div class="border-[1px] border-black flex justify-center align-items-center w-20 h-16 rounded-md bg-white items-center">
+          <span id="total-accepted" class="text-xl font-bold">0</span>
+        </div>
       </div>
-    </div>
-    
-    <div class="border-[1px] border-black p-2 max-w-44 max-h-24 rounded-md bg-orange-200 flex justify-center items-center">
-      <div class="flex justify-center align-items-center w-20 h-16 rounded-md items-center">
-        <span class="text-center text-sm font-bold">Total Accepted</span>
+
+      <div class="border-[1px] border-black p-2 max-w-44 max-h-24 rounded-md bg-orange-200 flex justify-center items-center">
+        <div class="flex justify-center align-items-center w-20 h-16 rounded-md items-center">
+          <span class="text-center text-sm font-bold">Total Rejected</span>
+        </div>
+        <div class="border-[1px] border-black flex justify-center align-items-center w-20 h-16 rounded-md bg-white items-center">
+          <span id="total-rejected" class="text-xl font-bold">0</span>
+        </div>
       </div>
-      <div class="border-[1px] border-black flex justify-center align-items-center w-20 h-16 rounded-md bg-white items-center">
-        <span id="total-accepted" class="text-xl font-bold">0</span>
+
+      <div class="border-[1px] border-black p-2 max-w-44 max-h-24 rounded-md bg-orange-200 flex justify-center items-center">
+        <div class="flex justify-center align-items-center w-20 h-16 rounded-md items-center">
+          <span class="text-center text-sm font-bold">Total Donation Forms</span>
+        </div>
+        <div class="border-[1px] border-black flex justify-center align-items-center w-20 h-16 rounded-md bg-white items-center">
+          <span id="total-donform" class="text-xl font-bold">0</span>
+        </div>
       </div>
+
+      <div class="border-[1px] border-black p-2 max-w-44 max-h-24 rounded-md bg-orange-200 flex justify-center items-center">
+        <div class="flex justify-center align-items-center w-20 h-16 rounded-md items-center">
+          <span class="text-center text-sm font-bold">Total Lending Forms</span>
+        </div>
+        <div class="border-[1px] border-black flex justify-center align-items-center w-20 h-16 rounded-md bg-white items-center">
+          <span id="total-lendform" class="text-xl font-bold">0</span>
+        </div>
+      </div>
+
     </div>
 
-    <div class="border-[1px] border-black p-2 max-w-44 max-h-24 rounded-md bg-orange-200 flex justify-center items-center">
-      <div class="flex justify-center align-items-center w-20 h-16 rounded-md items-center">
-        <span class="text-center text-sm font-bold">Total Rejected</span>
-      </div>
-      <div class="border-[1px] border-black flex justify-center align-items-center w-20 h-16 rounded-md bg-white items-center">
-        <span id="total-rejected" class="text-xl font-bold">0</span>
-      </div>
-    </div>
-
-    <div class="border-[1px] border-black p-2 max-w-44 max-h-24 rounded-md bg-orange-200 flex justify-center items-center">
-      <div class="flex justify-center align-items-center w-20 h-16 rounded-md items-center">
-        <span class="text-center text-sm font-bold">Total Donation Forms</span>
-      </div>
-      <div class="border-[1px] border-black flex justify-center align-items-center w-20 h-16 rounded-md bg-white items-center">
-        <span id="total-donform" class="text-xl font-bold">0</span>
-      </div>
-    </div>
-
-    <div class="border-[1px] border-black p-2 max-w-44 max-h-24 rounded-md bg-orange-200 flex justify-center items-center">
-      <div class="flex justify-center align-items-center w-20 h-16 rounded-md items-center">
-        <span class="text-center text-sm font-bold">Total Lending Forms</span>
-      </div>
-      <div class="border-[1px] border-black flex justify-center align-items-center w-20 h-16 rounded-md bg-white items-center">
-        <span id="total-lendform" class="text-xl font-bold">0</span>
-      </div>
-    </div>
-  </div>
-</div>
-    <div class="w-full h-fit items-center flex justify-end py-4 border-b-[2px] border-black">
+    <div class="w-full h-fit items-center flex justify-end py-4">
       <!--Toolbar-->
 
           <div class="sort-container border-[1px] border-black  rounded-md">
@@ -62,7 +62,7 @@
           </div>
       </div>
 
-    <div class="flex justify-center items-start overflow-y-auto max-h-[450px]">
+    <div class="flex justify-center items-start overflow-y-auto max-h-[400px]">
       <table id="donations-table" class="min-w-full table-auto border-separate border-spacing-y-[8px]">
         <thead class="bg-orange-100 sticky top-0 ">
           <tr>
@@ -123,7 +123,7 @@
       <h2 id="modal-title" class="text-xl font-bold mb-4 p-4 border-b border-gray-200">Form Details</h2>
       <!-- Scrollable Content -->
       <div id="modal-scrollable-content" class="overflow-y-auto px-6 py-4 h-[calc(100%-140px)]">
-        <div class="bg-blue-300">
+    
 
           <h3 class="font-semibold mb-2  top-0 z-20 px-6 py-2 shadow-md">Personal Details</h3>
               <p><strong>First Name:</strong> <span id="modal-first-name"></span></p>
@@ -138,9 +138,9 @@
               <p><strong>City:</strong> <span id="modal-city"></span></p>
               <p><strong>Barangay:</strong> <span id="modal-barangay"></span></p>
               <p><strong>Street:</strong> <span id="modal-street"></span></p>
-        </div>
+   
 
-        <div class="bg-gray-600">
+   
           <div id="lending-fields" class="hidden">
             <h3 class="font-semibold mt-4 mb-2  top-0 z-20 px-6 py-2 shadow-md">Lending Details</h3>
             <p><strong>Loan Duration:</strong> <span id="modal-loan-duration"></span></p>
@@ -148,9 +148,9 @@
             <p><strong>Liability:</strong> <span id="modal-liability-concern"></span></p>
             <p><strong>Lending Reason:</strong> <span id="modal-reason"></span></p>
           </div>
-        </div>
+        
 
-        <div class="bg-green-600">
+   
           <h3 class="font-semibold mt-4 mb-2  top-0 z-20 px-6 py-2 shadow-md">Artifact Details</h3>
           <p><strong>Title:</strong> <span id="modal-artifact-title"></span></p>
           <p><strong>Description:</strong> <span id="modal-artifact-description"></span></p>
@@ -162,7 +162,7 @@
           <p><strong>Related Images:</strong> <span id="modal-related"></span></p>
         </div>
           
-      </div>
+      
       <!-- Buttons -->
       <div class="p-4 border-t border-gray-200 flex gap-2 justify-end bg-white sticky bottom-0">
           <button data-modal-accept class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-500">Accept</button>
@@ -170,7 +170,7 @@
           <button data-modal-close class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-500">Close</button>
       </div>
   </div>
-
+</div>
 
 
 
