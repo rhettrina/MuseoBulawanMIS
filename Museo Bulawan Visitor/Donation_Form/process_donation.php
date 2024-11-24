@@ -1,8 +1,8 @@
 <?php
 error_reporting(E_ALL);
 
-header("Access-Control-Allow-Origin: *"); 
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS"); 
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, x-requested-with");
 
 // Database configuration
@@ -16,7 +16,34 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    die(json_encode(['success' => false, 'message' => 'Database connection failed: ' . $conn->connect_error]));
+}
+
+// Function to handle single or multiple file uploads
+function uploadFiles($files, $uploadDir, $allowedExtensions) {
+    $uploadedPaths = [];
+    if (!isset($files['name'])) {
+        return $uploadedPaths; // Return empty array if no files provided
+    }
+
+    foreach ($files['name'] as $index => $name) {
+        if (!empty($name) && $files['error'][$index] === 0) {
+            $fileExt = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+            if (in_array($fileExt, $allowedExtensions)) {
+                $newFileName = uniqid("FILE-", true) . '.' . $fileExt;
+                $fileUploadPath = $uploadDir . $newFileName;
+
+                if (!is_dir($uploadDir)) {
+                    mkdir($uploadDir, 0777, true); // Create directory if it doesn't exist
+                }
+
+                if (move_uploaded_file($files['tmp_name'][$index], $fileUploadPath)) {
+                    $uploadedPaths[] = $fileUploadPath;
+                }
+            }
+        }
+    }
+    return $uploadedPaths;
 }
 
 // Check if the form was submitted
@@ -40,88 +67,53 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $additionalInfo = $conn->real_escape_string($_POST['additionalInfo']);
     $narrative = $conn->real_escape_string($_POST['narrative']);
     
-    // Handle artifact image upload
-    $art_img_upload_path = '';
-    if (!empty($_FILES['artifactImages']['name'])) {
-        $art_img_upload_path = uploadImage($_FILES['artifactImages'], 'uploads/artifacts/');
-        if (!$art_img_upload_path) {
-            echo json_encode(['success' => false, 'error' => 'Failed to upload artifact image']);
-            exit();
-        }
-    }
+    // Define upload directories and allowed extensions
+    $uploadDir = __DIR__ . '/../../admin_mis/src/uploads/artifacts/';
+    $allowedExtensions = ["jpg", "jpeg", "png", "pdf", "docx", "xlsx", "txt"];
 
-    // Generate current timestamp
-    $currentTimestamp = date('Y-m-d H:i:s');
+    // Handle file uploads
+    $artifactImages = isset($_FILES['artifact_img']) ? uploadFiles($_FILES['artifact_img'], $uploadDir, $allowedExtensions) : [];
+    $documentationFiles = isset($_FILES['documentation']) ? uploadFiles($_FILES['documentation'], $uploadDir, $allowedExtensions) : [];
+    $relatedImages = isset($_FILES['related_img']) ? uploadFiles($_FILES['related_img'], $uploadDir, $allowedExtensions) : [];
 
-    // Insert query for the Donator table
-    $sql_donatorTB = "INSERT INTO `Donator`(`first_name`, `last_name`, `email`, `phone`, `province`, `street`, `barangay`, `organization`, `age`, `sex`, `city`, `submission_date`) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    // Convert file paths to JSON strings for database storage
+    $artifactImagesJson = json_encode($artifactImages);
+    $documentationFilesJson = json_encode($documentationFiles);
+    $relatedImagesJson = json_encode($relatedImages);
+
+    // Insert data into Donator table
+    $sql_donatorTB = "INSERT INTO `Donator`(`first_name`, `last_name`, `email`, `phone`, `province`, `street`, `barangay`, `organization`, `age`, `sex`, `city`) 
+                      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql_donatorTB);
-    $stmt->bind_param("ssssssssisss", $firstName, $lastName, $email, $phone, $province, $street, $barangay, $organization, $age, $sex, $city, $currentTimestamp);
+    $stmt->bind_param("ssssssssiss", $firstName, $lastName, $email, $phone, $province, $street, $barangay, $organization, $age, $sex, $city);
 
     if ($stmt->execute()) {
-        echo "Donator added successfully!<br>";
+        $donatorID = $conn->insert_id; // Get the inserted ID directly
     } else {
-        echo "Error inserting Donator: " . $stmt->error;
-        exit();
+        die(json_encode(['success' => false, 'message' => 'Error inserting donator: ' . $stmt->error]));
     }
 
-    // Fetch Donator ID
-    $donatorID = $conn->insert_id;
+    // Insert data into Donation table
+    $abt_art = "INSERT INTO `Donation`(`donatorID`, `artifact_nameID`, `artifact_description`) VALUES (?, ?, ?)";
+    $stmt = $conn->prepare($abt_art);
+    $stmt->bind_param("iss", $donatorID, $artifactTitle, $artifactDescription);
 
-    // Insert query for the Artifact table
-    $sql_artifact = "INSERT INTO `Artifact`(`artifact_typeID`, `donatorID`, `artifact_description`, `artifact_nameID`, `acquisition`, `additional_info`, `narrative`, `artifact_img`) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    $type = "Donation";
-    $stmt = $conn->prepare($sql_artifact);
-    $stmt->bind_param("sissssss", $type, $donatorID, $artifactDescription, $artifactTitle, $acquisition, $additionalInfo, $narrative, $art_img_upload_path);
-
-    if ($stmt->execute()) {
-        echo json_encode(['success' => true]);
-        header("Location: donateindex.html?success=true");
-        exit();
-    } else {
-        echo json_encode(['success' => false, 'error' => $stmt->error]);
-        exit();
-    }
-}
-
-// Function to handle image upload
-function uploadImage($image, $targetDir) {
-    $targetFile = $targetDir . basename($image["name"]);
-    $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
-
-    // Ensure the directory exists
-    if (!is_dir($targetDir)) {
-        mkdir($targetDir, 0777, true); // Create the directory if it doesn't exist
+    if (!$stmt->execute()) {
+        die(json_encode(['success' => false, 'message' => 'Error inserting donation: ' . $stmt->error]));
     }
 
-    // Check if the file is an image
-    if (getimagesize($image["tmp_name"]) === false) {
-        return false;
+    // Insert data into Artifact table
+    $artifactType = "Donation";
+    $query = $conn->prepare("INSERT INTO `Artifact`(`artifact_typeID`, `submission_date`, `donatorID`, `artifact_description`, `artifact_nameID`, `acquisition`, `additional_info`, `narrative`, `artifact_img`, `documentation`, `related_img`, `status`, `transfer_status`, `updated_date`, `display_status`) 
+                             VALUES (?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'To Review', 'Pending', NULL, 'true')");
+    $query->bind_param('sissssssss', $artifactType, $donatorID, $artifactDescription, $artifactTitle, $acquisition, $additionalInfo, $narrative, $artifactImagesJson, $documentationFilesJson, $relatedImagesJson);
+
+    if (!$query->execute()) {
+        die(json_encode(['success' => false, 'message' => 'Error inserting artifact: ' . $query->error]));
     }
 
-    // If file already exists, use the same path
-    if (file_exists($targetFile)) {
-        return $targetFile;
-    }
-
-    // Check file size (max 3MB)
-    if ($image["size"] > 3 * 1024 * 1024) {
-        return false;
-    }
-
-    // Check file format (allowed types: jpg, jpeg, png, gif)
-    if (!in_array($imageFileType, ['jpg', 'jpeg', 'png', 'gif'])) {
-        return false;
-    }
-
-    // Try to move the uploaded file to the target directory
-    if (move_uploaded_file($image["tmp_name"], $targetFile)) {
-        return $targetFile;
-    } else {
-        return false;
-    }
+    // Success response
+    echo json_encode(['success' => true, 'message' => 'Data submitted successfully.']);
 }
 
 // Close the connection
