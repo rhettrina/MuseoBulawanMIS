@@ -1,10 +1,20 @@
-function init() {
-    // Call the display functions here
-    fetchTotalDonations();
-    fetchDonations();
-    // No need to call deleteDonation here; it's triggered by specific actions
-}
+(() => {
+    function init() {
+        console.log("Initializing artifact page...");
+        fetchDonations();
+        fetchTotalDonations();
+    }
 
+    function cleanup() {
+        console.log("Cleaning up artifact page...");
+        // Cleanup logic
+    }
+
+    window.artifactPage = { init, cleanup };
+})();
+
+
+// Fetch total donation statistics
 function fetchTotalDonations() {
     fetch('https://museobulawan.online/development/admin_mis/src/php/fetchTotalDonations.php')
         .then(response => {
@@ -26,22 +36,18 @@ function fetchTotalDonations() {
             displayErrorMessages();
         });
 }
+
 // Fetch and populate the donations table
 function fetchDonations(sort = 'newest') {
     fetch(`https://museobulawan.online/development/admin_mis/src/php/fetchDonations.php?sort=${sort}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok: ' + response.statusText);
-            }
-            return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
-            if (data.error) {
-                console.error(data.error);
-                displayNoDataMessage();
-            } else {
-                console.log('Fetched donations:', data); // Debug: Check the response
+            const tableBody = document.getElementById('donations-table').querySelector('tbody');
+            tableBody.innerHTML = ''; // Clear existing rows before appending
+            if (data.length) {
                 populateTable(data);
+            } else {
+                displayNoDataMessage();
             }
         })
         .catch(error => {
@@ -49,6 +55,24 @@ function fetchDonations(sort = 'newest') {
             displayNoDataMessage();
         });
 }
+
+// Placeholder functions for display and table population
+function displayErrorMessages() {
+    console.error("Display error messages called");
+}
+
+function populateTotalDonationData(data) {
+    console.log("Populate total donation data:", data);
+}
+
+function populateTable(data) {
+    console.log("Populate table with data:", data);
+}
+
+function displayNoDataMessage() {
+    console.log("No data to display");
+}
+
 
 function populateTable(donations) {
     const tableBody = document.getElementById('donations-table').querySelector('tbody');

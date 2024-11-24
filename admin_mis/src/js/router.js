@@ -12,20 +12,27 @@ document.addEventListener("DOMContentLoaded", () => {
             window.cleanup(); // Call the page's cleanup function
             window.cleanup = null; // Reset cleanup for the next page
         }
-
+    
         fetch(`src/views/${page}.html`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error(
-                        `Error loading page: ${response.statusText} (status code: ${response.status})`,
+                        `Error loading page: ${response.statusText} (status code: ${response.status})`
                     );
                 }
                 return response.text();
             })
             .then((html) => {
                 content.innerHTML = html;
+    
+                // Verify if the content element exists in the DOM
+                if (!content) {
+                    console.error("Error: 'content' element is missing in the DOM.");
+                    return;
+                }
+    
                 updateActiveTab(page);
-
+    
                 unloadScript(); // Remove the previous page script
                 loadScript(page);
             })
@@ -34,23 +41,23 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.error("Content Load Error:", error);
             });
     }
- 
+    
     function loadScript(page) {
         const script = document.createElement("script");
         script.src = `src/js/${page}.js`;
         script.onload = () => {
             console.log(`${page}.js loaded successfully`);
-
-            // Call the page-specific initialization if it exists
+    
+            // Safely call page-specific initialization
             if (typeof init === "function") {
                 init();
             }
-
+    
             // Check if the current page requires floorplans
             if (page === "floorplans" && typeof fetchAndDisplayFloorplans === "function") {
                 fetchAndDisplayFloorplans();
             }
-
+    
             // Optionally store cleanup functions for the page
             if (typeof cleanup === "function") {
                 cleanupFunctions[page] = cleanup;
@@ -59,10 +66,43 @@ document.addEventListener("DOMContentLoaded", () => {
         script.onerror = () => {
             console.error(`Failed to load ${page}.js`);
         };
- 
+    
         document.body.appendChild(script);
         currentScript = script; // Keep track of the current script
     }
+    
+    function displayError(targetId, errorMessage) {
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+            targetElement.innerText = errorMessage;
+        } else {
+            console.error(`Error: Target element with ID '${targetId}' not found.`);
+        }
+    }
+    
+    // Example usage in page-specific logic
+    function populateTotalAppointmentData() {
+        try {
+            const totalAppointmentsElement = document.getElementById("total-appointments");
+            if (!totalAppointmentsElement) {
+                throw new Error("Total appointments element not found.");
+            }
+            totalAppointmentsElement.innerText = "42"; // Example value
+        } catch (error) {
+            console.error("Error fetching total appointments:", error);
+            displayError("error-message", "Failed to load total appointments data.");
+        }
+    }
+    
+    function displayAppointmentErrorMessages(message) {
+        const errorContainer = document.getElementById("appointment-error");
+        if (errorContainer) {
+            errorContainer.innerText = message;
+        } else {
+            console.error("Error: Appointment error container not found.");
+        }
+    }
+    
 
     function unloadScript() {
         if (currentScript) {
