@@ -221,6 +221,42 @@ function updateActive(uniqueId) {
     .catch(error => console.error('Error:', error));
 }
 
+function closeModal() {
+  const modalOverlay = document.getElementById("modal-overlay");
+  modalOverlay.classList.add("hidden");
+}
+
+// Preview modal setup
+function setupPreviewModal() {
+  const previewModalHtml = `
+    <div id="preview-modal-overlay" class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center hidden z-50">
+      <div id="preview-modal" class="bg-white rounded-lg shadow-lg w-4/5 h-4/5 relative p-4 flex flex-col">
+        <button id="close-preview" class="absolute top-2 right-2 bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Close</button>
+        <img id="preview-image" src="" alt="Preview" class="w-full h-full object-contain">
+      </div>
+    </div>
+  `;
+  document.body.insertAdjacentHTML("beforeend", previewModalHtml);
+
+  const closePreviewButton = document.getElementById("close-preview");
+  closePreviewButton.addEventListener("click", closePreviewModal);
+}
+
+function openPreviewModal(imageSrc, title) {
+  const previewOverlay = document.getElementById("preview-modal-overlay");
+  const previewImage = document.getElementById("preview-image");
+
+  previewImage.src = imageSrc;
+  previewImage.alt = title;
+
+  previewOverlay.classList.remove("hidden");
+}
+
+function closePreviewModal() {
+  const previewOverlay = document.getElementById("preview-modal-overlay");
+  previewOverlay.classList.add("hidden");
+}
+
 
 
 // Modal setup and handling
