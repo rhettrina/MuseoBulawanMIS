@@ -16,7 +16,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    die(json_encode(['success' => false, 'message' => 'Database connection failed: ' . $conn->connect_error]));
 }
 
 // Check if the form was submitted
@@ -40,48 +40,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $additionalInfo = $conn->real_escape_string($_POST['additionalInfo']);
     $narrative = $conn->real_escape_string($_POST['narrative']);
     
-    // File upload configuration
-    $allowed_exs = array("jpg", "jpeg", "png", "docx");
-    $upload_dir = __DIR__ . '/../../admin_mis/src/uploads/artifacts/';
-    $uploaded_files = [];
+    // Initialize variables for artifact image upload
+    $art_img_upload_path = '';
+    $allowed_exs = ["jpg", "jpeg", "png", "docx"];
 
-    // Function to handle file uploads
-    function handleFileUpload($file_key, $upload_dir, $allowed_exs) {
-        if (!empty($_FILES[$file_key]['name'])) {
-            $file_name = $_FILES[$file_key]['name'];
-            $file_size = $_FILES[$file_key]['size'];
-            $tmp_name = $_FILES[$file_key]['tmp_name'];
-            $file_error = $_FILES[$file_key]['error'];
+    // Handle artifact image upload if provided
+    if (!empty($_FILES['artifact_img']['name'])) {
+        $art_img_name = $_FILES['artifact_img']['name'];
+        $art_img_size = $_FILES['artifact_img']['size'];
+        $art_tmp_name = $_FILES['artifact_img']['tmp_name'];
+        $art_error = $_FILES['artifact_img']['error'];
 
-            if ($file_error === 0) {
-                if ($file_size > 12500000) {
-                    die("Error: File {$file_key} is too large.");
-                } else {
-                    $file_ext_lc = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
-                    if (in_array($file_ext_lc, $allowed_exs)) {
-                        $new_file_name = uniqid("FILE-", true) . '.' . $file_ext_lc;
-                        $file_upload_path = $upload_dir . $new_file_name;
+        if ($art_error === 0) {
+            if ($art_img_size > 12500000) {
+                die(json_encode(['success' => false, 'message' => 'Artifact image is too large.']));
+            }
 
-                        if (move_uploaded_file($tmp_name, $file_upload_path)) {
-                            return $file_upload_path; // Return the uploaded file path
-                        } else {
-                            die("Failed to upload file {$file_key}.");
-                        }
-                    } else {
-                        die("Error: Invalid file type for {$file_key}.");
-                    }
+            $art_img_ex_lc = strtolower(pathinfo($art_img_name, PATHINFO_EXTENSION));
+            if (in_array($art_img_ex_lc, $allowed_exs)) {
+                $new_art_img_name = uniqid("IMG-", true) . '.' . $art_img_ex_lc;
+                $upload_dir = __DIR__ . '/../../admin_mis/src/uploads/artifacts/';
+
+                if (!is_dir($upload_dir)) {
+                    die(json_encode(['success' => false, 'message' => 'Upload directory does not exist.']));
+                }
+
+                if (!is_writable($upload_dir)) {
+                    die(json_encode(['success' => false, 'message' => 'Upload directory is not writable.']));
+                }
+
+                $art_img_upload_path = $upload_dir . $new_art_img_name;
+
+                if (!move_uploaded_file($art_tmp_name, $art_img_upload_path)) {
+                    die(json_encode(['success' => false, 'message' => 'Failed to upload artifact image.']));
                 }
             } else {
-                die("Error: File upload error for {$file_key}.");
+                die(json_encode(['success' => false, 'message' => 'Invalid artifact image type.']));
             }
+        } else {
+            die(json_encode(['success' => false, 'message' => 'Artifact image upload error.']));
         }
-        return null; // Return null if no file was uploaded
-    }
-
-    // List of files to handle
-    $file_keys = ['artifact_img', 'another_file', 'more_files']; // Add more file input names as needed
-    foreach ($file_keys as $file_key) {
-        $uploaded_files[$file_key] = handleFileUpload($file_key, $upload_dir, $allowed_exs);
     }
 
     // Insert query for the Donator table
@@ -90,11 +88,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt = $conn->prepare($sql_donatorTB);
     $stmt->bind_param("ssssssssiss", $firstName, $lastName, $email, $phone, $province, $street, $barangay, $organization, $age, $sex, $city);
 
-    // Execute the insert query for Donator
     if ($stmt->execute()) {
-        $donatorID = $conn->insert_id;  // Get the inserted ID directly
+        $donatorID = $conn->insert_id; // Get the inserted ID directly
     } else {
-        die("Error inserting donator: " . $stmt->error);
+        die(json_encode(['success' => false, 'message' => 'Error inserting donator: ' . $stmt->error]));
     }
 
     // Insert query for the Donation table
@@ -102,24 +99,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt = $conn->prepare($abt_art);
     $stmt->bind_param("iss", $donatorID, $artifactTitle, $artifactDescription);
 
-    // Execute the query for the Donation table
     if (!$stmt->execute()) {
-        die("Error inserting donation: " . $stmt->error);
+        die(json_encode(['success' => false, 'message' => 'Error inserting donation: ' . $stmt->error]));
     }
 
     // Insert query for the Artifact table
     $artifactType = "Donation";
-    $artifact_img_path = $uploaded_files['artifact_img'] ?? null; // Use uploaded artifact image path
-    $query = $conn->prepare("INSERT INTO `Artifact`(`artifact_typeID`, `donatorID`, `artifact_description`, `artifact_nameID`, `acquisition`, `additional_info`, `narrative`, `artifact_img`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-    $query->bind_param('sissssss', $artifactType, $donatorID, $artifactDescription, $artifactTitle, $acquisition, $additionalInfo, $narrative, $artifact_img_path);
+    $query = $conn->prepare("INSERT INTO `Artifact`(`artifact_typeID`, `donatorID`, `artifact_description`, `artifact_nameID`, `acquisition`, `additional_info`, `narrative`, `artifact_img`) 
+                             VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $query->bind_param('sissssss', $artifactType, $donatorID, $artifactDescription, $artifactTitle, $acquisition, $additionalInfo, $narrative, $art_img_upload_path);
 
-    // Execute the query for the Artifact table
     if (!$query->execute()) {
-        die("Error inserting artifact: " . $query->error);
+        die(json_encode(['success' => false, 'message' => 'Error inserting artifact: ' . $query->error]));
     }
 
-    echo json_encode(['success' => true]);
-    header("Location: donateindex.html?success=true");
+    // Success response
+    echo json_encode(['success' => true, 'message' => 'Data submitted successfully.']);
+    exit;
 }
 
 // Close the connection
