@@ -156,10 +156,17 @@ function handleAction(action, donation) {
             break;
         case 'edit':
             console.log(`Edit donation with ID: ${donation.donID}`);
-            
-            // Determine form type dynamically (assuming donation.formType exists)
-            const formType = donation.formType || 'Donation'; // Default to 'Donation'
-            
+
+            // Check and determine the form type based on the artifact type
+            let formType;
+            if (donation.artifact_typeID === 'Lending') {
+                formType = 'Lending';
+            } else {
+                formType = donation.formType || 'Donation'; // Default to 'Donation' if no form type is set
+            }
+
+            console.log(`Form type determined: ${formType}`);
+
             // Open the edit modal
             openFormModal(donation.donID, formType);
 
