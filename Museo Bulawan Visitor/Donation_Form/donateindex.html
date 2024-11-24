@@ -33,29 +33,34 @@
 
 
 <body>
-    <div class="wrapper">
-        <div id="container1">
-            <nav class="navbar navbar-expand-lg navbar-dark me-3">
-                <p id="open">Open Daily 9:00am-5:00pm, Monday- Friday, Close During Holidays</p>
-
+    <div class="stickycon">
+        <div id="stickyNav" class="container-fluid sticky-top">
+            <nav class="navbar navbar-expand-lg navbar-dark p-1">
+                <p id="texttime" class="my-auto ms-lg-5 ms-sm-1 ms-md-3">
+                    Open Daily 9:00am-5:00pm, Monday-Friday, Close During Holidays
+                </p>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#morebtn"
                     aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="fa-solid fa-caret-down"></span>
                 </button>
-
                 <div class="collapse navbar-collapse" id="morebtn">
-
-
-
-                    <ul class="navbar-nav ms-auto px-4">
-                        <li class="nav-item">
-                            <a class="nav-link" href="">About Us</a>
+                    <ul id="navLinks" class="navbar-nav ms-auto me-lg-5 me-sm-1 me-md-3">
+                        <li class="navupper nav-item">
+                            <a class="nav-link" href="../Home/index.html">Home</a>
                         </li>
-                        <li class="nav-item"></li>
-                        <a class="nav-link" href="">Visit Us</a>
+                        <li class="navupper nav-item">
+                            <a class="nav-link" href="../News and Events/naeindex.html">News and Events</a>
                         </li>
-                        <li class="nav-item"></li>
-                        <a class="nav-link" href="">Log In</a>
+                        <li class="navupper nav-item">
+                            <a class="nav-link" href="../museum_mapguide/index.html">Museum Map</a>
+                        </li>
+                        <li class="navupper nav-item">
+                            <a class="nav-link" href="../About Us/about.html">About Us</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ms-lg-3">
+                        <li class="navupper nav-item">
+                            <a id="loginLink" class="nav-link" href="../admin_login/login.html">Log In</a>
                         </li>
                     </ul>
                 </div>
@@ -75,29 +80,29 @@
                     aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="burgerbtn">
+                <div class="collapse navbar-collapse justify-content-end" id="burgerbtn">
 
 
 
                     <ul class="hovering navbar-nav fs-5 gap-3">
                         <li class="nav-item">
-                            <a class="nav-link" href="">Home</a>
+                            <a class="nav-link" href="../Home/index.html">Home</a>
+
+                        </li>
+                       
+                        <li class="nav-item">
+                            <a class="nav-link" href="../News and Events/naeindex.html">News and Events</a>
 
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">Collections</a>
+                            <a class="nav-link" href="../museum_mapguide/index.html">Museum Map</a>
 
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">News and Events</a>
-
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="">About Us</a>
+                            <a class="nav-link" href="../About Us/about.html">About Us</a>
 
                         </li>
                     </ul>
-                    <button class="btn ms-auto"><img src="../source/search.png" alt="" id="searchbtn"></button>
                 </div>
 
 
@@ -326,23 +331,9 @@
 </div>
 
 
-    <div class="wrapper">
+    <div class="wrapper pt-4">
 
-        <div class="lowercontainer ms-5 pt-4">
-            <div class="row d-flex">
-                <div class="col-12">
-                    <ul class="nav-links">
-                        <li><a class="text-decoration-none" href="">Home</a></li>
-                        <div class="vr border border-1 border-light opacity-100" style="height: 40px;"></div>
-                        <li><a class="text-decoration-none" href="">Collections</a></li>
-                        <div class="vr border border-1 border-light opacity-100" style="height: 40px;"></div>
-                        <li><a class="text-decoration-none" href="">News & Events</a></li>
-                        <div class="vr border border-1 border-light opacity-100" style="height: 40px;"></div>
-                        <li><a class="text-decoration-none" href="">About Us</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+        
 
 
 
@@ -362,7 +353,7 @@
                         <p class="me-3">We gratefully accept donations or just lending of your artifact will greatly
                             help us.
                         </p>
-                        <button type="button" class="btn btn-light btn-lg">Support Us</button>
+                        <a href="../Support Page/support.html" class="btn btn-light btn-lg" role="button">Support Us</a>
                     </div>
                 </div>
 
@@ -370,19 +361,17 @@
                     <nav class="navbar">
                         <ul class="navbar-nav text-start navbar-dark">
                             <li class="nav-item">
-                                <a class="nav-link" href=""><b>Visit Us</b></a>
+                                <a class="nav-link" href="../Appointment Form/appointindex.html"><b>Visit Us</b></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="">About Us</a>
+                                <a class="nav-link" href="../About Us/about.html">About Us</a>
+                            </li>
+                
+                            <li class="nav-item">
+                                <a class="nav-link" href="../About Us/about.html">Contact Us</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="">Book a Tour</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="">Contact Us</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="">Map View</a>
+                                <a class="nav-link" href="../museum_mapguide/index.html">Map View</a>
                             </li>
                         </ul>
                     </nav>

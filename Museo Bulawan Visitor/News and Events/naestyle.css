@@ -232,3 +232,176 @@ body {
 }
 
 
+@media only screen and (min-width: 1024px) {}
+
+/* Media Query for Tablets */
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+
+
+    #texttime {
+        font-size: 15px;
+    }
+
+    .fp-info h2 {
+        font-size: 2.5em;
+    }
+
+    .fp-info h1 {
+        font-size: 3.5em;
+    }
+
+    #learn-button, #book-button {
+        font-size: 2vw; /* Adjust font size for better visibility on tablets */
+        width: 9em; /* Smaller width for tablet screens */
+        min-height: 4em; /* Adjusting the height to make the button smaller */
+        margin: 5px; /* Smaller margin for compact layout on tablets */
+    }
+
+    .details {
+        margin-top: 10px;
+        font-size: 1.2em;
+        color: #ffffff;
+    }
+
+    .top-about h4{
+        font-size: 1.3em;
+    }
+
+    .top-about h1 {
+        font-size: 1.7em;
+    }
+
+    .top-about h3 {
+        font-size: 1.4em;
+    }
+
+    .top-about h5 {
+        font-size: .9em;
+    }
+
+    .top-about ul li {
+        font-size: .7em;
+    }
+}
+
+
+
+/* Media Query for Mobile Devices */
+@media only screen and (max-width: 767px) {
+    .body {
+        padding: 3em;
+    }
+
+    #texttime {
+        font-size: 10px;
+    }
+
+    .fp-info h2 {
+        font-size: 3em;
+    }
+
+    .fp-info h1 {
+        font-size: 5em;
+    }
+
+    #learn-button, #book-button {
+        font-size: 3.5vw;
+        width: 90vw;
+        min-height: 18vw;
+        margin: 10px; /* Consistent margin for mobile to avoid clutter */
+    }
+
+    .details {
+        margin-top: 10px;
+        font-size: .9em;
+        color: #ffffff;
+    }
+
+
+    .socials-left  .socials-right{
+       margin: 12;
+    }
+
+
+
+    
+}
+
+.hero-image {
+    background-image: url('your-image.jpg'); /* Replace with your image path */
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    position: relative;
+}
+
+.search-bar {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%; /* Adjusted for responsiveness */
+    max-width: 1200px;
+}
+
+.search-bar input,
+.search-bar select {
+    border-radius: 0;
+    height: calc(2.5rem + 2px);
+}
+
+.search-bar .btn {
+    border-radius: 0;
+    height: calc(2.5rem + 2px);
+}
+
+@media (max-width: 768px) {
+    .hero-image {
+        height: 70vh; /* Adjust height for smaller screens */
+    }
+}
+
+.searchcontainer img {
+    max-width: 100%;
+    width: 200em;
+    height: 20rem;
+    object-fit: cover;
+    object-position: 10% 20%;
+    filter: blur(2px) grayscale(50%) opacity(80%);
+    display: block;
+}
+
+#stickyNav {
+    position: sticky;
+    top: 0;
+    background-color: transparent; /* Transparent background */
+    transition: background-color 0.5s ease; /* Smooth transition for background */
+    z-index: 1000;
+}
+
+#navLinks {
+    opacity: 0; /* Hide links initially */
+    transition: opacity 0.5s ease; /* Smooth fade-in animation for links */
+}
+
+#stickyNav.scrolled {
+    background-color: rgba(28, 27, 25, 1); /* Opaque background */
+}
+
+#stickyNav.scrolled #navLinks {
+    opacity: 1; /* Show links */
+}
+
+/* Ensure the login link is always visible */
+#stickyNav.always-visible a[href="../admin_login/login.html"] {
+    opacity: 1 !important;
+}
+
+.stickycon {
+    position: fixed;
+    width: 100%;
+    height: 48px;
+    top: 0;
+    left: 0;
+    z-index: 20;
+}
