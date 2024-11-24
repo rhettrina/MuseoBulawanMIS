@@ -1,12 +1,17 @@
 <?php
 session_start();
 
+// Check if POST data is set
+if (!isset($_POST['username']) || !isset($_POST['password'])) {
+    header("Location: login.html?error=1");
+    exit();
+}
+
 // Get user input from the POST request
 $username = $_POST['username'];
 $password = $_POST['password'];
 
 include 'db_connect.php';
-
 
 // Prepare the SQL statement to retrieve the user with matching credentials
 $stmt = $connextion->prepare("SELECT * FROM credentials WHERE username = ? AND password = ?");
@@ -20,14 +25,14 @@ $result = $stmt->get_result();
 
 // Check if a matching record was found
 if ($result->num_rows > 0) {
-    // Save username to the session and redirect to dashboard
+    // Save username to the session and redirect to the dashboard
     $_SESSION['username'] = $username;
-
 
     $stmt->close();
     $connextion->close();
 
-    header("Location: dashboard.html");
+    // Redirect to the dashboard
+    header("Location: https://lightpink-dogfish-795437.hostingersite.com/admin_mis/index.html");
     exit();
 } else {
     // Close the statement and connection before redirecting
