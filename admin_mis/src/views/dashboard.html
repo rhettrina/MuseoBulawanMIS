@@ -9,6 +9,18 @@
         <div class="basis-[57%] shadow-[0px_4px_6px_rgba(0,0,0,0.5)] min-w-[325px]] h-[270px] bg-white rounded-lg">
           <!-- Expected Visitors -->
            <h2 class="m-2 font-bold">Expected Visitor</h2>
+           <div class="flex justify-center items-center 2-full">
+            <div class="relative">
+              <canvas id="visitorChart" width="200" height="200"></canvas>
+              <div class="absolute inset-0 flex justify-center items-center">
+                <div class="text-center">
+                  <p class="text-4xl font-bold text-brown-700">50%</p>
+                  <p class="text-md text-brown-500">Present Visitors</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
         </div>
 
         <div class="basis-[40%]  w-full min-h-[270px] flex flex-col justify-between">
@@ -23,10 +35,13 @@
           </div>
         </div>
       </div>
-      <div class="basis-[52%] shadow-[0px_4px_6px_rgba(0,0,0,0.5)] bg-[#524433] min-w-[608px] h-[270px] rounded-lg flex flex-col">
+      <div class="basis-[52%] shadow-[0px_4px_6px_rgba(0,0,0,0.5)] bg-[#524433] w-[608px] h-[270px] rounded-lg flex flex-col">
         <h1 class="text-lg mt-4 mb-2 ml-2 text-white font-bold">Appointment Rate</h1>
-        <div class=" rounded-2xl m-3 h-[190px] bg-white">
-
+        <div class="rounded-2xl p-2 m-3 h-[190px] bg-white">
+          <div class="w-full h-full bg-white rounded-lg shadow-md">
+            <!-- Monthly Bar Chart -->
+            <canvas id="monthlyChart" class="w-full h-full"></canvas>
+          </div>
         </div>
       </div>
 
@@ -39,7 +54,7 @@
     
     <div class="p-2 w-full min-h-72 mt-4  rounded-md  flex flex-col lg:flex-row md:flex-row justify-center md:justify-between lg:justify-between gap-y-2">
       <div class="basis-[52%] w-full min-h-[270px] bg-[#624b29] rounded-lg shadow-[0px_4px_6px_rgba(0,0,0,0.5)] flex flex-col justify-between">
-        <div class="basis-[44.70%]  h-full ml-4 mr-4 mt-6 flex">
+        <div class="basis-[44.70%]   h-full ml-4 mr-4 mt-6 flex">
           <div class="basis-[45%] rounded-lg  h-full"> 
             <h1 class="text-2xl mt-4 mb-2 ml-4  h-[120px] text-white font-bold">Appointments</h1>
 
@@ -93,14 +108,3 @@
 </div>
 
 
-<div class="flex justify-center items-center h-screen">
-  <div class="relative">
-    <canvas id="visitorChart" width="200" height="200"></canvas>
-    <div class="absolute inset-0 flex justify-center items-center">
-      <div class="text-center">
-        <p class="text-4xl font-bold text-brown-700">80%</p>
-        <p class="text-md text-brown-500">Present Visitors</p>
-      </div>
-    </div>
-  </div>
-</div>
