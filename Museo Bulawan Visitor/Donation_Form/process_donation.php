@@ -59,8 +59,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if (in_array($art_img_ex_lc, $allowed_exs)) {
                     $new_art_img_name = uniqid("IMG-", true) . '.' . $art_img_ex_lc;
 
-                    // Adjust the upload path to use relative directory
-                    $upload_dir = __DIR__ . '/../admin_mis/src/uploads/artifacts/';
+                    // Adjust the upload path to the correct directory
+                    $upload_dir = __DIR__ . '/../../admin_mis/src/uploads/artifacts/';
                     
                     // Debugging: Check if the directory exists
                     if (!is_dir($upload_dir)) {
