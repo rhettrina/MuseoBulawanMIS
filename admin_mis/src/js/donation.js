@@ -11,7 +11,7 @@
     }
 
     window.artifactPage = { init, cleanup };
-})();
+
 
 
 // Fetch total donation statistics
@@ -525,7 +525,4 @@ const calculateDuration = (startDate, endDate) => {
     }
 }
 
-
-
-  
-init();  // Initialize everything when the script runs
+})();
