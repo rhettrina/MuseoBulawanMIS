@@ -169,6 +169,85 @@ function handleAction(action, data) {
     }
 }
 
+
+function handleAppointmentAction(action, data) {
+    switch (action) {
+        case 'approve':
+            approveAppointment(data)
+                .then(() => {
+                    console.log(`Appointment with ID ${data.id} approved.`);
+                    alert('Appointment approved successfully.');
+                    init(); // Refresh the data/display
+                })
+                .catch(error => {
+                    console.error('Error approving appointment:', error);
+                    alert('An error occurred while approving the appointment.');
+                });
+            break;
+
+        case 'reject':
+            rejectAppointment(data)
+                .then(() => {
+                    console.log(`Appointment with ID ${data.id} rejected.`);
+                    alert('Appointment rejected successfully.');
+                    init(); // Refresh the data/display
+                })
+                .catch(error => {
+                    console.error('Error rejecting appointment:', error);
+                    alert('An error occurred while rejecting the appointment.');
+                });
+            break;
+
+        default:
+            console.error('Unknown action:', action);
+    }
+}
+
+// Mock implementations of approve/reject logic
+function approveAppointment(data) {
+    return new Promise((resolve, reject) => {
+        // Simulate a backend API call for approval
+        setTimeout(() => {
+            console.log('Simulated backend approval for:', data);
+            resolve(); // Call resolve to simulate success
+        }, 500);
+    });
+}
+
+function rejectAppointment(data) {
+    return new Promise((resolve, reject) => {
+        // Simulate a backend API call for rejection
+        setTimeout(() => {
+            console.log('Simulated backend rejection for:', data);
+            resolve(); // Call resolve to simulate success
+        }, 500);
+    });
+}
+
+// Example usage:
+document.getElementById('approve-appointment-btn').addEventListener('click', () => {
+    const appointmentData = getAppointmentDataFromModal(); // Replace with your method to fetch current appointment data
+    handleAppointmentAction('approve', appointmentData);
+});
+
+document.getElementById('reject-appointment-btn').addEventListener('click', () => {
+    const appointmentData = getAppointmentDataFromModal(); // Replace with your method to fetch current appointment data
+    handleAppointmentAction('reject', appointmentData);
+});
+
+// Mock function to retrieve data from the modal
+function getAppointmentDataFromModal() {
+    return {
+        id: 123, // Example appointment ID
+        name: document.getElementById('appointment-name').innerText,
+        email: document.getElementById('appointment-email').innerText,
+        phone: document.getElementById('appointment-phone').innerText,
+        // Add additional fields as necessary
+    };
+}
+
+
+
 // Function to display a message when no data is available
 function displayNoDataMessage() {
     const tableBody = document.querySelector('tbody');
