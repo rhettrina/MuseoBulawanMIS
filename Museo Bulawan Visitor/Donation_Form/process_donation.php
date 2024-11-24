@@ -16,34 +16,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection
 if ($conn->connect_error) {
-    die(json_encode(['success' => false, 'message' => 'Database connection failed: ' . $conn->connect_error]));
-}
-
-// Function to handle single or multiple file uploads
-function uploadFiles($files, $uploadDir, $allowedExtensions) {
-    $uploadedPaths = [];
-    if (!isset($files['name'])) {
-        return $uploadedPaths; // Return empty array if no files provided
-    }
-
-    foreach ($files['name'] as $index => $name) {
-        if (!empty($name) && $files['error'][$index] === 0) {
-            $fileExt = strtolower(pathinfo($name, PATHINFO_EXTENSION));
-            if (in_array($fileExt, $allowedExtensions)) {
-                $newFileName = uniqid("FILE-", true) . '.' . $fileExt;
-                $fileUploadPath = $uploadDir . $newFileName;
-
-                if (!is_dir($uploadDir)) {
-                    mkdir($uploadDir, 0777, true); // Create directory if it doesn't exist
-                }
-
-                if (move_uploaded_file($files['tmp_name'][$index], $fileUploadPath)) {
-                    $uploadedPaths[] = $fileUploadPath;
-                }
-            }
-        }
-    }
-    return $uploadedPaths;
+    die("Connection failed: " . $conn->connect_error);
 }
 
 // Check if the form was submitted
@@ -67,53 +40,97 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $additionalInfo = $conn->real_escape_string($_POST['additionalInfo']);
     $narrative = $conn->real_escape_string($_POST['narrative']);
     
-    // Define upload directories and allowed extensions
-    $uploadDir = __DIR__ . '/../../admin_mis/src/uploads/artifacts/';
-    $allowedExtensions = ["jpg", "jpeg", "png", "pdf", "docx", "xlsx", "txt"];
+    // File upload configuration
+    $allowed_exs = array("jpg", "jpeg", "png", "docx");
+    $upload_dir = __DIR__ . '/../../admin_mis/src/uploads/artifacts/';
+    $uploaded_files = [];
 
-    // Handle file uploads
-    $artifactImages = isset($_FILES['artifact_img']) ? uploadFiles($_FILES['artifact_img'], $uploadDir, $allowedExtensions) : [];
-    $documentationFiles = isset($_FILES['documentation']) ? uploadFiles($_FILES['documentation'], $uploadDir, $allowedExtensions) : [];
-    $relatedImages = isset($_FILES['related_img']) ? uploadFiles($_FILES['related_img'], $uploadDir, $allowedExtensions) : [];
+    // Function to handle file uploads
+    function handleFileUpload($file_key, $upload_dir, $allowed_exs) {
+        if (!empty($_FILES[$file_key]['name'])) {
+            $file_name = $_FILES[$file_key]['name'];
+            $file_size = $_FILES[$file_key]['size'];
+            $tmp_name = $_FILES[$file_key]['tmp_name'];
+            $file_error = $_FILES[$file_key]['error'];
 
-    // Convert file paths to JSON strings for database storage
-    $artifactImagesJson = json_encode($artifactImages);
-    $documentationFilesJson = json_encode($documentationFiles);
-    $relatedImagesJson = json_encode($relatedImages);
+            if ($file_error === 0) {
+                if ($file_size > 12500000) {
+                    die("Error: File {$file_key} is too large.");
+                } else {
+                    $file_ext_lc = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+                    if (in_array($file_ext_lc, $allowed_exs)) {
+                        $new_file_name = uniqid("FILE-", true) . '.' . $file_ext_lc;
+                        $file_upload_path = $upload_dir . $new_file_name;
 
-    // Insert data into Donator table
+                        if (move_uploaded_file($tmp_name, $file_upload_path)) {
+                            return $file_upload_path; // Return the uploaded file path
+                        } else {
+                            die("Failed to upload file {$file_key}.");
+                        }
+                    } else {
+                        die("Error: Invalid file type for {$file_key}.");
+                    }
+                }
+            } else {
+                die("Error: File upload error for {$file_key}.");
+            }
+        }
+        return null; // Return null if no file was uploaded
+    }
+
+    // List of files to handle
+    $file_keys = ['artifact_img', 'documentation_img', 'related_img'];
+    foreach ($file_keys as $file_key) {
+        $uploaded_files[$file_key] = handleFileUpload($file_key, $upload_dir, $allowed_exs);
+    }
+
+    // Insert query for the Donator table
     $sql_donatorTB = "INSERT INTO `Donator`(`first_name`, `last_name`, `email`, `phone`, `province`, `street`, `barangay`, `organization`, `age`, `sex`, `city`) 
                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql_donatorTB);
+    if (!$stmt) {
+        die("Prepare failed for Donator: " . $conn->error);
+    }
     $stmt->bind_param("ssssssssiss", $firstName, $lastName, $email, $phone, $province, $street, $barangay, $organization, $age, $sex, $city);
 
     if ($stmt->execute()) {
-        $donatorID = $conn->insert_id; // Get the inserted ID directly
+        $donatorID = $conn->insert_id;  // Get the inserted ID directly
     } else {
-        die(json_encode(['success' => false, 'message' => 'Error inserting donator: ' . $stmt->error]));
+        die("Error inserting donator: " . $stmt->error);
     }
 
-    // Insert data into Donation table
-    $abt_art = "INSERT INTO `Donation`(`donatorID`, `artifact_nameID`, `artifact_description`) VALUES (?, ?, ?)";
+    // Insert query for the Donation table
+    $abt_art = "INSERT INTO `Donation`(`donatorID`, `artifact_nameID`, `artifact_description`, `submission_date`) 
+                VALUES (?, ?, ?, NOW())";
+    echo "Preparing the query for Donation table...\n";
     $stmt = $conn->prepare($abt_art);
+    if (!$stmt) {
+        die("Prepare failed for Donation table: " . $conn->error);
+    }
     $stmt->bind_param("iss", $donatorID, $artifactTitle, $artifactDescription);
-
     if (!$stmt->execute()) {
-        die(json_encode(['success' => false, 'message' => 'Error inserting donation: ' . $stmt->error]));
+        die("Error inserting donation: " . $stmt->error);
     }
 
-    // Insert data into Artifact table
+    // Insert query for the Artifact table
     $artifactType = "Donation";
-    $query = $conn->prepare("INSERT INTO `Artifact`(`artifact_typeID`, `submission_date`, `donatorID`, `artifact_description`, `artifact_nameID`, `acquisition`, `additional_info`, `narrative`, `artifact_img`, `documentation`, `related_img`, `status`, `transfer_status`, `updated_date`, `display_status`) 
-                             VALUES (?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'To Review', 'Pending', NULL, 'true')");
-    $query->bind_param('sissssssss', $artifactType, $donatorID, $artifactDescription, $artifactTitle, $acquisition, $additionalInfo, $narrative, $artifactImagesJson, $documentationFilesJson, $relatedImagesJson);
+    $artifact_img_path = $uploaded_files['artifact_img'] ?? null;
+    $documentation_img_path = $uploaded_files['documentation_img'] ?? null;
+    $related_img_path = $uploaded_files['related_img'] ?? null;
+
+    $query = $conn->prepare("INSERT INTO `Artifact`(`artifact_typeID`, `donatorID`, `artifact_description`, `artifact_nameID`, `acquisition`, `additional_info`, `narrative`, `artifact_img`, `documentation_img`, `related_img`, `submission_date`, `updated_date`) 
+                             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())");
+    if (!$query) {
+        die("Prepare failed for Artifact table: " . $conn->error);
+    }
+    $query->bind_param('sissssssss', $artifactType, $donatorID, $artifactDescription, $artifactTitle, $acquisition, $additionalInfo, $narrative, $artifact_img_path, $documentation_img_path, $related_img_path);
 
     if (!$query->execute()) {
-        die(json_encode(['success' => false, 'message' => 'Error inserting artifact: ' . $query->error]));
+        die("Error inserting artifact: " . $query->error);
     }
 
-    // Success response
-    echo json_encode(['success' => true, 'message' => 'Data submitted successfully.']);
+    echo json_encode(['success' => true]);
+    header("Location: donateindex.html?success=true");
 }
 
 // Close the connection
