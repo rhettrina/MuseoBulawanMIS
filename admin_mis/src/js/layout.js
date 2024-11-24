@@ -144,6 +144,7 @@ function handleFunctions(action, payload) {
     case "set":
       openModal(`Are you sure you want to set layout "${name}" as active?`, () => {
         toggleActiveStatus(activeStatus);
+        updateActive(id);
       });
       break;
 
@@ -272,6 +273,31 @@ function closePreviewModal() {
   const previewOverlay = document.getElementById("preview-modal-overlay");
   previewOverlay.classList.add("hidden");
 }
+
+
+
+function updateActive(uniqueId) {
+  fetch('https://museobulawan.online/development/admin_mis/src/php/update_active.php', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ unique_id: uniqueId }),
+  })
+      .then(response => response.json())
+      .then(data => {
+          if (data.success) {
+              console.log(data.message);
+          } else {
+              console.error(data.message);
+          }
+      })
+      .catch(error => console.error('Error:', error));
+}
+
+// Call the function with the unique_id
+updateActive('12345'); // Replace '12345' with the actual unique_id
+
 
 // Initialize the application when the page loads
 window.onload = init;
