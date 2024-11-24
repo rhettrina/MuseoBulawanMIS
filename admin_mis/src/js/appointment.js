@@ -123,7 +123,7 @@ function populateTable(appointments) {
         const deleteButton = document.createElement('button');
         deleteButton.classList.add('bg-transparent', 'text-black', 'p-2', 'rounded', 'hover:bg-orange-300');
         deleteButton.innerHTML = `<i class="fas fa-trash"></i>`;
-        deleteButton.addEventListener('click', () => handleAction('delete', appointment.id));
+        deleteButton.addEventListener('click', () => handleAction('delete', appointment.fkID));
 
         actionCell.appendChild(editButton);
         actionCell.appendChild(deleteButton);
@@ -330,8 +330,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-function deleteAppointment(appointmentId) {
-    return fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/phpdeleteAppointments.php?id=${appointmentId}`, {
+function deleteAppointment(fkID) {
+    return fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/deleteAppointments.php?id=${fkID}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
