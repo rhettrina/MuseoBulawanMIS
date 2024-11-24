@@ -1,21 +1,35 @@
 <?php
 session_start();
 
-// Check if POST data is set
-if (!isset($_POST['username']) || !isset($_POST['password'])) {
-    header("Location: login.html?error=1");
+// Set the header to return JSON data
+header('Content-Type: application/json');
+
+// Get the raw POST data
+$rawData = file_get_contents("php://input");
+$data = json_decode($rawData, true);
+
+// Check if data is valid JSON
+if (!is_array($data)) {
+    echo json_encode(['success' => false, 'message' => 'Invalid input data.']);
     exit();
 }
 
-// Get user input from the POST request
-$username = $_POST['username'];
-$password = $_POST['password'];
+// Get username and password from the received data
+$username = isset($data['username']) ? $data['username'] : '';
+$password = isset($data['password']) ? $data['password'] : '';
 
+// Validate input
+if (empty($username) || empty($password)) {
+    echo json_encode(['success' => false, 'message' => 'Username and password are required.']);
+    exit();
+}
+
+// Include the database connection
 include 'db_connect.php';
 
 // Prepare the SQL statement to retrieve the user with matching credentials
-$stmt = $connextion->prepare("SELECT * FROM credentials WHERE username = ? AND password = ?");
-$stmt->bind_param("ss", $username, $password);
+$stmt = $connection->prepare("SELECT * FROM credentials WHERE username = ? LIMIT 1");
+$stmt->bind_param("s", $username);
 
 // Execute the statement
 $stmt->execute();
@@ -25,22 +39,26 @@ $result = $stmt->get_result();
 
 // Check if a matching record was found
 if ($result->num_rows > 0) {
-    // Save username to the session and redirect to the dashboard
-    $_SESSION['username'] = $username;
+    // Fetch the user data
+    $user = $result->fetch_assoc();
 
-    $stmt->close();
-    $connextion->close();
+    // Verify the password
+    if (password_verify($password, $user['password'])) {
+        // Password is correct
+        $_SESSION['username'] = $username;
+        $_SESSION['admin_logged_in'] = true;
 
-    // Redirect to the dashboard
-    header("Location: https://lightpink-dogfish-795437.hostingersite.com/admin_mis/index.html");
-    exit();
+        echo json_encode(['success' => true, 'message' => 'Login successful.']);
+    } else {
+        // Password is incorrect
+        echo json_encode(['success' => false, 'message' => 'Invalid username or password.']);
+    }
 } else {
-    // Close the statement and connection before redirecting
-    $stmt->close();
-    $connextion->close();
-
-    // Redirect back to login page with an error flag
-    header("Location: login.html?error=1");
-    exit();
+    // No user found with that username
+    echo json_encode(['success' => false, 'message' => 'Invalid username or password.']);
 }
+
+// Close the statement and connection
+$stmt->close();
+$connection->close();
 ?>
