@@ -4,15 +4,24 @@ body {
     margin: 0%;
 }
 
-.navbar {
-    text-align: center;
-    padding: 0%;
+.nav-links a {
+    color: dark;
+    text-decoration: none;
 }
 
+.nav-links a:hover {
+    color: #ccc;
+}
+
+.navbar-dark .navbar-toggler-icon {
+    filter: invert(1);
+  }
 /* Changes for Header, Top, and Footer Links */
 .header-nav .nav-link {
     color: black;
 }
+
+
 
 .top-nav .nav-link {
     color: white;
@@ -50,11 +59,7 @@ body {
     padding: 1em 3em .1em 3em;
 }
 
-#logo {
-    height: fit-content;
-    width: 5rem;
-    margin-left: 5%;
-}
+
 
 #brand {
     text-transform: uppercase;
@@ -65,17 +70,7 @@ body {
     color: black;
 }
 
-.logowrapper {
-    display: flex;
-    align-items: center;
-    margin-right: 20%;
-}
 
-#searchbtn {
-    height: fit-content;
-    width: 2.5em;
-    position: relative;
-}
 
 .nav-link {
     color: white;
@@ -85,25 +80,6 @@ body {
     height: fit-content;
     width: 10px;
 }
-/* header end */
-
-.searchcontainer {
-    margin: 0px;
-    position: relative;
-    width: 100%;
-    max-width: 100%;
-}
-
-.searchcontainer img {
-    max-width: 100%;
-    width: 200em;
-    height: 20rem;
-    object-fit: cover;
-    object-position: 10% 20%;
-    filter: blur(2px) grayscale(50%) opacity(80%);
-    display: block;
-}
-
 
 
 .form-overlay {
@@ -480,8 +456,133 @@ body {
     color: #ccc;
 }
 
-/* end of footer */
+.top-about {
+    font-family: Hina Mincho;
+}
+
+/* Set background for the carousel */
+#teamCarousel {
+    background-color: #1C1B19; /* Dark background color */
+    color: white; /* White text for contrast */
+    padding: 50px 0; /* Add padding for better spacing */
+}
+
+/* Customize text styles */
+#teamCarousel h5 {
+    font-size: 3rem;
+    font-weight: bold;
+    font-family: Hind Kochi;
+}
+
+#teamCarousel p {
+    font-size: 1.5rem;
+    font-family: Hind Kochi;
+}
+
+/* Style the images */
+.carousel-item img {
+    width: 15em;
+    height: auto;
+    object-fit: cover;
+    border: 3px solid white; /* Optional: border around images */
+}
 
 @media (max-width: 720px) {
+    
+}
+
+
+@media only screen and (min-width: 1024px) {}
+
+/* Media Query for Tablets */
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+
+
+    #texttime {
+        font-size: 15px;
+    }
+
+    .fp-info h2 {
+        font-size: 2.5em;
+    }
+
+    .fp-info h1 {
+        font-size: 3.5em;
+    }
+
+    #learn-button, #book-button {
+        font-size: 2vw; /* Adjust font size for better visibility on tablets */
+        width: 9em; /* Smaller width for tablet screens */
+        min-height: 4em; /* Adjusting the height to make the button smaller */
+        margin: 5px; /* Smaller margin for compact layout on tablets */
+    }
+
+    .details {
+        margin-top: 10px;
+        font-size: 1.2em;
+        color: #ffffff;
+    }
+
+    .top-about h4{
+        font-size: 1.3em;
+    }
+
+    .top-about h1 {
+        font-size: 1.7em;
+    }
+
+    .top-about h3 {
+        font-size: 1.4em;
+    }
+
+    .top-about h5 {
+        font-size: .9em;
+    }
+
+    .top-about ul li {
+        font-size: .7em;
+    }
+}
+
+
+
+/* Media Query for Mobile Devices */
+@media only screen and (max-width: 767px) {
+    .body {
+        padding: 3em;
+    }
+
+    #texttime {
+        font-size: 10px;
+    }
+
+    .fp-info h2 {
+        font-size: 3em;
+    }
+
+    .fp-info h1 {
+        font-size: 5em;
+    }
+
+    #learn-button, #book-button {
+        font-size: 3.5vw;
+        width: 90vw;
+        min-height: 18vw;
+        margin: 10px; /* Consistent margin for mobile to avoid clutter */
+    }
+
+    .details {
+        margin-top: 10px;
+        font-size: .9em;
+        color: #ffffff;
+    }
+
+
+    .socials-left  .socials-right{
+       margin: 12;
+    }
+
+
+
     
 }

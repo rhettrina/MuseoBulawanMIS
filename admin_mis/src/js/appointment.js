@@ -74,8 +74,7 @@ function fetchAppointments(sort = 'newest') {
 // Populate the appointment table
 function populateTable(appointments) {
     const tableBody = document.getElementById('appointment-table').querySelector('tbody');
-    tableBody.innerHTML = ''; // Clear existing rows
-
+    tableBody.innerHTML = ''; 
     // Check if there are appointments
     if (appointments.length === 0) {
         displayNoDataMessage();
@@ -124,7 +123,7 @@ function populateTable(appointments) {
         const deleteButton = document.createElement('button');
         deleteButton.classList.add('bg-transparent', 'text-black', 'p-2', 'rounded', 'hover:bg-orange-300');
         deleteButton.innerHTML = `<i class="fas fa-trash"></i>`;
-        deleteButton.addEventListener('click', () => handleAction('delete', appointment.id));
+        deleteButton.addEventListener('click', () => handleAction('delete', appointment.fkID));
 
         actionCell.appendChild(editButton);
         actionCell.appendChild(deleteButton);
@@ -148,16 +147,24 @@ function handleAction(action, data) {
         case 'edit':
             showAppointmentModal(data); // 'data' is the appointment object
             break;
-        case 'delete':
-            openAppointmentDeleteModal((response) => {
-                if (response) {
-                    console.log(`Appointment with ID ${data} deleted.`);
-                    init();
-                } else {
-                    console.log("Delete action canceled.");
-                }
-            });
-            break;
+            case 'delete':
+                openAppointmentDeleteModal((response) => {
+                    if (response) {
+                        deleteAppointment(data) // 'data' is appointment.id
+                            .then(() => {
+                                console.log(`Appointment with ID ${data} deleted.`);
+                                init(); // Refresh the data/display
+                            })
+                            .catch(error => {
+                                console.error('Error deleting appointment:', error);
+                                alert('An error occurred while deleting the appointment.');
+                            });
+                    } else {
+                        console.log("Delete action canceled.");
+                    }
+                });
+                break;
+            
         case 'approve':
         case 'reject':
             updateAppointmentStatus(action, data); // 'data' is appointment ID
@@ -166,6 +173,7 @@ function handleAction(action, data) {
             console.error('Unknown action:', action);
     }
 }
+
 
 // Function to display a message when no data is available
 function displayNoDataMessage() {
@@ -319,6 +327,26 @@ document.addEventListener('DOMContentLoaded', () => {
         handleAction('reject', appointmentId);
     });
 });
+
+
+
+function deleteAppointment(fkID) {
+    return fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/deleteAppointments.php?id=${fkID}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => {
+        return response.json().then(data => {
+            if (response.ok) {
+                return data;
+            } else {
+                throw new Error(data.error || 'Failed to delete appointment');
+            }
+        });
+    });
+}
 
 // Start the application
 init();
