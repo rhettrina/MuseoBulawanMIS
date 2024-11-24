@@ -4,14 +4,16 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
-// Database connection details
-$host = "localhost"; // Replace with your host
-$username = "root"; // Replace with your username
-$password = ""; // Replace with your password
-$dbname = "your_database_name"; // Replace with your database name
+$servername = "localhost"; 
+$username = "u376871621_bomb_squad";       
+$password = "Fujiwara000!";            
+$dbname = "u376871621_mb_mis";   
 
-// Establish database connection
-$connextion = new mysqli($host, $username, $password, $dbname);
+$connextion = new mysqli($servername, $username, $password, $dbname);
+
+if ($connextion->connect_error) {
+    die("Connection failed: " . $connextion->connect_error);
+}
 
 // Check for connection errors
 if ($connextion->connect_error) {

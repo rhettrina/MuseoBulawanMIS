@@ -19,7 +19,7 @@ function getFullImageUrl(baseUrl, imagePath) {
 
 // Function to fetch articles
 function fetchArticles() {
-    fetch('https://museobulawan.online/Museo%20Bulawan%20Visitor/News%20and%20Events/fetch_articles.php', {
+    fetch('https://museobulawan.online/development/Museo%20Bulawan%20Visitor/News%20and%20Events/fetch_articles.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ function fetchArticles() {
 
         articles.forEach(article => {
             // Define the base URL for images
-            const imageBaseUrl = 'https://museobulawan.online/admin_mis/src/uploads/articlesUploads/';
+            const imageBaseUrl = 'https://museobulawan.online/development/admin_mis/src/uploads/articlesUploads/';
 
             // Get the full image URL using the function
             const imagePath1 = article.imgu1 ? getFullImageUrl(imageBaseUrl, article.imgu1) : `${imageBaseUrl}default-image.jpg`;
