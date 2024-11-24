@@ -339,6 +339,28 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // Load the calendar on page load
     loadCalendar();
+
+    const ctx = document.getElementById('visitorChart').getContext('2d');
+
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        datasets: [{
+          data: [80, 20], // 80% progress, 20% remaining
+          backgroundColor: ['#4b3621', '#d2b48c'], // Brown and light brown
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        cutout: '85%', // Makes the chart circular
+        plugins: {
+          tooltip: { enabled: false },
+        }
+      }
+    });
+
+
 });
 
 function toggleSidebar() {
