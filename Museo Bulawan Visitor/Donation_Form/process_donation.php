@@ -22,26 +22,19 @@ if ($conn->connect_error) {
 // Function to handle single or multiple file uploads
 function uploadFiles($files, $uploadDir, $allowedExtensions) {
     $uploadedPaths = [];
-    // Ensure the input is handled as an array
-    if (!is_array($files['name'])) {
-        $files = [
-            'name' => [$files['name']],
-            'type' => [$files['type']],
-            'tmp_name' => [$files['tmp_name']],
-            'error' => [$files['error']],
-            'size' => [$files['size']]
-        ];
+    if (!isset($files['name'])) {
+        return $uploadedPaths; // Return empty array if no files provided
     }
 
     foreach ($files['name'] as $index => $name) {
-        if ($files['error'][$index] === 0) {
+        if (!empty($name) && $files['error'][$index] === 0) {
             $fileExt = strtolower(pathinfo($name, PATHINFO_EXTENSION));
             if (in_array($fileExt, $allowedExtensions)) {
                 $newFileName = uniqid("FILE-", true) . '.' . $fileExt;
                 $fileUploadPath = $uploadDir . $newFileName;
 
                 if (!is_dir($uploadDir)) {
-                    mkdir($uploadDir, 0777, true); // Create the directory if it doesn't exist
+                    mkdir($uploadDir, 0777, true); // Create directory if it doesn't exist
                 }
 
                 if (move_uploaded_file($files['tmp_name'][$index], $fileUploadPath)) {
@@ -74,14 +67,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $additionalInfo = $conn->real_escape_string($_POST['additionalInfo']);
     $narrative = $conn->real_escape_string($_POST['narrative']);
     
-    // Define upload directories (single directory for all types of files)
+    // Define upload directories and allowed extensions
     $uploadDir = __DIR__ . '/../../admin_mis/src/uploads/artifacts/';
     $allowedExtensions = ["jpg", "jpeg", "png", "pdf", "docx", "xlsx", "txt"];
 
     // Handle file uploads
-    $artifactImages = uploadFiles($_FILES['artifact_img'], $uploadDir, $allowedExtensions);
-    $documentationFiles = uploadFiles($_FILES['documentation'], $uploadDir, $allowedExtensions);
-    $relatedImages = uploadFiles($_FILES['related_img'], $uploadDir, $allowedExtensions);
+    $artifactImages = isset($_FILES['artifact_img']) ? uploadFiles($_FILES['artifact_img'], $uploadDir, $allowedExtensions) : [];
+    $documentationFiles = isset($_FILES['documentation']) ? uploadFiles($_FILES['documentation'], $uploadDir, $allowedExtensions) : [];
+    $relatedImages = isset($_FILES['related_img']) ? uploadFiles($_FILES['related_img'], $uploadDir, $allowedExtensions) : [];
 
     // Convert file paths to JSON strings for database storage
     $artifactImagesJson = json_encode($artifactImages);
