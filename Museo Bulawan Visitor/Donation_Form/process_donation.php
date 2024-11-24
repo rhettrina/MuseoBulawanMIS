@@ -1,8 +1,8 @@
 <?php
 error_reporting(E_ALL);
 
-header("Access-Control-Allow-Origin: *"); 
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS"); 
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, x-requested-with");
 
 // Database configuration
@@ -40,17 +40,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $additionalInfo = $conn->real_escape_string($_POST['additionalInfo']);
     $narrative = $conn->real_escape_string($_POST['narrative']);
     
-    $formType = $conn->real_escape_string($_POST['formType']);
-    
-    // Initialize image file paths
-    $art_img_upload_path = '';
-    $doc_img_upload_path = '';
-    $rel_img_upload_path = '';
-
     // Image upload handling
     $allowed_exs = array("jpg", "jpeg", "png");
 
     // Handle artifact image upload
+    $art_img_upload_path = '';
     if (!empty($_FILES['artifact_img']['name'])) {
         $art_img_name = $_FILES['artifact_img']['name'];
         $art_img_size = $_FILES['artifact_img']['size'];
@@ -59,9 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($art_error === 0) {
             if ($art_img_size > 12500000) {
-                $em = "Sorry, the artifact image is too large.";
-                header("Location: donateindex.html?error=$em");
-                exit();
+                die("Error: Artifact image is too large.");
             } else {
                 $art_img_ex_lc = strtolower(pathinfo($art_img_name, PATHINFO_EXTENSION));
                 if (in_array($art_img_ex_lc, $allowed_exs)) {
@@ -69,15 +61,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $art_img_upload_path = 'uploads/artifacts/' . $new_art_img_name;
                     move_uploaded_file($art_tmp_name, $art_img_upload_path);
                 } else {
-                    $em = "You can't upload files of this type for artifact image.";
-                    header("Location: donateindex.html?error=$em");
-                    exit();
+                    die("Error: Invalid artifact image type.");
                 }
             }
         } else {
-            $em = "Error uploading the artifact image.";
-            header("Location: donateindex.html?error=$em");
-            exit();
+            die("Error: Artifact image upload error.");
         }
     }
 
@@ -89,105 +77,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Execute the insert query for Donator
     if ($stmt->execute()) {
-        header("Location: donateindex.html?error=$em");
-        echo "Donator added successfully!<br>";
+        $donatorID = $conn->insert_id;  // Get the inserted ID directly
     } else {
-        echo "Error inserting donator: " . $stmt->error;
-        exit();
-    }
-
-    // Now retrieve the donatorID from the Donator table
-    $fk_selector = "SELECT `donatorID` FROM `Donator` WHERE `first_name` = ? AND `last_name` = ? AND `email` = ? AND `phone` = ? AND `province` = ? AND `street` = ? AND `barangay` = ? AND `organization` = ? AND `age` = ? AND `sex` = ? AND `city` = ?";
-    $stmt = $conn->prepare($fk_selector);
-    $stmt->bind_param("ssssssssis", $firstName, $lastName, $email, $phone, $province, $street, $barangay, $organization, $age, $sex, $city);
-
-    // Execute the query to get donatorID
-    $stmt->execute();
-
-    // Get the result
-    $result = $stmt->get_result();
-
-    // Fetch the donatorID from the result
-    if ($row = $result->fetch_assoc()) {
-        $donatorID = $row['donatorID'];
-        echo "Donator ID: " . $donatorID . "<br>";
-    } else {
-        echo "No matching donator found.";
-        exit();
+        die("Error inserting donator: " . $stmt->error);
     }
 
     // Insert query for the Donation table
     $abt_art = "INSERT INTO `Donation`(`donatorID`, `artifact_nameID`, `artifact_description`) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($abt_art);
-    $stmt->bind_param("sss", $donatorID, $artifactTitle, $artifactDescription);
+    $stmt->bind_param("iss", $donatorID, $artifactTitle, $artifactDescription);
 
     // Execute the query for the Donation table
-    if ($stmt->execute()) {
-        echo "Artifact donation added successfully!<br>";
-        header("Location: donateindex.html?error=$em");
-    } else {
-        echo "Error: " . $stmt->error;
-        exit();
+    if (!$stmt->execute()) {
+        die("Error inserting donation: " . $stmt->error);
     }
 
     // Insert query for the Artifact table
-    $image1 = $_FILES['artifactImages'];
+    $artifactType = "Donation";
+    $query = $conn->prepare("INSERT INTO `Artifact`(`artifact_typeID`, `donatorID`, `artifact_description`, `artifact_nameID`, `acquisition`, `additional_info`, `narrative`, `artifact_img`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $query->bind_param('sissssss', $artifactType, $donatorID, $artifactDescription, $artifactTitle, $acquisition, $additionalInfo, $narrative, $art_img_upload_path);
 
-    $image1Path = uploadImage($image1);
-    // Fetch Donator ID
-    $donatorID = $conn->insert_id;
-
-    if($image1Path){
-        $query = $conn->prepare("INSERT INTO Artifact(artifact_typeID, donatorID, artifact_description, artifact_nameID, acquisition, additional_info, narrative, artifact_img, documentation, related_img) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )");
-        $type = "Donation";
-        $query->bind_param('sissssssss', $type, $acquisition, $additionalInfo, $narrative, $image1Path, $doc_img_upload_path, $rel_img_upload_path);
-
-    if ($query->execute()) {
-        echo json_encode(['success' => true]);
-        header("Location: donateindex.html?success=true");
-    } else {
-        echo json_encode(['success' => false, 'error' => $query->error]);
-    }
-}else {
-        echo json_encode(['success' => false, 'error' => 'Image upload failed']);
+    // Execute the query for the Artifact table
+    if (!$query->execute()) {
+        die("Error inserting artifact: " . $query->error);
     }
 
-    function uploadImage($image) {
-        $targetDir = dirname(__DIR__, 1) . "/uploads/articlesUploads/";
-        $targetFile = $targetDir . basename($image["name"]);
-        $uploadOk = 1;
-        $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
-        $errorMessage ="";
-    
-        if (getimagesize($image["tmp_name"]) === false) {
-            $errorMessage = "File is not an image.";
-            return $errorMessage;
-        }
-    
-        // If file already exists, use the same path
-        if (file_exists($targetFile)) {
-            return $targetFile; // Return the existing file path
-        }
-    
-        // Check file size (max 3MB)
-        if ($image["size"] > 3 * 1024 * 1024) {
-            $errorMessage = "File size exceeds 3MB.";
-            return $errorMessage;
-        }
-
-        if ($imageFileType != "jpg" && $imageFileType != "jpeg" && $imageFileType != "png" && $imageFileType != "gif") {
-            $errorMessage = "Only JPG, JPEG, PNG, and GIF files are allowed.";
-            return $errorMessage;
-        }
-
-        // Try to move the uploaded file to the target directory
-        if (move_uploaded_file($image["tmp_name"], $targetFile)) {
-            return $targetFile; // Return the file path
-        } else {
-            $errorMessage = "Error uploading the file: " . $image["error"];
-            return $errorMessage;
-        }
-    }
+    echo json_encode(['success' => true]);
+    header("Location: donateindex.html?success=true");
 }
 
 // Close the connection
