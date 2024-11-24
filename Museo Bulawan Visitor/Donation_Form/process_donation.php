@@ -104,8 +104,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Insert data into Artifact table
     $artifactType = "Donation";
-    $query = $conn->prepare("INSERT INTO `Artifact`(`artifact_typeID`, `submission_date`, `donatorID`, `artifact_description`, `artifact_nameID`, `acquisition`, `additional_info`, `narrative`, `artifact_img`, `documentation`, `related_img`, `status`, `transfer_status`, `updated_date`, `display_status`) 
-                             VALUES (?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'To Review', 'Pending', NULL, 'true')");
+    $query = $conn->prepare("INSERT INTO `Artifact`(`artifact_typeID`, `submission_date`, `donatorID`, `artifact_description`, `artifact_nameID`, `acquisition`, `additional_info`, `narrative`, `artifact_img`, `documentation`, `related_img`, `status`, `transfer_status`, `updated_date`) 
+                             VALUES (?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'To Review', 'Pending', NULL)");
     $query->bind_param('sissssssss', $artifactType, $donatorID, $artifactDescription, $artifactTitle, $acquisition, $additionalInfo, $narrative, $artifactImagesStr, $documentationFilesStr, $relatedImagesStr);
 
     if (!$query->execute()) {
