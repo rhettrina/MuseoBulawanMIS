@@ -11,25 +11,25 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('type').innerText = article.article_type || 'Unknown Type';
 
         // Define base URL for images
-        const imageBaseUrl = 'https://museobulawan.online/admin_mis/src/uploads/articlesUploads/';
+        const imageBaseUrl = 'https://museobulawan.online/development/admin_mis/src/uploads/articlesUploads/';
 
         // Handle image 1 (imgu1)
         const imagePath1 = article.imgu1 
             ? imageBaseUrl + article.imgu1 
-            : 'https://museobulawan.online/admin_mis/src/uploads/articlesUploads/default-image.jpg';  // Fallback image if not found
+            : 'https://museobulawan.online/development/admin_mis/src/uploads/articlesUploads/default-image.jpg';  // Fallback image if not found
         document.getElementById('img-container1').src = imagePath1;
         document.getElementById('img-dets').innerText = article.imgu1_details || 'No image details available';
 
         // Handle image 2 (imgu2)
         const imagePath2 = article.imgu2 && article.imgu2.trim() !== ''
             ? imageBaseUrl + article.imgu2
-            : 'https://museobulawan.online/admin_mis/src/uploads/articlesUploads/default-image.jpg';  // Fallback image if not found or empty
+            : 'https://museobulawan.online/development/admin_mis/src/uploads/articlesUploads/default-image.jpg';  // Fallback image if not found or empty
         document.getElementById('img-container2').src = imagePath2;
 
         // Handle image 3 (imgu3)
         const imagePath3 = article.imgu3 && article.imgu3.trim() !== ''
             ? imageBaseUrl + article.imgu3
-            : 'https://museobulawan.online/admin_mis/src/uploads/articlesUploads/default-image.jpg';  // Fallback image if not found or empty
+            : 'https://museobulawan.online/development/admin_mis/src/uploads/articlesUploads/default-image.jpg';  // Fallback image if not found or empty
         document.getElementById('img-container3').src = imagePath3;
 
         // Handle text content for left and right
