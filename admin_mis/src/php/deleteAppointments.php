@@ -1,53 +1,62 @@
 <?php
+// Set CORS headers to allow cross-origin requests (adjust the origin as needed)
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST, DELETE, OPTIONS"); 
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS, DELETE");
 header("Access-Control-Allow-Headers: Content-Type, x-requested-with");
 
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    exit(0); 
+// Handle preflight requests (OPTIONS method)
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    exit(0);
 }
 
-// Include database connection file
+// Include the database connection file
 include 'db_connect.php';
 
-// Check for valid HTTP method
-if ($_SERVER['REQUEST_METHOD'] !== 'POST' && $_SERVER['REQUEST_METHOD'] !== 'DELETE') {
-    http_response_code(405); // Method Not Allowed
-    echo json_encode(['error' => 'Invalid HTTP method']);
-    exit;
-}
+// Get the appointment ID from the URL query parameter
+$appointmentID = isset($_GET['id']) ? intval($_GET['id']) : null;
 
-// Decode input data for POST or GET
-$data = json_decode(file_get_contents("php://input"), true);
-$appointmentId = isset($data['id']) ? intval($data['id']) : null;
+if ($appointmentID) {
+    // Start a transaction
+    $connection->begin_transaction();
 
-if (!$appointmentId) {
-    http_response_code(400); // Bad Request
-    echo json_encode(['error' => 'Invalid or missing appointment ID']);
-    exit;
-}
+    try {
+        // Delete related records from other tables that reference appointmentID
+        // Adjust table names and column names as per your database schema
 
-$query = "DELETE FROM appointment WHERE appointmentID = ?";
-$stmt = $connextion->prepare($query);
+        // Example: Delete from 'appointment_details' table
+        $deleteDetails = "DELETE FROM appointment_details WHERE appointmentID = ?";
+        $stmtDetails = $connection->prepare($deleteDetails);
+        if (!$stmtDetails) {
+            throw new Exception('Failed to prepare appointment_details deletion query.');
+        }
+        $stmtDetails->bind_param("i", $appointmentID);
+        $stmtDetails->execute();
 
-if (!$stmt) {
-    http_response_code(500); // Internal Server Error
-    echo json_encode(['error' => 'Failed to prepare database statement']);
-    exit;
-}
+        // Add more deletion queries for other related tables if necessary
+        // ...
 
-$stmt->bind_param("i", $appointmentId);
+        // Delete the appointment record from the 'appointment' table
+        $deleteAppointment = "DELETE FROM appointment WHERE appointmentID = ?";
+        $stmtAppointment = $connection->prepare($deleteAppointment);
+        if (!$stmtAppointment) {
+            throw new Exception('Failed to prepare appointment deletion query.');
+        }
+        $stmtAppointment->bind_param("i", $appointmentID);
+        $stmtAppointment->execute();
 
-if ($stmt->execute()) {
-    // Return success message
-    http_response_code(200); // OK
-    echo json_encode(['message' => 'Appointment deleted successfully']);
+        // Commit the transaction
+        $connection->commit();
+        echo json_encode(['message' => 'Appointment and related records deleted successfully.']);
+    } catch (Exception $e) {
+        // Rollback the transaction in case of any errors
+        $connection->rollback();
+        echo json_encode(['error' => 'Deletion failed: ' . $e->getMessage()]);
+    }
 } else {
-    // Return error message
-    http_response_code(500); // Internal Server Error
-    echo json_encode(['error' => 'Failed to delete appointment']);
+    // Error if appointment ID is not provided
+    echo json_encode(['error' => 'Appointment ID is required.']);
 }
 
-$stmt->close();
-$connextion->close(); // Close database connection
+// Close the database connection
+$connection->close();
 ?>
