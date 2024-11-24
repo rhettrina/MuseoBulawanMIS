@@ -9,22 +9,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
 include 'db_connect.php';
 
-// Sanitize and validate query parameters
-$sort = isset($_GET['sort']) && $_GET['sort'] === 'oldest' ? 'ASC' : 'DESC';
+// Get sort parameter from the query string (default is 'newest')
+$sort = $_GET['sort'] ?? 'newest'; 
+$order = ($sort === 'oldest') ? 'ASC' : 'DESC';
 
-// Fetch sorted donations and lending records
+// Query to fetch sorted donations with the necessary joins
 $query = "
     SELECT 
         l.lendingID AS formID, 
         l.submission_date AS submission_date,
         CONCAT(dn.first_name, ' ', dn.last_name) AS donor_name, 
         a.artifact_nameID AS artifact_title, 
-        a.artifact_typeID AS artifact_type, 
+        a.artifact_typeID AS form_type, 
         'To Review' AS status, 
         'Pending' AS transfer_status, 
         'Lending' AS form_type,
         a.updated_date AS updated_date, 
         dn.donatorID AS donID
+
+        
     FROM 
         Lending AS l
     JOIN 
@@ -39,12 +42,13 @@ $query = "
         d.submission_date AS submission_date,
         CONCAT(dn.first_name, ' ', dn.last_name) AS donor_name, 
         a.artifact_nameID AS artifact_title, 
-        a.artifact_typeID AS artifact_type, 
+        a.artifact_typeID AS form_type, 
         'To Review' AS status, 
         'Pending' AS transfer_status, 
         'Donation' AS form_type,
         a.updated_date AS updated_date,
         dn.donatorID AS donID
+        
     FROM 
         Donation AS d
     JOIN 
@@ -52,13 +56,14 @@ $query = "
     JOIN 
         Artifact AS a ON d.artifact_nameID = a.artifact_nameID
 
-    ORDER BY submission_date $sort
+    ORDER BY submission_date $order
+
 ";
 
 $result = mysqli_query($connextion, $query);
 
 if (!$result) {
-    echo json_encode(['error' => 'Database query failed', 'details' => mysqli_error($connextion)]);
+    echo json_encode(['error' => 'Database query failed']);
     exit;
 }
 
@@ -67,5 +72,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     $donations[] = $row;
 }
 
-echo json_encode(['success' => true, 'donations' => $donations]);
+// Return JSON response
+echo json_encode($donations);
+
 ?>

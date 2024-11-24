@@ -29,21 +29,25 @@ function fetchTotalDonations() {
 // Fetch and populate the donations table
 function fetchDonations(sort = 'newest') {
     fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchDonations.php?sort=${sort}`)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
+            }
+            return response.json();
+        })
         .then(data => {
-            if (!data.success) {
+            if (data.error) {
                 console.error(data.error);
                 displayNoDataMessage();
-                return;
+            } else {
+                populateTable(data);
             }
-            populateTable(data.donations);
         })
         .catch(error => {
             console.error('Error fetching donations:', error);
             displayNoDataMessage();
         });
 }
-
 function populateTable(donations) {
     const tableBody = document.getElementById('donations-table').querySelector('tbody');
     tableBody.innerHTML = ''; // Clear existing rows
@@ -56,25 +60,62 @@ function populateTable(donations) {
     donations.forEach(donation => {
         const row = document.createElement('tr');
         row.classList.add('border-t', 'border-gray-300', 'text-center');
-        row.setAttribute('data-id', donation.formID);
 
-        // Populate cells
-        row.innerHTML = `
-            <td class="px-4 py-0 bg-white border-black rounded-l-[15px] border-t-2 border-b-2 border-l-2">${donation.submission_date}</td>
-            <td class="px-4 py-0 bg-white border-black border-t-2 border-b-2">${donation.donor_name}</td>
-            <td class="px-4 py-2 bg-white border-black border-t-2 border-b-2">${donation.artifact_title}</td>
-            <td class="px-4 py-0 bg-white border-black border-t-2 border-b-2">${donation.artifact_type}</td>
-            <td class="px-4 py-0 bg-white border-black border-t-2 border-b-2">${donation.status}</td>
-            <td class="px-4 py-0 bg-white border-black border-t-2 border-b-2">${donation.updated_date || 'Not Edited'}</td>
-            <td class="px-4 py-0 bg-white border-black border-t-2 border-b-2">${donation.transfer_status}</td>
-            <td class="px-4 py-0 bg-white border-black rounded-r-[15px] border-t-2 border-b-2 border-r-2">
-                ${createActionButtons(donation).outerHTML}
-            </td>
-        `;
+        // Create and populate cells
+        const dateCell = document.createElement('td');
+        dateCell.classList.add('px-4', 'py-0','bg-white', 'border-black' , 'rounded-l-[15px]', 'border-t-2', 'border-b-2', 'border-l-2');
+        dateCell.textContent = donation.submission_date;
+
+
+const donorCell = document.createElement('td');
+donorCell.classList.add('px-4', 'py-0', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
+donorCell.textContent = donation.donor_name;
+
+// Title Cell
+const titleCell = document.createElement('td');
+titleCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
+titleCell.textContent = donation.artifact_title;
+
+// Type Cell
+const typeCell = document.createElement('td');
+typeCell.classList.add('px-4', 'py-0', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
+typeCell.textContent = donation.artifact_type;
+
+// Status Cell
+const statusCell = document.createElement('td');
+statusCell.classList.add('px-4', 'py-0', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
+statusCell.textContent = donation.status;
+
+// Updated Date Cell
+const updatedDateCell = document.createElement('td');
+updatedDateCell.classList.add('px-4', 'py-0', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
+updatedDateCell.textContent = donation.updated_date === "Not Edited" || !donation.updated_date ? "Not Edited" : donation.updated_date;
+
+// Transfer Status Cell
+const transferStatusCell = document.createElement('td');
+transferStatusCell.classList.add('px-4', 'py-0', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
+// Assuming createTransferStatusCell returns an element, append it
+transferStatusCell.appendChild(createTransferStatusCell(donation));
+
+// Action Buttons Cell
+const actionCell = document.createElement('td');
+actionCell.classList.add('px-4', 'py-0', 'bg-white', 'border-black', 'rounded-r-[15px]', 'border-t-2', 'border-b-2', 'border-r-2');
+// Assuming createActionButtons returns an element, append it
+actionCell.appendChild(createActionButtons(donation));
+
+        // Append cells to row
+        row.appendChild(dateCell);
+        row.appendChild(donorCell);
+        row.appendChild(titleCell);
+        row.appendChild(typeCell);
+        row.appendChild(statusCell);
+        row.appendChild(transferStatusCell);
+        row.appendChild(updatedDateCell);
+        row.appendChild(actionCell);
+
         tableBody.appendChild(row);
     });
 }
-
 function displayErrorMessages() {
     const errorMessage = "Error fetching data";
     document.getElementById('total-donations').innerText = errorMessage;
@@ -110,18 +151,36 @@ function handleAction(action, donation) {
     console.log(`Artifact ID: ${donation.donID}`); // Log the specific ID for debugging
 
     switch (action) {
+        case 'preview':
+            console.log(`Preview donation with ID: ${donation.donID}`);
+            break;
         case 'edit':
             console.log(`Edit donation with ID: ${donation.donID}`);
             
-            // Determine form type dynamically
-            const formType = donation.formType || 'Donation'; // Use the formType field from the response
+            // Determine form type dynamically (assuming donation.formType exists)
+            const formType = donation.formType || 'Donation'; // Default to 'Donation'
+            
+            // Open the edit modal
             openFormModal(donation.donID, formType);
 
             break;
-        // Other cases...
+        case 'delete':
+            console.log(`Delete donation with ID: ${donation.donID}`);
+              // Open delete confirmation modal
+              openDeleteModal((confirmed) => {
+                if (confirmed) {
+                    // Call delete function
+                    deleteDonation(donation.donID);
+                } else {
+                    console.log(`Deletion canceled for ID: ${donation.donID}`);
+                }
+            });
+            break;
+            break;
+        default:
+            console.error('Unknown action:', action);
     }
 }
-
 
 function createTransferStatusCell(donation) {
     const cell = document.createElement('td');
