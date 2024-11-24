@@ -1,0 +1,374 @@
+<html lang="en">
+
+</html>
+
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Museo Bulawan Collection Page</title>
+    <link href="collectionstyle.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- font Hina Mincho-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hina+Mincho&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+</head>
+
+<body onload="drawAllSymbols()">
+    
+    <div class="container-fluid mb-2" style="background-color: #1C1B19;">
+        <nav class="navbar navbar-expand-lg navbar-dark p-1">
+            <p id="texttime" class="text-light my-auto ms-lg-5 ms-sm-1 ms-md-3">Open Daily 9:00am-5:00pm, Monday-
+                Friday, Close During Holidays
+            </p>
+
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#morebtn"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="fa-solid fa-caret-down"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="morebtn">
+
+
+
+                <ul class="navbar-nav ms-auto me-lg-5 me-sm-1 me-md-3">
+                    <li class="navupper nav-item">
+                        <a class=" nav-link" href="../About Us/about.html">About Us</a>
+                    </li>
+                    <li class="navupper nav-item"></li>
+                    <a class="nav-link" href="../Appointment Form/appointindex.html">Visit Us</a>
+                    </li>
+                    <li class="navupper nav-item"></li>
+                    <a class="nav-link" href="../admin_login/login.html">Log In</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    
+
+  <script>
+    function drawAllSymbols() {
+      drawWallArtifactSymbol();
+      drawContainerSymbol();
+      drawRestrictedSymbol();
+      drawInformationDeskSymbol();
+      drawStatueSymbol();
+      drawPanelsSymbol();
+      drawWallPictureSymbol();
+      drawRestAreaSymbol();
+    }
+
+    function drawWallArtifactSymbol() {
+      const canvas = document.getElementById("wall-artifact-symbol");
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw a framed rectangle to represent a wall artifact
+      ctx.fillStyle = "#8B4513"; // Brown color
+      ctx.fillRect(15, 20, 30, 20);
+      ctx.strokeStyle = "#000000"; // Black border
+      ctx.strokeRect(15, 20, 30, 20);
+
+      // Draw a wavy line inside the rectangle to represent art
+      ctx.beginPath();
+      ctx.moveTo(20, 30);
+      ctx.bezierCurveTo(25, 20, 35, 40, 40, 30);
+      ctx.stroke();
+    }
+
+    function drawContainerSymbol() {
+      const canvas = document.getElementById("container-symbol");
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw a box to represent a container
+      ctx.strokeStyle = "#8B5A2B"; // Brown color
+      ctx.lineWidth = 4;
+      ctx.strokeRect(10, 10, 40, 40);
+    }
+
+    function drawRestrictedSymbol() {
+      const canvas = document.getElementById("restricted-symbol");
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Fill background to represent a restricted area
+      ctx.fillStyle = "#444444"; // Dark gray
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Draw white cross
+      ctx.strokeStyle = "#FFFFFF"; // White color
+      ctx.lineWidth = 5;
+      ctx.beginPath();
+      ctx.moveTo(15, 15);
+      ctx.lineTo(45, 45);
+      ctx.moveTo(45, 15);
+      ctx.lineTo(15, 45);
+      ctx.stroke();
+    }
+
+    function drawInformationDeskSymbol() {
+      const canvas = document.getElementById("information-desk-symbol");
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw desk base
+      ctx.fillStyle = "#4682B4"; // Steel blue
+      ctx.fillRect(15, 30, 30, 10);
+      ctx.strokeStyle = "#000000";
+      ctx.strokeRect(15, 30, 30, 10);
+
+      // Draw information "i" symbol
+      ctx.fillStyle = "#FFFFFF"; // White color
+      ctx.beginPath();
+      ctx.arc(30, 25, 5, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+    }
+
+    function drawStatueSymbol() {
+      const canvas = document.getElementById("statue-symbol");
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw statue head
+      ctx.fillStyle = "#708090"; // Slate gray
+      ctx.beginPath();
+      ctx.arc(30, 15, 10, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+
+      // Draw statue body
+      ctx.fillRect(25, 25, 10, 20);
+      ctx.strokeRect(25, 25, 10, 20);
+    }
+
+    function drawPanelsSymbol() {
+      const canvas = document.getElementById("panels-symbol");
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw a light gray rectangle to represent panels
+      ctx.fillStyle = "#D3D3D3"; // Light gray
+      ctx.fillRect(10, 25, 40, 10);
+      ctx.strokeStyle = "#000000";
+      ctx.strokeRect(10, 25, 40, 10);
+    }
+
+    function drawWallPictureSymbol() {
+      const canvas = document.getElementById("wall-picture-symbol");
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw black rectangle
+      ctx.fillStyle = "#000000"; // Black color
+      ctx.fillRect(10, 25, 40, 10);
+
+      // Draw white horizontal line
+      ctx.strokeStyle = "#FFFFFF"; // White color
+      ctx.beginPath();
+      ctx.moveTo(10, 30);
+      ctx.lineTo(50, 30);
+      ctx.stroke();
+    }
+
+    function drawRestAreaSymbol() {
+      const canvas = document.getElementById("rest-area-symbol");
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw rest area base
+      ctx.fillStyle = "#32CD32"; // Lime green
+      ctx.fillRect(15, 30, 30, 10);
+      ctx.strokeStyle = "#000000";
+      ctx.strokeRect(15, 30, 30, 10);
+
+      // Draw two circles representing seats
+      ctx.fillStyle = "#FFFFFF"; // White color
+      ctx.beginPath();
+      ctx.arc(22, 25, 3, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(38, 25, 3, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.stroke();
+    }
+  </script>
+
+
+    <div class="container-fluid mx-auto">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white">
+            <div class="d-flex flex-row align-items-center ms-lg-5">
+                <img src="../source/LOGO.png" style="height: 5em; width: auto;" alt="Logo">
+                <div class="vr border border-3 mx-3 border-dark opacity-100" style="height: 85px;"></div>
+                <a class="navbar-brand fw-bold p-0 fs-3 text-dark text-start" href="#">
+                    MUSEO <br> BULAWAN
+                </a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#burgerbtn"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="burgerbtn">
+                <ul id="list" class="navbar-nav fs-5 gap-3 ms-md-auto me-md-5 ms-sm-0" style="">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="../Home/index.php">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="../News and Events/naeindex.html">News and Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="../About Us/about.html">About Us</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <hr class="border border-1 border-dark opacity-100 mx-md-2 mx-sm-3">
+    </div>
+
+
+    <div id="container">
+        <h1>Museum Map Guide</h1>
+    
+        <!-- Map Image -->
+        <div id="map-container">
+          <img id="map-placeholder" src="../source/floorplansample.png" alt="Museum Map">
+        </div>
+    
+        <!-- Legends -->
+        <div id="legend">
+          <div class="legend-item" onclick="highlightSymbol('Wall Artifact')">
+            <canvas id="wall-artifact-symbol" width="60" height="60"></canvas>
+            <span>Wall Artifact</span>
+          </div>
+          <div class="legend-item" onclick="highlightSymbol('Container')">
+            <canvas id="container-symbol" width="60" height="60"></canvas>
+            <span>Container</span>
+          </div>
+          <div class="legend-item" onclick="highlightSymbol('Restricted Area')">
+            <canvas id="restricted-symbol" width="60" height="60"></canvas>
+            <span>Restricted Area</span>
+          </div>
+          <div class="legend-item" onclick="highlightSymbol('Information Desk')">
+            <canvas id="information-desk-symbol" width="60" height="60"></canvas>
+            <span>Information Desk</span>
+          </div>
+          <div class="legend-item" onclick="highlightSymbol('Statue')">
+            <canvas id="statue-symbol" width="60" height="60"></canvas>
+            <span>Statue</span>
+          </div>
+          <div class="legend-item" onclick="highlightSymbol('Panels')">
+            <canvas id="panels-symbol" width="60" height="60"></canvas>
+            <span>Panels</span>
+          </div>
+          <div class="legend-item" onclick="highlightSymbol('Wall Picture')">
+            <canvas id="wall-picture-symbol" width="60" height="60"></canvas>
+            <span>Wall Picture</span>
+          </div>
+          <div class="legend-item" onclick="highlightSymbol('Rest Area')">
+            <canvas id="rest-area-symbol" width="60" height="60"></canvas>
+            <span>Rest Area</span>
+          </div>
+        </div>
+      </div>
+    
+
+
+
+    <div class="wrapper">
+
+        <div class="lowercontainer ms-5 pt-4">
+            <div class="row d-flex">
+                <div class="col-12">
+                    <ul class="nav-links">
+                        <li><a class="text-decoration-none" href="../Home/index.html">Home</a></li>
+                        <div class="vr border border-1 border-light opacity-100" style="height: 40px;"></div>
+                        <li><a class="text-decoration-none"
+                                href="../Collection Page/collectionpage.html">Collections</a></li>
+                        <div class="vr border border-1 border-light opacity-100" style="height: 40px;"></div>
+                        <li><a class="text-decoration-none" href="../News and Events/">News & Events</a></li>
+                        <div class="vr border border-1 border-light opacity-100" style="height: 40px;"></div>
+                        <li><a class="text-decoration-none" href="../About Us/about.html">About Us</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+
+        <hr class="border border-1 border-light opacity-100 mx-4">
+
+        <div class="side-footer mx-5 mb-0">
+            <div class="row d-flex justify-content-between">
+                <div class="col-lg-7 col-sm-12">
+                    <div class="museo-bulawan-cmp d-flex justify-content-start mb-3">
+                        <img src="../source/LOGO.png" alt="">
+                        <h2>Museo Bulawan</h2>
+                    </div>
+                    <p class="lead">Helping us raise awareness regarding Camnortenos identity is crucial, and
+                        your
+                        support can make a significant difference.</p>
+                    <div class="container-fluid d-flex flex-wrap p-0 pb-4">
+                        <p class="me-3">We gratefully accept donations or just lending of your artifact will greatly
+                            help us.
+                        </p>
+                        <button type="button" class="btn btn-light btn-lg">Support Us</button>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-sm-12 mb-4">
+                    <nav class="navbar">
+                        <ul class="navbar-nav text-start navbar-dark">
+                            <li class="nav-item">
+                                <a class="nav-link" href="../Appointment Form/appointindex.html">Visit Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="">About Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="">Book a Tour</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="">Contact Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="">Map View</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <div class="col-lg-3 col-sm-12">
+                    <h5>Opening Hours</h5>
+                    <p>Camarines Norte Provincial Capitol Grounds,
+                        Daet Philippines</p>
+                    <p>Open Daily 9:00am-5:00pm,
+                        Monday- Friday,</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

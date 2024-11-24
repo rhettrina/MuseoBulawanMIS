@@ -22,8 +22,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Hina+Mincho&display=swap" rel="stylesheet">
-
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
 
 </head>
 
@@ -31,240 +31,393 @@
 
     <!-- header start -->
 
-    <div class="wrapper">
+    <div class="container-fluid mb-2" style="background-color: #1C1B19;">
+        <nav class="navbar navbar-expand-lg navbar-dark p-1">
+            <p id="texttime" class="text-light my-auto ms-lg-5 ms-sm-1 ms-md-3">Open Daily 9:00am-5:00pm, Monday-
+                Friday, Close During Holidays
+            </p>
 
-        <div id="container1">
-            <nav class="navbar navbar-expand-lg navbar-dark me-3 top-nav">
-                <p id="open">Open Daily 9:00am-5:00pm, Monday- Friday, Close During Holidays</p>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#morebtn"
-                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="fa-solid fa-caret-down"></span>
-                </button>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#morebtn"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="fa-solid fa-caret-down"></span>
+            </button>
 
-                <div class="collapse navbar-collapse" id="morebtn">
-                    <ul class="navbar-nav ms-auto px-4">
-                        <li class="nav-item">
-                            <a class="nav-link" href="../About Us/about.html">About Us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../Appointment Form/">Visit Us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../admin_login/login.html">Log In</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-    </div>
+            <div class="collapse navbar-collapse" id="morebtn">
 
-    <div class="wr">
-        <div id="container2">
-            <nav class="navbar navbar-expand-lg header-nav" data-bs-theme="dark">
-                <div class="logowrapper">
-                    <img src="../source/LOGO.png" alt="" id="logo">
-                    <div class="vr border border-4 ms-5 border- opacity-100" style="height: 85;"></div>
-                    <a id="brand" class="navbar-brand text-start" href="">Museo<br>Bulawan</a>
-                </div>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#burgerbtn"
-                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="burgerbtn">
-                    <ul id="list" class="navbar-nav fs-5">
-                        <li class="nav-item">
-<<<<<<< HEAD
-                            <a class="nav-link" href="../Home/index.html">Home <img class="dropdownicon"
-                                    src="../source/dropdownb.png" alt=""></a>
-=======
-                            <a class="nav-link" href="../Home/index.php">Home <img class="dropdownicon" src="../source/dropdownb.png" alt=""></a>
->>>>>>> 1a7eed1bb283a6532bc55c9069c37f4c5f21ff90
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../Collection Page/collectionpage.html">Collections <img
-                                    class="dropdownicon" src="../source/dropdownb.png" alt=""></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../News and Events/naeindex.html">News and Events <img
-                                    class="dropdownicon" src="../source/dropdownb.png" alt=""></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../About Us/about.html">About Us <img class="dropdownicon"
-                                    src="../source/dropdownb.png" alt=""></a>
-                        </li>
-                    </ul>
-                    <button class="btn ms-auto"><img src="../source/searchb.png" alt="" id="searchbtn"></button>
-                </div>
-            </nav>
-            <hr class="border border-2 border-dark opacity-100">
-        </div>
-    </div>
 
-    <!-- header end -->
 
-    </div>
-
-    <!-- about us -->
-    <div class="group">
-        <img src="../source/gp.jpg">
-    </div>
-    <div class="sec">
-        <div class="leftside">
-            <div class="tl">
-                <h6>eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupi</h6>
+                <ul class="navbar-nav ms-auto me-lg-5 me-sm-1 me-md-3">
+                    <li class="navupper nav-item">
+                        <a class=" nav-link" href="../About Us/about.html">About Us</a>
+                    </li>
+                    <li class="navupper nav-item"></li>
+                    <a class="nav-link" href="../Appointment Form/appointindex.html">Visit Us</a>
+                    </li>
+                    <li class="navupper nav-item"></li>
+                    <a class="nav-link" href="../admin_login/login.html">Log In</a>
+                    </li>
+                </ul>
             </div>
+        </nav>
+    </div>
 
-            <div id="pic1">
-                <img src="../source/blp.png">
+
+
+    <div class="container-fluid mx-auto">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white">
+            <div class="d-flex flex-row align-items-center ms-lg-5">
+                <img src="../source/LOGO.png" style="height: 5em; width: auto;" alt="Logo">
+                <div class="vr border border-3 mx-3 border-dark opacity-100" style="height: 85px;"></div>
+                <a class="navbar-brand fw-bold p-0 fs-3 text-dark text-start" href="#">
+                    MUSEO <br> BULAWAN
+                </a>
             </div>
-        </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#burgerbtn"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <div class="rightside">
-            <div class="tr">
+            <div class="collapse navbar-collapse" id="burgerbtn">
+                <ul id="list" class="navbar-nav fs-5 gap-3 ms-md-auto me-md-5 ms-sm-0" style="">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="../Home/index.php">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="../News and Events/naeindex.html">News and Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="../About Us/about.html">About Us</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <hr class="border border-1 border-dark opacity-100 mx-md-2 mx-sm-3">
+    </div>
+
+
+    <div class="container-fluid ">
+        <div class="top-about row p-5 justify-content-center gap-3">
+            <div class="col-lg-4 col-md-5">
+                <h4 style="text-align:justify;">
+                    The Museo Bulawan, also known as the Community Museum of Camarines Norte, embodies the rich cultural
+                    and historical essence of the province. Its origins trace back to 1995, when the construction of a
+                    new neo-classical provincial capitol building provided a fitting backdrop for the establishment of a
+                    museum. The Greco-Roman architecture of the building inspired a vision of timeless grandeur, making
+                    it an ideal setting to house artifacts and exhibits that celebrate the province's heritage.
+                </h4>
+                <br>
+                <img class="img-fluid" src="../source/bulawan_museum.png" alt="">
+            </div>
+            <div class="col-md-6 col-md-5">
+                <h1 style="text-align: justify;">
+                    "A museum is a bridge that connects the past to the present, inspiring the future."
+                </h1>
+                <br>
                 <h3>
-                    Discovered at Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco.
+                    Humble Beginnings
                 </h3>
+                <br>
+                <h5 style="text-align: justify;">
+                    Initially, the museum was situated in a modest space at the center of the capitol building's
+                    frontage, directly facing the main entrance. Despite its limited size, this initial venue served as
+                    a hub for various periodic exhibits and activities. It became an effective platform for the
+                    provincial government to foster cultural awareness and education among the youth and the community
+                    at large.
+                </h5>
+                <br>
+                <h5 style="text-align: justify"> Through collaborations with national organizations such as the National
+                    Commission for Culture and
+                    the Arts NCCA, the National Museum, and the National Historical Institute, the museum hosted
+                    numerous events that sparked a growing interest in local history and cultural preservation. These
+                    partnerships deepened the communitys sense of identity and strengthened their connection to the
+                    national narrative. </p>
+                </h5>
+                <br>
+                <h5 style="text-align: justify;">
+                    This initial phase of the museum also served as a testament to the community's commitment to
+                    preserving their heritage despite spatial limitations. The intimate setting encouraged meaningful
+                    interactions between visitors and exhibits, fostering a deeper appreciation for the artifacts on
+                    display. Local artists, historians, and cultural advocates found a welcoming space to share their
+                    work and knowledge, further enriching the museum's offerings. These early efforts laid the
+                    groundwork for a vibrant cultural hub that would eventually grow into a larger and more
+                    comprehensive institution, embodying the community's dedication to celebrating and safeguarding
+                    their shared history.
+                </h5>
             </div>
-
-            <div class="sbr">
-                <h6>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                    culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur
-                    adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                    irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                    est laborum.</h6>
+            <div class="col-10">
+                <h2>“Heritage is not what we inherit from the past; it is what we preserve for the future.”</h2>
             </div>
-        </div>
-    </div>
-    <div class="sec2">
-        <div class="topsec">
-            <h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad </h1>
-        </div>
-        <div class="botsec2">
-            <div class="bsl">
-                <div id="pic2">
-                    <img src="../source/bulawan_museum.png">
-                </div>
+            <div class="col-md-5">
+                <img class="img-fluid" src="../source/blp.png" alt="">
             </div>
-            <div class="bsr">
-                <div class="con">
-                    <div class="L">
-                        <h1>L</h1>
-                    </div>
-                    <div class="orem">
-                        <h6>orem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore etdolore magna aliqua. Ut enim ad minim veniam, quis nostrud quis</h6>
-                    </div>
-                </div>
-                <div class="lorem">
-                    <h6>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                        laboris nisi ut aliquip ex ea commodo consequat. Dusdis aute irure dolor in reprehenderit in
-                        voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                        non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor
-                        sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                        ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                        dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
-                        qui officia deserunt mollit anim id est laborum.</h6>
-                </div>
+            <div class="col-md-5">
+                <h3>
+                    Expansion and Transformation
+                </h3>
+                <h5>
+                    The new location facilitated significant advancements in museum management, including systematic
+                    techniques in documentation, research, preservation, and exhibition. Enhanced marketing and
+                    promotional efforts further broadened the museum's reach, attracting a diverse audience of local
+                    residents and travelers.
+                </h5>
+                <h5>
+                    <span style="font-size: 5em;">O</span>ver time, the museum's popularity and collections grew,
+                    outstripping the capacity of its original location. The year 2000 marked a pivotal moment in its
+                    history when the museum was relocated to a larger building adjacent to the provincial capitol. This
+                    move addressed the need for a more spacious venue, enabling improved collection displays and a more
+                    comfortable experience for visitors.
+                    </<h5>
             </div>
-        </div>
-    </div>
-    <div class="sec3">
-        <div class="topsec">
-            <div class="tl">
-                <h6>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                    culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur
-                    adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                    irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                    est laborumas.</h6>
+            <div class="col-md-5">
+                <h3>
+                    Museo Bulawan: A Beacon of Cultural Wealth
+                </h3>
+                <h5>
+                    The museum's name, Museo Bulawan—translated as “Golden Museum”—reflects Camarines Norte's
+                    distinction as a province historically linked to gold mining. This golden legacy resonates in the
+                    museum's exhibits and collections, which include:
+                </h5>
+                <ul style="font-size: 1.3em;">
+                    <li>Numismatics: An extensive collection of coins and currencies.</li>
+                    <li>Portraits of Governors: A gallery honoring the province's leaders.</li>
+                    <li>Historical Panels: Computer-generated displays illustrating significant moments in local and
+                        national history.</li>
+                    <li>Local Heroes Exhibit: Tributes to the individuals who shaped the province's story.</li>
+                    <li>Tourism Showcases: Presentations highlighting the scenic beauty and cultural richness of
+                        Camarines Norte.</li>
+                </ul>
             </div>
-            <div id="pic3">
-                <img src="../source/pic3.png">
+            <div class="col-md-5">
+                <img class="img-fluid" src="../source/pic1.png" alt="">
             </div>
-        </div>
-        <div class="botsec">
-            <div class="leftsec3">
-                <div class="tl">
-                    <h1>Discovered at Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                        ullamco.
-                    </h1>
-                </div>
-                <div class="bl">
-                    <h6>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                        voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                        non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor
-                        sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut </h6>
-                </div>
+            <div class="col-md-6">
+                <h2>In addition to these exhibits, the museum hosts periodic events and activities designed to engage
+                    children and adults alike, further solidifying its role as a cornerstone of cultural education and
+                    community engagement.</h2>
             </div>
-            <div class="rightsec3">
-                <div class="right">
-                    <h6>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                        voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                        non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor
-                        sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                        ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                        dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
-                        qui officia deserunt mollit anim id est laborum. </h6>
-                </div>
+            <div class="col-md-4">
+                <h4>
+                    A Living Heritage
+                </h4>
+                <h5>Today, Museo Bulawan stands not just as a repository of artifacts but as a dynamic institution that
+                    bridges the past and present. It continues to inspire pride and curiosity among its visitors while
+                    contributing to the province's tourism appeal. As it moves forward, the museum remains committed to
+                    its mission of preserving and showcasing the golden heritage of Camarines Norte, ensuring that
+                    future generations can connect with their roots and celebrate their identity.</h5>
             </div>
         </div>
     </div>
-    <!-- about.html -->
 
-    <div class="map">
-        <div class="text">
-            <h1>Museum Map Guide</h1>
-        </div>
-        <div id="frame">
-            <img id="museum-map-image" src="../source/frame.png" alt="Museum Map">
+
+    <div class="d-flex justify-content-center align-items-center text-center bg-image my-3"
+        style="height: 60vh; background-image: url('../source/wallpic.png'); background-size: cover; background-position: center; color: white; font-family: Hind Kochi;">
+        <div style="margin: 9em;">
+            <h1 class="fw-bold mb-3" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);">Vision</h1>
+            <p class="fs-4" style="text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);">
+                Museo Bulawan is the leading and the most viewer-friendly community museum that serves as the nerve
+                center for education and communication of the rich cultural, artistic, and natural heritage and history
+                of Camarines Norte and the ultimate medium for preservation and exhibition of significant objects that
+                strengthen the values of the people and deepen their patriotism and sense of identity.
+            </p>
         </div>
     </div>
 
-    <!-- Add this script before the closing </body> tag -->
-    <script>
-        window.addEventListener("DOMContentLoaded", () => {
-            const imageData = window.name; // Retrieve the image data from window.name
-            const imgElement = document.getElementById("museum-map-image");
 
-            if (imageData && imageData.startsWith("data:image")) {
-                imgElement.src = imageData; // Set the src to the generated image
-                window.name = ""; // Clear window.name to free up memory
-            } else {
-                console.warn("No valid image data found in window.name.");
-            }
-        });
-    </script>
-    <!-- about us end -->
+    <div class="container-fluid my-5" style="font-family: Hind Kochi">
+        <div class="text-center">
+            <h1 class="fw-bold mb-4">Mission</h1>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-10 text-center fs-4">
+                <p>
+                    Collect, research, conserve, exhibit and disseminate knowledge of significant past so as to enhance
+                    social life and sustain the efforts to social transformation and development.
+                </p>
+                <p>
+                    Educate, entertain and excite the various publics through systematic preservation, protection,
+                    promotion and publication of the material culture of the society.
+                </p>
+                <p>
+                    Sustain the process of social progress through the communicative function of the museum towards
+                    inculcation of values, greater appreciation and understanding of arts and culture as well as
+                    production of relevant information that boosts the pride of place of the people and their sense of
+                    national purpose.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div style="background-color: #1C1B19; padding-top: 5rem; padding-bottom: 5rem; font-family: Hind Kochi;">
+        <div class="container">
+            <div class="text-center mb-4">
+                <h1 class="display-5 fw-bold text-white">A Message From The Museum Curator's</h1>
+                <h2 class="text-warning">Mr. Abel C. Icatlo</h2>
+            </div>
+
+            <div class="text-center mb-5">
+                <img src="../source/icatlo.png" alt="Curator Photo" class="rounded-circle shadow"
+                    style="width: 10em; height: auto;">
+            </div>
+
+            <div class="row justify-content-center text-white">
+                <div class="col-lg-10">
+                    <p class="text-center">
+                        Through the pages of history we saw the searing revolutionary fire of the nationalist heroes of
+                        Camarines Norte who convulsed in a determined uprising in Daet in April 1898 and later
+                        established
+                        the First Rizal Monument in December of that year. The seeds of freedom sown by the local heroes
+                        of
+                        this Province engendered an awakened nation and a people who were wont to pay the price of
+                        freedom.
+                        Through the wars and dictatorship, the people of Camarines Norte seasoned the challenges with
+                        perseverance and fortitude.
+                    </p>
+
+                    <p class="text-center">
+                        Museo Bulawan, which is a community museum, attempts to capture the rich panorama of struggle of
+                        the Local people. History aside, Museo Bulawan, showcases as well the exquisite treasure of this
+                        province which is gold. Actually, bulawan is a Filipino word for gold and it is said that
+                        Camarines
+                        Norte is a province that sits in a mound of gold.
+                    </p>
+
+                    <p class="text-center">
+                        Not only does the Provincial Government of Camarines Norte mind itself on the material
+                        development
+                        of the people but more so, it strives to zero in on the software of social and economic
+                        development
+                        which is the cultural, ethical and moral upliftment of the people. And there is no other way by
+                        which this can be effectively done except through the powerful tool of culture and arts.
+                    </p>
+
+                    <p class="text-center">
+                        Hence, genuine socio-economic progress becomes possible through the developmental firepower of
+                        culture clarified and inculcated in the minds and hearts of the people. Museo Bulawan is
+                        dynamically
+                        spearheading this thrust on cultural development being at the forefront of heritage, cultural
+                        and
+                        artistic endeavors of the local government. And we hold the conviction that cultural development
+                        is
+                        the ultimate driving force to continually rekindle and spread courage, resiliency, integrity,
+                        moral
+                        strength and patriotic and nationalistic fervor.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <img src="../source/team.png" alt="" style="width: 100%; height: auto;">
+    </div>
+
+
+    <div class="container-fluid my-5" style="font-family: Hind Kochi">
+        <div class="text-center">
+            <h1 class="fw-bold mb-4">Key People</h1>
+            <h2 class="mb-2"> Pure Professionalism</h2>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-10 text-center fs-4">
+                <p>
+                    Our dedicated team of experienced professionals are always on the ball, utilizing their unique
+                    skills and passion to move the work of Museum. We’re always pushing ourselves to stay ahead of the
+                    curve and striving to perfect our programs. Meet some of our incredible employees below.
+                </p>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div id="teamCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+        <div class="carousel-inner">
+            <!-- Item 1 -->
+            <div class="carousel-item active">
+                <div class="d-flex flex-column align-items-center text-center">
+                    <img src="../source/icatlo2.png" class="rounded-circle mb-3" alt="Member 1">
+                    <h5>Abel C. Icatlo</h5>
+                    <p>Museum Curator</p>
+                </div>
+            </div>
+
+            <div class="carousel-item text-center">
+                <img src="../source/calma.png" class="rounded-circle mb-3" alt="Andrea Calma">
+                <h5>Andrea Calma</h5>
+                <p>Museum Staff</p>
+            </div>
+            <!-- Member 2 -->
+            <div class="carousel-item text-center">
+                <img src="../source/ong.png" class="rounded-circle mb-3" alt="Toto Ong">
+                <h5>Toto Ong</h5>
+                <p>Museum Staff</p>
+            </div>
+            <!-- Member 3 -->
+            <div class="carousel-item text-center">
+                <img src="../source/rodriguez.png" class="rounded-circle mb-3" alt="Leni Rodriguez">
+                <h5>Leni Rodriguez</h5>
+                <p>Museum Staff</p>
+            </div>
+            <!-- Member 4 -->
+            <div class="carousel-item text-center">
+                <img src="../source/bermundo.png" class="rounded-circle mb-3" alt="Andex Bermundo">
+                <h5>Andex Bermundo</h5>
+                <p>Museum Staff</p>
+            </div>
+            <!-- Member 5 -->
+            <div class="carousel-item text-center">
+                <img src="../source/dabocol.png" class="rounded-circle mb-3" alt="Katherine Dabocol">
+                <h5>Katherine Dabocol</h5>
+                <p>Administrative Assistant II</p>
+            </div>
+            <!-- Member 6 -->
+            <div class="carousel-item text-center">
+                <img src="../source/necio.png" class="rounded-circle mb-3" alt="Andrew Necio">
+                <h5>Andrew Necio</h5>
+                <p>Administrative Aide II</p>
+            </div>
+            <!-- Member 7 -->
+            <div class="carousel-item text-center">
+                <img src="../source/amaranto.png" class="rounded-circle mb-3" alt="Glenda Amaranto">
+                <h5>Glenda Amaranto</h5>
+                <p>Museum Staff</p>
+            </div>
+            <!-- Member 8 -->
+            <div class="carousel-item text-center">
+                <img src="../source/sayno.png" class="rounded-circle mb-3" alt="Jeah Sayno">
+                <h5>Jeah Sayno</h5>
+                <p>Museum Staff</p>
+            </div>
+            <!-- Member 9 -->
+            <div class="carousel-item text-center">
+                <img src="../source/gunda.png" class="rounded-circle mb-3" alt="Vanessa Gunda">
+                <h5>Vanessa Gunda</h5>
+                <p>Museum Staff</p>
+            </div>
+            <!-- Member 10 -->
+            <div class="carousel-item text-center">
+                <img src="../source/bracero.png" class="rounded-circle mb-3" alt="Mhiles Bracero">
+                <h5>Mhiles Bracero</h5>
+                <p>Museum Staff</p>
+            </div>
+            <!-- Repeat for all members -->
+        </div>
+        <!-- Carousel controls -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#teamCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#teamCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
 
     <!-- start of footer -->
     <div class="wrapper">
 
-        <div class="lowercontainer ms-5">
+        <div class="lowercontainer ms-5 pt-4">
             <div class="row d-flex">
                 <div class="col-12">
                     <ul class="nav-links">
@@ -285,7 +438,7 @@
 
         <hr class="border border-1 border-light opacity-100 mx-4">
 
-        <div class="side-footer mx-5 mb-3">
+        <div class="side-footer mx-5 mb-0">
             <div class="row d-flex justify-content-between">
                 <div class="col-lg-7 col-sm-12">
                     <div class="museo-bulawan-cmp d-flex justify-content-start mb-3">
