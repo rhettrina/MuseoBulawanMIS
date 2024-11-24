@@ -471,7 +471,6 @@ function openFormModal(donID, formType) {
   document.querySelectorAll('[data-modal-close]').forEach(button => {
     button.addEventListener('click', closeformModal);
 });
-
 const calculateDuration = (startDate, endDate) => {
     const start = new Date(startDate);
     const end = new Date(endDate);
