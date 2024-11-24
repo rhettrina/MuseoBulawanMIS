@@ -31,15 +31,13 @@ function selectTab(selectedButton) {
         'artifacts-table',
         'acquired-table',
         'borrowing-table',
-        'display-table',
-        'donors-table'
+        'donators'
     ];
     const sortContainerIdList = [
         'artifact-sort',
         'acquired-sort',
         'borrowing-sort',
-        'display-sort',
-        'donors-sort'
+        'donators-sort'
     ];
 
     // Show the corresponding table
@@ -74,37 +72,36 @@ async function fetchAndRenderTables() {
             return;
         }
 
-        // Map data to individual tables
+        // Filter and map data to individual tables
         const artifacts = data.map(item => ({
             date: item.ArtifactSubmissionDate,
-            title: item.artname || "N/A",
+            title: item.artname,
             type: item.artifact_typeID, // Adjust this logic based on your needs
-            display_status: true,
             lastUpdated: item.updated_date || "Not Edited",
         }));
 
-        const acquired = data.map(item => ({
-            date: item.DonationSubmissionDate,
-            donatorID: item.donatorID,
-            artifactName: item.artifact_nameID,
-            lastUpdated: item.updated_date,
-            donorName: `${item.first_name} ${item.last_name}` // Concatenate first and last names
-        }));
+        // Filter for type "donation" and map for acquired table
+        const acquired = data
+            .filter(item => item.artifact_typeID === "Donation") // Ensure only donation type is included
+            .map(item => ({
+                date: item.DonationSubmissionDate,
+                donatorID: item.donatorID,
+                artifactName: item.artifact_nameID,
+                lastUpdated: item.updated_date,
+                donorName: `${item.first_name} ${item.last_name}` // Concatenate first and last names
+            }));
 
-        const borrowing = data.map(item => ({
+        // Filter for type "lending" and map for borrowing table
+        const borrowing = data
+        .filter(item => item.artifact_typeID === "Lending") // Ensure only lending type is included
+        .map(item => ({
+            date: item.LendingSubmissionDate,
             lendingID: item.lendingID,
-            donatorID: item.donatorID,
             artifactName: item.artifact_nameID,
-            duration: item.lending_durationID,
-            reason: item.lending_reason,
+            duration: calculateDuration(item.starting_date, item.ending_date), // Use the calculateDuration function for duration
+            update: item.updated_date
         }));
-
-        const display = data.map(item => ({
-            artifactID: item.artifact_nameID, // Adjust if there's a separate artifactID in your schema
-            type: "Artifact Type", // Replace with the actual type if available
-            name: item.artifact_nameID,
-            status: "Active", // Replace with the actual status if available
-        }));
+    
 
         const donators = data.map(item => ({
             donatorID: item.donatorID,
@@ -116,16 +113,49 @@ async function fetchAndRenderTables() {
         }));
 
         // Render the data into the tables
-        renderTable(artifacts, "artifacts-table", ["date", "title", "type", "display_status","lastUpdated"]);
-        renderTable(acquired, "acquired-table", ["date",  "artifactName","donorName","lastUpdated"]);
-        renderTable(borrowing, "borrowing-table", ["lendingID", "donatorID", "artifactName", "duration", "reason"]);
-        renderTable(display, "display-table", ["artifactID", "type", "name", "status"]);
+        renderTable(artifacts, "artifacts-table", ["date", "title", "type", "lastUpdated"]);
+        renderTable(acquired, "acquired-table", ["date", "artifactName", "donorName", "lastUpdated"]);
+        renderTable(borrowing, "borrowing-table", ["date", "artifactName","duration","update" ]);
         renderTable(donators, "donors-table", ["donatorID", "firstName", "lastName", "email", "age", "city"]);
-        
+
     } catch (error) {
         console.error("Error fetching or processing data:", error);
     }
 }
+
+const calculateDuration = (startDate, endDate) => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+        return "Invalid date";
+    }
+
+    let years = end.getFullYear() - start.getFullYear();
+    let months = end.getMonth() - start.getMonth();
+    let days = end.getDate() - start.getDate();
+
+    // Adjust for negative days
+    if (days < 0) {
+        months -= 1;
+        const previousMonth = new Date(end.getFullYear(), end.getMonth(), 0); // Last day of the previous month
+        days += previousMonth.getDate();
+    }
+
+    // Adjust for negative months
+    if (months < 0) {
+        years -= 1;
+        months += 12;
+    }
+
+    // Build a readable duration string
+    const yearString = years > 0 ? `${years} year${years > 1 ? 's' : ''}` : '';
+    const monthString = months > 0 ? `${months} month${months > 1 ? 's' : ''}` : '';
+    const dayString = days > 0 ? `${days} day${days > 1 ? 's' : ''}` : '';
+
+    // Combine non-empty parts
+    return [yearString, monthString, dayString].filter(Boolean).join(', ');
+};
 
 function renderTable(data, tableId, columns) {
     const table = document.getElementById(tableId);
@@ -169,12 +199,7 @@ function renderTable(data, tableId, columns) {
             if (column === columns[0]) cell.classList.add('rounded-l-[15px]', 'border-l-2');
             if (column === columns[columns.length - 1]) cell.classList.add('rounded-r-[15px]', 'border-r-2');
 
-            // Handle display_status column to show "on display" or "not displayed"
-            if (column === 'display_status') {
-                cell.textContent = item[column] ? "on display" : "not displayed";
-            } else {
-                cell.textContent = item[column] || "N/A";
-            }
+            cell.textContent = item[column] || "N/A";
 
             row.appendChild(cell);
         });
@@ -208,7 +233,5 @@ function handleAction(action, id) {
 }
 
 
-
-  
 // Call the function to fetch and render data when the page loads
 fetchAndRenderTables();

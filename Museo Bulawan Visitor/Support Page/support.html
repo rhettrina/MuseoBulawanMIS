@@ -20,7 +20,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Hina+Mincho&display=swap" rel="stylesheet">
-
+    <script src="./supp.js"></script>
 
 
 </head>
@@ -29,27 +29,34 @@
 
     <!-- header start -->
 
-    <div class="wrapper">
-
-        <div id="container1">
-            <nav class="navbar navbar-expand-lg navbar-dark me-3 top-nav">
-                <p id="open">Open Daily 9:00am-5:00pm, Monday- Friday, Close During Holidays</p>
-
+    <div class="stickycon">
+        <div id="stickyNav" class="container-fluid sticky-top">
+            <nav class="navbar navbar-expand-lg navbar-dark p-1">
+                <p id="texttime" class="my-auto ms-lg-5 ms-sm-1 ms-md-3">
+                    Open Daily 9:00am-5:00pm, Monday-Friday, Close During Holidays
+                </p>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#morebtn"
                     aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="fa-solid fa-caret-down"></span>
                 </button>
-
                 <div class="collapse navbar-collapse" id="morebtn">
-                    <ul class="navbar-nav ms-auto px-4">
-                        <li class="nav-item">
+                    <ul id="navLinks" class="navbar-nav ms-auto me-lg-5 me-sm-1 me-md-3">
+                        <li class="navupper nav-item">
+                            <a class="nav-link" href="../Home/index.html">Home</a>
+                        </li>
+                        <li class="navupper nav-item">
+                            <a class="nav-link" href="../News and Events/naeindex.html">News and Events</a>
+                        </li>
+                        <li class="navupper nav-item">
+                            <a class="nav-link" href="../museum_mapguide/index.html">Museum Map</a>
+                        </li>
+                        <li class="navupper nav-item">
                             <a class="nav-link" href="../About Us/about.html">About Us</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../About Us/about.html">Visit Us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../admin_login/login.html">Log In</a>
+                    </ul>
+                    <ul class="navbar-nav ms-lg-3">
+                        <li class="navupper nav-item">
+                            <a id="loginLink" class="nav-link" href="../admin_login/login.html">Log In</a>
                         </li>
                     </ul>
                 </div>
@@ -57,38 +64,47 @@
         </div>
     </div>
 
-    <div class="wr">
+    <div class="wrapperwhite mt-3">
         <div id="container2">
-            <nav class="navbar navbar-expand-lg header-nav" data-bs-theme="dark">
+            <nav class="navbar navbar-expand-lg navbar-dark">
                 <div class="logowrapper">
                     <img src="../source/LOGO.png" alt="" id="logo">
-                    <div class="vr border border-4 ms-5 border- opacity-100" style="height: 85;"></div>
+                    <div class="vr border border-4 mx-3 border-dark opacity-100" style="height: 85;"></div>
                     <a id="brand" class="navbar-brand text-start" href="">Museo<br>Bulawan</a>
                 </div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#burgerbtn"
                     aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon "></span>
+                    <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="burgerbtn">
-                    <ul id="list" class="navbar-nav fs-5">
+                <div class="collapse navbar-collapse justify-content-end" id="burgerbtn">
+
+
+
+                    <ul class="hovering navbar-nav fs-5 gap-3">
                         <li class="nav-item">
-                            <a class="nav-link" href="../Home/index.html">Home <img class="dropdownicon" src="../source/dropdownb.png" alt=""></a>
+                            <a class="nav-link" href="../Home/index.php">Home</a>
+
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../Collection Page/">Collections <img class="dropdownicon" src="../source/dropdownb.png" alt=""></a>
+                            <a class="nav-link" href="../museum_mapguide/index.html">Museum Map</a>
+
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../News and Events/naeindex.html">News and Events <img class="dropdownicon" src="../source/dropdownb.png"
-                                    alt=""></a>
+                            <a class="nav-link" href="../News and Events/naeindex.html">News and Events</a>
+
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../About Us/about.html">About Us <img class="dropdownicon" src="../source/dropdownb.png" alt=""></a>
+                            <a class="nav-link" href="../About Us/about.html">About Us</a>
+
                         </li>
                     </ul>
-                    <button class="btn ms-auto"><img src="../source/searchb.png" alt="" id="searchbtn"></button>
                 </div>
+
+
+
+
             </nav>
-            <hr class="border border-2 border-dark opacity-100">
+            <hr class="border border-1 border-dark opacity-100">
         </div>
     </div>
 
@@ -147,7 +163,7 @@
                 </a>
 
                 <p>Do you want to lend us your artifact?</p>
-                <button class="lend-button">Lend</button>
+                <button onclick="location.href='../Lending_Form/lendindex.html'" class="lend-button">Lend</button>
             </div>
         </div>
     </div>
