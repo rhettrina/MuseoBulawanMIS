@@ -11,9 +11,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 // Include database connection
 include 'db_connect.php';
 
+// Parse the incoming JSON payload
+$data = json_decode(file_get_contents("php://input"), true);
+
+if (!$data) {
+    http_response_code(400); // Bad Request
+    echo json_encode(['success' => false, 'error' => 'Invalid JSON payload']);
+    exit();
+}
 
 // Check if required fields are present in the data
-if (isset($data['donID'], $data['transfer_status'])) {
+if (isset($data['donID']) && isset($data['transfer_status'])) {
     $donID = $data['donID'];
     $transfer_status = $data['transfer_status'];
 
