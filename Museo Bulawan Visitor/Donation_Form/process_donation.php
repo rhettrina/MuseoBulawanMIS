@@ -52,27 +52,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $targetFile = $targetDir . basename($image["name"]);
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
-
+    
+        // Ensure the directory exists
+        if (!is_dir($targetDir)) {
+            mkdir($targetDir, 0777, true); // Create the directory if it doesn't exist
+        }
+    
         // Check if the file is an image
         if (getimagesize($image["tmp_name"]) === false) {
             return false; // File is not an image
         }
-
+    
         // If file already exists, use the same path
         if (file_exists($targetFile)) {
             return $targetFile; // Return the existing file path
         }
-
+    
         // Check file size (max 3MB)
         if ($image["size"] > 3 * 1024 * 1024) {
             return false; // File size exceeds 3MB
         }
-
+    
         // Check file format (allowed types: jpg, jpeg, png, gif)
         if (!in_array($imageFileType, ['jpg', 'jpeg', 'png', 'gif'])) {
             return false; // Invalid file type
         }
-
+    
         // Try to move the uploaded file to the target directory
         if (move_uploaded_file($image["tmp_name"], $targetFile)) {
             return $targetFile; // Return the file path
@@ -80,6 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             return false; // Error uploading the file
         }
     }
+    
 
     // Set upload directories
     $artifactUploadDir = 'uploads/artifacts/';
