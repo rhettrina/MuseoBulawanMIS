@@ -22,7 +22,7 @@ if ($conn->connect_error) {
 }
 
 // Define constants for file upload
-define('UPLOAD_DIR', __DIR__ . '/src/uploads/artifacts/'); // Adjusted for your path
+define('UPLOAD_DIR', __DIR__ . '/uploads/articlesUploads/'); // Adjusted for your path
 
 // Ensure the upload directory exists
 if (!is_dir(UPLOAD_DIR)) {
