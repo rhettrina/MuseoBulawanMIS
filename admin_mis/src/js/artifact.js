@@ -77,14 +77,14 @@ async function fetchAndRenderTables() {
         // Map data to individual tables
         const artifacts = data.map(item => ({
             date: item.ArtifactSubmissionDate,
-            title: item.lending_reason || "N/A",
-            type: "Lending", // Adjust this logic based on your needs
+            title: item.artifact_nameID || "N/A",
+            type: item.type, // Adjust this logic based on your needs
             display_status: true,
             lastUpdated: item.updated_date || "Not Edited",
         }));
 
         const acquired = data.map(item => ({
-            donationID: item.donationID,
+            donationID: item.DonatorSubmissionDate,
             donatorID: item.donatorID,
             artifactName: item.artifact_nameID,
             lastUpdated: item.updated_date,
