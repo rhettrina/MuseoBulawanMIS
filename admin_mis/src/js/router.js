@@ -5,42 +5,37 @@ document.addEventListener("DOMContentLoaded", () => {
     let cleanupFunctions = {}; // Store cleanup functions for specific pages
 
     const savedPage = localStorage.getItem("currentPage") || "dashboard";
- 
-    function loadContent(page) {
-        if (typeof window.cleanup === "function") {
-            console.log("Calling cleanup for current page...");
-            window.cleanup(); // Call the page's cleanup function
-            window.cleanup = null; // Reset cleanup for the next page
-        }
-    
-        fetch(`src/views/${page}.html`)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error(
-                        `Error loading page: ${response.statusText} (status code: ${response.status})`
-                    );
-                }
-                return response.text();
-            })
-            .then((html) => {
-                content.innerHTML = html;
-    
-                // Verify if the content element exists in the DOM
-                if (!content) {
-                    console.error("Error: 'content' element is missing in the DOM.");
-                    return;
-                }
-    
-                updateActiveTab(page);
-    
-                unloadScript(); // Remove the previous page script
-                loadScript(page);
-            })
-            .catch((error) => {
-                content.innerHTML = `<p class="text-red-500">Error: ${error.message}</p>`;
-                console.error("Content Load Error:", error);
-            });
-    }
+ function loadContent(page) {
+    unloadScript(); // Reset before loading new content
+
+    fetch(`src/views/${page}.html`)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(
+                    `Error loading page: ${response.statusText} (status code: ${response.status})`
+                );
+            }
+            return response.text();
+        })
+        .then((html) => {
+            content.innerHTML = html;
+
+            // Verify if the content element exists in the DOM
+            if (!content) {
+                console.error("Error: 'content' element is missing in the DOM.");
+                return;
+            }
+
+            updateActiveTab(page);
+
+            loadScript(page);
+        })
+        .catch((error) => {
+            content.innerHTML = `<p class="text-red-500">Error: ${error.message}</p>`;
+            console.error("Content Load Error:", error);
+        });
+}
+
     
     function loadScript(page) {
         const script = document.createElement("script");
@@ -105,12 +100,39 @@ document.addEventListener("DOMContentLoaded", () => {
     
 
     function unloadScript() {
+        // Clear dynamically added elements from the content area
+        if (content) {
+            console.log("Clearing content...");
+            content.innerHTML = ""; // Remove all child elements in the content area
+        }
+    
+        // Remove the current script if loaded
         if (currentScript) {
             console.log(`Unloading script: ${currentScript.src}`);
             document.body.removeChild(currentScript);
             currentScript = null;
         }
+    
+        // Reset global states and cleanup functions
+        if (typeof window.cleanup === "function") {
+            console.log("Calling cleanup for global state...");
+            window.cleanup(); // Call the global cleanup function
+            window.cleanup = null; // Clear it to avoid accidental reuse
+        }
+    
+        // Clear any other DOM elements or event listeners specific to the previous view
+        Object.keys(cleanupFunctions).forEach((page) => {
+            if (typeof cleanupFunctions[page] === "function") {
+                console.log(`Calling cleanup for page: ${page}`);
+                cleanupFunctions[page]();
+            }
+        });
+    
+        cleanupFunctions = {}; // Reset cleanup functions
+    
+        console.log("State and DOM reset complete.");
     }
+    
  
     function updateActiveTab(activePage) {
         links.forEach((link) => {
