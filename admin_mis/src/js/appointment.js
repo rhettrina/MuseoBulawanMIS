@@ -6,7 +6,7 @@ function init() {
 
 // Fetch total appointments data
 function fetchTotalAppointments() {
-    fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchTotalAppointments.php')
+    fetch('https://museobulawan.online/admin_mis/src/php/fetchTotalAppointments.php')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok: ' + response.statusText);
@@ -50,7 +50,7 @@ document.getElementById('sortA').addEventListener('change', function () {
 
 // Fetch and populate the appointment table
 function fetchAppointments(sort = 'newest') {
-    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchAppointments.php?sort=${sort}`)
+    fetch(`https://museobulawan.online/admin_mis/src/php/fetchAppointments.php?sort=${sort}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok: ' + response.statusText);
@@ -165,15 +165,26 @@ function handleAction(action, data) {
                 });
                 break;
             
-        case 'approve':
-        case 'reject':
-            
-            updateAppointmentStatus(action, formID);
-            console.log('Hotdog!');
-            break;
         default:
             console.error('Unknown action:', action);
     }
+}
+
+
+function handleApprovalOrRejection(action, formID) {
+    if (action !== 'approve' && action !== 'reject') {
+        console.error('Invalid action passed to handleApprovalOrRejection:', action);
+        return;
+    }
+
+    updateAppointmentStatus(action, formID)
+        .then(() => {
+            console.log(`Appointment ${action === 'approve' ? 'approved' : 'rejected'} successfully.`);
+        })
+        .catch(error => {
+            console.error(`Error handling ${action} action:`, error);
+            alert(`An error occurred while trying to ${action} the appointment.`);
+        });
 }
 
 
@@ -189,13 +200,13 @@ function displayNoDataMessage() {
 
 // Function to update appointment status
 function updateAppointmentStatus(action, formID) {
-    fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/processAppointment.php', { 
+    fetch('https://museobulawan.online/admin_mis/src/php/processAppointment.php', { 
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            appointmentID: formID,
+            appointmentID: appointmentId,
             action: action 
         })
     })
@@ -238,8 +249,8 @@ function showAppointmentModal(appointment) {
     document.getElementById('appointment-notes').textContent = appointment.appointment_notes || 'N/A';
 
     // Set the appointment ID on the buttons
-    document.getElementById('approve-appointment-btn').setAttribute('data-appointment-id', appointment.id);
-    document.getElementById('reject-appointment-btn').setAttribute('data-appointment-id', appointment.id);
+    document.getElementById('approve-appointment-btn').setAttribute('data-appointment-id', appointment.formID);
+    document.getElementById('reject-appointment-btn').setAttribute('data-appointment-id', appointment.formID);
 
     // Show the modal
     if (modal) {
@@ -320,20 +331,20 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('approve-appointment-btn').addEventListener('click', function() {
         const appointmentId = this.getAttribute('data-appointment-id');
         console.log('Approve button clicked for appointment ID:', appointmentId); // Added console.log
-        handleAction('approve', appointmentId);
+        handleApprovalOrRejection('approve', appointmentId);
     });
 
     document.getElementById('reject-appointment-btn').addEventListener('click', function() {
         const appointmentId = this.getAttribute('data-appointment-id');
         console.log('Reject button clicked for appointment ID:', appointmentId); // Added console.log
-        handleAction('reject', appointmentId);
+        handleApprovalOrRejection('reject', appointmentId);
     });
 });
 
 
 
 function deleteAppointment(fkID) {
-    return fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/deleteAppointments.php?id=${fkID}`, {
+    return fetch(`https://museobulawan.online/admin_mis/src/php/deleteAppointments.php?id=${fkID}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',

@@ -6,7 +6,7 @@ function init() {
 }
 
 function fetchTotalDonations() {
-    fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchTotalDonations.php')
+    fetch('https://museobulawan.online/admin_mis/src/php/fetchTotalDonations.php')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok: ' + response.statusText);
@@ -28,7 +28,7 @@ function fetchTotalDonations() {
 }
 // Fetch and populate the donations table
 function fetchDonations(sort = 'newest') {
-    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchDonations.php?sort=${sort}`)
+    fetch(`https://museobulawan.online/admin_mis/src/php/fetchDonations.php?sort=${sort}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok: ' + response.statusText);
@@ -232,7 +232,7 @@ document.getElementById("sorts").addEventListener("change", function () {
 });
   
 function deleteDonation(donID) {
-    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/deleteDonations.php?id=${donID}`, {
+    fetch(`https://museobulawan.online/admin_mis/src/php/deleteDonations.php?id=${donID}`, {
         method: 'DELETE',
     })
         .then((response) => {
@@ -300,7 +300,7 @@ function closeDModal(modalId) {
 
 
 function updateTransferStatus(donID, newStatus) {
-    fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/updateTransferStatus.php', {
+    fetch('https://museobulawan.online/admin_mis/src/php/updateTransferStatus.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ donation: donID, transfer_status: newStatus })
@@ -355,7 +355,7 @@ function openStatusModal(donID, currentStatus, newStatus, dropdown) {
         console.log(`User confirmed the change for donator ID: ${donID}, changing status from "${currentStatus}" to "${newStatus}"`);
 
         // Make a fetch request to update the status
-        fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/updateTransferStatus.php', {
+        fetch('https://museobulawan.online/admin_mis/src/php/updateTransferStatus.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -404,7 +404,7 @@ function closeTModal(modalId) {
 } 
 
 function openFormModal(donID, formType) {
-    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/getFormDetails.php?donID=${donID}&formType=${formType}`)
+    fetch(`https://museobulawan.online/admin_mis/src/php/getFormDetails.php?donID=${donID}&formType=${formType}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Failed to fetch form details');
