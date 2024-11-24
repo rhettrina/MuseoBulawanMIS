@@ -20,7 +20,8 @@ $query = "
         CONCAT(dn.first_name, ' ', dn.last_name) AS donor_name, 
         a.artifact_nameID AS artifact_title, 
         'Lending' AS form_type, 
-        'To Review' AS status, 
+        status, 
+        transfer_status, 
         a.updated_date AS updated_date, 
         dn.donatorID AS donID
     FROM 
@@ -38,7 +39,8 @@ $query = "
         CONCAT(dn.first_name, ' ', dn.last_name) AS donor_name, 
         a.artifact_nameID AS artifact_title, 
         'Donation' AS form_type, 
-        'To Review' AS status, 
+        status, 
+        transfer_status, 
         a.updated_date AS updated_date,
         dn.donatorID AS donID
     FROM 
