@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Notifications array
     let notifications = [];
 
-    // Function to fetch notifications from the database
+    // Function to fetch notifications from the backend API
     async function fetchNotifications() {
         try {
             const response = await fetch("https://example.com/api/notifications");
@@ -125,8 +125,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 throw new Error(`Error fetching notifications: ${response.statusText}`);
             }
             const data = await response.json();
-            
-            // Assuming the API returns an array of notifications
+
+            // Map the fetched data to the notifications array
             notifications = data.map(item => ({
                 type: item.type,
                 from: item.from,
@@ -135,10 +135,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 date: item.date,
                 time: item.time,
             }));
-            
+
             updateNotificationCounter(); // Update the counter after fetching
+            loadCalendar(); // Reload the calendar to reflect new notifications
         } catch (error) {
             console.error("Failed to fetch notifications:", error);
+            
+            
         }
     }
 
@@ -150,7 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Call the function initially to fetch notifications and set the counter
+    // Call fetchNotifications initially to load notifications
     fetchNotifications();
 
     // Open the notification modal
