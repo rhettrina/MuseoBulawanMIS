@@ -150,7 +150,7 @@ function handleAction(action, data) {
         case 'delete':
             openAppointmentDeleteModal((response) => {
                 if (response) {
-                    deleteAppointment(data) // 'data' is appointment.id
+                    deleteAppointment(data) // 'data' is appointment.fkID
                         .then(() => {
                             console.log(`Appointment with ID ${data} deleted.`);
                             init(); // Refresh the data/display
@@ -169,25 +169,30 @@ function handleAction(action, data) {
     }
 }
 
-// Approve button handler
+// Approve and Reject button handlers
 document.getElementById("approve-appointment-btn").addEventListener("click", () => {
     const appointmentId = getAppointmentId();
+    if (!appointmentId) return; // Prevent further execution if ID is not found
     console.log(`Updating status to approved for appointment ID: ${appointmentId}`);
     updateAppointmentStatus(appointmentId, "Approved");
 });
 
-// Reject button handler
 document.getElementById("reject-appointment-btn").addEventListener("click", () => {
     const appointmentId = getAppointmentId();
+    if (!appointmentId) return; // Prevent further execution if ID is not found
     console.log(`Updating status to rejected for appointment ID: ${appointmentId}`);
     updateAppointmentStatus(appointmentId, "Rejected");
 });
 
 // Get the appointment ID from the modal
 function getAppointmentId() {
-    return document.getElementById("appointment-modal").dataset.appointmentId;
+    const modal = document.getElementById("appointment-modal");
+    const appointmentId = modal.dataset.appointmentId;
+    if (!appointmentId) {
+        console.error("No appointment ID found in the modal.");
+    }
+    return appointmentId;
 }
-
 
 // Function to update appointment status
 function updateAppointmentStatus(appointmentId, status) {
@@ -225,7 +230,7 @@ function updateAppointmentStatus(appointmentId, status) {
         console.log("Response from PHP:", data);
         if (data.success) {
             alert("Appointment status updated successfully!");
-            closeModal();
+            closeModal('appointment-modal');
             fetchAppointments(); // Refresh the appointment list or update the UI
         } else {
             console.error("Error response from PHP:", data.message);
@@ -238,45 +243,6 @@ function updateAppointmentStatus(appointmentId, status) {
     });
 }
 
-// Approve button handler
-document.getElementById("approve-appointment-btn").addEventListener("click", () => {
-    const appointmentId = getAppointmentId();
-    console.log(`Updating status to approved for appointment ID: ${appointmentId}`);
-    updateAppointmentStatus(appointmentId, "Approved");
-});
-
-// Reject button handler
-document.getElementById("reject-appointment-btn").addEventListener("click", () => {
-    const appointmentId = getAppointmentId();
-    console.log(`Updating status to rejected for appointment ID: ${appointmentId}`);
-    updateAppointmentStatus(appointmentId, "Rejected");
-});
-
-// Get the appointment ID from the modal
-function getAppointmentId() {
-    const modal = document.getElementById("appointment-modal");
-    const appointmentId = modal.dataset.appointmentId;
-    if (!appointmentId) {
-        console.error("No appointment ID found in the modal.");
-    }
-    return appointmentId;
-}
-
-// Close modal function
-function closeModal() {
-    const modal = document.getElementById("appointment-modal");
-    if (modal) {
-        modal.classList.add("hidden");
-    } else {
-        console.error("Modal element not found.");
-    }
-}
-
-/*-----------------------------------------------------------------------------------------------------------------------------------------------*/
-
-
-
-
 // Function to display a message when no data is available
 function displayNoDataMessage() {
     const tableBody = document.querySelector('tbody');
@@ -286,8 +252,6 @@ function displayNoDataMessage() {
         </tr>
     `;
 }
-
-
 
 // Function to show and populate the appointment modal
 function showAppointmentModal(appointment) {
@@ -314,7 +278,6 @@ function showAppointmentModal(appointment) {
     if (modal) {
         modal.classList.remove('hidden');
     }
-    
 }
 
 // Close modal logic
@@ -326,7 +289,7 @@ document.getElementById('close-appointment-modal-btn').addEventListener('click',
     closeModal('appointment-modal');
 });
 
-// Function to close a modal by ID
+// Unified Function to close a modal by ID
 function closeModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
