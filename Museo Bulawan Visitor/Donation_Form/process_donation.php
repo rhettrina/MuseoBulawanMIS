@@ -118,7 +118,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("ssssssssiss", $firstName, $lastName, $email, $phone, $province, $street, $barangay, $organization, $age, $sex, $city);
 
     if ($stmt->execute()) {
-        echo "Donator added successfully!<br>";
+        echo "Donator added successfuslly!<br>";
     } else {
         echo "Error inserting Donator: " . $stmt->error;
         exit();
