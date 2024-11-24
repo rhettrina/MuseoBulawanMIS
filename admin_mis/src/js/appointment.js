@@ -192,22 +192,49 @@ function fetchAppointmentDetails(appointmentId) {
     
 }
 
-
 function openAppointmentDeleteModal(callback) {
     const modal = document.getElementById("delete-modal");
-    modal.classList.remove("hidden");
-  
-    // Handling button clicks
-    document.getElementById("delete-confirm-button").onclick = () => {
-      callback(true);  // Return 'true' if 'Delete' is clicked
-      closeModal("delete-modal");
+
+    if (!modal) {
+        console.error("Delete modal not found.");
+        return;
+    }
+
+    modal.classList.remove("hidden"); // Show the modal
+
+    // Get buttons
+    const confirmButton = document.getElementById("delete-confirm-button");
+    const cancelButton = document.getElementById("delete-cancel-button");
+
+    if (!confirmButton || !cancelButton) {
+        console.error("Delete modal buttons not found.");
+        return;
+    }
+
+    // Define handlers
+    const confirmHandler = () => {
+        callback(true); // Confirm deletion
+        closeModal("delete-modal");
+        cleanupEventListeners(); // Clean up event listeners
     };
-  
-    document.getElementById("delete-cancel-button").onclick = () => {
-      callback(false);  // Return 'false' if 'Cancel' is clicked
-      closeModal("delete-modal");
+
+    const cancelHandler = () => {
+        callback(false); // Cancel deletion
+        closeModal("delete-modal");
+        cleanupEventListeners(); // Clean up event listeners
     };
-  }
+
+    // Add event listeners
+    confirmButton.addEventListener("click", confirmHandler);
+    cancelButton.addEventListener("click", cancelHandler);
+
+    // Function to remove event listeners to prevent duplicates
+    function cleanupEventListeners() {
+        confirmButton.removeEventListener("click", confirmHandler);
+        cancelButton.removeEventListener("click", cancelHandler);
+    }
+}
+
 
 
 function displayNoDataMessage() {
