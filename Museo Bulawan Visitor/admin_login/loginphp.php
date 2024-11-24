@@ -14,21 +14,18 @@ if (!is_array($data)) {
     exit();
 }
 
-// Get username and password from the received data
 $username = isset($data['username']) ? $data['username'] : '';
 $password = isset($data['password']) ? $data['password'] : '';
 
-// Validate input
+
 if (empty($username) || empty($password)) {
     echo json_encode(['success' => false, 'message' => 'Username and password are required.']);
     exit();
 }
 
-// Include the database connection
 include 'db_connect.php';
 
-// Prepare the SQL statement to retrieve the user with matching credentials
-$stmt = $connection->prepare("SELECT * FROM credentials WHERE username = ? LIMIT 1");
+$stmt = $connextion->prepare("SELECT * FROM credentials WHERE username = ? LIMIT 1");
 $stmt->bind_param("s", $username);
 
 // Execute the statement
@@ -60,5 +57,5 @@ if ($result->num_rows > 0) {
 
 // Close the statement and connection
 $stmt->close();
-$connection->close();
+$connextion->close();
 ?>
