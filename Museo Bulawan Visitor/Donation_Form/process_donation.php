@@ -23,52 +23,50 @@ if ($conn->connect_error) {
 
 // Define constants for file upload
 define('UPLOAD_DIR', __DIR__ . '/uploads/artifacts/'); // Use the script's directory as the base
-$allowed_exts = ['jpg', 'jpeg', 'png'];
-$max_file_size = 12 * 1024 * 1024; // 12 MB
 
 // Ensure the upload directory exists
 if (!is_dir(UPLOAD_DIR)) {
     mkdir(UPLOAD_DIR, 0755, true); // Create the directory if it doesn't exist
 }
-if (!is_writable(UPLOAD_DIR)) {
-    die("The upload directory is not writable: " . UPLOAD_DIR);
-}
 
 // Function to handle image upload
-function uploadImage($file) {
-    global $allowed_exts, $max_file_size;
+function uploadImage($image) {
+    $targetDir = UPLOAD_DIR;
+    $targetFile = $targetDir . basename($image["name"]);
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+    $errorMessage = "";
 
-    if ($file['error'] !== UPLOAD_ERR_OK) {
-        return "Error uploading the file.";
+    // Check if the file is an image
+    if (getimagesize($image["tmp_name"]) === false) {
+        $errorMessage = "File is not an image.";
+        return $errorMessage;
     }
 
-    $file_name = basename($file['name']);
-    $file_tmp = $file['tmp_name'];
-    $file_size = $file['size'];
-    $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
-    $file_mime = mime_content_type($file_tmp);
-
-    // Validate file size
-    if ($file_size > $max_file_size) {
-        return "File size exceeds the maximum allowed size of 12 MB.";
+    // If file already exists, use the same path
+    if (file_exists($targetFile)) {
+        return $targetFile; // Return the existing file path
     }
 
-    // Validate file type
-    $allowed_mime_types = ['image/jpeg', 'image/png'];
-    if (!in_array($file_ext, $allowed_exts) || !in_array($file_mime, $allowed_mime_types)) {
-        return "Invalid file type. Only JPG, JPEG, and PNG are allowed.";
+    // Check file size (max 12MB)
+    if ($image["size"] > 12 * 1024 * 1024) {
+        $errorMessage = "File size exceeds 12MB.";
+        return $errorMessage;
     }
 
-    // Generate unique file name
-    $new_file_name = uniqid('IMG-', true) . '.' . $file_ext;
-    $upload_path = UPLOAD_DIR . $new_file_name;
-
-    // Move uploaded file
-    if (!move_uploaded_file($file_tmp, $upload_path)) {
-        return "Failed to move uploaded file.";
+    // Check file format (allowed types: jpg, jpeg, png, gif)
+    if (!in_array($imageFileType, ['jpg', 'jpeg', 'png', 'gif'])) {
+        $errorMessage = "Only JPG, JPEG, PNG, and GIF files are allowed.";
+        return $errorMessage;
     }
 
-    return $upload_path;
+    // Try to move the uploaded file to the target directory
+    if (move_uploaded_file($image["tmp_name"], $targetFile)) {
+        return $targetFile; // Return the file path
+    } else {
+        $errorMessage = "Error uploading the file: " . $image["error"];
+        return $errorMessage;
+    }
 }
 
 // Handle form submission
@@ -113,7 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     // Retrieve Donator ID
-    $donatorID = $conn->insert_id;
+    $donatorID = $stmt->insert_id;
 
     // Insert data into Artifact table
     $stmt = $conn->prepare("INSERT INTO Artifact (donatorID, artifact_description, artifact_nameID, acquisition, additional_info, narrative, artifact_img) VALUES (?, ?, ?, ?, ?, ?, ?)");
