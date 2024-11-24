@@ -34,42 +34,42 @@ $results = [
 
 // Query to count total donations
 $query = "SELECT COUNT(*) AS total FROM Artifact";
-$result = mysqli_query($connextion, $query);
+$result = mysqli_query($conn, $query);
 if ($result) {
     $row = mysqli_fetch_assoc($result);
     $results['total_donations'] = (int)$row['total'];
 } else {
-    $results['error'] = 'Failed to fetch total donations: ' . mysqli_error($connextion);
+    $results['error'] = 'Failed to fetch total donations: ' . mysqli_error($conn);
 }
 
 // Query to count accepted donations
 $query = "SELECT COUNT(*) AS accepted FROM Artifact WHERE status = 'Accepted'";
-$result = mysqli_query($connextion, $query);
+$result = mysqli_query($conn, $query);
 if ($result) {
     $row = mysqli_fetch_assoc($result);
     $results['accepted_donations'] = (int)$row['accepted'];
 } else {
-    $results['error'] = 'Failed to fetch accepted donations: ' . mysqli_error($connextion);
+    $results['error'] = 'Failed to fetch accepted donations: ' . mysqli_error($conn);
 }
 
 // Query to count rejected donations
 $query = "SELECT COUNT(*) AS rejected FROM Artifact WHERE status = 'Rejected'";
-$result = mysqli_query($connextion, $query);
+$result = mysqli_query($conn, $query);
 if ($result) {
     $row = mysqli_fetch_assoc($result);
     $results['rejected_donations'] = (int)$row['rejected'];
 } else {
-    $results['error'] = 'Failed to fetch rejected donations: ' . mysqli_error($connextion);
+    $results['error'] = 'Failed to fetch rejected donations: ' . mysqli_error($conn);
 }
 
 // Query to count total donation forms
 $query = "SELECT COUNT(*) AS total FROM Donation";
-$result = mysqli_query($connextion, $query);
+$result = mysqli_query($conn, $query);
 if ($result) {
     $row = mysqli_fetch_assoc($result);
     $results['total_donation_forms'] = (int)$row['total'];
 } else {
-    $results['error'] = 'Failed to fetch donation forms: ' . mysqli_error($connextion);
+    $results['error'] = 'Failed to fetch donation forms: ' . mysqli_error($conn);
 }
 
 // Query to count total lending forms
@@ -79,14 +79,14 @@ if ($result) {
     $row = mysqli_fetch_assoc($result);
     $results['total_lending_forms'] = (int)$row['total'];
 } else {
-    $results['error'] = 'Failed to fetch lending forms: ' . mysqli_error($connextion);
+    $results['error'] = 'Failed to fetch lending forms: ' . mysqli_error($conn);
 }
 
 // Return the results as JSON
 echo json_encode($results);
 
 // Close the database connection
-mysqli_close($connextion);
+mysqli_close($conn);
 
 
 ?>
