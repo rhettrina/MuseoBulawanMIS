@@ -1,26 +1,13 @@
 <?php
-
-
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS, DELETE");
+header("Access-Control-Allow-Origin: *"); 
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS"); 
 header("Access-Control-Allow-Headers: Content-Type, x-requested-with");
-
 
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit(0); 
 }
 
-
-$svn = "localhost"; 
-$username = "u376871621_bomb_squad";       
-$password = "Fujiwara000!";            
-$dbname = "u376871621_mb_mis";   
-
-$conn = new mysqli($svn, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include 'db_connect.php';
 
 // Validate and set sort parameter
 $sort = isset($_GET['sort']) && $_GET['sort'] === 'oldest' ? 'ASC' : 'DESC';
@@ -67,11 +54,11 @@ $query = "
 ";
 
 // Execute the query
-$result = mysqli_query($conn, $query);
+$result = mysqli_query($connextion, $query);
 
 if (!$result) {
     // Improved error message
-    echo json_encode(['error' => 'Database query failed: ' . mysqli_error($conn)]);
+    echo json_encode(['error' => 'Database query failed: ' . mysqli_error($connextion)]);
     exit;
 }
 
