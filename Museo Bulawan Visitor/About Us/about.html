@@ -33,40 +33,39 @@
 
     <!-- header start -->
 
-    <div class="container-fluid mb-2 stickycon" id="stickyNav">
-        <nav class="navbar navbar-expand-lg navbar-dark p-1">
-            <p id="texttime" class="text-light my-auto ms-lg-5 ms-sm-1 ms-md-3">
-                Open Daily 9:00am-5:00pm, Monday-Friday, Close During Holidays
-            </p>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#morebtn"
-                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="fa-solid fa-caret-down"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="morebtn">
-                <ul class="navbar-nav ms-auto me-lg-5 me-sm-1 me-md-3" id="navLinks">
-                    <li class="navupper nav-item">
-                        <a class="nav-link" href="../Home/index.html">Home</a>
-                    </li>
-                    <li class="navupper nav-item">
-                        <a class="nav-link" href="../News and Events/naeindex.html">News and Events</a>
-                    </li>
-                    <li class="navupper nav-item">
-                        <a class="nav-link" href="../museum_mapguide/index.html">Museum Map</a>
-                    </li>
-                    <li class="navupper nav-item">
-                        <a class="nav-link" href="../About Us/about.html">About Us</a>
-                    </li>
-                    <li class="navupper nav-item">
-                        <a class="nav-link" href="../Appointment Form/appointindex.html">Visit Us</a>
-                    </li>
-                    <li class="navupper nav-item">
-                        <a class="nav-link" href="../admin_login/login.html">Log In</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+    <div class="stickycon">
+        <div id="stickyNav" class="container-fluid sticky-top">
+            <nav class="navbar navbar-expand-lg navbar-dark p-1">
+                <p id="texttime" class="my-auto ms-lg-5 ms-sm-1 ms-md-3">
+                    Open Daily 9:00am-5:00pm, Monday-Friday, Close During Holidays
+                </p>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#morebtn"
+                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="fa-solid fa-caret-down"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="morebtn">
+                    <ul id="navLinks" class="navbar-nav ms-auto me-lg-5 me-sm-1 me-md-3">
+                        <li class="navupper nav-item">
+                            <a class="nav-link" href="../Home/index.html">Home</a>
+                        </li>
+                        <li class="navupper nav-item">
+                            <a class="nav-link" href="../News and Events/naeindex.html">News and Events</a>
+                        </li>
+                        <li class="navupper nav-item">
+                            <a class="nav-link" href="../museum_mapguide/index.html">Museum Map</a>
+                        </li>
+                        <li class="navupper nav-item">
+                            <a class="nav-link" href="../About Us/about.html">About Us</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ms-lg-3">
+                        <li class="navupper nav-item">
+                            <a id="loginLink" class="nav-link" href="../admin_login/login.html">Log In</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
     </div>
 
 

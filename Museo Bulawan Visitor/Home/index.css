@@ -213,7 +213,7 @@ html {
 
 /* Featured Section Styles */
 .featured {
-    background-color: #9D8361;
+    background-color: white;
     position: relative;
     overflow: hidden;
     padding: 60px 5%;
@@ -252,15 +252,15 @@ html {
 .ft-what p {
     font-family: 'Hind', sans-serif;
     font-size: 1rem;
-    color: #FFFFFF;
+    color: #000000;
     margin: 0;
 }
 
 .ft-head p {
     font-family: 'Hina Mincho', serif;
     font-size: 4rem;
-    color: #FFFFFF;
-    text-shadow: 0.3rem 0.3rem 0.2rem rgba(0, 0, 0, 0.6);
+    color: #000000;
+    /* text-shadow: 0.3rem 0.3rem 0.2rem rgba(0, 0, 0, 0.6); */
     margin: 10px 0 0;
 }
 
@@ -289,7 +289,7 @@ html {
 
 .f-block1 img,
 .f-block2 img {
-    width: 100%;
+    width: 100em;
     height: auto;
     display: block;
 }
