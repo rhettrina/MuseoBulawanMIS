@@ -7,7 +7,7 @@ if (isset($_POST['unique_id'])) {
     $unique_id = $_POST['unique_id'];
 
     // Prepare the SQL statement to increment the `active` field
-    $sql = "UPDATE your_table_name SET active = active + 1 WHERE unique_id = ?";
+    $sql = "UPDATE floorplans SET active = active + 1 WHERE unique_id = ?";
     $stmt = $connextion->prepare($sql);
 
     if ($stmt) {
