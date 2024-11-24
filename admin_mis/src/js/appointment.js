@@ -38,11 +38,15 @@ function displayAppointmentErrorMessages() {
 // Function to populate the data from the PHP response for appointments
 function populateTotalAppointmentData(data) {
     document.getElementById('total-appointments').innerText = data.total_appointments || 0;
-    document.getElementById('total-approved').innerText = data.total_approved || 0;
-    document.getElementById('total-rejected').innerText = data.total_rejected || 0;
+    document.getElementById('total-approved').innerText = data.approved_appointments || 0;
+    document.getElementById('total-rejected').innerText = data.rejected_appointments || 0;
     
 }
 
+document.getElementById('sortA').addEventListener('change', function () {
+    const selectedSort = this.value; // Get selected value
+    fetchAppointments(selectedSort); // Fetch appointments based on sort
+});
 
 // Fetch and populate the appointment table
 function fetchAppointments(sort = 'newest') {
@@ -62,11 +66,9 @@ function fetchAppointments(sort = 'newest') {
             }
         })
         .catch(error => {
-            console.error('Error fetching donations:', error);
+            console.error('Error fetching appointments:', error);
             displayNoDataMessage();
         });
-        
-        
 }
 
 function populateTable(appointments) {
@@ -87,7 +89,7 @@ function populateTable(appointments) {
         // Create and populate cells
         const dateCell = document.createElement('td');
         dateCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'rounded-l-[15px]', 'border-t-2', 'border-b-2', 'border-l-2');
-        dateCell.textContent = appointment.appointment_date;
+        dateCell.textContent = appointment.appointment_created_at;
 
         const timeCell = document.createElement('td');
         timeCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
@@ -103,11 +105,11 @@ function populateTable(appointments) {
 
         const statusCell = document.createElement('td');
         statusCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
-        statusCell.textContent = appointment.status;
+        statusCell.textContent = appointment.appointment_status;
         
         const createdAtCell = document.createElement('td');
         createdAtCell.classList.add('px-4', 'py-2','bg-white', 'border-black', 'border-t-2', 'border-b-2');
-        createdAtCell.textContent = appointment.created_at;
+        createdAtCell.textContent = appointment.appointment_confirmation_date;
 
         const actionCell = document.createElement('td');
         actionCell.classList.add('px-4', 'py-2', 'flex', 'justify-center', 'space-x-2', 'bg-white', 'border-black' , 'rounded-r-[15px]', 'border-t-2', 'border-b-2', 'border-r-2');
@@ -131,15 +133,15 @@ function populateTable(appointments) {
             actionCell.appendChild(deleteButton);
 
         // Append cells to row
-        row.appendChild(createdAtCell);
+        row.appendChild(dateCell);
         row.appendChild(attendeeCell);
         row.appendChild(timeCell);
         
         row.appendChild(statusCell);
         row.appendChild(attendeesCountCell);
         
+        row.appendChild(createdAtCell);
         
-        row.appendChild(dateCell);
         row.appendChild(actionCell);
 
         tableBody.appendChild(row);
@@ -190,22 +192,49 @@ function fetchAppointmentDetails(appointmentId) {
     
 }
 
-
 function openAppointmentDeleteModal(callback) {
     const modal = document.getElementById("delete-modal");
-    modal.classList.remove("hidden");
-  
-    // Handling button clicks
-    document.getElementById("delete-confirm-button").onclick = () => {
-      callback(true);  // Return 'true' if 'Delete' is clicked
-      closeModal("delete-modal");
+
+    if (!modal) {
+        console.error("Delete modal not found.");
+        return;
+    }
+
+    modal.classList.remove("hidden"); // Show the modal
+
+    // Get buttons
+    const confirmButton = document.getElementById("delete-confirm-button");
+    const cancelButton = document.getElementById("delete-cancel-button");
+
+    if (!confirmButton || !cancelButton) {
+        console.error("Delete modal buttons not found.");
+        return;
+    }
+
+    // Define handlers
+    const confirmHandler = () => {
+        callback(true); // Confirm deletion
+        closeModal("delete-modal");
+        cleanupEventListeners(); // Clean up event listeners
     };
-  
-    document.getElementById("delete-cancel-button").onclick = () => {
-      callback(false);  // Return 'false' if 'Cancel' is clicked
-      closeModal("delete-modal");
+
+    const cancelHandler = () => {
+        callback(false); // Cancel deletion
+        closeModal("delete-modal");
+        cleanupEventListeners(); // Clean up event listeners
     };
-  }
+
+    // Add event listeners
+    confirmButton.addEventListener("click", confirmHandler);
+    cancelButton.addEventListener("click", cancelHandler);
+
+    // Function to remove event listeners to prevent duplicates
+    function cleanupEventListeners() {
+        confirmButton.removeEventListener("click", confirmHandler);
+        cancelButton.removeEventListener("click", cancelHandler);
+    }
+}
+
 
 
 function displayNoDataMessage() {

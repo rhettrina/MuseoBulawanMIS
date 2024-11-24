@@ -40,6 +40,7 @@ function fetchDonations(sort = 'newest') {
                 console.error(data.error);
                 displayNoDataMessage();
             } else {
+                console.log('Fetched donations:', data); // Debug: Check the response
                 populateTable(data);
             }
         })
@@ -48,6 +49,7 @@ function fetchDonations(sort = 'newest') {
             displayNoDataMessage();
         });
 }
+
 function populateTable(donations) {
     const tableBody = document.getElementById('donations-table').querySelector('tbody');
     tableBody.innerHTML = ''; // Clear existing rows
@@ -61,47 +63,33 @@ function populateTable(donations) {
         const row = document.createElement('tr');
         row.classList.add('border-t', 'border-gray-300', 'text-center');
 
+        // Extract form_type to ensure correct handling
+        const formType = donation.form_type;
+
         // Create and populate cells
         const dateCell = document.createElement('td');
-        dateCell.classList.add('px-4', 'py-0','bg-white', 'border-black' , 'rounded-l-[15px]', 'border-t-2', 'border-b-2', 'border-l-2');
         dateCell.textContent = donation.submission_date;
 
+        const donorCell = document.createElement('td');
+        donorCell.textContent = donation.donor_name;
 
-const donorCell = document.createElement('td');
-donorCell.classList.add('px-4', 'py-0', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
-donorCell.textContent = donation.donor_name;
+        const titleCell = document.createElement('td');
+        titleCell.textContent = donation.artifact_title;
 
-// Title Cell
-const titleCell = document.createElement('td');
-titleCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
-titleCell.textContent = donation.artifact_title;
+        const typeCell = document.createElement('td');
+        typeCell.textContent = formType; // Display form type (Lending or Donation)
 
-// Type Cell
-const typeCell = document.createElement('td');
-typeCell.classList.add('px-4', 'py-0', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
-typeCell.textContent = donation.artifact_type;
+        const statusCell = document.createElement('td');
+        statusCell.textContent = donation.status;
 
-// Status Cell
-const statusCell = document.createElement('td');
-statusCell.classList.add('px-4', 'py-0', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
-statusCell.textContent = donation.status;
+        const updatedDateCell = document.createElement('td');
+        updatedDateCell.textContent = donation.updated_date || 'Not Edited';
 
-// Updated Date Cell
-const updatedDateCell = document.createElement('td');
-updatedDateCell.classList.add('px-4', 'py-0', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
-updatedDateCell.textContent = donation.updated_date === "Not Edited" || !donation.updated_date ? "Not Edited" : donation.updated_date;
+        const transferStatusCell = document.createElement('td');
+        transferStatusCell.appendChild(createTransferStatusCell(donation));
 
-// Transfer Status Cell
-const transferStatusCell = document.createElement('td');
-transferStatusCell.classList.add('px-4', 'py-0', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
-// Assuming createTransferStatusCell returns an element, append it
-transferStatusCell.appendChild(createTransferStatusCell(donation));
-
-// Action Buttons Cell
-const actionCell = document.createElement('td');
-actionCell.classList.add('px-4', 'py-0', 'bg-white', 'border-black', 'rounded-r-[15px]', 'border-t-2', 'border-b-2', 'border-r-2');
-// Assuming createActionButtons returns an element, append it
-actionCell.appendChild(createActionButtons(donation));
+        const actionCell = document.createElement('td');
+        actionCell.appendChild(createActionButtons(donation));
 
         // Append cells to row
         row.appendChild(dateCell);
@@ -109,13 +97,14 @@ actionCell.appendChild(createActionButtons(donation));
         row.appendChild(titleCell);
         row.appendChild(typeCell);
         row.appendChild(statusCell);
-        row.appendChild(transferStatusCell);
         row.appendChild(updatedDateCell);
+        row.appendChild(transferStatusCell);
         row.appendChild(actionCell);
 
         tableBody.appendChild(row);
     });
 }
+
 function displayErrorMessages() {
     const errorMessage = "Error fetching data";
     document.getElementById('total-donations').innerText = errorMessage;
@@ -147,40 +136,33 @@ function createTableCell(content) {
 }
 function handleAction(action, donation) {
     console.log(`Action: ${action}`);
-    console.log(`Donation Data:`, donation); // Log the full donation object
-    console.log(`Artifact ID: ${donation.donID}`); // Log the specific ID for debugging
+    console.log(`Donation Data:`, donation); // Debug: Log the donation object
+    console.log(`Artifact ID: ${donation.formID}`); // Log the specific ID for debugging
+
+    // Use the form_type directly from the donation object
+    const formType = donation.form_type;
+    console.log(`Form Type: ${formType}`); // Debug: Log the form type
 
     switch (action) {
         case 'preview':
-            console.log(`Preview donation with ID: ${donation.donID}`);
+            console.log(`Preview ${formType} with ID: ${donation.formID}`);
             break;
         case 'edit':
-            console.log(`Edit donation with ID: ${donation.donID}`);
-            
-            // Determine form type dynamically (assuming donation.formType exists)
-            const formType = donation.formType || 'Donation'; // Default to 'Donation'
-            
-            // Open the edit modal
-            openFormModal(donation.donID, formType);
-
+            console.log(`Edit ${formType} with ID: ${donation.formID}`);
+            openFormModal(donation.formID, formType);
             break;
         case 'delete':
-            console.log(`Delete donation with ID: ${donation.donID}`);
-              // Open delete confirmation modal
-              openDeleteModal((confirmed) => {
-                if (confirmed) {
-                    // Call delete function
-                    deleteDonation(donation.donID);
-                } else {
-                    console.log(`Deletion canceled for ID: ${donation.donID}`);
-                }
-            });
-            break;
+            console.log(`Delete ${formType} with ID: ${donation.formID}`);
+            confirmDeleteDonation(donation.formID);
             break;
         default:
             console.error('Unknown action:', action);
     }
 }
+
+
+
+
 
 function createTransferStatusCell(donation) {
     const cell = document.createElement('td');
@@ -407,27 +389,27 @@ function closeTModal(modalId) {
     }
 } 
 
-function openFormModal(donID, formType) {
-    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/getFormDetails.php?donID=${donID}&formType=${formType}`)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Failed to fetch form details');
-        }
-        return response.json();
-      })
-      .then(data => {
-        if (data.success) {
-          populateFormModal(data.formDetails, formType);
-          document.getElementById('form-modal').classList.remove('hidden');
-        } else {
-          console.error('Error fetching form details:', data.error);
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-  }
-  
+function openFormModal(formID, formType) {
+    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/getFormDetails.php?formID=${formID}&formType=${formType}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch form details');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                populateFormModal(data.formDetails, formType);
+                document.getElementById('form-modal').classList.remove('hidden');
+            } else {
+                console.error('Error fetching form details:', data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
   function populateFormModal(details, formType) {
     // Populate personal details
     document.getElementById('modal-first-name').textContent = details.first_name;
@@ -453,10 +435,10 @@ function openFormModal(donID, formType) {
     const lendingFields = document.getElementById('lending-fields');
     if (formType === 'Lending') {
       lendingFields.classList.remove('hidden');
-      document.getElementById('modal-loan-duration').textContent = details.loan_duration;
-      document.getElementById('modal-display-condition').textContent = details.display_condition;
-      document.getElementById('modal-liability-concern').textContent = details.liability_concern;
-      document.getElementById('modal-reason').textContent = details.reason;
+      document.getElementById('modal-loan-duration').textContent = details.loan_durationID;
+      document.getElementById('modal-display-condition').textContent = details.display_conditions;
+      document.getElementById('modal-liability-concern').textContent = details.liability_concerns;
+      document.getElementById('modal-reason').textContent = details.lending_reason;
     } else {
       lendingFields.classList.add('hidden');
     }
@@ -468,7 +450,7 @@ function openFormModal(donID, formType) {
     button.addEventListener('click', closeformModal);
 });
 
-function closeformModal() {
+ function closeformModal() {
     const modal = document.getElementById('form-modal');
     if (modal) {
         modal.classList.add('hidden');
