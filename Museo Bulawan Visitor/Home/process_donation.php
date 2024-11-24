@@ -42,30 +42,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // Image upload handling
     $allowed_exs = array("jpg", "jpeg", "png");
-
-    // Handle artifact image upload
     $art_img_upload_path = '';
-    if (!empty($_FILES['artifact_img']['name'])) {
-        $art_img_name = $_FILES['artifact_img']['name'];
-        $art_img_size = $_FILES['artifact_img']['size'];
-        $art_tmp_name = $_FILES['artifact_img']['tmp_name'];
-        $art_error = $_FILES['artifact_img']['error'];
 
-        if ($art_error === 0) {
-            if ($art_img_size > 12500000) {
-                die("Error: Artifact image is too large.");
-            } else {
-                $art_img_ex_lc = strtolower(pathinfo($art_img_name, PATHINFO_EXTENSION));
-                if (in_array($art_img_ex_lc, $allowed_exs)) {
-                    $new_art_img_name = uniqid("IMG-", true) . '.' . $art_img_ex_lc;
-                    $art_img_upload_path = '../uploads/artifacts' . $new_art_img_name;
-                    move_uploaded_file($art_tmp_name, $art_img_upload_path);
+    // Handle artifact image upload - assuming multiple files
+    if (!empty($_FILES['artifact_img']['name'][0])) {
+        $artifactImgCount = count($_FILES['artifact_img']['name']);
+        
+        for ($i = 0; $i < $artifactImgCount; $i++) {
+            $art_img_name = $_FILES['artifact_img']['name'][$i];
+            $art_img_size = $_FILES['artifact_img']['size'][$i];
+            $art_tmp_name = $_FILES['artifact_img']['tmp_name'][$i];
+            $art_error = $_FILES['artifact_img']['error'][$i];
+
+            if ($art_error === 0) {
+                if ($art_img_size > 12500000) {
+                    die("Error: Artifact image is too large.");
                 } else {
-                    die("Error: Invalid artifact image type.");
+                    $art_img_ex_lc = strtolower(pathinfo($art_img_name, PATHINFO_EXTENSION));
+                    if (in_array($art_img_ex_lc, $allowed_exs)) {
+                        $new_art_img_name = uniqid("IMG-", true) . '.' . $art_img_ex_lc;
+                        $art_img_upload_path = '../uploads/artifacts/' . $new_art_img_name;
+
+                        if (!move_uploaded_file($art_tmp_name, $art_img_upload_path)) {
+                            die("Error: Failed to upload artifact image.");
+                        }
+                    } else {
+                        die("Error: Invalid artifact image type.");
+                    }
                 }
+            } else {
+                die("Error: Artifact image upload error.");
             }
-        } else {
-            die("Error: Artifact image upload error.");
         }
     }
 
@@ -103,7 +110,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     echo json_encode(['success' => true]);
-    header("Location: donateindex.html?success=true");
 }
 
 // Close the connection
