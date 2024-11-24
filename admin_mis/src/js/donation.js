@@ -224,8 +224,6 @@ function deleteDonation(donID) {
         })
         .then(data => {
             if (data.message) {
-                alert(data.message);
-                fetchDonations(); // Refresh the table
             } else {
                 console.error(data.error || 'Unknown error occurred.');
             }
