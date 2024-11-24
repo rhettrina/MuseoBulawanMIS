@@ -16,7 +16,7 @@ $order = ($sort === 'oldest') ? 'ASC' : 'DESC';
 $query = "
      SELECT 
         a.appointmentID AS formID, 
-        a.visitorID AS fkID,
+        v.visitorID AS fkID,
         v.name AS visitor_name, 
         v.email AS visitor_email, 
         v.phone AS visitor_phone, 
