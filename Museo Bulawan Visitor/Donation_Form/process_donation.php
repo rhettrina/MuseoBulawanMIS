@@ -39,6 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $acquisition = $conn->real_escape_string($_POST['acquisition']);
     $additionalInfo = $conn->real_escape_string($_POST['additionalInfo']);
     $narrative = $conn->real_escape_string($_POST['narrative']);
+    
     $formType = $conn->real_escape_string($_POST['formType']);
     
     // Initialize image file paths
@@ -46,103 +47,71 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $doc_img_upload_path = '';
     $rel_img_upload_path = '';
 
-    // Allowed image extensions
-    $allowed_extensions = array("jpg", "jpeg", "png", "gif");
+    // Handle image uploads using the logic from the article code
+    function uploadImage($image, $targetDir) {
+        $targetFile = $targetDir . basename($image["name"]);
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
 
-    // Handle Artifact Image Upload
+        // Check if the file is an image
+        if (getimagesize($image["tmp_name"]) === false) {
+            return false; // File is not an image
+        }
+
+        // If file already exists, use the same path
+        if (file_exists($targetFile)) {
+            return $targetFile; // Return the existing file path
+        }
+
+        // Check file size (max 3MB)
+        if ($image["size"] > 3 * 1024 * 1024) {
+            return false; // File size exceeds 3MB
+        }
+
+        // Check file format (allowed types: jpg, jpeg, png, gif)
+        if (!in_array($imageFileType, ['jpg', 'jpeg', 'png', 'gif'])) {
+            return false; // Invalid file type
+        }
+
+        // Try to move the uploaded file to the target directory
+        if (move_uploaded_file($image["tmp_name"], $targetFile)) {
+            return $targetFile; // Return the file path
+        } else {
+            return false; // Error uploading the file
+        }
+    }
+
+    // Set upload directories
+    $artifactUploadDir = 'uploads/artifacts/';
+    $documentationUploadDir = 'uploads/documentation/';
+    $relatedUploadDir = 'uploads/related/';
+
+    // Upload images
     if (!empty($_FILES['artifact_img']['name'])) {
-        $art_img_name = $_FILES['artifact_img']['name'];
-        $art_img_size = $_FILES['artifact_img']['size'];
-        $art_tmp_name = $_FILES['artifact_img']['tmp_name'];
-        $art_error = $_FILES['artifact_img']['error'];
-
-        if ($art_error === 0) {
-            if ($art_img_size > 3 * 1024 * 1024) {
-                $em = "Artifact image size exceeds 3MB.";
-                header("Location: donateindex.html?error=$em");
-                exit();
-            } else {
-                $art_img_extension = strtolower(pathinfo($art_img_name, PATHINFO_EXTENSION));
-                if (in_array($art_img_extension, $allowed_extensions)) {
-                    $new_art_img_name = uniqid("IMG-ART-", true) . '.' . $art_img_extension;
-                    $art_img_upload_path = 'uploads/artifacts/' . $new_art_img_name;
-                    move_uploaded_file($art_tmp_name, $art_img_upload_path);
-                } else {
-                    $em = "Invalid file type for Artifact image.";
-                    header("Location: donateindex.html?error=$em");
-                    exit();
-                }
-            }
-        } else {
-            $em = "Error uploading Artifact image.";
-            header("Location: donateindex.html?error=$em");
+        $art_img_upload_path = uploadImage($_FILES['artifact_img'], $artifactUploadDir);
+        if (!$art_img_upload_path) {
+            echo json_encode(['success' => false, 'error' => 'Failed to upload artifact image']);
             exit();
         }
     }
 
-    // Handle Documentation Image Upload
     if (!empty($_FILES['documentation']['name'])) {
-        $doc_img_name = $_FILES['documentation']['name'];
-        $doc_img_size = $_FILES['documentation']['size'];
-        $doc_tmp_name = $_FILES['documentation']['tmp_name'];
-        $doc_error = $_FILES['documentation']['error'];
-
-        if ($doc_error === 0) {
-            if ($doc_img_size > 3 * 1024 * 1024) {
-                $em = "Documentation image size exceeds 3MB.";
-                header("Location: donateindex.html?error=$em");
-                exit();
-            } else {
-                $doc_img_extension = strtolower(pathinfo($doc_img_name, PATHINFO_EXTENSION));
-                if (in_array($doc_img_extension, $allowed_extensions)) {
-                    $new_doc_img_name = uniqid("IMG-DOC-", true) . '.' . $doc_img_extension;
-                    $doc_img_upload_path = 'uploads/documentation/' . $new_doc_img_name;
-                    move_uploaded_file($doc_tmp_name, $doc_img_upload_path);
-                } else {
-                    $em = "Invalid file type for Documentation image.";
-                    header("Location: donateindex.html?error=$em");
-                    exit();
-                }
-            }
-        } else {
-            $em = "Error uploading Documentation image.";
-            header("Location: donateindex.html?error=$em");
+        $doc_img_upload_path = uploadImage($_FILES['documentation'], $documentationUploadDir);
+        if (!$doc_img_upload_path) {
+            echo json_encode(['success' => false, 'error' => 'Failed to upload documentation image']);
             exit();
         }
     }
 
-    // Handle Related Image Upload
     if (!empty($_FILES['related_img']['name'])) {
-        $rel_img_name = $_FILES['related_img']['name'];
-        $rel_img_size = $_FILES['related_img']['size'];
-        $rel_tmp_name = $_FILES['related_img']['tmp_name'];
-        $rel_error = $_FILES['related_img']['error'];
-
-        if ($rel_error === 0) {
-            if ($rel_img_size > 3 * 1024 * 1024) {
-                $em = "Related image size exceeds 3MB.";
-                header("Location: donateindex.html?error=$em");
-                exit();
-            } else {
-                $rel_img_extension = strtolower(pathinfo($rel_img_name, PATHINFO_EXTENSION));
-                if (in_array($rel_img_extension, $allowed_extensions)) {
-                    $new_rel_img_name = uniqid("IMG-REL-", true) . '.' . $rel_img_extension;
-                    $rel_img_upload_path = 'uploads/related/' . $new_rel_img_name;
-                    move_uploaded_file($rel_tmp_name, $rel_img_upload_path);
-                } else {
-                    $em = "Invalid file type for Related image.";
-                    header("Location: donateindex.html?error=$em");
-                    exit();
-                }
-            }
-        } else {
-            $em = "Error uploading Related image.";
-            header("Location: donateindex.html?error=$em");
+        $rel_img_upload_path = uploadImage($_FILES['related_img'], $relatedUploadDir);
+        if (!$rel_img_upload_path) {
+            echo json_encode(['success' => false, 'error' => 'Failed to upload related image']);
             exit();
         }
     }
 
-    // Insert data into Donator table
+    // Insert query for the Donator table
     $sql_donatorTB = "INSERT INTO `Donator`(`first_name`, `last_name`, `email`, `phone`, `province`, `street`, `barangay`, `organization`, `age`, `sex`, `city`, `submission_date`) 
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
     $stmt = $conn->prepare($sql_donatorTB);
