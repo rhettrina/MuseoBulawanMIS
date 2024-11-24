@@ -156,25 +156,18 @@ function handleAction(action, donation) {
             break;
         case 'edit':
             console.log(`Edit donation with ID: ${donation.donID}`);
-
-            // Determine the form type dynamically from artifact_typeID or fallback to Donation
-            let formType;
-            if (donation.artifact_typeID === 'Lending') {
-                formType = 'Lending';
-            } else {
-                formType = donation.formType || 'Donation'; // Default to 'Donation' if no form type is set
-            }
-
-            console.log(`Form type determined: ${formType}`);
-
+            
+            // Determine form type dynamically (assuming donation.formType exists)
+            const formType = donation.formType || 'Donation'; // Default to 'Donation'
+            
             // Open the edit modal
             openFormModal(donation.donID, formType);
 
             break;
         case 'delete':
             console.log(`Delete donation with ID: ${donation.donID}`);
-            // Open delete confirmation modal
-            openDeleteModal((confirmed) => {
+              // Open delete confirmation modal
+              openDeleteModal((confirmed) => {
                 if (confirmed) {
                     // Call delete function
                     deleteDonation(donation.donID);
@@ -182,6 +175,7 @@ function handleAction(action, donation) {
                     console.log(`Deletion canceled for ID: ${donation.donID}`);
                 }
             });
+            break;
             break;
         default:
             console.error('Unknown action:', action);
@@ -414,32 +408,27 @@ function closeTModal(modalId) {
 } 
 
 function openFormModal(donID, formType) {
-    console.log(`Opening modal with donID: ${donID}, formType: ${formType}`); // Debugging
-
     fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/getFormDetails.php?donID=${donID}&formType=${formType}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to fetch form details');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                console.log('Form details fetched successfully:', data.formDetails); // Debugging
-                populateFormModal(data.formDetails, formType);
-                document.getElementById('form-modal').classList.remove('hidden');
-            } else {
-                console.error('Error fetching form details:', data.error);
-                alert(`Error: ${data.error}`); // Notify user
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Failed to fetch form details. Please try again.');
-        });
-}
-
-function populateFormModal(details, formType) {
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch form details');
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data.success) {
+          populateFormModal(data.formDetails, formType);
+          document.getElementById('form-modal').classList.remove('hidden');
+        } else {
+          console.error('Error fetching form details:', data.error);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }
+  
+  function populateFormModal(details, formType) {
     // Populate personal details
     document.getElementById('modal-first-name').textContent = details.first_name;
     document.getElementById('modal-last-name').textContent = details.last_name;
@@ -449,7 +438,7 @@ function populateFormModal(details, formType) {
     document.getElementById('modal-phone').textContent = details.phone;
     document.getElementById('modal-organization').textContent = details.organization;
     document.getElementById('modal-address').textContent = `${details.street}, ${details.barangay}, ${details.city}, ${details.province}`;
-
+  
     // Populate artifact details
     document.getElementById('modal-artifact-title').textContent = details.artifact_nameID;
     document.getElementById('modal-artifact-description').textContent = details.artifact_description;
@@ -459,29 +448,27 @@ function populateFormModal(details, formType) {
     document.getElementById('modal-images').textContent = details.artifact_img;
     document.getElementById('modal-documentation').textContent = details.documentation;
     document.getElementById('modal-related').textContent = details.related_img;
-
+  
     // Handle Lending-Specific Fields
     const lendingFields = document.getElementById('lending-fields');
     if (formType === 'Lending') {
-        lendingFields.classList.remove('hidden');
-        document.getElementById('modal-loan-duration').textContent = details.loan_duration || 'N/A';
-        document.getElementById('modal-display-condition').textContent = details.display_condition || 'N/A';
-        document.getElementById('modal-liability-concern').textContent = details.liability_concern || 'N/A';
-        document.getElementById('modal-reason').textContent = details.reason || 'N/A';
+      lendingFields.classList.remove('hidden');
+      document.getElementById('modal-loan-duration').textContent = details.loan_duration;
+      document.getElementById('modal-display-condition').textContent = details.display_condition;
+      document.getElementById('modal-liability-concern').textContent = details.liability_concern;
+      document.getElementById('modal-reason').textContent = details.reason;
     } else {
-        lendingFields.classList.add('hidden');
+      lendingFields.classList.add('hidden');
     }
-
+  
     // Set modal title
     document.getElementById('modal-title').textContent = `${formType} Form Details`;
-}
-
-// Close modal functionality
-document.querySelectorAll('[data-modal-close]').forEach(button => {
+  }
+  document.querySelectorAll('[data-modal-close]').forEach(button => {
     button.addEventListener('click', closeformModal);
 });
 
-function closeformModal() {
+ function closeformModal() {
     const modal = document.getElementById('form-modal');
     if (modal) {
         modal.classList.add('hidden');
@@ -489,6 +476,7 @@ function closeformModal() {
         console.error('Modal with id "form-modal" not found');
     }
 }
+
 
 
   
