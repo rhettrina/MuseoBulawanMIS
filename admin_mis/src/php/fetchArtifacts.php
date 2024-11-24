@@ -9,16 +9,16 @@ SELECT
     Donation.donationID,
     Donation.donatorID AS DonationDonatorID,
     Donation.artifact_nameID,
-    Donation.artifact_description AS DonationArtifactDescription,
+    Donation.artifact_description,
     Donation.submission_date AS DonationSubmissionDate,
 
     -- Columns from Artifact table
     Artifact.artifactID,
-    Artifact.artifact_typeID,
+    Artifact.artifact_typeID AS type,
     Artifact.submission_date AS ArtifactSubmissionDate,
-    Artifact.donatorID AS ArtifactDonatorID,
-    Artifact.artifact_description AS ArtifactDescription,
-    Artifact.artifact_nameID AS ArtifactNameID,
+    Artifact.donatorID,
+    Artifact.artifact_description,
+    Artifact.artifact_nameID,
     Artifact.acquisition,
     Artifact.additional_info,
     Artifact.narrative,
@@ -43,10 +43,25 @@ SELECT
     Donator.age,
     Donator.sex,
     Donator.city,
-    Donator.submission_date AS DonatorSubmissionDate
+    Donator.submission_date AS DonatorSubmissionDate,
+
+    -- Columns from Lending table
+    Lending.lendingID,
+    Lending.donatorID AS LendingDonatorID,
+    Lending.artifact_nameID AS LendingArtifactNameID,
+    Lending.lending_durationID,
+    Lending.display_conditions,
+    Lending.liability_concerns,
+    Lending.lending_reason,
+    Lending.submission_date AS LendingSubmissionDate,
+    Lending.starting_date,
+    Lending.ending_date
+
 FROM Donation
 JOIN Artifact ON Donation.artifact_nameID = Artifact.artifact_nameID
-JOIN Donator ON Donation.donatorID = Donator.donatorID;
+JOIN Donator ON Donation.donatorID = Donator.donatorID
+JOIN Lending ON Lending.artifact_nameID = Donation.artifact_nameID;
+
 
 ";
 
