@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $narrative = $conn->real_escape_string($_POST['narrative']);
     
     // Image upload handling
-    $allowed_exs = array("jpg", "jpeg", "png");
+    $allowed_exs = array("jpg", "jpeg", "png", "docx");
 
     // Handle artifact image upload
     $art_img_upload_path = '';
@@ -59,10 +59,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if (in_array($art_img_ex_lc, $allowed_exs)) {
                     $new_art_img_name = uniqid("IMG-", true) . '.' . $art_img_ex_lc;
 
-                    // Adjust the upload path to use relative directory
-                    $upload_dir = __DIR__ . '/../admin_mis/src/uploads/artifacts/';
+                    // Adjust the upload path to the correct directory
+                    $upload_dir = __DIR__ . '/../../admin_mis/src/uploads/artifacts/';
+                    
+                    // Debugging: Check if the directory exists
+                    if (!is_dir($upload_dir)) {
+                        die("Upload directory does not exist: " . $upload_dir);
+                    }
+
+                    // Debugging: Check if the directory is writable
+                    if (!is_writable($upload_dir)) {
+                        die("Upload directory is not writable.");
+                    }
+
+                    // Debugging: Check if temporary file exists
+                    if (!file_exists($art_tmp_name)) {
+                        die("Temporary file does not exist.");
+                    }
+
                     $art_img_upload_path = $upload_dir . $new_art_img_name;
-                    move_uploaded_file($art_tmp_name, $art_img_upload_path);
+
+                    // Move the uploaded file and check for errors
+                    if (!move_uploaded_file($art_tmp_name, $art_img_upload_path)) {
+                        error_log("Failed to upload file: " . error_get_last()['message']);
+                        die("Failed to upload file to: " . $art_img_upload_path);
+                    }
                 } else {
                     die("Error: Invalid artifact image type.");
                 }
