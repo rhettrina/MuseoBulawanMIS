@@ -180,13 +180,14 @@ function createTransferStatusCell(donation) {
     dropdown.classList.add('border','rounded');
 
     const statuses = ['Acquired', 'Failed', 'Pending'];
-    statuses.forEach(status => {
-        const option = document.createElement('option');
-        option.value = status.toUpperCase();
-        option.textContent = status;
-        option.selected = donation.transfer_status.toUpperCase() === status.toUpperCase();
-        dropdown.appendChild(option);
-    });
+statuses.forEach(status => {
+    const option = document.createElement('option');
+    option.value = status.toUpperCase();
+    option.textContent = status;
+    option.selected = donation.transfer_status.toUpperCase() === status.toUpperCase(); // Match fetched status
+    dropdown.appendChild(option);
+});
+
 
     dropdown.addEventListener('change', () => {
         const newStatus = dropdown.value;
@@ -196,6 +197,7 @@ function createTransferStatusCell(donation) {
     cell.appendChild(dropdown);
     return cell;
 }
+
 function createActionButtons(donation) {
     const cell = document.createElement('td');
     cell.classList.add('px-4', 'py-2', 'flex', 'justify-center', 'space-x-2');
@@ -303,24 +305,26 @@ function updateTransferStatus(donID, newStatus) {
     fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/updateTransferStatus.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ donation: donID, transfer_status: newStatus })
+        body: JSON.stringify({ donID: donID, transfer_status: newStatus }) // Corrected key
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Failed to update transfer status');
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.success) {
-            fetchDonations(); // Refresh the table to reflect updates
-        } else {
-            console.error('Failed to update transfer status:', data.error);
-        }
-    })
-    .catch(error => {
-        console.error('Error updating transfer status:', error);
-    });
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to update transfer status');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                console.log('Transfer status updated successfully:', data.updated_status);
+                fetchDonations(); // Refresh the table to reflect updates
+            } else {
+                console.error('Failed to update transfer status:', data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error updating transfer status:', error);
+        });
+    
 }
 
 function openStatusModal(donID, currentStatus, newStatus, dropdown) {
@@ -453,11 +457,7 @@ function openFormModal(donID, formType) {
     const lendingFields = document.getElementById('lending-fields');
     if (formType === 'Lending') {
       lendingFields.classList.remove('hidden');
-
-      // Example usage with details object
-      document.getElementById('modal-loan-duration').textContent = 
-          `${calculateDuration(details.starting_date, details.ending_date)}`;
-
+      document.getElementById('modal-loan-duration').textContent = details.lending_durationID;
       document.getElementById('modal-display-condition').textContent = details.display_conditions;
       document.getElementById('modal-liability-concern').textContent = details.liability_concerns;
       document.getElementById('modal-reason').textContent = details.lending_reason;
@@ -471,27 +471,6 @@ function openFormModal(donID, formType) {
   document.querySelectorAll('[data-modal-close]').forEach(button => {
     button.addEventListener('click', closeformModal);
 });
-
-const calculateDuration = (startDate, endDate) => {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-
-    // Calculate the difference in milliseconds
-    const diffInMilliseconds = end - start;
-
-    // Convert the difference to days, months, and years
-    const diffInDays = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24));
-    const diffInYears = Math.floor(diffInDays / 365);
-    const diffInMonths = Math.floor((diffInDays % 365) / 30);
-
-    // Build a readable duration string
-    const years = diffInYears > 0 ? `${diffInYears} year${diffInYears > 1 ? 's' : ''}` : '';
-    const months = diffInMonths > 0 ? `${diffInMonths} month${diffInMonths > 1 ? 's' : ''}` : '';
-    const days = diffInDays % 30 > 0 ? `${diffInDays % 30} day${diffInDays % 30 > 1 ? 's' : ''}` : '';
-
-    // Combine non-empty parts
-    return [years, months, days].filter(Boolean).join(', ');
-};
 
  function closeformModal() {
     const modal = document.getElementById('form-modal');

@@ -58,6 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
         };
         script.onerror = () => {
             console.error(`Failed to load ${page}.js`);
+            
         };
 
         document.body.appendChild(script);
