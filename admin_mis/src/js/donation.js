@@ -1,10 +1,22 @@
-function init() {
-    // Call the display functions here
-    fetchTotalDonations();
-    fetchDonations();
-    // No need to call deleteDonation here; it's triggered by specific actions
-}
 
+(() => {
+    let currentActiveCard = null; // Scoped to layout.js
+
+    function init() {
+        console.log("Initializing donation.js...");
+        fetchTotalDonations();
+    fetchDonations();
+    }
+
+    function cleanup() {
+        console.log("Cleaning up donation.js...");
+        currentActiveCard = null;
+        // Remove other event listeners or reset state if needed
+    }
+
+    window.init = init; // Expose `init` for router.js
+    window.cleanup = cleanup; // Expose `cleanup` for router.js
+})();
 function fetchTotalDonations() {
     fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchTotalDonations.php')
         .then(response => {
@@ -163,6 +175,7 @@ function handleAction(action, donation) {
         case 'delete':
             console.log(`Delete ${formType} with ID: ${donation.donID}`);
             confirmDeleteDonation(donation.donID);
+            
             break;
         default:
             console.error('Unknown action:', action);
@@ -504,5 +517,4 @@ const calculateDuration = (startDate, endDate) => {
 
 
 
-  
-init();  // Initialize everything when the script runs
+window.onload = init;
