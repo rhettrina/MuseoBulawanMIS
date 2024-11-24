@@ -299,29 +299,6 @@ function closeDModal(modalId) {
 }
 
 
-function updateTransferStatus(donID, newStatus) {
-    fetch('https://museobulawan.online/admin_mis/src/php/updateTransferStatus.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ donation: donID, transfer_status: newStatus })
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Failed to update transfer status');
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.success) {
-            fetchDonations(); // Refresh the table to reflect updates
-        } else {
-            console.error('Failed to update transfer status:', data.error);
-        }
-    })
-    .catch(error => {
-        console.error('Error updating transfer status:', error);
-    });
-}
 
 function openStatusModal(donID, currentStatus, newStatus, dropdown) {
     // Validate inputs
