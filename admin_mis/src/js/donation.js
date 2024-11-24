@@ -153,12 +153,9 @@ function handleAction(action, donation) {
     console.log(`Form Type: ${formType}`); // Debug: Log the form type
 
     switch (action) {
-        case 'preview':
-            console.log(`Preview ${formType} with ID: ${donation.donID}`);
-            break;
-        case 'edit':
-            console.log(`Edit ${formType} with ID: ${donation.donID}`);
+        case 'preview':console.log(`Edit ${formType} with ID: ${donation.donID}`);
             openFormModal(donation.donID, formType);
+      
             break;
         case 'delete':
             console.log(`Delete ${formType} with ID: ${donation.donID}`);
@@ -203,7 +200,6 @@ function createActionButtons(donation) {
     // Define the actions and corresponding icons
     const actions = [
         { icon: 'eye', action: 'preview' },
-        { icon: 'edit', action: 'edit' },
         { icon: 'trash', action: 'delete' },
     ];
 
