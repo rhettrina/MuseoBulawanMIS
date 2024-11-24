@@ -1,8 +1,8 @@
 <?php
 error_reporting(E_ALL);
 
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Origin: *"); 
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS"); 
 header("Access-Control-Allow-Headers: Content-Type, x-requested-with");
 
 // Database configuration
@@ -40,76 +40,85 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $additionalInfo = $conn->real_escape_string($_POST['additionalInfo']);
     $narrative = $conn->real_escape_string($_POST['narrative']);
     
-    // Image upload handling
-    $allowed_exs = array("jpg", "jpeg", "png");
+    // Handle artifact image upload
     $art_img_upload_path = '';
-
-    // Handle artifact image upload - assuming multiple files
-    if (!empty($_FILES['artifact_img']['name'][0])) {
-        $artifactImgCount = count($_FILES['artifact_img']['name']);
-        
-        for ($i = 0; $i < $artifactImgCount; $i++) {
-            $art_img_name = $_FILES['artifact_img']['name'][$i];
-            $art_img_size = $_FILES['artifact_img']['size'][$i];
-            $art_tmp_name = $_FILES['artifact_img']['tmp_name'][$i];
-            $art_error = $_FILES['artifact_img']['error'][$i];
-
-            if ($art_error === 0) {
-                if ($art_img_size > 12500000) {
-                    die("Error: Artifact image is too large.");
-                } else {
-                    $art_img_ex_lc = strtolower(pathinfo($art_img_name, PATHINFO_EXTENSION));
-                    if (in_array($art_img_ex_lc, $allowed_exs)) {
-                        $new_art_img_name = uniqid("IMG-", true) . '.' . $art_img_ex_lc;
-                        $art_img_upload_path = '../uploads/artifacts/' . $new_art_img_name;
-
-                        if (!move_uploaded_file($art_tmp_name, $art_img_upload_path)) {
-                            die("Error: Failed to upload artifact image.");
-                        }
-                    } else {
-                        die("Error: Invalid artifact image type.");
-                    }
-                }
-            } else {
-                die("Error: Artifact image upload error.");
-            }
+    if (!empty($_FILES['artifactImages']['name'])) {
+        $art_img_upload_path = uploadImage($_FILES['artifactImages'], 'uploads/artifacts/');
+        if (!$art_img_upload_path) {
+            echo json_encode(['success' => false, 'error' => 'Failed to upload artifact image']);
+            exit();
         }
     }
 
     // Insert query for the Donator table
-    $sql_donatorTB = "INSERT INTO `Donator`(`first_name`, `last_name`, `email`, `phone`, `province`, `street`, `barangay`, `organization`, `age`, `sex`, `city`) 
-                      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql_donatorTB = "INSERT INTO `Donator`(`first_name`, `last_name`, `email`, `phone`, `province`, `street`, `barangay`, `organization`, `age`, `sex`, `city`, `submission_date`) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
     $stmt = $conn->prepare($sql_donatorTB);
     $stmt->bind_param("ssssssssiss", $firstName, $lastName, $email, $phone, $province, $street, $barangay, $organization, $age, $sex, $city);
 
-    // Execute the insert query for Donator
     if ($stmt->execute()) {
-        $donatorID = $conn->insert_id;  // Get the inserted ID directly
+        echo "Donator added successfully!<br>";
     } else {
-        die("Error inserting donator: " . $stmt->error);
+        echo "Error inserting Donator: " . $stmt->error;
+        exit();
     }
 
-    // Insert query for the Donation table
-    $abt_art = "INSERT INTO `Donation`(`donatorID`, `artifact_nameID`, `artifact_description`) VALUES (?, ?, ?)";
-    $stmt = $conn->prepare($abt_art);
-    $stmt->bind_param("iss", $donatorID, $artifactTitle, $artifactDescription);
-
-    // Execute the query for the Donation table
-    if (!$stmt->execute()) {
-        die("Error inserting donation: " . $stmt->error);
-    }
+    // Fetch Donator ID
+    $donatorID = $conn->insert_id;
 
     // Insert query for the Artifact table
-    $artifactType = "Donation";
-    $query = $conn->prepare("INSERT INTO `Artifact`(`artifact_typeID`, `donatorID`, `artifact_description`, `artifact_nameID`, `acquisition`, `additional_info`, `narrative`, `artifact_img`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-    $query->bind_param('sissssss', $artifactType, $donatorID, $artifactDescription, $artifactTitle, $acquisition, $additionalInfo, $narrative, $art_img_upload_path);
+    $sql_artifact = "INSERT INTO `Artifact`(`artifact_typeID`, `donatorID`, `artifact_description`, `artifact_nameID`, `acquisition`, `additional_info`, `narrative`, `artifact_img`) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    $type = "Donation";
+    $stmt = $conn->prepare($sql_artifact);
+    $stmt->bind_param("sissssss", $type, $donatorID, $artifactDescription, $artifactTitle, $acquisition, $additionalInfo, $narrative, $art_img_upload_path);
 
-    // Execute the query for the Artifact table
-    if (!$query->execute()) {
-        die("Error inserting artifact: " . $query->error);
+    if ($stmt->execute()) {
+        echo json_encode(['success' => true]);
+        header("Location: donateindex.html?success=true");
+        exit();
+    } else {
+        echo json_encode(['success' => false, 'error' => $stmt->error]);
+        exit();
+    }
+}
+
+// Function to handle image upload
+function uploadImage($image, $targetDir) {
+    $targetFile = $targetDir . basename($image["name"]);
+    $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+
+    // Ensure the directory exists
+    if (!is_dir($targetDir)) {
+        mkdir($targetDir, 0777, true); // Create the directory if it doesn't exist
     }
 
-    echo json_encode(['success' => true]);
+    // Check if the file is an image
+    if (getimagesize($image["tmp_name"]) === false) {
+        return false;
+    }
+
+    // If file already exists, use the same path
+    if (file_exists($targetFile)) {
+        return $targetFile;
+    }
+
+    // Check file size (max 3MB)
+    if ($image["size"] > 3 * 1024 * 1024) {
+        return false;
+    }
+
+    // Check file format (allowed types: jpg, jpeg, png, gif)
+    if (!in_array($imageFileType, ['jpg', 'jpeg', 'png', 'gif'])) {
+        return false;
+    }
+
+    // Try to move the uploaded file to the target directory
+    if (move_uploaded_file($image["tmp_name"], $targetFile)) {
+        return $targetFile;
+    } else {
+        return false;
+    }
 }
 
 // Close the connection

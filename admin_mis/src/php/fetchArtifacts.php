@@ -5,16 +5,33 @@ include 'db_connect.php';
 // Prepare the SQL query
 $sql = "
 SELECT 
-    Lending.lendingID,
-    Lending.artifact_nameID,
-    Lending.lending_durationID,
-    Lending.display_conditions,
-    Lending.liability_concerns,
-    Lending.lending_reason,
-    Lending.submission_date AS lending_submission_date,
-    Lending.starting_date,
-    Lending.ending_date,
-    Donator.donatorID,
+    -- Columns from Donation table
+    Donation.donationID,
+    Donation.donatorID AS DonationDonatorID,
+    Donation.artifact_nameID,
+    Donation.artifact_description AS DonationArtifactDescription,
+    Donation.submission_date AS DonationSubmissionDate,
+
+    -- Columns from Artifact table
+    Artifact.artifactID,
+    Artifact.artifact_typeID,
+    Artifact.submission_date AS ArtifactSubmissionDate,
+    Artifact.donatorID AS ArtifactDonatorID,
+    Artifact.artifact_description AS ArtifactDescription,
+    Artifact.artifact_nameID AS ArtifactNameID,
+    Artifact.acquisition,
+    Artifact.additional_info,
+    Artifact.narrative,
+    Artifact.artifact_img,
+    Artifact.documentation,
+    Artifact.related_img,
+    Artifact.status,
+    Artifact.transfer_status,
+    Artifact.updated_date,
+    Artifact.display_status,
+
+    -- Columns from Donator table
+    Donator.donatorID AS DonatorDonatorID,
     Donator.first_name,
     Donator.last_name,
     Donator.email,
@@ -26,21 +43,11 @@ SELECT
     Donator.age,
     Donator.sex,
     Donator.city,
-    Donator.submission_date AS donator_submission_date,
-    Donation.donationID,
-    Donation.artifact_nameID,
-    Donation.artifact_description,
-    Donation.submission_date AS donation_submission_date
-FROM 
-    Lending
-JOIN 
-    Donator 
-ON 
-    Lending.donatorID = Donator.donatorID
-JOIN 
-    Donation 
-ON 
-    Donator.donatorID = Donation.donatorID;
+    Donator.submission_date AS DonatorSubmissionDate
+FROM Donation
+JOIN Artifact ON Donation.artifact_nameID = Artifact.artifact_nameID
+JOIN Donator ON Donation.donatorID = Donator.donatorID;
+
 ";
 
 // Execute the query
