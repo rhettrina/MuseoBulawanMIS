@@ -55,20 +55,6 @@ document.addEventListener("DOMContentLoaded", () => {
             if (typeof cleanup === "function") {
                 cleanupFunctions[page] = cleanup;
             }
-            if (page === "donation" && typeof fetchDonations === "function") {
-                fetchDonations(); // Fetch and display donations
-                fetchTotalDonations();
-            }
-    
-            if (page === "donation" && typeof fetchTotalDonations === "function") {
-                fetchTotalDonations(); // Fetch and display donation totals
-                fetchDonations();
-            }
-    
-            // Optionally store cleanup functions for the donation page
-            if (typeof cleanup === "function") {
-                cleanupFunctions[page] = cleanup;
-            }
         };
         script.onerror = () => {
             console.error(`Failed to load ${page}.js`);
