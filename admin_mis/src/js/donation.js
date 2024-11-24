@@ -157,7 +157,7 @@ function handleAction(action, donation) {
         case 'edit':
             console.log(`Edit donation with ID: ${donation.donID}`);
 
-            // Check and determine the form type based on the artifact type
+            // Determine the form type dynamically from artifact_typeID or fallback to Donation
             let formType;
             if (donation.artifact_typeID === 'Lending') {
                 formType = 'Lending';
@@ -173,8 +173,8 @@ function handleAction(action, donation) {
             break;
         case 'delete':
             console.log(`Delete donation with ID: ${donation.donID}`);
-              // Open delete confirmation modal
-              openDeleteModal((confirmed) => {
+            // Open delete confirmation modal
+            openDeleteModal((confirmed) => {
                 if (confirmed) {
                     // Call delete function
                     deleteDonation(donation.donID);
@@ -182,7 +182,6 @@ function handleAction(action, donation) {
                     console.log(`Deletion canceled for ID: ${donation.donID}`);
                 }
             });
-            break;
             break;
         default:
             console.error('Unknown action:', action);
@@ -465,10 +464,10 @@ function populateFormModal(details, formType) {
     const lendingFields = document.getElementById('lending-fields');
     if (formType === 'Lending') {
         lendingFields.classList.remove('hidden');
-        document.getElementById('modal-loan-duration').textContent = details.loan_duration;
-        document.getElementById('modal-display-condition').textContent = details.display_condition;
-        document.getElementById('modal-liability-concern').textContent = details.liability_concern;
-        document.getElementById('modal-reason').textContent = details.reason;
+        document.getElementById('modal-loan-duration').textContent = details.loan_duration || 'N/A';
+        document.getElementById('modal-display-condition').textContent = details.display_condition || 'N/A';
+        document.getElementById('modal-liability-concern').textContent = details.liability_concern || 'N/A';
+        document.getElementById('modal-reason').textContent = details.reason || 'N/A';
     } else {
         lendingFields.classList.add('hidden');
     }
@@ -490,7 +489,6 @@ function closeformModal() {
         console.error('Modal with id "form-modal" not found');
     }
 }
-
 
 
   
