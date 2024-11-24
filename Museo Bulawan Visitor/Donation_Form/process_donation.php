@@ -8,10 +8,10 @@ header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, x-requested-with");
 
 // Database configuration
-$servername = "localhost";
-$username = "your_db_username";  // Replace with actual username
-$password = "your_db_password";  // Replace with actual password
-$dbname = "your_db_name";        // Replace with actual database name
+$servername = "localhost"; 
+$username = "u376871621_bomb_squad";       
+$password = "Fujiwara000!";            
+$dbname = "u376871621_mb_mis";
 
 // Connect to the database
 $conn = new mysqli($servername, $username, $password, $dbname);
