@@ -74,37 +74,36 @@ async function fetchAndRenderTables() {
             return;
         }
 
-        // Map data to individual tables
+        // Filter and map data to individual tables
         const artifacts = data.map(item => ({
             date: item.ArtifactSubmissionDate,
-            title: item.artname ,
+            title: item.artname,
             type: item.artifact_typeID, // Adjust this logic based on your needs
-            display_status: true,
             lastUpdated: item.updated_date || "Not Edited",
         }));
 
-        const acquired = data.map(item => ({
-            date: item.DonationSubmissionDate,
-            donatorID: item.donatorID,
-            artifactName: item.artifact_nameID,
-            lastUpdated: item.updated_date,
-            donorName: `${item.first_name} ${item.last_name}` // Concatenate first and last names
-        }));
+        // Filter for type "donation" and map for acquired table
+        const acquired = data
+            .filter(item => item.artifact_typeID === "Donation") // Ensure only donation type is included
+            .map(item => ({
+                date: item.DonationSubmissionDate,
+                donatorID: item.donatorID,
+                artifactName: item.artifact_nameID,
+                lastUpdated: item.updated_date,
+                donorName: `${item.first_name} ${item.last_name}` // Concatenate first and last names
+            }));
 
-        const borrowing = data.map(item => ({
-            lendingID: item.lendingID,
-            donatorID: item.donatorID,
-            artifactName: item.artifact_nameID,
-            duration: item.lending_durationID,
-            reason: item.lending_reason,
-        }));
-
-        const display = data.map(item => ({
-            artifactID: item.artifact_nameID, // Adjust if there's a separate artifactID in your schema
-            type: "Artifact Type", // Replace with the actual type if available
-            name: item.artifact_nameID,
-            status: "Active", // Replace with the actual status if available
-        }));
+        // Filter for type "lending" and map for borrowing table
+        const borrowing = data
+            .filter(item => item.artifact_typeID === "Lending") // Ensure only lending type is included
+            .map(item => ({
+                date: item.LendingSubmissionDate,
+                lendingID: item.lendingID,
+                donatorID: item.donatorID,
+                artifactName: item.artifact_nameID,
+                duration: item.lending_durationID,
+                reason: item.lending_reason,
+            }));
 
         const donators = data.map(item => ({
             donatorID: item.donatorID,
@@ -116,16 +115,17 @@ async function fetchAndRenderTables() {
         }));
 
         // Render the data into the tables
-        renderTable(artifacts, "artifacts-table", ["date", "title", "type", "display_status","lastUpdated"]);
-        renderTable(acquired, "acquired-table", ["date",  "artifactName","donorName","lastUpdated"]);
-        renderTable(borrowing, "borrowing-table", ["lendingID", "donatorID", "artifactName", "duration", "reason"]);
+        renderTable(artifacts, "artifacts-table", ["date", "title", "type", "lastUpdated"]);
+        renderTable(acquired, "acquired-table", ["date", "artifactName", "donorName", "lastUpdated"]);
+        renderTable(borrowing, "borrowing-table", ["date", "donatorID", "artifactName", "duration", "reason"]);
         renderTable(display, "display-table", ["artifactID", "type", "name", "status"]);
         renderTable(donators, "donors-table", ["donatorID", "firstName", "lastName", "email", "age", "city"]);
-        
+
     } catch (error) {
         console.error("Error fetching or processing data:", error);
     }
 }
+
 
 function renderTable(data, tableId, columns) {
     const table = document.getElementById(tableId);
@@ -169,12 +169,7 @@ function renderTable(data, tableId, columns) {
             if (column === columns[0]) cell.classList.add('rounded-l-[15px]', 'border-l-2');
             if (column === columns[columns.length - 1]) cell.classList.add('rounded-r-[15px]', 'border-r-2');
 
-            // Handle display_status column to show "on display" or "not displayed"
-            if (column === 'display_status') {
-                cell.textContent = item[column] ? "on display" : "not displayed";
-            } else {
-                cell.textContent = item[column] || "N/A";
-            }
+            cell.textContent = item[column] || "N/A";
 
             row.appendChild(cell);
         });
@@ -207,8 +202,5 @@ function handleAction(action, id) {
     // Add your specific logic for each action here
 }
 
-
-
-  
 // Call the function to fetch and render data when the page loads
 fetchAndRenderTables();

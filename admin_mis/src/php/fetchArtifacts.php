@@ -16,7 +16,8 @@ SELECT *,
     Donator.first_name,
     Donator.last_name,
     Lending.lendingID,
-    Lending.lending_durationID
+    Lending.lending_durationID,
+    Lending.submission_date AS LendingSubmissionDate
 FROM Donator
 LEFT JOIN Artifact ON Donator.donatorID = Artifact.donatorID
 LEFT JOIN Donation ON Donator.donatorID = Donation.donatorID
