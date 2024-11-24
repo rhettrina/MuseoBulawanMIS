@@ -102,17 +102,18 @@
 
 
 </div>
+
 <!-- Modal Structure -->
 <div id="appointment-modal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center hidden">
     <!-- Modal Content -->
-    <div class="bg-white w-11/12 max-w-3xl rounded-lg shadow-lg p-8 relative">
+    <div class="bg-white w-11/12 max-w-3xl sm:max-w-xl md:max-w-2xl lg:max-w-3xl rounded-lg shadow-lg p-6 sm:p-8 relative overflow-y-auto max-h-full">
         <!-- Header -->
         <div class="flex justify-between items-center mb-6 border-b pb-4">
-            <h2 class="text-2xl font-bold text-gray-800">Appointment Details</h2>
+            <h2 class="text-lg sm:text-xl md:text-2xl font-bold text-gray-800">Appointment Details</h2>
             <button id="close-appointment-modal" class="text-gray-500 hover:text-red-500 text-2xl">&times;</button>
         </div>
         <!-- Modal Body -->
-        <div class="space-y-6">
+        <div class="space-y-4 sm:space-y-6 overflow-y-auto">
             <div class="text-gray-700"><strong>Name:</strong> <span id="appointment-name" class="ml-2 text-gray-900 font-medium"></span></div>
             <div class="text-gray-700"><strong>Email:</strong> <span id="appointment-email" class="ml-2 text-gray-900 font-medium"></span></div>
             <div class="text-gray-700"><strong>Phone Number:</strong> <span id="appointment-phone" class="ml-2 text-gray-900 font-medium"></span></div>
@@ -125,28 +126,28 @@
             <div class="text-gray-700"><strong>Notes:</strong> <span id="appointment-notes" class="ml-2 text-gray-900 font-medium"></span></div>
         </div>
         <!-- Leave a Message -->
-        <div class="mt-6">
+        <div class="mt-4 sm:mt-6">
             <label for="admin-message" class="block text-gray-700 font-bold mb-2">Leave a Message:</label>
             <textarea id="admin-message" rows="4" class="w-full border-gray-300 border rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-300" placeholder="Enter your message here..."></textarea>
         </div>
         <!-- Modal Footer -->
-        <div class="mt-8 flex justify-end space-x-4">
+        <div class="mt-6 sm:mt-8 flex justify-end space-x-4">
             <!-- Approve Button -->
-            <button id="approve-appointment-btn" data-appointment-id="" class="bg-green-500 text-white font-semibold px-6 py-2 rounded-md hover:bg-green-600 transition">
+            <button id="approve-appointment-btn" data-appointment-id="" class="bg-green-500 text-white font-semibold px-4 sm:px-6 py-2 rounded-md hover:bg-green-600 transition">
                 Approve
             </button>
             <!-- Reject Button -->
-            <button id="reject-appointment-btn" data-appointment-id="" class="bg-red-500 text-white font-semibold px-6 py-2 rounded-md hover:bg-red-600 transition">
+            <button id="reject-appointment-btn" data-appointment-id="" class="bg-red-500 text-white font-semibold px-4 sm:px-6 py-2 rounded-md hover:bg-red-600 transition">
                 Reject
             </button>
             <!-- Close Button -->
-            <button id="close-appointment-modal-btn" class="bg-gray-300 text-gray-800 font-semibold px-6 py-2 rounded-md hover:bg-gray-400 transition">
+            <button id="close-appointment-modal-btn" class="bg-gray-300 text-gray-800 font-semibold px-4 sm:px-6 py-2 rounded-md hover:bg-gray-400 transition">
                 Close
             </button>
-
         </div>
     </div>
-  </div>
+</div>
+
   
   <!-- Delete Confirmation Modal -->
 <div id="delete-modal" class="modal hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
