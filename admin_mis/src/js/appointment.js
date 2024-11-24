@@ -173,14 +173,14 @@ function handleAction(action, data) {
 document.getElementById("approve-appointment-btn").addEventListener("click", () => {
     const appointmentId = getAppointmentId();
     console.log(`Updating status to approved for appointment ID: ${appointmentId}`);
-    updateAppointmentStatus(appointmentId, "approved");
+    updateAppointmentStatus(appointmentId, "Approved");
 });
 
 // Reject button handler
 document.getElementById("reject-appointment-btn").addEventListener("click", () => {
     const appointmentId = getAppointmentId();
     console.log(`Updating status to rejected for appointment ID: ${appointmentId}`);
-    updateAppointmentStatus(appointmentId, "rejected");
+    updateAppointmentStatus(appointmentId, "Rejected");
 });
 
 // Get the appointment ID from the modal
@@ -326,15 +326,7 @@ document.getElementById('close-appointment-modal-btn').addEventListener('click',
     closeModal('appointment-modal');
 });
 
-// Function to close a modal by ID
-function closeModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.classList.add('hidden');
-    } else {
-        console.error(`Modal with ID "${modalId}" not found.`);
-    }
-}
+
 
 // Function to open the delete confirmation modal
 function openAppointmentDeleteModal(callback) {
