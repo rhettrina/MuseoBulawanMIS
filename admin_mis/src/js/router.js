@@ -15,14 +15,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 return response.text();
             })
             .then((html) => {
+                unloadCurrentView(); // Unload the current view
+
                 content.innerHTML = html; // Dynamically load the content
-    
+                
                 // Update the active tab
                 updateActiveTab(page);
-    
+
                 // Wait for content to be rendered before loading the script
                 setTimeout(() => {
-                    unloadScript();
                     loadScript(page);
                 }, 0); // Adjust delay if necessary
             })
@@ -31,7 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.error("Content Load Error:", error);
             });
     }
-    
 
     function loadScript(page) {
         const script = document.createElement("script");
@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 init(); // Initialize page-specific functionality
             }
             if (typeof cleanup === "function") {
-                cleanupFunctions[page] = cleanup;
+                cleanupFunctions[page] = cleanup; // Register cleanup function
             }
         };
 
@@ -55,11 +55,27 @@ document.addEventListener("DOMContentLoaded", () => {
         currentScript = script; // Track the current script
     }
 
-    function unloadScript() {
+    function unloadCurrentView() {
+        // Call the cleanup function if available
+        const page = localStorage.getItem("currentPage");
+        if (cleanupFunctions[page]) {
+            try {
+                cleanupFunctions[page](); // Execute the cleanup logic
+                console.log(`${page} cleanup executed`);
+            } catch (error) {
+                console.error(`Error during cleanup of ${page}:`, error);
+            }
+            delete cleanupFunctions[page]; // Remove cleanup reference
+        }
+
+        // Remove the current script
         if (currentScript) {
             document.body.removeChild(currentScript);
             currentScript = null;
         }
+
+        // Clear dynamic content
+        content.innerHTML = "";
     }
 
     function updateActiveTab(activePage) {
@@ -72,7 +88,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-    
 
     // Load the initial view
     loadContent(savedPage);
@@ -88,8 +103,10 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    
-    
+    // Modal functionality (optional)
+    const notificationButton = document.getElementById("notification-button");
+    const notificationModal = document.getElementById("notification-modal");
+    const closeNotificationButton = document.getElementById("close-notification-button");
 
     if (notificationButton && notificationModal && closeNotificationButton) {
         notificationButton.addEventListener("click", () => {
@@ -108,16 +125,10 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-
-
-    // Additional functionality (e.g., logout)
+    // Logout functionality
     const logoutButton = document.getElementById("logout-button");
     logoutButton.addEventListener("click", () => {
         localStorage.removeItem("currentPage");
         window.location.href = "admin_login/login.html";
     });
-
-
-
-
 });
