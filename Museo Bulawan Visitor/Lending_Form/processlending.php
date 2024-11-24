@@ -35,7 +35,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $street = $conn->real_escape_string($_POST['street']);
 
     // Collect additional form data specific to lending
-    $loanDuration = $conn->real_escape_string($_POST['loanDuration']);
     $startingDate = $conn->real_escape_string($_POST['startingDate']);
     $endingDate = $conn->real_escape_string($_POST['endingDate']);
     $displayConditions = $conn->real_escape_string($_POST['displayConditions']);
