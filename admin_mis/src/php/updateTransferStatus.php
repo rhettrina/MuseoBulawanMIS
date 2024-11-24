@@ -11,21 +11,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 // Include database connection
 include 'db_connect.php';
 
-// Read and decode JSON payload
-$rawInput = file_get_contents('php://input');
-$data = json_decode($rawInput, true);
-
-// Validate the JSON payload
-if (!$data) {
-    http_response_code(400); // Bad Request
-    echo json_encode([
-        'success' => false, 
-        'error' => 'Invalid JSON input', 
-        'raw_input' => $rawInput, // Log the raw input for debugging
-        'json_last_error' => json_last_error_msg() // Provide detailed error message
-    ]);
-    exit();
-}
 
 // Check if required fields are present in the data
 if (isset($data['donID'], $data['transfer_status'])) {
