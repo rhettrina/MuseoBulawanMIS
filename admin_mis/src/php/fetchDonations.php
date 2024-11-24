@@ -15,12 +15,32 @@ $sort = isset($_GET['sort']) && $_GET['sort'] === 'oldest' ? 'ASC' : 'DESC';
 // Query to fetch sorted donations with necessary joins
 $query = "
     SELECT DISTINCT
-        d.donationID AS formID,
+        l.lendingID AS formID, 
+        l.submission_date AS submission_date,
+        CONCAT(dn.first_name, ' ', dn.last_name) AS donor_name, 
+        a.artifact_nameID AS artifact_title, 
+        'Lending' AS form_type, 
+        'To Review' AS status, 
+        'Pending' AS transfer_status, 
+        a.updated_date AS updated_date, 
+        dn.donatorID AS donID
+    FROM 
+        Lending AS l
+    JOIN 
+        Donator AS dn ON l.donatorID = dn.donatorID
+    JOIN 
+        Artifact AS a ON l.artifact_nameID = a.artifact_nameID
+
+    UNION ALL
+
+    SELECT DISTINCT
+        d.donationID AS formID, 
         d.submission_date AS submission_date,
-        CONCAT(dn.first_name, ' ', dn.last_name) AS donor_name,
-        a.artifact_nameID AS artifact_title,
-        'Donation' AS form_type,
-        d.transfer_status, -- Correctly fetch transfer_status from the database
+        CONCAT(dn.first_name, ' ', dn.last_name) AS donor_name, 
+        a.artifact_nameID AS artifact_title, 
+        'Donation' AS form_type, 
+        'To Review' AS status, 
+        'Pending' AS transfer_status, 
         a.updated_date AS updated_date,
         dn.donatorID AS donID
     FROM 
@@ -29,6 +49,7 @@ $query = "
         Donator AS dn ON d.donatorID = dn.donatorID
     JOIN 
         Artifact AS a ON d.artifact_nameID = a.artifact_nameID
+
     ORDER BY submission_date $sort
 ";
 
