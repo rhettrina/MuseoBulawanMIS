@@ -137,7 +137,7 @@ function createTableCell(content) {
 function handleAction(action, donation) {
     console.log(`Action: ${action}`);
     console.log(`Donation Data:`, donation); // Debug: Log the donation object
-    console.log(`Artifact ID: ${donation.formID}`); // Log the specific ID for debugging
+    console.log(`Artifact ID: ${donation.donID}`); // Log the specific ID for debugging
 
     // Use the form_type directly from the donation object
     const formType = donation.form_type;
@@ -145,15 +145,15 @@ function handleAction(action, donation) {
 
     switch (action) {
         case 'preview':
-            console.log(`Preview ${formType} with ID: ${donation.formID}`);
+            console.log(`Preview ${formType} with ID: ${donation.donID}`);
             break;
         case 'edit':
-            console.log(`Edit ${formType} with ID: ${donation.formID}`);
-            openFormModal(donation.formID, formType);
+            console.log(`Edit ${formType} with ID: ${donation.donID}`);
+            openFormModal(donation.donID, formType);
             break;
         case 'delete':
-            console.log(`Delete ${formType} with ID: ${donation.formID}`);
-            confirmDeleteDonation(donation.formID);
+            console.log(`Delete ${formType} with ID: ${donation.donID}`);
+            confirmDeleteDonation(donation.donID);
             break;
         default:
             console.error('Unknown action:', action);
@@ -389,8 +389,8 @@ function closeTModal(modalId) {
     }
 } 
 
-function openFormModal(formID, formType) {
-    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/getFormDetails.php?formID=${formID}&formType=${formType}`)
+function openFormModal(donID, formType) {
+    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/getFormDetails.php?donID=${donID}&formType=${formType}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Failed to fetch form details');
@@ -435,7 +435,7 @@ function openFormModal(formID, formType) {
     const lendingFields = document.getElementById('lending-fields');
     if (formType === 'Lending') {
       lendingFields.classList.remove('hidden');
-      document.getElementById('modal-loan-duration').textContent = details.loan_durationID;
+      document.getElementById('modal-loan-duration').textContent = details.lending_durationID;
       document.getElementById('modal-display-condition').textContent = details.display_conditions;
       document.getElementById('modal-liability-concern').textContent = details.liability_concerns;
       document.getElementById('modal-reason').textContent = details.lending_reason;
