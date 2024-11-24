@@ -70,6 +70,12 @@ async function fetchAndDisplayFloorplans(sort = "newest") {
       floorplans.forEach((floorplan) => {
         const { unique_id, name, image_path, created_at } = floorplan;
 
+        // Ensure unique_id is provided
+        if (!unique_id) {
+          console.error("Unique ID not provided for a floorplan:", floorplan);
+          return; // Skip rendering this floorplan
+        }
+
         // Handle full and relative paths for images
         const fullImagePath = image_path.startsWith("http")
           ? image_path
@@ -135,21 +141,17 @@ async function fetchAndDisplayFloorplans(sort = "newest") {
     ).innerHTML = `<p class="text-center w-full text-red-500">Error loading layouts. Please try again.</p>`;
   }
 }
-
-
 function handleFunctions(action, payload) {
   const { id, name, activeStatus } = payload;
 
   switch (action) {
     case "set":
       openModal(`Are you sure you want to set layout "${name}" as active?`, () => {
+        console.log(id);
         toggleActiveStatus(activeStatus);
         updateActive(id);
+        
       });
-      break;
-
-    case "view":
-      console.log(`Viewing Layout for ID: ${id}, Name: ${name}`);
       break;
 
     case "delete":
@@ -169,8 +171,6 @@ function handleFunctions(action, payload) {
           const result = await response.json();
           if (result.status === "success") {
             console.log(`Layout with ID: ${id} deleted successfully.`);
-
-            // Refresh the floorplans dynamically
             fetchAndDisplayFloorplans(); // Reload all the cards dynamically
           } else {
             console.error("Error deleting layout:", result.message);
@@ -186,18 +186,32 @@ function handleFunctions(action, payload) {
   }
 }
 
-// Display helper functions
-function displayNoDataMessage() {
-  const container = document.querySelector(".w-full.h-full.flex.flex-wrap.gap-4");
-  container.innerHTML = `<p class="text-center w-full">No layouts available.</p>`;
+// Ensure the `unique_id` is correctly passed at every function invocation.
+function updateActive(uniqueId) {
+  if (!uniqueId) {
+    console.error("Unique ID is required to update active layout!");
+    return;
+  }
+
+  fetch('https://museobulawan.online/development/admin_mis/src/php/update_active.php', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ unique_id: uniqueId }),
+  })
+      .then(response => response.json())
+      .then(data => {
+          if (data.success) {
+              console.log(data.message);
+          } else {
+              console.error(data.message);
+          }
+      })
+      .catch(error => console.error('Error:', error));
 }
 
-function displayErrorMessage() {
-  const container = document.querySelector(".w-full.h-full.flex.flex-wrap.gap-4");
-  container.innerHTML = `<p class="text-center w-full text-red-500">Error loading layouts. Please try again.</p>`;
-}
-
-// Modal setup and handling (unchanged)
+// Modal setup and handling
 function setupModal() {
   const modalHtml = `
         <div id="modal-overlay" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden">
@@ -221,7 +235,8 @@ function setupModal() {
   });
 }
 
-function openModal(message, onConfirm) {
+// Expose openModal to global scope
+window.openModal = function (message, onConfirm) {
   const modalOverlay = document.getElementById("modal-overlay");
   const modalMessage = document.getElementById("modal-message");
   const confirmButton = document.getElementById("modal-confirm-btn");
@@ -236,67 +251,14 @@ function openModal(message, onConfirm) {
     onConfirm();
     closeModal();
   });
-}
+};
 
-function closeModal() {
+// Expose closeModal to global scope
+window.closeModal = function () {
   const modalOverlay = document.getElementById("modal-overlay");
   modalOverlay.classList.add("hidden");
-}
+};
 
-// Preview modal setup
-function setupPreviewModal() {
-  const previewModalHtml = `
-    <div id="preview-modal-overlay" class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center hidden z-50">
-      <div id="preview-modal" class="bg-white rounded-lg shadow-lg w-4/5 h-4/5 relative p-4 flex flex-col">
-        <button id="close-preview" class="absolute top-2 right-2 bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Close</button>
-        <img id="preview-image" src="" alt="Preview" class="w-full h-full object-contain">
-      </div>
-    </div>
-  `;
-  document.body.insertAdjacentHTML("beforeend", previewModalHtml);
-
-  const closePreviewButton = document.getElementById("close-preview");
-  closePreviewButton.addEventListener("click", closePreviewModal);
-}
-
-function openPreviewModal(imageSrc, title) {
-  const previewOverlay = document.getElementById("preview-modal-overlay");
-  const previewImage = document.getElementById("preview-image");
-
-  previewImage.src = imageSrc;
-  previewImage.alt = title;
-
-  previewOverlay.classList.remove("hidden");
-}
-
-function closePreviewModal() {
-  const previewOverlay = document.getElementById("preview-modal-overlay");
-  previewOverlay.classList.add("hidden");
-}
-
-
-
-function updateActive(uniqueId) {
-  fetch('https://museobulawan.online/development/admin_mis/src/php/update_active.php', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ unique_id: uniqueId }),
-  })
-      .then(response => response.json())
-      .then(data => {
-          if (data.success) {
-              console.log(data.message);
-          } else {
-              console.error(data.message);
-          }
-      })
-      .catch(error => console.error('Error:', error));
-}
-
-// Call the function with the unique_id
-updateActive('12345'); // Replace '12345' with the actual unique_id
 
 
 // Initialize the application when the page loads
