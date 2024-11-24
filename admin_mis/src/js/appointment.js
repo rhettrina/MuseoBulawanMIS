@@ -167,8 +167,9 @@ function handleAction(action, data) {
             
         case 'approve':
         case 'reject':
+            
+            updateAppointmentStatus(action, formID);
             console.log('Hotdog!');
-            updateAppointmentStatus(action, data);
             break;
         default:
             console.error('Unknown action:', action);
@@ -187,15 +188,15 @@ function displayNoDataMessage() {
 }
 
 // Function to update appointment status
-function updateAppointmentStatus(action, appointmentId) {
+function updateAppointmentStatus(action, formID) {
     fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/processAppointment.php', { 
-        method: 'PATCH', // Add this line
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            appointmentID: appointmentId,
-            action: action
+            appointmentID: formID,
+            action: action 
         })
     })
     .then(response => response.json())
