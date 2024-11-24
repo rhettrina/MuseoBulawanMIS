@@ -1,9 +1,18 @@
-function init() {
-    // Call the display functions here
-    fetchTotalDonations();
-    fetchDonations();
-    // No need to call deleteDonation here; it's triggered by specific actions
-}
+(() => {
+    function init() {
+        console.log("Initializing artifact page...");
+        fetchDonations();
+        fetchTotalDonations();
+    }
+
+    function cleanup() {
+        console.log("Cleaning up artifact page...");
+        // Cleanup logic
+    }
+
+    window.artifactPage = { init, cleanup };
+})();
+
 
 function fetchTotalDonations() {
     fetch('https://museobulawan.online/development/admin_mis/src/php/fetchTotalDonations.php')
