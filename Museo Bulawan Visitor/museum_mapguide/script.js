@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+    fetchAndProcessImagePath();
     const stickyNav = document.getElementById("stickyNav");
 
     window.addEventListener("scroll", function () {
@@ -15,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
 async function fetchAndProcessImagePath() {
     try {
       // Fetch the data from the PHP script
-      const response = await fetch('https://your-domain.com/path-to/getActiveImagePath.php');
+      const response = await fetch('https://museobulawan.online/development/Museo%20Bulawan%20Visitor/museum_mapguide/fetchActive.php');
       const data = await response.json();
   
       if (data.success) {
