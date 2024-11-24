@@ -50,7 +50,6 @@
   };
 })();
 
-// Fetch and display floorplans with sorting support
 async function fetchAndDisplayFloorplans(sort = "newest") {
   try {
     const response = await fetch(
@@ -68,7 +67,7 @@ async function fetchAndDisplayFloorplans(sort = "newest") {
 
       // Dynamically create and append cards
       floorplans.forEach((floorplan) => {
-        const { unique_id, name, image_path, created_at } = floorplan;
+        const { unique_id, name, image_path, created_at, active } = floorplan;
 
         // Ensure unique_id is provided
         if (!unique_id) {
@@ -104,7 +103,9 @@ async function fetchAndDisplayFloorplans(sort = "newest") {
               </button>
             </div>
           </div>
-          <div id="active-status-${unique_id}" class="w-full h-[10px] bg-transparent"></div>
+          <div id="active-status-${unique_id}" class="w-full h-[10px] ${
+          active === 1 ? "bg-green-700" : "bg-transparent"
+        }"></div>
         `;
 
         container.appendChild(card);
@@ -141,6 +142,7 @@ async function fetchAndDisplayFloorplans(sort = "newest") {
     ).innerHTML = `<p class="text-center w-full text-red-500">Error loading layouts. Please try again.</p>`;
   }
 }
+
 function handleFunctions(action, payload) {
   const { id, name, activeStatus } = payload;
 
@@ -185,32 +187,41 @@ function handleFunctions(action, payload) {
       console.error("Unknown action:", action);
   }
 }
-
-// Ensure the `unique_id` is correctly passed at every function invocation.
 function updateActive(uniqueId) {
   if (!uniqueId) {
     console.error("Unique ID is required to update active layout!");
     return;
   }
 
+  const requestBody = { unique_id: uniqueId };
+  console.log("Sending request with body:", requestBody);
+
   fetch('https://museobulawan.online/development/admin_mis/src/php/update_active.php', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ unique_id: uniqueId }), // Replace '12345' with the actual unique_id
+    body: JSON.stringify(requestBody), // Convert the payload to JSON
   })
+    .then(response => {
+      console.log("Response status:", response.status);
+      return response.json();
+    })
+    .then(data => {
+      console.log("Server response:", data);
+      if (data.success) {
+        console.log(data.message);
 
-      .then(response => response.json())
-      .then(data => {
-          if (data.success) {
-              console.log(data.message);
-          } else {
-              console.error(data.message);
-          }
-      })
-      .catch(error => console.error('Error:', error));
+        // Refresh the floorplans to reflect the updated status
+        fetchAndDisplayFloorplans();
+      } else {
+        console.error(data.message);
+      }
+    })
+    .catch(error => console.error('Error:', error));
 }
+
+
 
 // Modal setup and handling
 function setupModal() {
