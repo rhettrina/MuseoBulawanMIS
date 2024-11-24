@@ -11,25 +11,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 // Include database connection
 include 'db_connect.php';
 
-// Parse the incoming JSON payload
-$data = json_decode(file_get_contents("php://input"), true);
-
-if (!$data) {
-    http_response_code(400); // Bad Request
-    echo json_encode(['success' => false, 'error' => 'Invalid JSON payload']);
-    exit();
-}
-
-// Check if required fields are present in the data
-if (isset($data['donID']) && isset($data['transfer_status'])) {
-    $donID = $data['donID'];
-    $transfer_status = $data['transfer_status'];
+// Check if the required POST fields are set
+if (isset($_POST['donID']) && isset($_POST['transfer_status'])) {
+    $donID = $_POST['donID'];
+    $transfer_status = $_POST['transfer_status'];
 
     // Prepare the SQL statement
     $stmt = $connextion->prepare("UPDATE Artifact SET transfer_status = ? WHERE donatorID = ?");
     if (!$stmt) {
         http_response_code(500); // Internal Server Error
-        echo json_encode(['success' => false, 'error' => $connextion->error]);
+        echo "Error preparing statement: " . $connextion->error;
         exit();
     }
 
@@ -39,17 +30,17 @@ if (isset($data['donID']) && isset($data['transfer_status'])) {
     // Execute the statement and send the appropriate response
     if ($stmt->execute()) {
         http_response_code(200); // Success
-        echo json_encode(['success' => true, 'message' => 'Transfer status updated successfully']);
+        echo "Transfer status updated successfully.";
     } else {
         http_response_code(500); // Internal Server Error
-        echo json_encode(['success' => false, 'error' => $stmt->error]);
+        echo "Error executing statement: " . $stmt->error;
     }
 
     // Close the statement
     $stmt->close();
 } else {
     http_response_code(400); // Bad Request
-    echo json_encode(['success' => false, 'error' => 'Missing required fields (donID or transfer_status)']);
+    echo "Missing required fields (donID or transfer_status).";
 }
 
 // Close the database connection
