@@ -1,5 +1,6 @@
 <?php
 session_start();
+include 'db_connect.php';
 
 // Set the header to return JSON data
 header('Content-Type: application/json');
@@ -23,7 +24,7 @@ if (empty($username) || empty($password)) {
     exit();
 }
 
-include 'db_connect.php';
+
 
 $stmt = $connextion->prepare("SELECT * FROM credentials WHERE username = ? LIMIT 1");
 $stmt->bind_param("s", $username);
