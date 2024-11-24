@@ -1,4 +1,4 @@
-body{
+body {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -7,19 +7,21 @@ body{
     overflow-x: hidden;
     background-color: #000000;
 }
-html{
+
+html {
     background-color: #000000;
 }
 
 * {
     box-sizing: border-box;
 }
-::-webkit-scrollbar { 
+
+::-webkit-scrollbar {
     display: none;
-  }
+}
 
 /*Top bar start*/
-.bar{
+.bar {
     height: auto;
     width: 100vw;
     background-color: #1C1B19;
@@ -33,10 +35,10 @@ html{
 }
 
 
-.bar p{
+.bar p {
     font-size: 0.8rem;
     font-family: hind;
-    height: 100% ;
+    height: 100%;
     width: fit-content;
     color: #EDE2CD;
     position: relative;
@@ -45,19 +47,19 @@ html{
 
 }
 
-.bar-button-wrapper{
+.bar-button-wrapper {
     display: flex;
     flex-direction: row;
     padding-right: 3rem;
     flex-wrap: wrap;
- 
+
 }
 
-.bar-blank-space{
+.bar-blank-space {
     flex-grow: 1;
 }
 
-.bar-button-wrapper a{
+.bar-button-wrapper a {
     font-size: 0.5rem;
     color: #EDE2CD;
     text-decoration: none;
@@ -68,12 +70,13 @@ html{
 }
 
 /*Top bar end*/
-.handle{
+.handle {
     transform: rotate(270deg);
-    white-space: nowrap; /* Prevents the text from wrapping to the next line */
-  }
+    white-space: nowrap;
+    /* Prevents the text from wrapping to the next line */
+}
 
-.front-page{
+.front-page {
     width: 100vw;
     height: 100vh;
     background-image: url('../source/backgroundimg.png');
@@ -82,13 +85,13 @@ html{
     display: grid;
     grid-template-columns: 4vw 1fr 4vw;
     grid-template-rows: auto 1fr;
-    grid-template-areas: 
-    "socials-left nav socials-right"
-    "socials-left info socials-right"
+    grid-template-areas:
+        "socials-left nav socials-right"
+        "socials-left info socials-right"
     ;
 }
 
-.socials-left{
+.socials-left {
     grid-area: socials-left;
     display: flex;
     flex-direction: column;
@@ -97,7 +100,7 @@ html{
     text-align: center;
 }
 
-.socials-right{
+.socials-right {
     grid-area: socials-right;
     display: flex;
     flex-direction: column;
@@ -108,530 +111,286 @@ html{
 
 
 
-  .fp-info{
+.--info {
     grid-area: info;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    
-  }
 
-  .fp-info h2{
+}
+
+.fp-info h2 {
     color: #DAB765;
     font-family: hind;
     font-weight: bold;
-    font-size: 3.4vw;
+    font-size: 4em;
     line-height: 200%;
     text-shadow: 3px 3px #000000;
-  }
-  .fp-info h1{
+}
+
+.fp-info h1 {
     font-family: hind;
     font-weight: bold;
     color: white;
     line-height: 65%;
-    font-size: 6vw;
+    font-size: 5.5em;
     text-shadow: 3px 3px #000000;
-  }
+}
 
-  .details{
-    font-size: 1vw;
+.details {
+    margin-top: 10px;
+    font-size: 1em;
     color: #ffffff;
-  }
-
-  #learn-button{
-    font-size: 0.8vw;
-    width: 8vw;
-    min-height: 5vh;
-    overflow: hidden;
-  }
-  
-  #book-button{
-    font-size: 0.8vw;
-    overflow: hidden;
-    width: 8vw;
-    min-height: 5vh;
-  }
-
-.about{
-    width: 100vw;
-    height: 100vh;
-    display: grid;
-    grid-template-columns: 25vw 75vw;
-    grid-template-areas: "text design";
 }
 
-.design-container{
-    grid-area: design;
-    height: 102vh;
-    width: 75vw;
-    background-image: url('../source/panel1.png');
-    background-position: bottom;
-    background-size: cover;
+#learn-button {
+    font-size: 0.8em;
+    width: 9em;
+    min-height: 5em;
+    overflow: hidden;
+}
+
+#book-button {
+    font-size: 0.8em;
+    overflow: hidden;
+    width: 9em;
+    min-height: 5em;
+}
+
+/* Custom Styles for the About Section */
+.about {
+    background-color: #9D8361;
     position: relative;
-    z-index: 1;
+    overflow: hidden;
 }
 
-.design-container .internal-container{
-    grid-area: block;
+/* Abstract Cube Background */
+.about::before {
+    content: "";
     position: absolute;
-    z-index: 1;
-    right: 0;
-    bottom: -5vh;
-    height: 90vh;
-    width: 65vw;
-    background-image: url('../source/panel2.png');
-    background-position: bottom;
-    background-size: cover;
-    
+    top: -10%;
+    left: -10%;
+    width: 120%;
+    height: 120%;
+    background: repeating-linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.1),
+        rgba(255, 255, 255, 0.1) 10px,
+        transparent 10px,
+        transparent 20px
+    );
+    transform: rotate(45deg);
+    opacity: 0.2;
+    pointer-events: none;
 }
 
-.image-container1{
-    width: 85%;
-    height: 85%;
+/* Text Colors */
+.about .text-wrapper p,
+.about .content-text,
+.about .btn {
+    color: #ffffff;
+}
+
+.about .btn-outline-light {
+    border-color: #ffffff;
+    color: #ffffff;
+}
+
+.about .btn-outline-light:hover {
+    background-color: #ffffff;
+    color: #9D8361;
+}
+
+/* Responsive Font Size */
+@media (max-width: 768px) {
+    .about .display-5 {
+        font-size: 2rem;
+    }
+}
+
+
+
+/* Featured Section Styles */
+.featured {
+    background-color: #9D8361;
+    position: relative;
+    overflow: hidden;
+    padding: 60px 5%;
+}
+
+/* Abstract Pattern Background */
+.featured::before {
+    content: "";
     position: absolute;
-    z-index: 2;
-    right: 0vh;
-    top: 8vh;
-    bottom: 2vh;
-    overflow-x: hidden;
-    background-color: #000000;
-}
-
-.image-container1 img{
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-}
-
-.text-block{
-    padding-top: 20vh;
-    padding-left: 8vw;
-    font-family: Hind;
-    font-size: 1vw;
-}
-
-.content-text{
-    width: 35vw;
-    position: relative;
-    z-index: 2;
-    font-size: 1.9vw;
-    height: auto;
-    font-family: Hina Mincho;
-    text-align: justify;
-    text-justify: inter-word;
-}
-
-
-.featured{
-    width: 100vw;
-    height: 100vh;
-    background-color: #867055;
-    position: relative;
+    background-image: radial-gradient(circle at 20% 20%, rgba(191, 163, 122, 0.1) 2px, transparent 2px),
+                      radial-gradient(circle at 80% 80%, rgba(122, 92, 58, 0.1) 2px, transparent 2px);
+    background-size: 50px 50px;
+    opacity: 0.2;
+    pointer-events: none;
     z-index: 0;
-    display: grid;
-    grid-template-columns: 40vw 60vw;
-    grid-template-rows: 25vh 75vh;
-    grid-template-areas: 
-    "topper topper"
-    "left right"
-    ;
-
 }
-.f-block1{
-    grid-area: left;
+
+.featured-topper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
     position: relative;
     z-index: 1;
-    overflow: visible;
-}
-.fblock1-bg{
-    position: relative;
-    top: -35vh;
-    bottom: -10vh;
 }
 
-.fblock1-bg img{
-    width: 40vw;
-    height: 120vh;
+.ft-ct1 {
+    flex: 1 1 60%;
+    margin-bottom: 20px;
 }
 
-.f-block2{
-    grid-area: right;
-    position: absolute;
-    
+.ft-what p {
+    font-family: 'Hind', sans-serif;
+    font-size: 1rem;
+    color: #FFFFFF;
+    margin: 0;
 }
 
-.f-block2{
-    grid-area: right;
-    position: absolute;
-    top: -13vh;
-    
-}
-
-.f-block2 img{
-    height: 82vh;
-    width: 60vw; 
-}
-
-.featured-topper{
-    width: 100vw;
-    position: relative;
-    z-index: 5;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.ft-ct1{
-    display: flex;
-    flex-direction: column;
-    padding: 4vw;
-}
-
-.ft-ct2{
-    display: flex;
-    flex-direction: column-reverse;
-    font-size: 1vw;
-    padding: 4vw;
-}
-
-.ft-head{
-    font-family: Hina Mincho;
-    font-size: 4vw;
-    color: rgb(255, 255, 255);
-    text-shadow: 0.3vw 0.3vw 0.2vw #00000093;
-}
-
-.ft-what{
-    font-family: Hind;
-    font-size: 1vw;
+.ft-head p {
+    font-family: 'Hina Mincho', serif;
+    font-size: 4rem;
+    color: #FFFFFF;
+    text-shadow: 0.3rem 0.3rem 0.2rem rgba(0, 0, 0, 0.6);
+    margin: 10px 0 0;
 }
 
 
 
+.see-all-link {
+    color: #FFFFFF;
+    font-size: 1rem;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+    transition: border-color 0.3s;
+}
 
+.see-all-link:hover {
+    border-color: rgba(255, 255, 255, 1);
+}
 
-
-.legs{
-    height: 100vh;
-    width: 100vw;
+.featured-content {
     display: grid;
-    grid-template-columns: 40vw 60vw;
-    grid-template-rows: 80vh 20vh;
-    grid-template-areas: 
-    "statue info-text"
-    "bottom bottom "
-    ;
-
-}
-
-.legs-bottom{
-    grid-area: bottom;
-    background-color: #867055;
-    display: flex;
-}
-.blank-legs{
-    width: 40vw;
-    height: 20vh;
-}
-.legs-text{
-    padding-top: 5vh;
-    padding-left: 9vw;
-    padding-right: 9vw;
-    padding-bottom: 5vh;
-}
-.legs-text p{
-    width: 42vw;
-    font-family: Hina Mincho;
-    color: white;
-    font-size: 1.5vw;
-}
-
-
-.statue-image{
-    grid-area: statue;
-}
-.statue-image img{
-    height: 84vh;
-    width: 30vw;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+    margin-top: 40px;
     position: relative;
-    bottom: -16.1vh;
-    left: 5vw;
+    z-index: 1;
 }
 
-.legs-info{
-    grid-area: info-text;
-    padding: 9vw;
-    display: flex;
-    flex-direction: column;
+.f-block1 img,
+.f-block2 img {
+    width: 100%;
+    height: auto;
+    display: block;
 }
 
-.head-text{
+/* Responsive Typography */
+.ft-head p {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+/* Media Queries */
+@media (max-width: 992px) {
+    .featured-topper {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .ft-ct1,
+    .ft-ct2 {
+        flex: 1 1 100%;
+        margin-bottom: 20px;
+    }
+
+    .ft-head p {
+        font-size: 3rem;
+    }
+
+    .featured-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .ft-head p {
+        font-size: 2.5rem;
+    }
+
+    .ft-what p,
+    .see-all-link {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .ft-head p {
+        font-size: 2rem;
+    }
+
+    .ft-what p,
+    .see-all-link {
+        font-size: 0.8rem;
+    }
+}
+
+
+
+
+
+.head-text {
     font-family: Hina Mincho;
     font-size: 3vw;
     text-align: justify;
     text-justify: inter-word;
 }
-.body-text{
+
+.body-text {
     font-family: Hina Mincho;
     font-size: 1.5vw;
     text-align: justify;
     text-justify: inter-word;
 }
 
-.news-events{
-    width: 100vw;
-    height: 100vh;
-    background-color: #1C1B19;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.news-events {
+    background-color: #1C1B19; /* Main dark background */
 }
 
-.nw-container{
-    height: 80vh;
-    width: 80vw;
-    display: flex;
-    flex-direction: column;
-   
+.news-events h2 {
+    font-family: 'Hina Mincho', serif;
+    font-size: 2.5rem;
 }
 
-.nwc-head{
-    height: 15vh;
-    width: 80vw;
-    display: flex;
-    flex-wrap: wrap;
-    
+.news-events .text-muted {
+    color: #A2A2A2 !important; /* Subtle gray for muted text */
 }
 
-.nwcb-container{
-    height: 65vh;
-    width: 80vw;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
+.news-events .text-white {
+    color: #FFFFFF !important; /* White text */
 }
 
-.nwch-content1{
-    width: 22vw;
-    height: 15vh;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
+.news-events img {
+    border-radius: 5px; /* Slightly rounded corners for images */
 }
 
-.nwch-dont{
-    width: 22vw;
-    height: 5vh;
-}
-.nwch-dont p{
-    font-family: Hind;
-    font-size: 1.3vw;
-    color: #A2A2A2;
+.news-events a {
+    font-weight: bold;
+    transition: color 0.3s ease;
 }
 
-.nwch-title{
-    width: 22vw;
-    height: 10vh;
-}
-.nwch-title{
-   font-family: Hind;
-   color: #FFFFFF;
-   font-size: 3vw;
-   padding-left: 1vw;
+.news-events a:hover {
+    color: #BFA37A; /* Hover color for links */
 }
 
-.nwc-more{
-    width: 58vw;
-    height: 15vh;
-    display: flex;
-    flex-direction: row-reverse;
-}
-
-
-.nwc-more p{
-    font-family: Hind;
-    font-size: 1vw;
-}
-
-
-
-.nwcb-container1{
- width: 38vw;
- height: 30vh;
- display: flex;
- flex-direction: row;
-
-}
-.nwcb1-image {
-    width: 30vw;
-    height: 30vh;
-    overflow: hidden;
-}
-
-.nwcb1-info {
-    width: 40vw;
-    height: 30vh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-}
-
-.nwcb1-image img{
-    width: 30vh;
-    height: 30vh;
-}
-
-.nwcb1i-1{
-    font-size: 1.6vw;
-    font-weight: bolder;
-    font-family: inter;
-    color: white;
-}
-.nwcb1i-2{
-    font-size: 0.7vw;
-    font-family: inter;
-    color: white;
-}
-.nwcb1i-3{
-    font-size: 1vw;
-    font-family: inter;
-    color: white;
-}
-
-
-
-.nwcb-container2{
-    width: 38vw;
-    height: 30vh;
-    display: flex;
-    flex-direction: row;
-   
-}
-.nwcb2-image {
-    width: 30vw;
-    height: 30vh;
-    overflow: hidden;
-}
-
-.nwcb2-info {
-    width: 40vw;
-    height: 30vh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-}
-
-.nwcb2-image img{
-    width: 30vh;
-    height: 30vh;
-}
-
-.nwcb2i-1{
-    font-size: 1.6vw;
-    font-weight: bolder;
-    font-family: inter;
-    color: white;
-}
-.nwcb2i-2{
-    font-size: 0.7vw;
-    font-family: inter;
-    color: white;
-}
-.nwcb2i-3{
-    font-size: 1vw;
-    font-family: inter;
-    color: white;
-}
-
-
-
-
-
-.nwcb-container3{
-    width: 38vw;
-    height: 30vh;
-    display: flex;
-    flex-direction: row;
-   
-}
-.nwcb3-image {
-    width: 30vw;
-    height: 30vh;
-    overflow: hidden;
-}
-
-.nwcb3-info {
-    width: 40vw;
-    height: 30vh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-}
-
-.nwcb3-image img{
-    width: 30vh;
-    height: 30vh;
-}
-
-.nwcb3i-1{
-    font-size: 1.6vw;
-    font-weight: bolder;
-    font-family: inter;
-    color: white;
-}
-.nwcb3i-2{
-    font-size: 0.7vw;
-    font-family: inter;
-    color: white;
-}
-.nwcb3i-3{
-    font-size: 1vw;
-    font-family: inter;
-    color: white;
-}
-
-.nwcb-container4{
-    width: 38vw;
-    height: 30vh;
-    display: flex;
-    flex-direction: row;
-   
-}
-.nwcb4-image {
-    width: 30vw;
-    height: 30vh;
-    overflow: hidden;
-}
-
-.nwcb4-info {
-    width: 40vw;
-    height: 30vh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-}
-
-.nwcb4-image img{
-    width: 30vh;
-    height: 30vh;
-}
-
-.nwcb4i-1{
-    font-size: 1.6vw;
-    font-weight: bolder;
-    font-family: inter;
-    color: white;
-}
-.nwcb4i-2{
-    font-size: 0.7vw;
-    font-family: inter;
-    color: white;
-}
-.nwcb4i-3{
-    font-size: 1vw;
-    font-family: inter;
-    color: white;
-}
 
 
 /* start of footer */
@@ -688,66 +447,213 @@ html{
 
 .nav-links a {
     color: white;
-    text-decoration: none; 
+    text-decoration: none;
 }
 
 .nav-links a:hover {
     color: #ccc;
 }
 
-.wrapper{
+.wrapper {
     background-color: #1C1B19;
+}
+
+
+/* Main container */
+.line-design {
+    position: relative;
+    background-color: #1C1B19; /* Black background */
+    height: 100px; /* Adjust as needed */
+    width: 100%; /* Full width */
+    overflow: hidden;
+}
+
+/* Diagonal cut */
+.diagonal-cut {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 150px; /* Adjust the size of the diagonal */
+    height: 100%; /* Match the parent height */
+    background-color: #F5F3EC; /* Light cream color */
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+/* Horizontal lines container */
+.horizontal-lines {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    padding-left: 200px; /* Adjust to offset from the diagonal */
+}
+
+/* Common line style */
+.line {
+    background-color: white;
+    height: 5px; /* Line thickness */
+    width: 90%; /* Line length */
+    margin-bottom: 10px; /* Spacing between lines */
+}
+
+/* Shorter line */
+.line.short {
+    width: 40%; /* Adjust the width for the short line */
 }
 
 /* end of footer */
 
-.booking{
-    height: 100vh;
-    width: 100vw;
-    background-image: url('../source/booking-button.png');
-    background-position: bottom;
-    background-size: cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
+.booking {
+    background-image: url('../source/booking-button.png'); /* Background image */
+    background-position: bottom; /* Position at the bottom */
+    background-size: cover; /* Cover the entire section */
+    background-repeat: no-repeat; /* Prevent repeating */
 }
 
-.booking button{
-    width: 17vw;
-    height: 9vh;
-    font-size: 2vw;
-    font-family: hind;
-    border-width:0.3vw !important;
+.booking button {
+    font-size: 1.5rem; /* Adjusted font size for responsiveness */
+    font-family: 'Hind', sans-serif; /* Font family */
+    border-width: 3px; /* Border width */
+    transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth hover transition */
 }
 
-.spacer{
+.booking button:hover {
+    transform: scale(1.1); /* Slight zoom effect on hover */
+    background-color: rgba(255, 255, 255, 0.2); /* Light overlay on hover */
+}
+
+
+.spacer {
     width: 100vw;
     height: 5vh;
     background-color: #1C1B19;
 }
 
-
-/* Base styles for all devices */
-body {
-    /* Your base styles here */
+/* Ensures the text color is white for all navbar links */
+.navbar-nav .nav-link {
+    color: white;
+    /* Sets text color to white */
 }
+
+/* Changes the text color to gray when hovering over the links */
+.navbar-nav .nav-link:hover {
+    color: #808080;
+    /* Gray color */
+}
+
+
+.visit-support {
+    background-color: #FFFFFF; /* White background */
+    font-family: 'Hind', sans-serif;
+}
+
+.image-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto; /* Center images inside the grid cells */
+}
+
+.image-container img {
+    width: 100%; /* Responsive images */
+    border: 2px solid #FFFFFF; /* Outer border */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for images */
+}
+
+.image-line {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    border: 2px solid #FFFFFF; /* Inner border */
+    pointer-events: none; /* Prevent interaction */
+}
+
+.text-container {
+    max-width: 400px; /* Limit text width */
+    margin: 0 auto; /* Center text inside grid cells */
+    text-align: center;
+}
+
+.text-container h3 {
+    font-size: 1.8rem; /* Heading size */
+    margin-bottom: 1rem;
+}
+
+.text-container p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.btn-outline-dark {
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    border-width: 2px;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-dark:hover {
+    background-color: #000000; /* Black background on hover */
+    color: #FFFFFF; /* White text on hover */
+}
+
+@media (max-width: 768px) {
+    .image-line {
+        top: 5%;
+        left: 5%;
+        width: 90%;
+        height: 90%;
+    }
+
+    .text-container h3 {
+        font-size: 1.5rem;
+    }
+
+    .btn-outline-dark {
+        font-size: 0.9rem;
+        padding: 0.6rem 1.5rem;
+    }
+}
+
+
 
 /* Media Query for PC (desktops and large screens) */
-@media only screen and (min-width: 1024px) {
-    
-}
+@media only screen and (min-width: 1024px) {}
 
 /* Media Query for Tablets */
 @media only screen and (min-width: 768px) and (max-width: 1023px) {
 
 
     #texttime {
-         font-size: 15px;
+        font-size: 15px;
     }
 
-    
+    .fp-info h2 {
+        font-size: 2.5em;
+    }
+
+    .fp-info h1 {
+        font-size: 3.5em;
+    }
+
+    #learn-button, #book-button {
+        font-size: 2vw; /* Adjust font size for better visibility on tablets */
+        width: 9em; /* Smaller width for tablet screens */
+        min-height: 4em; /* Adjusting the height to make the button smaller */
+        margin: 5px; /* Smaller margin for compact layout on tablets */
+    }
+
+    .details {
+        margin-top: 10px;
+        font-size: 1.2em;
+        color: #ffffff;
+    }
 }
+
+
 
 /* Media Query for Mobile Devices */
 @media only screen and (max-width: 767px) {
@@ -757,5 +663,34 @@ body {
 
     #texttime {
         font-size: 10px;
-   }
+    }
+
+    .fp-info h2 {
+        font-size: 3em;
+    }
+
+    .fp-info h1 {
+        font-size: 5em;
+    }
+
+    #learn-button, #book-button {
+        font-size: 3.5vw;
+        width: 90vw;
+        min-height: 18vw;
+        margin: 10px; /* Consistent margin for mobile to avoid clutter */
+    }
+
+    .details {
+        margin-top: 10px;
+        font-size: .9em;
+        color: #ffffff;
+    }
+
+
+    .socials-left  .socials-right{
+       margin: 12;
+    }
+
+
+    
 }

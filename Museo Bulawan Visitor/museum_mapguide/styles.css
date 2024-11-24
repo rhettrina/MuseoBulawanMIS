@@ -1,0 +1,644 @@
+/* header up */
+
+body {
+    margin: 0%;
+}
+
+.nav-links a {
+    color: dark;
+    text-decoration: none;
+}
+
+.nav-links a:hover {
+    color: #ccc;
+}
+
+.navbar-dark .navbar-toggler-icon {
+    filter: invert(1);
+  }
+/* Changes for Header, Top, and Footer Links */
+.header-nav .nav-link {
+    color: black;
+}
+
+
+
+.top-nav .nav-link {
+    color: white;
+}
+
+.footer-nav .nav-link {
+    color: white;
+}
+
+.navbar-nav {
+    color: white;
+    text-shadow: 5%;
+}
+
+#open {
+    color: white;
+    padding-left: 3rem;
+    padding-top: 1rem;
+}
+
+.wrapper {
+    background-color: #1C1B19;
+}
+
+.wr {
+    background-color: white;
+}
+
+#container1 {
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
+    font-size: small;
+}
+
+#container2 {
+    padding: 1em 3em .1em 3em;
+}
+
+
+
+#brand {
+    text-transform: uppercase;
+    font-family: Noto Sans;
+    font-weight: bold;
+    font-size: 1.5em;
+    padding-left: .5em;
+    color: black;
+}
+
+
+
+.nav-link {
+    color: white;
+}
+
+.dropdownicon {
+    height: fit-content;
+    width: 10px;
+}
+
+
+.form-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    font-size: large;
+}
+
+.form-control,
+.btn-search {
+    border-radius: 10;
+    border: 1px solid #000;
+}
+
+#features {
+    padding: 5%;
+    background-color: #1C1B19;
+}
+
+.feature-box {
+    text-align: center;
+}
+
+.feature-box img {
+    object-fit: cover;
+    max-width: 100%;
+    height: 400px;
+    width: 400px;
+}
+
+.feature-box img:hover {
+    filter: blur(2px) grayscale(50%) opacity(80%);
+}
+
+.feature-box h5 {
+    color: #BD8049;
+}
+
+.feature-box h2 {
+    color: #FCE6BC;
+    font-family: Hina Mincho;
+    font-size: 2.5em;
+}
+
+.feature-box h4 {
+    color: #B1AEAB;
+    font-size: 1em;
+}
+
+.feature-box h4 h5 {
+    font-family: Nota Sans;
+}
+
+.feature-box .textarea {
+    margin: 20px;
+}
+
+.lowercontainer {
+    background-color: #1C1B19;
+}
+
+.footer {
+    background-color: #1C1B19;
+    height: 100%;
+    color: white;
+}
+
+.footer-box img{
+    margin-left: 3em;
+    height: 60px;
+    width: 60px;
+}
+
+
+.group img{
+    width: 100%;  
+    height: auto;
+
+}
+
+/*  about us */
+.sec {
+    margin-top: 8%;
+    margin-left: 13%;
+    margin-right: 6%;
+    max-width: auto;
+    height: auto;
+    display: flex;  
+    justify-content: space-between;     
+}
+.sec .leftside {
+    height: auto;
+    width: 40%; 
+    margin-right: 30px;
+    box-sizing: border-box; 
+    overflow: hidden; 
+}
+.sec .rightside {
+    height: auto;
+    width: 57%; 
+    box-sizing: border-box; 
+}
+.sec .leftside .tl {
+    width: auto;
+    padding-top: 25px;
+    padding-bottom: 35px;
+    position: relative;
+    height: auto;           
+}
+.sec .leftside .tl h6{
+    font-family: Hina Mincho;
+    font-size: 1.05vw;           
+    line-height: 2;            
+    color: black;  
+    text-align: justify; 
+    overflow-wrap: break-word;         
+}
+#pic1 img {
+    width: 100%; 
+    height: auto; 
+}
+.sec .rightside .tr{
+    width: auto;
+    padding-bottom: 10px;
+}
+.sec .rightside .tr h3{
+    font-family: Hina Mincho;
+    font-size: 2.7vw;             
+    line-height: 1.3;           
+    color: black;  
+    text-align: justify;    
+    overflow-wrap: break-word;
+}
+.sec .rightside .sbr {
+    width: auto;
+}
+.sec .rightside .sbr h6{
+    font-family: Hina Mincho;
+    font-size: 1.43vw;            
+    line-height: 1.3;           
+    color: black;  
+    text-align: justify;  
+    overflow-wrap: break-word;  
+}
+.sec2{
+    width: auto;
+    height: auto;
+    margin-left: 13%;
+    margin-right: 5%;
+    margin-top: 5%;
+}
+.sec2 .topsec {
+    position: relative;
+    padding-right: 40%;
+}
+.sec2 .topsec h1 {
+    font-family: Hina Mincho;
+    font-size: 2.5vw;
+    line-height: 1.5;
+    color: black;
+}
+.sec2 .botsec2{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;        
+    gap: 20px;                      
+    margin: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.bsl {
+    width: 45%;                  
+    display: flex;
+    justify-content: flex-end;        
+}
+.bsr {
+    width: 50%;                   
+    display: flex;
+    flex-direction: column;           
+    justify-content: flex-start;      
+    gap: 20px;                       
+}
+#pic2 img {
+    width: 100%;                     
+    height: auto; 
+    margin-left: -8%;
+}
+.con {
+    font-family: Hina Mincho;
+    display: flex;
+    align-items: center;  /* Vertically center align the "L" and the "orem" text */
+    gap: 10px;            /* Add some spacing between "L" and "orem" */
+}
+.L h1{
+
+    font-size: 8vw;
+    color: black;
+}
+.orem h6 {
+    font-family: Hina Mincho;
+    font-size: 1.6vw;
+    line-height: 1.2;
+    text-align: justify;
+    color: black;
+    overflow-wrap: break-word;
+    padding-top: 20px;
+}
+.lorem h6 {
+    margin-top: -20px;
+    font-family: Hina Mincho;
+    font-size: 1.34vw;
+    line-height: 1.5;
+    text-align: justify;
+    color: black;
+    overflow-wrap: break-word;
+}
+.sec3{
+    width: auto;
+    height: auto;
+    margin-left: 13%;
+    margin-right: 6%;
+    overflow: hidden;
+    margin-top: 5%;
+}
+.sec3 .topsec{
+    margin-bottom: 3%;
+    width: auto;
+    height: auto;
+    display: flex;
+}
+.sec3 .topsec .tl{
+    width: 500px;
+    text-align: justify;
+    font-family: Hina Mincho;
+    height: auto;
+    overflow: hidden;
+}
+.sec3 .topsec .tl h6{
+    line-height: 1.8;
+    color: black;
+    font-size: 1.34vw;  
+    overflow-wrap: break-word;
+}
+#pic3 img{
+    width: 100%;
+    height: auto;
+    padding-left: 10%;
+}
+.sec3 .botsec{
+    width: auto;
+    height: auto;
+    display: flex;
+}
+.sec3 .botsec .leftsec3{
+    width: 60%;
+    height: auto;
+    overflow: hidden;
+}
+.sec3 .botsec .rightsec3{
+    width: 40%;
+    height: auto;
+    overflow: hidden;
+    padding-right: 5%;
+    text-align: justify;
+    font-family: Hina Mincho;
+    padding-left: 2%;
+}
+.sec3 .botsec .rightsec3 h6{
+    line-height: 1.8;
+    font-size: 1.2vw;
+    overflow-wrap: break-word;
+    color: black;
+}
+.sec3 .botsec .leftsec3 h1{
+    text-align: justify;
+    font-family: Hina Mincho;
+    padding-left: 3%;
+    font-size: 3vw;
+    color: black;
+}
+.sec3 .botsec .leftsec3 h6{
+    text-align: justify;
+    font-family: Hina Mincho;
+    font-size: 1.5vw;
+    line-height: 1.5;
+    padding-top: 3%;
+    color: black;
+}
+.map .text{
+    width: auto;
+    height: fit-content;
+    margin-top: 8%;
+    margin-bottom: 5%;
+    padding-left: 13%;
+}
+.map .text h1{
+    font-weight: bold;
+    font-family: Hind Kochi;
+    color: black;
+}
+#frame{
+    display: flex;
+    width: 100%;
+    height: auto;
+    box-sizing: border-box; 
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+}
+#frame img{
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;  
+}
+.side-footer {
+    background-color: #1C1B19;
+    color: white;
+    margin: 10px;
+}
+
+.side-footer img {
+    width: 60px;
+    height: 60px;
+    max-width: 100%;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+
+.museo-bulawan-cmp h2 {
+    text-align: center;
+    margin: auto .5rem;
+    font-weight: bold;
+    font-size: 40px;
+}
+
+
+.lowercontainer .navbar {
+    display: flex;
+    flex-direction: row-reverse;
+    height: 15vh;
+    width: 20vw;
+}
+
+
+.nav-links {
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.nav-links li {
+    display: flex;
+    align-items: center;
+    padding: 0em .5em;
+}
+
+
+.text-light {
+    color: #fff;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none; 
+}
+
+.nav-links a:hover {
+    color: #ccc;
+}
+
+.top-about {
+    font-family: Hina Mincho;
+}
+
+/* Set background for the carousel */
+#teamCarousel {
+    background-color: #1C1B19; /* Dark background color */
+    color: white; /* White text for contrast */
+    padding: 50px 0; /* Add padding for better spacing */
+}
+
+/* Customize text styles */
+#teamCarousel h5 {
+    font-size: 3rem;
+    font-weight: bold;
+    font-family: Hind Kochi;
+}
+
+#teamCarousel p {
+    font-size: 1.5rem;
+    font-family: Hind Kochi;
+}
+
+/* Style the images */
+.carousel-item img {
+    width: 15em;
+    height: auto;
+    object-fit: cover;
+    border: 3px solid white; /* Optional: border around images */
+}
+
+@media (max-width: 720px) {
+    
+}
+
+
+@media only screen and (min-width: 1024px) {}
+
+/* Media Query for Tablets */
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+
+
+    #texttime {
+        font-size: 15px;
+    }
+
+    .fp-info h2 {
+        font-size: 2.5em;
+    }
+
+    .fp-info h1 {
+        font-size: 3.5em;
+    }
+
+    #learn-button, #book-button {
+        font-size: 2vw; /* Adjust font size for better visibility on tablets */
+        width: 9em; /* Smaller width for tablet screens */
+        min-height: 4em; /* Adjusting the height to make the button smaller */
+        margin: 5px; /* Smaller margin for compact layout on tablets */
+    }
+
+    .details {
+        margin-top: 10px;
+        font-size: 1.2em;
+        color: #ffffff;
+    }
+
+    .top-about h4{
+        font-size: 1.3em;
+    }
+
+    .top-about h1 {
+        font-size: 1.7em;
+    }
+
+    .top-about h3 {
+        font-size: 1.4em;
+    }
+
+    .top-about h5 {
+        font-size: .9em;
+    }
+
+    .top-about ul li {
+        font-size: .7em;
+    }
+}
+
+
+
+/* Media Query for Mobile Devices */
+@media only screen and (max-width: 767px) {
+    .body {
+        padding: 3em;
+    }
+
+    #texttime {
+        font-size: 10px;
+    }
+
+    .fp-info h2 {
+        font-size: 3em;
+    }
+
+    .fp-info h1 {
+        font-size: 5em;
+    }
+
+    #learn-button, #book-button {
+        font-size: 3.5vw;
+        width: 90vw;
+        min-height: 18vw;
+        margin: 10px; /* Consistent margin for mobile to avoid clutter */
+    }
+
+    .details {
+        margin-top: 10px;
+        font-size: .9em;
+        color: #ffffff;
+    }
+
+
+    .socials-left  .socials-right{
+       margin: 12;
+    }
+
+
+
+    
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+  }
+  #container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  h1 {
+    text-align: center;
+    color: #333;
+  }
+  #map-container {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  #map-placeholder {
+    width: 100%;
+    max-width: 1000px;
+    height: auto;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+  }
+  #legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .legend-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 15px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  .legend-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  }
+  .legend-item canvas {
+    border: 1px solid #000;
+    margin-bottom: 10px;
+  }
+  .legend-item span {
+    font-weight: bold;
+    color: #555;
+  }
