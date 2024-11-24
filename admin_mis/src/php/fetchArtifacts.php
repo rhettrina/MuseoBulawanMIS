@@ -16,6 +16,7 @@ SELECT *,
     Donator.first_name,
     Donator.last_name,
     Lending.lendingID,
+    Lending.artifact_nameID AS LendingArtName,
     Lending.lending_durationID,
     Lending.submission_date AS LendingSubmissionDate
 FROM Donator

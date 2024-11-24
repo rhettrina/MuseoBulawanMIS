@@ -99,9 +99,9 @@ async function fetchAndRenderTables() {
             .map(item => ({
                 date: item.LendingSubmissionDate,
                 lendingID: item.lendingID,
-                donatorID: item.donatorID,
+                duration: item.LendingArtName,
                 artifactName: item.artifact_nameID,
-                duration: item.lending_durationID,
+                duration: `${calculateDuration(item.starting_date, item.ending_date)}`,
                 reason: item.lending_reason,
             }));
 
@@ -117,8 +117,7 @@ async function fetchAndRenderTables() {
         // Render the data into the tables
         renderTable(artifacts, "artifacts-table", ["date", "title", "type", "lastUpdated"]);
         renderTable(acquired, "acquired-table", ["date", "artifactName", "donorName", "lastUpdated"]);
-        renderTable(borrowing, "borrowing-table", ["date", "donatorID", "artifactName", "duration", "reason"]);
-        renderTable(display, "display-table", ["artifactID", "type", "name", "status"]);
+        renderTable(borrowing, "borrowing-table", ["date", "artifactName","title",  "duration"]);
         renderTable(donators, "donors-table", ["donatorID", "firstName", "lastName", "email", "age", "city"]);
 
     } catch (error) {
@@ -126,7 +125,26 @@ async function fetchAndRenderTables() {
     }
 }
 
+const calculateDuration = (startDate, endDate) => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
 
+    // Calculate the difference in milliseconds
+    const diffInMilliseconds = end - start;
+
+    // Convert the difference to days, months, and years
+    const diffInDays = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24));
+    const diffInYears = Math.floor(diffInDays / 365);
+    const diffInMonths = Math.floor((diffInDays % 365) / 30);
+
+    // Build a readable duration string
+    const years = diffInYears > 0 ? `${diffInYears} year${diffInYears > 1 ? 's' : ''}` : '';
+    const months = diffInMonths > 0 ? `${diffInMonths} month${diffInMonths > 1 ? 's' : ''}` : '';
+    const days = diffInDays % 30 > 0 ? `${diffInDays % 30} day${diffInDays % 30 > 1 ? 's' : ''}` : '';
+
+    // Combine non-empty parts
+    return [years, months, days].filter(Boolean).join(', ');
+};
 function renderTable(data, tableId, columns) {
     const table = document.getElementById(tableId);
 
@@ -201,6 +219,7 @@ function handleAction(action, id) {
     console.log(`Action: ${action}, ID: ${id}`);
     // Add your specific logic for each action here
 }
+
 
 // Call the function to fetch and render data when the page loads
 fetchAndRenderTables();
