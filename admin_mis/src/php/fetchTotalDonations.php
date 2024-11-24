@@ -74,7 +74,7 @@ if ($result) {
 
 // Query to count total lending forms
 $query = "SELECT COUNT(*) AS total FROM Lending";
-$result = mysqli_query($connextion, $query);
+$result = mysqli_query($conn, $query);
 if ($result) {
     $row = mysqli_fetch_assoc($result);
     $results['total_lending_forms'] = (int)$row['total'];
