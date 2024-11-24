@@ -96,7 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Insert data into Donation table
     $abt_art = "INSERT INTO `Donation`(`donatorID`, `artifact_nameID`, `artifact_description`, `submission_date`) VALUES (?, ?, ?, CURRENT_TIMESTAMP)";
     $stmt = $conn->prepare($abt_art);
-    $stmt->bind_param("isss", $donatorID, $artifactTitle, $artifactDescription, );
+    $stmt->bind_param("iss", $donatorID, $artifactTitle, $artifactDescription);
 
     if (!$stmt->execute()) {
         die(json_encode(['success' => false, 'message' => 'Error inserting donation: ' . $stmt->error]));
