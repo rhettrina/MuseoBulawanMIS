@@ -58,10 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $art_img_ex_lc = strtolower(pathinfo($art_img_name, PATHINFO_EXTENSION));
                 if (in_array($art_img_ex_lc, $allowed_exs)) {
                     $new_art_img_name = uniqid("IMG-", true) . '.' . $art_img_ex_lc;
-
-                    // Adjust the upload path to use relative directory
-                    $upload_dir = __DIR__ . '/../admin_mis/src/uploads/artifacts/';
-                    $art_img_upload_path = $upload_dir . $new_art_img_name;
+                    $art_img_upload_path = '../uploads/artifacts' . $new_art_img_name;
                     move_uploaded_file($art_tmp_name, $art_img_upload_path);
                 } else {
                     die("Error: Invalid artifact image type.");

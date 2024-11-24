@@ -141,51 +141,92 @@ function populateTable(appointments) {
     });
 }
 
-// Handle actions for edit, delete, approve, and reject
+// Handle actions for edit and delete
 function handleAction(action, data) {
     switch (action) {
         case 'edit':
             showAppointmentModal(data); // 'data' is the appointment object
             break;
-            case 'delete':
-                openAppointmentDeleteModal((response) => {
-                    if (response) {
-                        deleteAppointment(data) // 'data' is appointment.id
-                            .then(() => {
-                                console.log(`Appointment with ID ${data} deleted.`);
-                                init(); // Refresh the data/display
-                            })
-                            .catch(error => {
-                                console.error('Error deleting appointment:', error);
-                                alert('An error occurred while deleting the appointment.');
-                            });
-                    } else {
-                        console.log("Delete action canceled.");
-                    }
-                });
-                break;
-            
+        case 'delete':
+            openAppointmentDeleteModal((response) => {
+                if (response) {
+                    deleteAppointment(data) // 'data' is appointment.id
+                        .then(() => {
+                            console.log(`Appointment with ID ${data} deleted.`);
+                            init(); // Refresh the data/display
+                        })
+                        .catch(error => {
+                            console.error('Error deleting appointment:', error);
+                            alert('An error occurred while deleting the appointment.');
+                        });
+                } else {
+                    console.log("Delete action canceled.");
+                }
+            });
+            break;
         default:
             console.error('Unknown action:', action);
     }
 }
+/*-----------------------------------------------------------------------------------------------------------------------------------------------*/
+// Approve button handler
+document.getElementById("approve-appointment-btn").addEventListener("click", () => {
+    const appointmentId = getAppointmentId();
+    updateAppointmentStatus(appointmentId, "approved");
+});
 
+// Reject button handler
+document.getElementById("reject-appointment-btn").addEventListener("click", () => {
+    const appointmentId = getAppointmentId();
+    updateAppointmentStatus(appointmentId, "rejected");
+});
 
-function handleApprovalOrRejection(action, formID) {
-    if (action !== 'approve' && action !== 'reject') {
-        console.error('Invalid action passed to handleApprovalOrRejection:', action);
-        return;
-    }
+// Get the appointment ID from the modal
+function getAppointmentId() {
+    return document.getElementById("appointment-modal").dataset.appointmentId;
+}
 
-    updateAppointmentStatus(action, formID)
-        .then(() => {
-            console.log(`Appointment ${action === 'approve' ? 'approved' : 'rejected'} successfully.`);
+// Function to update the appointment status
+function updateAppointmentStatus(appointmentId, status) {
+    fetch(`https://museobulawan.online/development/admin_mis/src/php/updateAppointment.php`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            appointmentId: appointmentId,
+            status: status,
+        }),
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
         })
-        .catch(error => {
-            console.error(`Error handling ${action} action:`, error);
-            alert(`An error occurred while trying to ${action} the appointment.`);
+        .then((data) => {
+            if (data.success) {
+                alert("Appointment status updated successfully!");
+                closeModal();
+                fetchAppointments(); // Refresh the table
+            } else {
+                alert("Failed to update appointment: " + data.message);
+            }
+        })
+        .catch((error) => {
+            console.error("Error updating appointment:", error);
         });
 }
+
+// Close modal function
+function closeModal() {
+    const modal = document.getElementById("appointment-modal");
+    modal.classList.add("hidden");
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------------------------*/
+
+
 
 
 // Function to display a message when no data is available
@@ -200,13 +241,13 @@ function displayNoDataMessage() {
 
 // Function to update appointment status
 function updateAppointmentStatus(action, formID) {
-    fetch('https://museobulawan.online/development/admin_mis/src/php/processAppointment.php', { 
+    fetch('https://museobulawan.online/admin_mis/src/php/processAppointment.php', { 
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            appointmentID: appointmentId,
+            appointmentID: formID, // Use formID here if it holds the correct value
             action: action 
         })
     })
@@ -248,14 +289,12 @@ function showAppointmentModal(appointment) {
     document.getElementById('appointment-time').textContent = appointment.appointment_time || 'N/A';
     document.getElementById('appointment-notes').textContent = appointment.appointment_notes || 'N/A';
 
-    // Set the appointment ID on the buttons
-    document.getElementById('approve-appointment-btn').setAttribute('data-appointment-id', appointment.formID);
-    document.getElementById('reject-appointment-btn').setAttribute('data-appointment-id', appointment.formID);
-
+    modal.dataset.appointmentId = appointment.formID;
     // Show the modal
     if (modal) {
         modal.classList.remove('hidden');
     }
+    
 }
 
 // Close modal logic
@@ -275,11 +314,6 @@ function closeModal(modalId) {
     } else {
         console.error(`Modal with ID "${modalId}" not found.`);
     }
-}
-
-// Function to close the appointment modal
-function closeAppointmentModal() {
-    closeModal('appointment-modal');
 }
 
 // Function to open the delete confirmation modal
@@ -325,23 +359,6 @@ function openAppointmentDeleteModal(callback) {
         cancelButton.removeEventListener("click", cancelHandler);
     }
 }
-
-// Add event listeners to the approve and reject buttons
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('approve-appointment-btn').addEventListener('click', function() {
-        const appointmentId = this.getAttribute('data-appointment-id');
-        console.log('Approve button clicked for appointment ID:', appointmentId); // Added console.log
-        handleApprovalOrRejection('approve', appointmentId);
-    });
-
-    document.getElementById('reject-appointment-btn').addEventListener('click', function() {
-        const appointmentId = this.getAttribute('data-appointment-id');
-        console.log('Reject button clicked for appointment ID:', appointmentId); // Added console.log
-        handleApprovalOrRejection('reject', appointmentId);
-    });
-});
-
-
 
 function deleteAppointment(fkID) {
     return fetch(`https://museobulawan.online/development/admin_mis/src/php/deleteAppointments.php?id=${fkID}`, {
