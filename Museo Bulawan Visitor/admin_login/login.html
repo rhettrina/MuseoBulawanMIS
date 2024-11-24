@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <!-- Include your CSS file -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -19,7 +19,7 @@
             <div class="logo">
                 <img src="../source/LOGO.png" alt="Museo Bulawan Camarines Norte">
             </div>
-            <form class="login-form" action="loginphp.php" method="post">
+            <form id="login-form">
                 <div class="input-group">
                     <img src="../source/user.png" alt="User Icon" class="input-icon">
                     <input type="text" id="username" placeholder="USERNAME" name="username" required>
@@ -28,21 +28,14 @@
                     <img src="../source/pass.png" alt="Lock Icon" class="input-icon">
                     <input type="password" id="password" placeholder="PASSWORD" name="password" required>
                 </div>
-                <input type="submit" name="submit" id="submit" class="login-btn" value="Login">
+                <button type="submit" class="login-btn">Login</button>
                 <a href="#" class="forgot-password">Forgot password?</a>
             </form>
         </div>
     </div>
-    
-    <script>
-    // Check for error parameter in the URL
-    if (new URLSearchParams(window.location.search).has('error')) {
-        // Display popup alert if credentials are invalid
-        alert("Invalid username or password. Please try again.");
-    }
-    </script>
-    
-    
-    
+
+    <!-- Include the external JavaScript file -->
+    <script src="script.js"></script>
+
 </body>
 </html>
