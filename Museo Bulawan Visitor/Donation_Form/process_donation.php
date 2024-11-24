@@ -44,42 +44,61 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // Initialize image file paths
     $art_img_upload_path = '';
-    $doc_img_upload_path = '';
-    $rel_img_upload_path = '';
+$allowed_exs = array("jpg", "jpeg", "png");
 
-    // Image upload handling
-    $allowed_exs = array("jpg", "jpeg", "png");
+if (!empty($_FILES['artifact_img']['name'])) {
+    $art_img_name = basename($_FILES['artifact_img']['name']); // Sanitize input
+    $art_img_size = $_FILES['artifact_img']['size'];
+    $art_tmp_name = $_FILES['artifact_img']['tmp_name'];
+    $art_error = $_FILES['artifact_img']['error'];
 
-    // Handle artifact image upload
-    if (!empty($_FILES['artifact_img']['name'])) {
-        $art_img_name = $_FILES['artifact_img']['name'];
-        $art_img_size = $_FILES['artifact_img']['size'];
-        $art_tmp_name = $_FILES['artifact_img']['tmp_name'];
-        $art_error = $_FILES['artifact_img']['error'];
+    if ($art_error === 0) {
+        if ($art_img_size > 12500000) {
+            $em = "Sorry, the artifact image is too large.";
+            header("Location: donateindex.html?error=$em");
+            exit();
+        } else {
+            $art_img_ex_lc = strtolower(pathinfo($art_img_name, PATHINFO_EXTENSION));
+            if (in_array($art_img_ex_lc, $allowed_exs)) {
+                $mime_type = mime_content_type($art_tmp_name);
+                $allowed_mime_types = ['image/jpeg', 'image/png'];
 
-        if ($art_error === 0) {
-            if ($art_img_size > 12500000) {
-                $em = "Sorry, the artifact image is too large.";
-                header("Location: donateindex.html?error=$em");
-                exit();
-            } else {
-                $art_img_ex_lc = strtolower(pathinfo($art_img_name, PATHINFO_EXTENSION));
-                if (in_array($art_img_ex_lc, $allowed_exs)) {
+                if (in_array($mime_type, $allowed_mime_types)) {
                     $new_art_img_name = uniqid("IMG-", true) . '.' . $art_img_ex_lc;
                     $art_img_upload_path = 'uploads/artifacts/' . $new_art_img_name;
-                    move_uploaded_file($art_tmp_name, $art_img_upload_path);
+
+                    // Check if the directory exists and is writable
+                    if (is_dir('uploads/artifacts/') && is_writable('uploads/artifacts/')) {
+                        if (move_uploaded_file($art_tmp_name, $art_img_upload_path)) {
+                            // Success
+                        } else {
+                            $em = "Failed to move uploaded file.";
+                            header("Location: donateindex.html?error=$em");
+                            exit();
+                        }
+                    } else {
+                        $em = "The upload directory is not writable or does not exist.";
+                        header("Location: donateindex.html?error=$em");
+                        exit();
+                    }
                 } else {
-                    $em = "You can't upload files of this type for artifact image.";
+                    $em = "Invalid MIME type.";
                     header("Location: donateindex.html?error=$em");
                     exit();
                 }
+            } else {
+                $em = "You can't upload files of this type for artifact image.";
+                header("Location: donateindex.html?error=$em");
+                exit();
             }
-        } else {
-            $em = "Error uploading the artifact image.";
-            header("Location: donateindex.html?error=$em");
-            exit();
         }
+    } else {
+        $em = "Error uploading the artifact image.";
+        header("Location: donateindex.html?error=$em");
+        exit();
     }
+}
+
 
     // Insert query for the Donator table
     $sql_donatorTB = "INSERT INTO `Donator`(`first_name`, `last_name`, `email`, `phone`, `province`, `street`, `barangay`, `organization`, `age`, `sex`, `city`, `submission_date`) 
