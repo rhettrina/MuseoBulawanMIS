@@ -9,7 +9,7 @@ include 'db_connect.php';
 // Get the POST data
 $data = json_decode(file_get_contents("php://input"), true);
 $appointmentId = $data['appointmentId'];
-$action = $data['action'];
+$status = $data['status'];
 
 // Validate input
 if (!$appointmentId || !$status) {
@@ -25,7 +25,7 @@ $query = "
 ";
 
 $stmt = $connextion->prepare($query);
-$stmt->bind_param("si", $action, $appointmentId);
+$stmt->bind_param("si", $status, $appointmentId);
 
 if ($stmt->execute()) {
     echo json_encode(['success' => true, 'message' => 'Appointment updated successfully.']);

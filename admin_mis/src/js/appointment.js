@@ -168,7 +168,7 @@ function handleAction(action, data) {
             console.error('Unknown action:', action);
     }
 }
-/*-----------------------------------------------------------------------------------------------------------------------------------------------*/
+
 // Approve button handler
 document.getElementById("approve-appointment-btn").addEventListener("click", () => {
     const appointmentId = getAppointmentId();
