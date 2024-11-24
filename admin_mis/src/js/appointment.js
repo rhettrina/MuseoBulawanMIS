@@ -43,6 +43,10 @@ function populateTotalAppointmentData(data) {
     
 }
 
+document.getElementById('sortA').addEventListener('change', function () {
+    const selectedSort = this.value; // Get selected value
+    fetchAppointments(selectedSort); // Fetch appointments based on sort
+});
 
 // Fetch and populate the appointment table
 function fetchAppointments(sort = 'newest') {
@@ -62,11 +66,9 @@ function fetchAppointments(sort = 'newest') {
             }
         })
         .catch(error => {
-            console.error('Error fetching donations:', error);
+            console.error('Error fetching appointments:', error);
             displayNoDataMessage();
         });
-        
-        
 }
 
 function populateTable(appointments) {
