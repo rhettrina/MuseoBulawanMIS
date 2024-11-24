@@ -21,7 +21,7 @@ if ($appointmentID) {
 
     try {
         // 1. Retrieve the visitorID associated with this appointmentID
-        $queryVisitorID = "SELECT visitorID FROM appointment WHERE appointmentID = ?";
+        $queryVisitorID = "SELECT visitorID FROM appointment WHERE visitorID = ?";
         $stmtVisitorID = $connextion->prepare($queryVisitorID);
         if (!$stmtVisitorID) {
             throw new Exception('Failed to prepare visitorID retrieval query.');
@@ -40,7 +40,7 @@ if ($appointmentID) {
         // Adjust table names and column names as per your database schema
 
         // Example: Delete from 'appointment_details' table
-        $deleteDetails = "DELETE FROM appointment WHERE appointmentID = ?";
+        $deleteDetails = "DELETE FROM appointment WHERE visitorID = ?";
         $stmtDetails = $connextion->prepare($deleteDetails);
         if (!$stmtDetails) {
             throw new Exception('Failed to prepare appointment_details deletion query.');
@@ -52,7 +52,7 @@ if ($appointmentID) {
         // ...
 
         // 3. Delete the appointment record from the 'appointment' table
-        $deleteAppointment = "DELETE FROM appointment WHERE appointmentID = ?";
+        $deleteAppointment = "DELETE FROM visitor WHERE visitorID = ?";
         $stmtAppointment = $connextion->prepare($deleteAppointment);
         if (!$stmtAppointment) {
             throw new Exception('Failed to prepare appointment deletion query.');
