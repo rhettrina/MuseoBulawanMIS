@@ -25,35 +25,50 @@ if (!is_array($data)) {
 }
 
 // Check required fields
-if (!isset($data['appointmentID']) || !isset($data['action'])) {
-    echo json_encode(['error' => 'Missing appointmentID or action.']);
+if (!isset($data['appointmentID']) || !isset($data['updates'])) {
+    echo json_encode(['error' => 'Missing appointmentID or updates.']);
     exit;
 }
 
 // Sanitize and validate input
 $appointmentID = intval($data['appointmentID']);
-$action = strtolower(trim($data['action']));
+$updates = $data['updates']; // Expecting an associative array for updates
 
-// Validate action value
-if (!in_array($action, ['approve', 'reject'])) {
-    echo json_encode(['error' => 'Invalid action.']);
+// Validate the updates array
+if (!is_array($updates) || empty($updates)) {
+    echo json_encode(['error' => 'Invalid or empty updates array.']);
     exit;
 }
 
-// Determine the new status
-$newStatus = ($action === 'approve') ? 'Approved' : 'Rejected';
+// Build the SQL dynamically
+$updateFields = [];
+$updateValues = [];
 
-// Prepare and execute the update statement
-$stmt = $connection->prepare("UPDATE appointment SET status = ?, confirmation_date = NOW() WHERE appointmentID = ?");
+foreach ($updates as $field => $value) {
+    $updateFields[] = "`" . htmlspecialchars($field, ENT_QUOTES) . "` = ?";
+    $updateValues[] = $value;
+}
+
+// Add the appointmentID at the end for the WHERE clause
+$updateValues[] = $appointmentID;
+
+// Create the SQL query
+$sql = "UPDATE appointment SET " . implode(", ", $updateFields) . " WHERE appointmentID = ?";
+
+// Prepare and execute the statement
+$stmt = $connection->prepare($sql);
+
 if ($stmt) {
-    $stmt->bind_param("si", $newStatus, $appointmentID);
+    // Dynamically bind parameters
+    $types = str_repeat("s", count($updateValues) - 1) . "i"; // Assume all fields are strings except the appointmentID
+    $stmt->bind_param($types, ...$updateValues);
 
     if ($stmt->execute()) {
-        echo json_encode(['success' => "Appointment successfully {$newStatus}."]);
+        echo json_encode(['success' => "Appointment successfully updated."]);
     } else {
         // Log the error internally
-        error_log("Error updating appointment status: " . $stmt->error);
-        echo json_encode(['error' => 'Failed to update appointment status. Please try again later.']);
+        error_log("Error updating appointment: " . $stmt->error);
+        echo json_encode(['error' => 'Failed to update the appointment. Please try again later.']);
     }
 
     $stmt->close();
@@ -66,4 +81,3 @@ if ($stmt) {
 // Close the database connection
 $connection->close();
 ?>
-    
