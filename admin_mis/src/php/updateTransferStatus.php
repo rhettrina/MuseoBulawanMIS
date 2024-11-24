@@ -23,7 +23,7 @@ if (!$data) {
     echo json_encode([
         'success' => false,
         'error' => 'Invalid JSON input',
-        'raw_input' => $rawInput, // For debugging purposes
+        'raw_input' => $rawInput,
         'json_last_error' => json_last_error_msg() // Error details
     ]);
     exit();
@@ -46,7 +46,7 @@ if (isset($data['donID'], $data['transfer_status'])) {
     }
 
     // Prepare the SQL statement
-    $stmt = $connextion->prepare(
+    $stmt = $connection->prepare(
         "UPDATE Artifact SET transfer_status = ?, updated_date = NOW() WHERE donatorID = ?"
     );
 
@@ -54,26 +54,24 @@ if (isset($data['donID'], $data['transfer_status'])) {
         http_response_code(500); // Internal Server Error
         echo json_encode([
             'success' => false,
-            'error' => 'Failed to prepare statement: ' . $connextion->error
+            'error' => 'Failed to prepare statement: ' . $connection->error
         ]);
         exit();
     }
 
-    // Bind parameters (string for transfer_status, integer for donID)
+    // Bind parameters
     $stmt->bind_param("si", $transfer_status, $donID);
 
     // Execute the statement
     if ($stmt->execute()) {
         if ($stmt->affected_rows > 0) {
-            // Success: Status updated
             http_response_code(200);
             echo json_encode([
                 'success' => true,
                 'message' => 'Transfer status updated successfully.',
-                'updated_status' => $transfer_status // Return updated status
+                'updated_status' => $transfer_status
             ]);
         } else {
-            // No rows affected: Record not found or no change
             http_response_code(404);
             echo json_encode([
                 'success' => false,
@@ -81,25 +79,21 @@ if (isset($data['donID'], $data['transfer_status'])) {
             ]);
         }
     } else {
-        // Query execution failed
-        http_response_code(500); // Internal Server Error
+        http_response_code(500);
         echo json_encode([
             'success' => false,
             'error' => 'Failed to execute statement: ' . $stmt->error
         ]);
     }
 
-    // Close the statement
     $stmt->close();
 } else {
-    // Missing required fields
-    http_response_code(400); // Bad Request
+    http_response_code(400);
     echo json_encode([
         'success' => false,
         'error' => 'Missing required fields: donID or transfer_status.'
     ]);
 }
 
-// Close the database connection
-$connextion->close();
+$connection->close();
 ?>

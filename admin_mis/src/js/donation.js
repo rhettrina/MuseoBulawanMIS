@@ -305,107 +305,51 @@ function updateTransferStatus(donID, newStatus) {
     fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/updateTransferStatus.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ donID: donID, transfer_status: newStatus }) // Corrected key
+        body: JSON.stringify({ donID: donID, transfer_status: newStatus }),
     })
-        .then(response => {
+        .then((response) => {
             if (!response.ok) {
-                throw new Error('Failed to update transfer status');
+                throw new Error(`Failed to update transfer status: ${response.statusText}`);
             }
             return response.json();
         })
-        .then(data => {
+        .then((data) => {
             if (data.success) {
-                console.log('Transfer status updated successfully:', data.updated_status);
-                fetchDonations(); // Refresh the table to reflect updates
+                console.log('Transfer status updated:', data.updated_status);
+                fetchDonations(); // Refresh table on success
             } else {
-                console.error('Failed to update transfer status:', data.error);
+                console.error('Error updating transfer status:', data.error);
             }
         })
-        .catch(error => {
+        .catch((error) => {
             console.error('Error updating transfer status:', error);
         });
-    
 }
 
 function openStatusModal(donID, currentStatus, newStatus, dropdown) {
-    // Validate inputs
-    if (!donID || !newStatus || !dropdown) {
-        console.error('Invalid parameters passed to openStatusModal:', { donID, currentStatus, newStatus, dropdown });
-        return;
-    }
-
-    // Dynamically retrieve the actual current status from the dropdown to ensure correctness
-    currentStatus = dropdown.getAttribute("data-current-status") || currentStatus;
-
     const modal = document.getElementById("transfer-status-modal");
     const confirmButton = document.getElementById("status-confirm-button");
     const cancelButton = document.getElementById("status-cancel-button");
     const confirmationMessage = document.getElementById("status-confirmation-message");
 
-    // Ensure modal and buttons exist
-    if (!modal || !confirmButton || !cancelButton || !confirmationMessage) {
-        console.error("Modal or required elements not found");
-        return;
-    }
-
-    // Update the modal content and show it
-    confirmationMessage.textContent = `Do you want to confirm the change of transfer status from "${currentStatus}" to "${newStatus}" for the donor with ID: ${donID}?`;
+    confirmationMessage.textContent = `Change status from "${currentStatus}" to "${newStatus}"?`;
     modal.classList.remove("hidden");
 
-    console.log(`Opening confirmation modal for donator ID: ${donID}, current status: "${currentStatus}", new status: "${newStatus}"`);
-
-    // When the user confirms
     confirmButton.onclick = () => {
-        console.log(`User confirmed the change for donator ID: ${donID}, changing status from "${currentStatus}" to "${newStatus}"`);
-
-        // Make a fetch request to update the status
-        fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/updateTransferStatus.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                donID: donID,
-                transfer_status: newStatus
-            }),
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Failed to update transfer status');
-                }
-                return response.json();
-            })
-            .then((data) => {
-                if (data.success) {
-                    console.log(`Transfer status successfully changed from "${currentStatus}" to "${newStatus}"`);
-                    dropdown.setAttribute("data-current-status", newStatus); // Update the current status reference
-                    dropdown.value = newStatus; // Reflect the change in the dropdown
-                } else {
-                    console.error('Failed to update transfer status:', data.error);
-                    dropdown.value = currentStatus; // Revert dropdown to its previous value
-                }
-            })
-            .catch((error) => {
-                console.error('Error updating transfer status:', error);
-                dropdown.value = currentStatus; // Revert dropdown to its previous value
-            })
-            .finally(() => {
-                closeTModal("transfer-status-modal");
-            });
+        updateTransferStatus(donID, newStatus);
+        closeTModal("transfer-status-modal");
     };
 
-    // When the user cancels
     cancelButton.onclick = () => {
-        console.log(`User canceled the status change for donator ID: ${donID}. Status remains as "${currentStatus}"`);
-        dropdown.value = currentStatus; // Revert the dropdown to original value
+        dropdown.value = currentStatus; // Revert on cancel
         closeTModal("transfer-status-modal");
     };
 }
 
 function closeTModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.classList.add("hidden");
-    }
-} 
+    document.getElementById(modalId).classList.add("hidden");
+}
+
 
 function openFormModal(donID, formType) {
     fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/getFormDetails.php?donID=${donID}&formType=${formType}`)
