@@ -68,27 +68,36 @@ function populateTable(donations) {
 
         // Create and populate cells
         const dateCell = document.createElement('td');
+        dateCell.classList.add('px-4', 'py-0','bg-white', 'border-black' , 'rounded-l-[15px]', 'border-t-2', 'border-b-2', 'border-l-2');
         dateCell.textContent = donation.submission_date;
 
         const donorCell = document.createElement('td');
+        donorCell.classList.add('px-4', 'py-0', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
         donorCell.textContent = donation.donor_name;
 
         const titleCell = document.createElement('td');
-        titleCell.textContent = donation.artifact_title;
+        titleCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
+        titleCell.textContent = donation.artifact_title;;
 
         const typeCell = document.createElement('td');
-        typeCell.textContent = formType; // Display form type (Lending or Donation)
-
+        typeCell.classList.add('px-4', 'py-0','bg-white','border-black','border-t-2', 'border-b-2');
+        typeCell.textContent = formType;
+        
         const statusCell = document.createElement('td');
+        statusCell.classList.add('px-4', 'py-0', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
         statusCell.textContent = donation.status;
 
-        const updatedDateCell = document.createElement('td');
-        updatedDateCell.textContent = donation.updated_date || 'Not Edited';
-
         const transferStatusCell = document.createElement('td');
+        transferStatusCell.classList.add('px-4', 'py-0', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
         transferStatusCell.appendChild(createTransferStatusCell(donation));
 
+        const updatedDateCell = document.createElement('td');
+        updatedDateCell.classList.add('px-4', 'py-0', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
+        updatedDateCell.textContent = donation.updated_date === "Not Edited" || !donation.updated_date ? "Not Edited" : donation.updated_date;
+        
         const actionCell = document.createElement('td');
+        actionCell.classList.add('px-4', 'py-0', 'bg-white', 'border-black', 'rounded-r-[15px]', 'border-t-2', 'border-b-2', 'border-r-2');
+        // Assuming createActionButtons returns an element, append it
         actionCell.appendChild(createActionButtons(donation));
 
         // Append cells to row
@@ -97,8 +106,8 @@ function populateTable(donations) {
         row.appendChild(titleCell);
         row.appendChild(typeCell);
         row.appendChild(statusCell);
-        row.appendChild(updatedDateCell);
         row.appendChild(transferStatusCell);
+        row.appendChild(updatedDateCell);
         row.appendChild(actionCell);
 
         tableBody.appendChild(row);
@@ -187,7 +196,6 @@ function createTransferStatusCell(donation) {
     cell.appendChild(dropdown);
     return cell;
 }
-
 function createActionButtons(donation) {
     const cell = document.createElement('td');
     cell.classList.add('px-4', 'py-2', 'flex', 'justify-center', 'space-x-2');
@@ -201,9 +209,14 @@ function createActionButtons(donation) {
 
     // Loop through the actions to create buttons
     actions.forEach(({ icon, action }) => {
-        
         const button = document.createElement('button');
-        button.classList.add('bg-orange-400', 'text-white', 'p-2', 'rounded', 'hover:bg-orange-300');
+        button.classList.add(
+            'bg-transparent',   // Transparent background
+            'text-black',       // Black text
+            'p-2',              // Padding
+            'rounded',          // Rounded corners
+            'hover:bg-orange-300' // Hover effect with orange background
+        );
         button.innerHTML = `<i class="fas fa-${icon}"></i>`;
         
         // Pass the full donation object to handleAction
@@ -213,6 +226,7 @@ function createActionButtons(donation) {
 
     return cell;
 }
+
 document.getElementById("sorts").addEventListener("change", function () {
     fetchDonations(this.value);
 });
