@@ -180,14 +180,13 @@ function createTransferStatusCell(donation) {
     dropdown.classList.add('border','rounded');
 
     const statuses = ['Acquired', 'Failed', 'Pending'];
-statuses.forEach(status => {
-    const option = document.createElement('option');
-    option.value = status.toUpperCase();
-    option.textContent = status;
-    option.selected = donation.transfer_status.toUpperCase() === status.toUpperCase(); // Match fetched status
-    dropdown.appendChild(option);
-});
-
+    statuses.forEach(status => {
+        const option = document.createElement('option');
+        option.value = status.toUpperCase();
+        option.textContent = status;
+        option.selected = donation.transfer_status.toUpperCase() === status.toUpperCase();
+        dropdown.appendChild(option);
+    });
 
     dropdown.addEventListener('change', () => {
         const newStatus = dropdown.value;
@@ -197,7 +196,6 @@ statuses.forEach(status => {
     cell.appendChild(dropdown);
     return cell;
 }
-
 function createActionButtons(donation) {
     const cell = document.createElement('td');
     cell.classList.add('px-4', 'py-2', 'flex', 'justify-center', 'space-x-2');
@@ -305,51 +303,105 @@ function updateTransferStatus(donID, newStatus) {
     fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/updateTransferStatus.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ donID: donID, transfer_status: newStatus }),
+        body: JSON.stringify({ donation: donID, transfer_status: newStatus })
     })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error(`Failed to update transfer status: ${response.statusText}`);
-            }
-            return response.json();
-        })
-        .then((data) => {
-            if (data.success) {
-                console.log('Transfer status updated:', data.updated_status);
-                fetchDonations(); // Refresh table on success
-            } else {
-                console.error('Error updating transfer status:', data.error);
-            }
-        })
-        .catch((error) => {
-            console.error('Error updating transfer status:', error);
-        });
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to update transfer status');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            fetchDonations(); // Refresh the table to reflect updates
+        } else {
+            console.error('Failed to update transfer status:', data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error updating transfer status:', error);
+    });
 }
 
 function openStatusModal(donID, currentStatus, newStatus, dropdown) {
+    // Validate inputs
+    if (!donID || !newStatus || !dropdown) {
+        console.error('Invalid parameters passed to openStatusModal:', { donID, currentStatus, newStatus, dropdown });
+        return;
+    }
+
+    // Dynamically retrieve the actual current status from the dropdown to ensure correctness
+    currentStatus = dropdown.getAttribute("data-current-status") || currentStatus;
+
     const modal = document.getElementById("transfer-status-modal");
     const confirmButton = document.getElementById("status-confirm-button");
     const cancelButton = document.getElementById("status-cancel-button");
     const confirmationMessage = document.getElementById("status-confirmation-message");
 
-    confirmationMessage.textContent = `Change status from "${currentStatus}" to "${newStatus}"?`;
+    // Ensure modal and buttons exist
+    if (!modal || !confirmButton || !cancelButton || !confirmationMessage) {
+        console.error("Modal or required elements not found");
+        return;
+    }
+
+    // Update the modal content and show it
+    confirmationMessage.textContent = `Do you want to confirm the change of transfer status from "${currentStatus}" to "${newStatus}" for the donor with ID: ${donID}?`;
     modal.classList.remove("hidden");
 
+    console.log(`Opening confirmation modal for donator ID: ${donID}, current status: "${currentStatus}", new status: "${newStatus}"`);
+
+    // When the user confirms
     confirmButton.onclick = () => {
-        updateTransferStatus(donID, newStatus);
-        closeTModal("transfer-status-modal");
+        console.log(`User confirmed the change for donator ID: ${donID}, changing status from "${currentStatus}" to "${newStatus}"`);
+
+        // Make a fetch request to update the status
+        fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/updateTransferStatus.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                donID: donID,
+                transfer_status: newStatus
+            }),
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Failed to update transfer status');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                if (data.success) {
+                    console.log(`Transfer status successfully changed from "${currentStatus}" to "${newStatus}"`);
+                    dropdown.setAttribute("data-current-status", newStatus); // Update the current status reference
+                    dropdown.value = newStatus; // Reflect the change in the dropdown
+                } else {
+                    console.error('Failed to update transfer status:', data.error);
+                    dropdown.value = currentStatus; // Revert dropdown to its previous value
+                }
+            })
+            .catch((error) => {
+                console.error('Error updating transfer status:', error);
+                dropdown.value = currentStatus; // Revert dropdown to its previous value
+            })
+            .finally(() => {
+                closeTModal("transfer-status-modal");
+            });
     };
 
+    // When the user cancels
     cancelButton.onclick = () => {
-        dropdown.value = currentStatus; // Revert on cancel
+        console.log(`User canceled the status change for donator ID: ${donID}. Status remains as "${currentStatus}"`);
+        dropdown.value = currentStatus; // Revert the dropdown to original value
         closeTModal("transfer-status-modal");
     };
 }
 
 function closeTModal(modalId) {
-    document.getElementById(modalId).classList.add("hidden");
-}
-
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.add("hidden");
+    }
+} 
 
 function openFormModal(donID, formType) {
     fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/getFormDetails.php?donID=${donID}&formType=${formType}`)
@@ -401,7 +453,11 @@ function openFormModal(donID, formType) {
     const lendingFields = document.getElementById('lending-fields');
     if (formType === 'Lending') {
       lendingFields.classList.remove('hidden');
-      document.getElementById('modal-loan-duration').textContent = details.lending_durationID;
+
+      // Example usage with details object
+      document.getElementById('modal-loan-duration').textContent = 
+          `${calculateDuration(details.starting_date, details.ending_date)}`;
+
       document.getElementById('modal-display-condition').textContent = details.display_conditions;
       document.getElementById('modal-liability-concern').textContent = details.liability_concerns;
       document.getElementById('modal-reason').textContent = details.lending_reason;
@@ -415,6 +471,27 @@ function openFormModal(donID, formType) {
   document.querySelectorAll('[data-modal-close]').forEach(button => {
     button.addEventListener('click', closeformModal);
 });
+
+const calculateDuration = (startDate, endDate) => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    // Calculate the difference in milliseconds
+    const diffInMilliseconds = end - start;
+
+    // Convert the difference to days, months, and years
+    const diffInDays = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24));
+    const diffInYears = Math.floor(diffInDays / 365);
+    const diffInMonths = Math.floor((diffInDays % 365) / 30);
+
+    // Build a readable duration string
+    const years = diffInYears > 0 ? `${diffInYears} year${diffInYears > 1 ? 's' : ''}` : '';
+    const months = diffInMonths > 0 ? `${diffInMonths} month${diffInMonths > 1 ? 's' : ''}` : '';
+    const days = diffInDays % 30 > 0 ? `${diffInDays % 30} day${diffInDays % 30 > 1 ? 's' : ''}` : '';
+
+    // Combine non-empty parts
+    return [years, months, days].filter(Boolean).join(', ');
+};
 
  function closeformModal() {
     const modal = document.getElementById('form-modal');

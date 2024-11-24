@@ -1,31 +1,23 @@
 <?php
 // Set headers for CORS and content type
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS, DELETE, PUT");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS, DELETE, UPDATE");
 header("Access-Control-Allow-Headers: Content-Type");
 
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    // Handle preflight requests for CORS
-    header("HTTP/1.1 204 No Content");
-    exit(0);
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    exit(0); // Handle preflight requests
 }
 
 // Include database connection
 include 'db_connect.php';
 
 // Read and decode JSON payload
-$rawInput = file_get_contents('php://input');
-$data = json_decode($rawInput, true);
+$data = json_decode(file_get_contents('php://input'), true);
 
 // Validate the JSON payload
 if (!$data) {
     http_response_code(400); // Bad Request
-    echo json_encode([
-        'success' => false,
-        'error' => 'Invalid JSON input',
-        'raw_input' => $rawInput,
-        'json_last_error' => json_last_error_msg() // Error details
-    ]);
+    echo json_encode(['success' => false, 'error' => 'Invalid JSON input']);
     exit();
 }
 
@@ -34,66 +26,33 @@ if (isset($data['donID'], $data['transfer_status'])) {
     $donID = $data['donID'];
     $transfer_status = $data['transfer_status'];
 
-    // Validate `transfer_status` to prevent SQL injection or invalid inputs
-    $allowedStatuses = ['Acquired', 'Failed', 'Pending'];
-    if (!in_array($transfer_status, $allowedStatuses, true)) {
-        http_response_code(400); // Bad Request
-        echo json_encode([
-            'success' => false,
-            'error' => 'Invalid transfer_status value. Allowed values: Acquired, Failed, Pending.'
-        ]);
-        exit();
-    }
-
     // Prepare the SQL statement
-    $stmt = $connection->prepare(
-        "UPDATE Artifact SET transfer_status = ?, updated_date = NOW() WHERE donatorID = ?"
-    );
-
+    $stmt = $connextion->prepare("UPDATE Artifact SET transfer_status = ?, updated_date = NOW() WHERE donatorID = ?");
     if (!$stmt) {
         http_response_code(500); // Internal Server Error
-        echo json_encode([
-            'success' => false,
-            'error' => 'Failed to prepare statement: ' . $connection->error
-        ]);
+        echo json_encode(['success' => false, 'error' => $connextion->error]);
         exit();
     }
 
-    // Bind parameters
+    // Bind parameters (string for transfer_status, integer for donID)
     $stmt->bind_param("si", $transfer_status, $donID);
 
-    // Execute the statement
+    // Execute the statement and send the appropriate response
     if ($stmt->execute()) {
-        if ($stmt->affected_rows > 0) {
-            http_response_code(200);
-            echo json_encode([
-                'success' => true,
-                'message' => 'Transfer status updated successfully.',
-                'updated_status' => $transfer_status
-            ]);
-        } else {
-            http_response_code(404);
-            echo json_encode([
-                'success' => false,
-                'error' => 'No record found with the specified donID, or the status is already set to the given value.'
-            ]);
-        }
+        http_response_code(200); // Success
+        echo json_encode(['success' => true, 'message' => 'Transfer status updated successfully']);
     } else {
-        http_response_code(500);
-        echo json_encode([
-            'success' => false,
-            'error' => 'Failed to execute statement: ' . $stmt->error
-        ]);
+        http_response_code(500); // Internal Server Error
+        echo json_encode(['success' => false, 'error' => $stmt->error]);
     }
 
+    // Close the statement
     $stmt->close();
 } else {
-    http_response_code(400);
-    echo json_encode([
-        'success' => false,
-        'error' => 'Missing required fields: donID or transfer_status.'
-    ]);
+    http_response_code(400); // Bad Request
+    echo json_encode(['success' => false, 'error' => 'Missing required fields (donID or transfer_status)']);
 }
 
-$connection->close();
+// Close the database connection
+$connextion->close();
 ?>
