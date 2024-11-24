@@ -165,15 +165,26 @@ function handleAction(action, data) {
                 });
                 break;
             
-        case 'approve':
-        case 'reject':
-            
-            updateAppointmentStatus(action, formID);
-            console.log('Hotdog!');
-            break;
         default:
             console.error('Unknown action:', action);
     }
+}
+
+
+function handleApprovalOrRejection(action, formID) {
+    if (action !== 'approve' && action !== 'reject') {
+        console.error('Invalid action passed to handleApprovalOrRejection:', action);
+        return;
+    }
+
+    updateAppointmentStatus(action, formID)
+        .then(() => {
+            console.log(`Appointment ${action === 'approve' ? 'approved' : 'rejected'} successfully.`);
+        })
+        .catch(error => {
+            console.error(`Error handling ${action} action:`, error);
+            alert(`An error occurred while trying to ${action} the appointment.`);
+        });
 }
 
 
@@ -195,7 +206,7 @@ function updateAppointmentStatus(action, formID) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            appointmentID: formID,
+            appointmentID: appointmentId,
             action: action 
         })
     })
@@ -238,8 +249,8 @@ function showAppointmentModal(appointment) {
     document.getElementById('appointment-notes').textContent = appointment.appointment_notes || 'N/A';
 
     // Set the appointment ID on the buttons
-    document.getElementById('approve-appointment-btn').setAttribute('data-appointment-id', appointment.id);
-    document.getElementById('reject-appointment-btn').setAttribute('data-appointment-id', appointment.id);
+    document.getElementById('approve-appointment-btn').setAttribute('data-appointment-id', appointment.formID);
+    document.getElementById('reject-appointment-btn').setAttribute('data-appointment-id', appointment.formID);
 
     // Show the modal
     if (modal) {
@@ -320,13 +331,13 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('approve-appointment-btn').addEventListener('click', function() {
         const appointmentId = this.getAttribute('data-appointment-id');
         console.log('Approve button clicked for appointment ID:', appointmentId); // Added console.log
-        handleAction('approve', appointmentId);
+        handleApprovalOrRejection('approve', appointmentId);
     });
 
     document.getElementById('reject-appointment-btn').addEventListener('click', function() {
         const appointmentId = this.getAttribute('data-appointment-id');
         console.log('Reject button clicked for appointment ID:', appointmentId); // Added console.log
-        handleAction('reject', appointmentId);
+        handleApprovalOrRejection('reject', appointmentId);
     });
 });
 
