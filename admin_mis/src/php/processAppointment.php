@@ -1,70 +1,99 @@
 <?php
-header('Content-Type: application/json');
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Allow-Headers: Content-Type, x-requested-with");
 
-session_start();
-
-
-// Include the database connextion
+// Include database connection
 include 'db_connect.php';
 
-// Retrieve and decode raw JSON input
-$rawData = file_get_contents("php://input");
-error_log("Raw input: " . $rawData);  
-$data = json_decode($rawData, true);
+// Include PHPMailer
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
-// Validate JSON decoding
-if (!is_array($data)) {
-    echo json_encode(['error' => 'Invalid JSON input.']);
+require 'vendor/autoload.php'; // Adjust the path as needed
+
+// Get the POST data
+$data = json_decode(file_get_contents("php://input"), true);
+$appointmentId = $data['appointmentId'] ?? null;
+$status = $data['status'] ?? null;
+$adminMessage = $data['adminMessage'] ?? null;
+
+// Validate input
+if (!$appointmentId || !$status) {
+    echo json_encode(['success' => false, 'message' => 'Invalid input.']);
     exit;
 }
 
-// Check required fields
-if (!isset($data['appointmentID']) || !isset($data['action'])) {
-    echo json_encode(['error' => 'Missing appointmentID or action.']);
+if (!$adminMessage) {
+    echo json_encode(['success' => false, 'message' => 'Admin message is required.']);
     exit;
 }
 
-// Sanitize and validate input
-$appointmentID = intval($data['appointmentID']);
-$action = strtolower(trim($data['action'])); 
+// Fetch appointment details to get user information
+$querySelect = "SELECT name, email FROM appointment WHERE appointmentID = ?";
+$stmtSelect = $connextion->prepare($querySelect);
+$stmtSelect->bind_param("i", $appointmentId);
+$stmtSelect->execute();
+$result = $stmtSelect->get_result();
 
-// Determine the database changes based on the action
-switch ($action) {
-    case 'approve':
-        $status = 'Approved';
-        $message = 'The appointment has been approved.';
-        break;
-    case 'reject':
-        $status = 'Rejected';
-        $message = 'The appointment has been rejected.';
-        break;
-    default:
-        echo json_encode(['error' => 'Invalid action.']);
-        exit;
+if ($result->num_rows === 0) {
+    echo json_encode(['success' => false, 'message' => 'Appointment not found.']);
+    exit;
 }
 
-// Prepare and execute the update statement
-$sql = "UPDATE appointment SET status = ?, confirmation_date = NOW() WHERE appointmentID = ?";
-$stmt = $connextion->prepare($sql);
+$appointment = $result->fetch_assoc();
+$userEmail = $appointment['email'];
+$userName = $appointment['name'];
 
-if ($stmt) {
-    $stmt->bind_param("si", $status, $appointmentID);
+// Update appointment status
+$queryUpdate = "
+    UPDATE appointment 
+    SET status = ?, confirmation_date = NOW(), admin_message = ? 
+    WHERE appointmentID = ?
+";
 
-    if ($stmt->execute()) {
-        echo json_encode(['success' => $message]);
-    } else {
-        // Log the error internally
-        error_log("Error updating appointment: " . $stmt->error);
-        echo json_encode(['error' => 'Failed to update the appointment. Please try again later.']);
+$stmtUpdate = $connextion->prepare($queryUpdate);
+$stmtUpdate->bind_param("ssi", $status, $adminMessage, $appointmentId);
+
+if ($stmtUpdate->execute()) {
+    // Send email using PHPMailer
+    $mail = new PHPMailer(true);
+
+    try {
+        // Server settings
+        // $mail->SMTPDebug = SMTP::DEBUG_SERVER; // Enable verbose debug output
+        $mail->isSMTP();                                            // Send using SMTP
+        $mail->Host       = 'smtp.example.com';                     // Set the SMTP server to send through
+        $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
+        $mail->Username   = 'russelguiwan@gmail.com';               // SMTP username
+        $mail->Password   = 'your_email_password';                  // SMTP password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
+        $mail->Port       = 587;                                    // TCP port to connect to
+
+        // Recipients
+        $mail->setFrom('russelguiwan@gmail.com', 'Bomb Squad');
+        $mail->addAddress($userEmail, $userName);                   // Add a recipient
+
+        // Content
+        $mail->isHTML(true);                                        // Set email format to HTML
+        $mail->Subject = "Your Appointment has been " . $status;
+        $mail->Body    = "
+            <p>Dear {$userName},</p>
+            <p>Your appointment request has been <strong>{$status}</strong>.</p>
+            <p><strong>Admin Message:</strong></p>
+            <p>{$adminMessage}</p>
+            <p>Thank you!</p>
+        ";
+        $mail->AltBody = "Dear {$userName},\n\nYour appointment request has been {$status}.\n\nAdmin Message:\n{$adminMessage}\n\nThank you!";
+
+        $mail->send();
+        echo json_encode(['success' => true, 'message' => 'Appointment updated and email sent successfully.']);
+    } catch (Exception $e) {
+        // Optionally, you might want to rollback the status update if email fails
+        // $stmtUpdate->rollback(); // Requires transaction management
+        echo json_encode(['success' => false, 'message' => "Appointment updated but email could not be sent. Mailer Error: {$mail->ErrorInfo}"]);
     }
-
-    $stmt->close();
 } else {
-    // Log preparation error
-    error_log("Error preparing statement: " . $connextion->error);
-    echo json_encode(['error' => 'Server error. Please try again later.']);
+    echo json_encode(['success' => false, 'message' => 'Failed to update appointment.']);
 }
-
-// Close the database connextion
-$connextion->close();
 ?>

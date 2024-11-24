@@ -4,43 +4,26 @@ include 'db_connect.php';
 
 // Prepare the SQL query
 $sql = "
-SELECT 
-    Lending.lendingID,
-    Lending.artifact_nameID,
-    Lending.lending_durationID,
-    Lending.display_conditions,
-    Lending.liability_concerns,
-    Lending.lending_reason,
-    Lending.submission_date AS lending_submission_date,
-    Lending.starting_date,
-    Lending.ending_date,
-    Donator.donatorID,
+SELECT *,
+
+    Artifact.artifact_nameID AS artname,
+    Donation.donationID,
+    Donation.donatorID AS DonationDonatorID,
+    Donation.submission_date AS DonationSubmissionDate,
+    Artifact.artifactID,
+    Artifact.artifact_nameID,
+    Artifact.submission_date AS ArtifactSubmissionDate,
     Donator.first_name,
     Donator.last_name,
-    Donator.email,
-    Donator.phone,
-    Donator.province,
-    Donator.street,
-    Donator.barangay,
-    Donator.organization,
-    Donator.age,
-    Donator.sex,
-    Donator.city,
-    Donator.submission_date AS donator_submission_date,
-    Donation.donationID,
-    Donation.artifact_nameID,
-    Donation.artifact_description,
-    Donation.submission_date AS donation_submission_date
-FROM 
-    Lending
-JOIN 
-    Donator 
-ON 
-    Lending.donatorID = Donator.donatorID
-JOIN 
-    Donation 
-ON 
-    Donator.donatorID = Donation.donatorID;
+    Lending.lendingID,
+    Lending.artifact_nameID AS LendingArtName,
+    Lending.lending_durationID,
+    Lending.submission_date AS LendingSubmissionDate
+FROM Donator
+LEFT JOIN Artifact ON Donator.donatorID = Artifact.donatorID
+LEFT JOIN Donation ON Donator.donatorID = Donation.donatorID
+LEFT JOIN Lending ON Lending.donatorID = Donator.donatorID;
+
 ";
 
 // Execute the query

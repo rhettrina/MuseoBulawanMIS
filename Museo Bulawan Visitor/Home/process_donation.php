@@ -21,9 +21,9 @@ if ($conn->connect_error) {
 
 // Function to handle single or multiple file uploads
 function uploadFiles($files, $uploadDir, $allowedExtensions) {
-    $uploadedFileNames = [];
+    $uploadedPaths = [];
     if (!isset($files['name'])) {
-        return $uploadedFileNames; // Return empty array if no files provided
+        return $uploadedPaths; // Return empty array if no files provided
     }
 
     foreach ($files['name'] as $index => $name) {
@@ -38,12 +38,12 @@ function uploadFiles($files, $uploadDir, $allowedExtensions) {
                 }
 
                 if (move_uploaded_file($files['tmp_name'][$index], $fileUploadPath)) {
-                    $uploadedFileNames[] = $newFileName; // Store only the file name
+                    $uploadedPaths[] = $fileUploadPath;
                 }
             }
         }
     }
-    return $uploadedFileNames;
+    return $uploadedPaths;
 }
 
 // Check if the form was submitted
@@ -76,10 +76,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $documentationFiles = isset($_FILES['documentation']) ? uploadFiles($_FILES['documentation'], $uploadDir, $allowedExtensions) : [];
     $relatedImages = isset($_FILES['related_img']) ? uploadFiles($_FILES['related_img'], $uploadDir, $allowedExtensions) : [];
 
-    // Convert file names to comma-separated strings for database storage
-    $artifactImagesStr = implode(',', $artifactImages);
-    $documentationFilesStr = implode(',', $documentationFiles);
-    $relatedImagesStr = implode(',', $relatedImages);
+    // Convert file paths to JSON strings for database storage
+    $artifactImagesJson = json_encode($artifactImages);
+    $documentationFilesJson = json_encode($documentationFiles);
+    $relatedImagesJson = json_encode($relatedImages);
 
     // Insert data into Donator table
     $sql_donatorTB = "INSERT INTO `Donator`(`first_name`, `last_name`, `email`, `phone`, `province`, `street`, `barangay`, `organization`, `age`, `sex`, `city`) 
@@ -94,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Insert data into Donation table
-    $abt_art = "INSERT INTO `Donation`(`donatorID`, `artifact_nameID`, `artifact_description`, `submission_date`) VALUES (?, ?, ?, CURRENT_TIMESTAMP)";
+    $abt_art = "INSERT INTO `Donation`(`donatorID`, `artifact_nameID`, `artifact_description`) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($abt_art);
     $stmt->bind_param("iss", $donatorID, $artifactTitle, $artifactDescription);
 
@@ -106,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $artifactType = "Donation";
     $query = $conn->prepare("INSERT INTO `Artifact`(`artifact_typeID`, `submission_date`, `donatorID`, `artifact_description`, `artifact_nameID`, `acquisition`, `additional_info`, `narrative`, `artifact_img`, `documentation`, `related_img`, `status`, `transfer_status`, `updated_date`, `display_status`) 
                              VALUES (?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'To Review', 'Pending', NULL, 'true')");
-    $query->bind_param('sissssssss', $artifactType, $donatorID, $artifactDescription, $artifactTitle, $acquisition, $additionalInfo, $narrative, $artifactImagesStr, $documentationFilesStr, $relatedImagesStr);
+    $query->bind_param('sissssssss', $artifactType, $donatorID, $artifactDescription, $artifactTitle, $acquisition, $additionalInfo, $narrative, $artifactImagesJson, $documentationFilesJson, $relatedImagesJson);
 
     if (!$query->execute()) {
         die(json_encode(['success' => false, 'message' => 'Error inserting artifact: ' . $query->error]));
