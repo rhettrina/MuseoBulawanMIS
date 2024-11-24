@@ -79,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // List of files to handle
-    $file_keys = ['artifact_img', 'another_file', 'more_files']; // Add more file input names as needed
+    $file_keys = ['artifact_img', 'documentation_img', 'related_img'];
     foreach ($file_keys as $file_key) {
         $uploaded_files[$file_key] = handleFileUpload($file_key, $upload_dir, $allowed_exs);
     }
@@ -98,7 +98,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Insert query for the Donation table
-    $abt_art = "INSERT INTO `Donation`(`donatorID`, `artifact_nameID`, `artifact_description`) VALUES (?, ?, ?)";
+    $abt_art = "INSERT INTO `Donation`(`donatorID`, `artifact_nameID`, `artifact_description`, `submission_date`) 
+                VALUES (?, ?, ?, NOW())"; // Add submission date
     $stmt = $conn->prepare($abt_art);
     $stmt->bind_param("iss", $donatorID, $artifactTitle, $artifactDescription);
 
@@ -109,9 +110,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Insert query for the Artifact table
     $artifactType = "Donation";
-    $artifact_img_path = $uploaded_files['artifact_img'] ?? null; // Use uploaded artifact image path
-    $query = $conn->prepare("INSERT INTO `Artifact`(`artifact_typeID`, `donatorID`, `artifact_description`, `artifact_nameID`, `acquisition`, `additional_info`, `narrative`, `artifact_img`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-    $query->bind_param('sissssss', $artifactType, $donatorID, $artifactDescription, $artifactTitle, $acquisition, $additionalInfo, $narrative, $artifact_img_path);
+    $artifact_img_path = $uploaded_files['artifact_img'] ?? null;
+    $documentation_img_path = $uploaded_files['documentation_img'] ?? null;
+    $related_img_path = $uploaded_files['related_img'] ?? null;
+
+    $query = $conn->prepare("INSERT INTO `Artifact`(`artifact_typeID`, `donatorID`, `artifact_description`, `artifact_nameID`, `acquisition`, `additional_info`, `narrative`, `artifact_img`, `documentation_img`, `related_img`, `submission_date`, `updated_date`) 
+                             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())");
+    $query->bind_param('sissssssss', $artifactType, $donatorID, $artifactDescription, $artifactTitle, $acquisition, $additionalInfo, $narrative, $artifact_img_path, $documentation_img_path, $related_img_path);
 
     // Execute the query for the Artifact table
     if (!$query->execute()) {
