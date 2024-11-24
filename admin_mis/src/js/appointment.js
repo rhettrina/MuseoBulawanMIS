@@ -169,28 +169,47 @@ function handleAction(action, data) {
     }
 }
 
+/*-----------------------------------------------------------------------------------------------------------------------------------------------*/
+
+
 // Approve button handler
 document.getElementById("approve-appointment-btn").addEventListener("click", () => {
     const appointmentId = getAppointmentId();
+    const adminMessage = getAdminMessage();
     console.log(`Updating status to approved for appointment ID: ${appointmentId}`);
-    updateAppointmentStatus(appointmentId, "Approved");
+    updateAppointmentStatus(appointmentId, "Approved", adminMessage);
 });
 
 // Reject button handler
 document.getElementById("reject-appointment-btn").addEventListener("click", () => {
     const appointmentId = getAppointmentId();
+    const adminMessage = getAdminMessage();
     console.log(`Updating status to rejected for appointment ID: ${appointmentId}`);
-    updateAppointmentStatus(appointmentId, "Rejected");
+    updateAppointmentStatus(appointmentId, "Rejected", adminMessage);
 });
 
 // Get the appointment ID from the modal
 function getAppointmentId() {
-    return document.getElementById("appointment-modal").dataset.appointmentId;
+    const modal = document.getElementById("appointment-modal");
+    const appointmentId = modal.dataset.appointmentId;
+    if (!appointmentId) {
+        console.error("No appointment ID found in the modal.");
+    }
+    return appointmentId;
 }
 
+// Get the admin message from the textarea
+function getAdminMessage() {
+    const message = document.getElementById("admin-message").value.trim();
+    if (!message) {
+        alert("Please enter a message before proceeding.");
+        throw new Error("Admin message is empty.");
+    }
+    return message;
+}
 
-// Function to update appointment status
-function updateAppointmentStatus(appointmentId, status) {
+// Function to update appointment status and send admin message
+function updateAppointmentStatus(appointmentId, status, message) {
     // Validate inputs
     if (!appointmentId || !status) {
         console.error("Invalid appointmentId or status:", appointmentId, status);
@@ -200,7 +219,8 @@ function updateAppointmentStatus(appointmentId, status) {
 
     const payload = JSON.stringify({
         appointmentId: appointmentId, // Consistent with PHP expectation
-        status: status                // Consistent with PHP expectation
+        status: status,                // Consistent with PHP expectation
+        adminMessage: message          // New admin message
     });
 
     // Log the payload before sending
@@ -238,39 +258,30 @@ function updateAppointmentStatus(appointmentId, status) {
     });
 }
 
-// Approve button handler
-document.getElementById("approve-appointment-btn").addEventListener("click", () => {
-    const appointmentId = getAppointmentId();
-    console.log(`Updating status to approved for appointment ID: ${appointmentId}`);
-    updateAppointmentStatus(appointmentId, "approved");
-});
-
-// Reject button handler
-document.getElementById("reject-appointment-btn").addEventListener("click", () => {
-    const appointmentId = getAppointmentId();
-    console.log(`Updating status to rejected for appointment ID: ${appointmentId}`);
-    updateAppointmentStatus(appointmentId, "rejected");
-});
-
-// Get the appointment ID from the modal
-function getAppointmentId() {
-    const modal = document.getElementById("appointment-modal");
-    const appointmentId = modal.dataset.appointmentId;
-    if (!appointmentId) {
-        console.error("No appointment ID found in the modal.");
-    }
-    return appointmentId;
-}
-
 // Close modal function
 function closeModal() {
     const modal = document.getElementById("appointment-modal");
     if (modal) {
         modal.classList.add("hidden");
+        // Optionally, clear the admin message
+        document.getElementById("admin-message").value = "";
     } else {
         console.error("Modal element not found.");
     }
 }
+
+// Optional: Function to open the modal and set the appointment ID
+function openModal(appointmentId) {
+    const modal = document.getElementById("appointment-modal");
+    modal.dataset.appointmentId = appointmentId;
+    modal.classList.remove("hidden");
+    // Optionally, load and display appointment details here
+}
+
+// Event listener for closing the modal via the close button
+document.getElementById("close-appointment-modal-btn").addEventListener("click", closeModal);
+document.getElementById("close-appointment-modal").addEventListener("click", closeModal);
+
 
 /*-----------------------------------------------------------------------------------------------------------------------------------------------*/
 
