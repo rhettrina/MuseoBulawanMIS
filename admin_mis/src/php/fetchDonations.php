@@ -15,7 +15,7 @@ $order = ($sort === 'oldest') ? 'ASC' : 'DESC';
 
 // Query to fetch sorted donations with the necessary joins
 $query = "
-    SELECT  dn.donatorID AS donID,
+    SELECT 
         l.lendingID AS formID, 
         l.submission_date AS submission_date,
         CONCAT(dn.first_name, ' ', dn.last_name) AS donor_name, 
@@ -23,8 +23,8 @@ $query = "
         'Lending' AS form_type, -- Explicitly set form type as 'Lending'
         'To Review' AS status, 
         'Pending' AS transfer_status, 
-        a.updated_date AS updated_date
-       
+        a.updated_date AS updated_date, 
+        dn.donatorID AS donID
     FROM 
         Lending AS l
     JOIN 
@@ -34,7 +34,7 @@ $query = "
 
     UNION ALL
 
-    SELECT dn.donatorID AS donID,
+    SELECT 
         d.donationID AS formID, 
         d.submission_date AS submission_date,
         CONCAT(dn.first_name, ' ', dn.last_name) AS donor_name, 
@@ -42,8 +42,8 @@ $query = "
         'Donation' AS form_type, -- Explicitly set form type as 'Donation'
         'To Review' AS status, 
         'Pending' AS transfer_status, 
-        a.updated_date AS updated_date
-        
+        a.updated_date AS updated_date,
+        dn.donatorID AS donID
     FROM 
         Donation AS d
     JOIN 
