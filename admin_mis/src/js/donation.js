@@ -408,8 +408,6 @@ function closeTModal(modalId) {
 } 
 
 function openFormModal(donID, formType) {
-    console.log(`Opening modal with donID: ${donID}, formType: ${formType}`); // Debugging
-
     fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/getFormDetails.php?donID=${donID}&formType=${formType}`)
         .then(response => {
             if (!response.ok) {
@@ -419,49 +417,52 @@ function openFormModal(donID, formType) {
         })
         .then(data => {
             if (data.success) {
-                console.log('Form details fetched successfully:', data.formDetails); // Debugging
                 populateFormModal(data.formDetails, formType);
                 document.getElementById('form-modal').classList.remove('hidden');
             } else {
                 console.error('Error fetching form details:', data.error);
-                alert(`Error: ${data.error}`); // Notify user
+                alert(data.error || 'No record found.');
             }
         })
         .catch(error => {
-            console.error('Error:', error);
-            alert('Failed to fetch form details. Please try again.');
+            console.error('Error fetching form details:', error);
         });
 }
 
 function populateFormModal(details, formType) {
-    // Populate personal details
-    document.getElementById('modal-first-name').textContent = details.first_name;
-    document.getElementById('modal-last-name').textContent = details.last_name;
-    document.getElementById('modal-age').textContent = details.age;
-    document.getElementById('modal-sex').textContent = details.sex;
-    document.getElementById('modal-email').textContent = details.email;
-    document.getElementById('modal-phone').textContent = details.phone;
-    document.getElementById('modal-organization').textContent = details.organization;
-    document.getElementById('modal-address').textContent = `${details.street}, ${details.barangay}, ${details.city}, ${details.province}`;
+    if (!details) {
+        console.error('No details provided for modal population');
+        return;
+    }
+
+    // Populate shared fields
+    document.getElementById('modal-first-name').textContent = details.first_name || '';
+    document.getElementById('modal-last-name').textContent = details.last_name || '';
+    document.getElementById('modal-age').textContent = details.age || '';
+    document.getElementById('modal-sex').textContent = details.sex || '';
+    document.getElementById('modal-email').textContent = details.email || '';
+    document.getElementById('modal-phone').textContent = details.phone || '';
+    document.getElementById('modal-organization').textContent = details.organization || '';
+    document.getElementById('modal-address').textContent = `${details.street || ''}, ${details.barangay || ''}, ${details.city || ''}, ${details.province || ''}`;
 
     // Populate artifact details
-    document.getElementById('modal-artifact-title').textContent = details.artifact_nameID;
-    document.getElementById('modal-artifact-description').textContent = details.artifact_description;
-    document.getElementById('modal-acquisition').textContent = details.acquisition;
-    document.getElementById('modal-additional-info').textContent = details.additional_info;
-    document.getElementById('modal-narrative').textContent = details.narrative;
-    document.getElementById('modal-images').textContent = details.artifact_img;
-    document.getElementById('modal-documentation').textContent = details.documentation;
-    document.getElementById('modal-related').textContent = details.related_img;
+    document.getElementById('modal-artifact-title').textContent = details.artifact_nameID || '';
+    document.getElementById('modal-artifact-description').textContent = details.artifact_description || '';
+    document.getElementById('modal-acquisition').textContent = details.acquisition || '';
+    document.getElementById('modal-additional-info').textContent = details.additional_info || '';
+    document.getElementById('modal-narrative').textContent = details.narrative || '';
+    document.getElementById('modal-images').textContent = details.artifact_img || '';
+    document.getElementById('modal-documentation').textContent = details.documentation || '';
+    document.getElementById('modal-related').textContent = details.related_img || '';
 
     // Handle Lending-Specific Fields
     const lendingFields = document.getElementById('lending-fields');
     if (formType === 'Lending') {
         lendingFields.classList.remove('hidden');
-        document.getElementById('modal-loan-duration').textContent = details.loan_duration;
-        document.getElementById('modal-display-condition').textContent = details.display_condition;
-        document.getElementById('modal-liability-concern').textContent = details.liability_concern;
-        document.getElementById('modal-reason').textContent = details.reason;
+        document.getElementById('modal-loan-duration').textContent = details.loan_duration || '';
+        document.getElementById('modal-display-condition').textContent = details.display_condition || '';
+        document.getElementById('modal-liability-concern').textContent = details.liability_concern || '';
+        document.getElementById('modal-reason').textContent = details.reason || '';
     } else {
         lendingFields.classList.add('hidden');
     }
@@ -470,21 +471,50 @@ function populateFormModal(details, formType) {
     document.getElementById('modal-title').textContent = `${formType} Form Details`;
 }
 
-// Close modal functionality
-document.querySelectorAll('[data-modal-close]').forEach(button => {
-    button.addEventListener('click', closeformModal);
-});
+function handleAction(action, donation) {
+    console.log(`Action: ${action}`);
+    console.log(`Donation Data:`, donation);
+    console.log(`Artifact ID: ${donation.donID}`);
+    console.log(`Form Type: ${donation.formType}`);
 
-function closeformModal() {
-    const modal = document.getElementById('form-modal');
-    if (modal) {
-        modal.classList.add('hidden');
-    } else {
-        console.error('Modal with id "form-modal" not found');
+    switch (action) {
+        case 'edit':
+            console.log(`Edit donation with ID: ${donation.donID}`);
+            const formType = donation.formType || 'Donation';
+            openFormModal(donation.donID, formType);
+            break;
+        case 'delete':
+            console.log(`Delete donation with ID: ${donation.donID}`);
+            deleteDonation(donation.donID, donation.formType); // Pass formType
+            break;
+        default:
+            console.error('Unknown action:', action);
     }
 }
 
-
+function deleteDonation(donID, formType) {
+    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/deleteRecord.php`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ donID, formType }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Record deleted successfully');
+                // Refresh the list or take appropriate actions
+            } else {
+                console.error('Error deleting record:', data.error);
+                alert(data.error || 'Error deleting record.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while deleting the record.');
+        });
+}
 
   
 init();  // Initialize everything when the script runs
