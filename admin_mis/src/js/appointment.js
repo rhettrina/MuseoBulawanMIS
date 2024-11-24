@@ -179,6 +179,36 @@ function displayNoDataMessage() {
     `;
 }
 
+// Function to update appointment status
+function updateAppointmentStatus(action, formID) {
+    fetch('https://museobulawan.online/admin_mis/src/php/processAppointment.php', { 
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            appointmentID: appointmentId,
+            action: action 
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log(data.success);
+            alert(data.success);
+            closeAppointmentModal();
+            init(); // Refresh the appointment list or update the UI
+        } else if (data.error) {
+            console.error(data.error);
+            alert(data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while updating the appointment status.');
+    });
+}
+
 // Function to show and populate the appointment modal
 function showAppointmentModal(appointment) {
     if (!appointment) {
