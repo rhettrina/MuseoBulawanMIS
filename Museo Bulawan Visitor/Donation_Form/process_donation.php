@@ -19,6 +19,40 @@ if ($conn->connect_error) {
     die(json_encode(['success' => false, 'message' => 'Database connection failed: ' . $conn->connect_error]));
 }
 
+// Function to handle single or multiple file uploads
+function uploadFiles($files, $uploadDir, $allowedExtensions) {
+    $uploadedPaths = [];
+    // Ensure the input is handled as an array
+    if (!is_array($files['name'])) {
+        $files = [
+            'name' => [$files['name']],
+            'type' => [$files['type']],
+            'tmp_name' => [$files['tmp_name']],
+            'error' => [$files['error']],
+            'size' => [$files['size']]
+        ];
+    }
+
+    foreach ($files['name'] as $index => $name) {
+        if ($files['error'][$index] === 0) {
+            $fileExt = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+            if (in_array($fileExt, $allowedExtensions)) {
+                $newFileName = uniqid("FILE-", true) . '.' . $fileExt;
+                $fileUploadPath = $uploadDir . $newFileName;
+
+                if (!is_dir($uploadDir)) {
+                    mkdir($uploadDir, 0777, true); // Create the directory if it doesn't exist
+                }
+
+                if (move_uploaded_file($files['tmp_name'][$index], $fileUploadPath)) {
+                    $uploadedPaths[] = $fileUploadPath;
+                }
+            }
+        }
+    }
+    return $uploadedPaths;
+}
+
 // Check if the form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Collect and sanitize form data
@@ -40,49 +74,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $additionalInfo = $conn->real_escape_string($_POST['additionalInfo']);
     $narrative = $conn->real_escape_string($_POST['narrative']);
     
-    // Initialize variables for artifact image upload
-    $art_img_upload_path = '';
-    $allowed_exs = ["jpg", "jpeg", "png", "docx"];
+    // Define upload directories (single directory for all types of files)
+    $uploadDir = __DIR__ . '/../../admin_mis/src/uploads/artifacts/';
+    $allowedExtensions = ["jpg", "jpeg", "png", "pdf", "docx", "xlsx", "txt"];
 
-    // Handle artifact image upload if provided
-    if (!empty($_FILES['artifact_img']['name'])) {
-        $art_img_name = $_FILES['artifact_img']['name'];
-        $art_img_size = $_FILES['artifact_img']['size'];
-        $art_tmp_name = $_FILES['artifact_img']['tmp_name'];
-        $art_error = $_FILES['artifact_img']['error'];
+    // Handle file uploads
+    $artifactImages = uploadFiles($_FILES['artifact_img'], $uploadDir, $allowedExtensions);
+    $documentationFiles = uploadFiles($_FILES['documentation'], $uploadDir, $allowedExtensions);
+    $relatedImages = uploadFiles($_FILES['related_img'], $uploadDir, $allowedExtensions);
 
-        if ($art_error === 0) {
-            if ($art_img_size > 12500000) {
-                die(json_encode(['success' => false, 'message' => 'Artifact image is too large.']));
-            }
+    // Convert file paths to JSON strings for database storage
+    $artifactImagesJson = json_encode($artifactImages);
+    $documentationFilesJson = json_encode($documentationFiles);
+    $relatedImagesJson = json_encode($relatedImages);
 
-            $art_img_ex_lc = strtolower(pathinfo($art_img_name, PATHINFO_EXTENSION));
-            if (in_array($art_img_ex_lc, $allowed_exs)) {
-                $new_art_img_name = uniqid("IMG-", true) . '.' . $art_img_ex_lc;
-                $upload_dir = __DIR__ . '/../../admin_mis/src/uploads/artifacts/';
-
-                if (!is_dir($upload_dir)) {
-                    die(json_encode(['success' => false, 'message' => 'Upload directory does not exist.']));
-                }
-
-                if (!is_writable($upload_dir)) {
-                    die(json_encode(['success' => false, 'message' => 'Upload directory is not writable.']));
-                }
-
-                $art_img_upload_path = $upload_dir . $new_art_img_name;
-
-                if (!move_uploaded_file($art_tmp_name, $art_img_upload_path)) {
-                    die(json_encode(['success' => false, 'message' => 'Failed to upload artifact image.']));
-                }
-            } else {
-                die(json_encode(['success' => false, 'message' => 'Invalid artifact image type.']));
-            }
-        } else {
-            die(json_encode(['success' => false, 'message' => 'Artifact image upload error.']));
-        }
-    }
-
-    // Insert query for the Donator table
+    // Insert data into Donator table
     $sql_donatorTB = "INSERT INTO `Donator`(`first_name`, `last_name`, `email`, `phone`, `province`, `street`, `barangay`, `organization`, `age`, `sex`, `city`) 
                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql_donatorTB);
@@ -94,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die(json_encode(['success' => false, 'message' => 'Error inserting donator: ' . $stmt->error]));
     }
 
-    // Insert query for the Donation table
+    // Insert data into Donation table
     $abt_art = "INSERT INTO `Donation`(`donatorID`, `artifact_nameID`, `artifact_description`) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($abt_art);
     $stmt->bind_param("iss", $donatorID, $artifactTitle, $artifactDescription);
@@ -103,11 +109,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die(json_encode(['success' => false, 'message' => 'Error inserting donation: ' . $stmt->error]));
     }
 
-    // Insert query for the Artifact table
+    // Insert data into Artifact table
     $artifactType = "Donation";
-    $query = $conn->prepare("INSERT INTO `Artifact`(`artifact_typeID`, `donatorID`, `artifact_description`, `artifact_nameID`, `acquisition`, `additional_info`, `narrative`, `artifact_img`) 
-                             VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-    $query->bind_param('sissssss', $artifactType, $donatorID, $artifactDescription, $artifactTitle, $acquisition, $additionalInfo, $narrative, $art_img_upload_path);
+    $query = $conn->prepare("INSERT INTO `Artifact`(`artifact_typeID`, `submission_date`, `donatorID`, `artifact_description`, `artifact_nameID`, `acquisition`, `additional_info`, `narrative`, `artifact_img`, `documentation`, `related_img`, `status`, `transfer_status`, `updated_date`, `display_status`) 
+                             VALUES (?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'To Review', 'Pending', NULL, 'true')");
+    $query->bind_param('sissssssss', $artifactType, $donatorID, $artifactDescription, $artifactTitle, $acquisition, $additionalInfo, $narrative, $artifactImagesJson, $documentationFilesJson, $relatedImagesJson);
 
     if (!$query->execute()) {
         die(json_encode(['success' => false, 'message' => 'Error inserting artifact: ' . $query->error]));
@@ -115,7 +121,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Success response
     echo json_encode(['success' => true, 'message' => 'Data submitted successfully.']);
-    exit;
 }
 
 // Close the connection
