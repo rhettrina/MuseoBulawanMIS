@@ -1,27 +1,53 @@
 <?php
-session_start();
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS, DELETE");
+header("Access-Control-Allow-Headers: Content-Type, x-requested-with");
 
-// Get user input from the POST request
-$username = $_POST['username'];
-$password = $_POST['password'];
 
-// Database connection
-$database_server = "localhost";
-$database_user = "u376871621_bomb_squad";
-$database_password = "Fujiwara000!";
-$database_name = "u376871621_mb_mis";
-
-// Create a connection
-$conn = new mysqli($database_server, $database_user, $database_password, $database_name);
-
-// Check the connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    exit(0); 
 }
 
-// Prepare the SQL statement to retrieve the user with matching credentials
-$stmt = $conn->prepare("SELECT * FROM credentials WHERE username = ? AND password = ?");
-$stmt->bind_param("ss", $username, $password);
+
+$servername = "localhost"; 
+$username = "u376871621_bomb_squad";       
+$password = "Fujiwara000!";            
+$dbname = "u376871621_mb_mis";   
+
+$connextion = new mysqli($servername, $username, $password, $dbname);
+
+if ($connextion->connect_error) {
+    die("Connection failed: " . $connextion->connect_error);
+}
+session_start();
+
+
+// Set the header to return JSON data
+header('Content-Type: application/json');
+
+// Get the raw POST data
+$rawData = file_get_contents("php://input");
+$data = json_decode($rawData, true);
+
+// Check if data is valid JSON
+if (!is_array($data)) {
+    echo json_encode(['success' => false, 'message' => 'Invalid input data.']);
+    exit();
+}
+
+$username = isset($data['username']) ? $data['username'] : '';
+$password = isset($data['password']) ? $data['password'] : '';
+
+
+if (empty($username) || empty($password)) {
+    echo json_encode(['success' => false, 'message' => 'Username and password are required.']);
+    exit();
+}
+
+
+
+$stmt = $connextion->prepare("SELECT * FROM credentials WHERE username = ? LIMIT 1");
+$stmt->bind_param("s", $username);
 
 // Execute the statement
 $stmt->execute();
@@ -31,22 +57,26 @@ $result = $stmt->get_result();
 
 // Check if a matching record was found
 if ($result->num_rows > 0) {
-    // Save username to the session and redirect to dashboard
-    $_SESSION['username'] = $username;
+    // Fetch the user data
+    $user = $result->fetch_assoc();
 
+    // Verify the password
+    if (password_verify($password, $user['password'])) {
+        // Password is correct
+        $_SESSION['username'] = $username;
+        $_SESSION['admin_logged_in'] = true;
 
-    $stmt->close();
-    $conn->close();
-
-    header("Location: dashboard.html");
-    exit();
+        echo json_encode(['success' => true, 'message' => 'Login successful.']);
+    } else {
+        // Password is incorrect
+        echo json_encode(['success' => false, 'message' => 'Invalid username or password.']);
+    }
 } else {
-    // Close the statement and connection before redirecting
-    $stmt->close();
-    $conn->close();
-
-    // Redirect back to login page with an error flag
-    header("Location: login.html?error=1");
-    exit();
+    // No user found with that username
+    echo json_encode(['success' => false, 'message' => 'Invalid username or password.']);
 }
+
+// Close the statement and connection
+$stmt->close();
+$connextion->close();
 ?>

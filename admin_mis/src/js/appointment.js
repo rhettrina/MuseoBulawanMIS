@@ -1,9 +1,10 @@
-
-function init(){
+// Initialize the application
+function init() {
     fetchTotalAppointments();
     fetchAppointments();
 }
 
+// Fetch total appointments data
 function fetchTotalAppointments() {
     fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchTotalAppointments.php')
         .then(response => {
@@ -32,17 +33,20 @@ function displayAppointmentErrorMessages() {
     document.getElementById('total-appointments').innerText = errorMessage;
     document.getElementById('total-approved').innerText = errorMessage;
     document.getElementById('total-rejected').innerText = errorMessage;
-    
 }
 
 // Function to populate the data from the PHP response for appointments
 function populateTotalAppointmentData(data) {
     document.getElementById('total-appointments').innerText = data.total_appointments || 0;
-    document.getElementById('total-approved').innerText = data.total_approved || 0;
-    document.getElementById('total-rejected').innerText = data.total_rejected || 0;
-    
+    document.getElementById('total-approved').innerText = data.approved_appointments || 0;
+    document.getElementById('total-rejected').innerText = data.rejected_appointments || 0;
 }
 
+// Event listener for sorting appointments
+document.getElementById('sortA').addEventListener('change', function () {
+    const selectedSort = this.value; // Get selected value
+    fetchAppointments(selectedSort); // Fetch appointments based on sort
+});
 
 // Fetch and populate the appointment table
 function fetchAppointments(sort = 'newest') {
@@ -62,19 +66,17 @@ function fetchAppointments(sort = 'newest') {
             }
         })
         .catch(error => {
-            console.error('Error fetching donations:', error);
+            console.error('Error fetching appointments:', error);
             displayNoDataMessage();
         });
-        
-        
 }
 
+// Populate the appointment table
 function populateTable(appointments) {
     const tableBody = document.getElementById('appointment-table').querySelector('tbody');
-    tableBody.innerHTML = ''; // Clear existing rows
-
-     // Check if there are appointments
-     if (appointments.length === 0) {
+    tableBody.innerHTML = ''; 
+    // Check if there are appointments
+    if (appointments.length === 0) {
         displayNoDataMessage();
         return;
     }
@@ -87,7 +89,7 @@ function populateTable(appointments) {
         // Create and populate cells
         const dateCell = document.createElement('td');
         dateCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'rounded-l-[15px]', 'border-t-2', 'border-b-2', 'border-l-2');
-        dateCell.textContent = appointment.created_at;
+        dateCell.textContent = appointment.appointment_created_at;
 
         const timeCell = document.createElement('td');
         timeCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
@@ -103,63 +105,69 @@ function populateTable(appointments) {
 
         const statusCell = document.createElement('td');
         statusCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
-        statusCell.textContent = appointment.status;
-        
-        const createdAtCell = document.createElement('td');
-        createdAtCell.classList.add('px-4', 'py-2','bg-white', 'border-black', 'border-t-2', 'border-b-2');
-        createdAtCell.textContent = appointment.appointment_date;
+        statusCell.textContent = appointment.appointment_status;
+
+        const confirmationDateCell = document.createElement('td');
+        confirmationDateCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
+        confirmationDateCell.textContent = appointment.appointment_confirmation_date;
 
         const actionCell = document.createElement('td');
-        actionCell.classList.add('px-4', 'py-2', 'flex', 'justify-center', 'space-x-2', 'bg-white', 'border-black' , 'rounded-r-[15px]', 'border-t-2', 'border-b-2', 'border-r-2');
+        actionCell.classList.add('px-4', 'py-2', 'flex', 'justify-center', 'space-x-2', 'bg-white', 'border-black', 'rounded-r-[15px]', 'border-t-2', 'border-b-2', 'border-r-2');
 
         // Add buttons with event listeners
-        
+        const editButton = document.createElement('button');
+        editButton.classList.add('bg-transparent', 'text-black', 'p-2', 'rounded', 'hover:bg-orange-300');
+        editButton.innerHTML = `<i class="fas fa-edit"></i>`;
+        editButton.addEventListener('click', () => handleAction('edit', appointment));
 
-            const editButton = document.createElement('button');
-            editButton.classList.add('bg-transparent', 'text-black', 'p-2', 'rounded', 'hover:bg-orange-300');
-            editButton.innerHTML = `<i class="fas fa-edit"></i>`;
-            editButton.addEventListener('click', () => handleAction('edit', appointment));
+        const deleteButton = document.createElement('button');
+        deleteButton.classList.add('bg-transparent', 'text-black', 'p-2', 'rounded', 'hover:bg-orange-300');
+        deleteButton.innerHTML = `<i class="fas fa-trash"></i>`;
+        deleteButton.addEventListener('click', () => handleAction('delete', appointment.id));
 
-
-            const deleteButton = document.createElement('button');
-            deleteButton.classList.add('bg-transparent', 'text-black', 'p-2', 'rounded', 'hover:bg-orange-300');
-            deleteButton.innerHTML = `<i class="fas fa-trash"></i>`;
-            deleteButton.addEventListener('click', () => handleAction('delete', appointment.id));
-
-            
-            actionCell.appendChild(editButton);
-            actionCell.appendChild(deleteButton);
+        actionCell.appendChild(editButton);
+        actionCell.appendChild(deleteButton);
 
         // Append cells to row
         row.appendChild(dateCell);
         row.appendChild(attendeeCell);
         row.appendChild(timeCell);
-        
         row.appendChild(statusCell);
         row.appendChild(attendeesCountCell);
-        
-        row.appendChild(createdAtCell);
+        row.appendChild(confirmationDateCell);
         row.appendChild(actionCell);
 
         tableBody.appendChild(row);
     });
 }
 
-function handleAction(action, appointmentId) {
+// Handle actions for edit, delete, approve, and reject
+function handleAction(action, data) {
     switch (action) {
         case 'edit':
-            showAppointmentModal(appointmentId);
-            init();
+            showAppointmentModal(data); // 'data' is the appointment object
             break;
-        case 'delete':
-            openAppointmentDeleteModal((response) => {
-                if (response) {
-                    console.log(`Appointment with ID ${appointmentId} deleted.`);
-                    init();
-                } else {
-                    console.log("Delete action canceled.");
-                }
-            });
+            case 'delete':
+                openAppointmentDeleteModal((response) => {
+                    if (response) {
+                        deleteAppointment(data) // 'data' is appointment.id
+                            .then(() => {
+                                console.log(`Appointment with ID ${data} deleted.`);
+                                init(); // Refresh the data/display
+                            })
+                            .catch(error => {
+                                console.error('Error deleting appointment:', error);
+                                alert('An error occurred while deleting the appointment.');
+                            });
+                    } else {
+                        console.log("Delete action canceled.");
+                    }
+                });
+                break;
+            
+        case 'approve':
+        case 'reject':
+            updateAppointmentStatus(action, data); // 'data' is appointment ID
             break;
         default:
             console.error('Unknown action:', action);
@@ -167,46 +175,7 @@ function handleAction(action, appointmentId) {
 }
 
 
-
-function fetchAppointmentDetails(appointmentId) {
-    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/previewAppointments.php?id=${appointmentId}`)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.error) {
-            console.error('Error fetching article:', data.error);
-        } else {
-            populateModal(data);
-        }
-    })
-    .catch(error => {
-        console.error('Error fetching article details:', error);
-    });
-    
-}
-
-
-function openAppointmentDeleteModal(callback) {
-    const modal = document.getElementById("delete-modal");
-    modal.classList.remove("hidden");
-  
-    // Handling button clicks
-    document.getElementById("delete-confirm-button").onclick = () => {
-      callback(true);  // Return 'true' if 'Delete' is clicked
-      closeModal("delete-modal");
-    };
-  
-    document.getElementById("delete-cancel-button").onclick = () => {
-      callback(false);  // Return 'false' if 'Cancel' is clicked
-      closeModal("delete-modal");
-    };
-  }
-
-
+// Function to display a message when no data is available
 function displayNoDataMessage() {
     const tableBody = document.querySelector('tbody');
     tableBody.innerHTML = `
@@ -216,97 +185,59 @@ function displayNoDataMessage() {
     `;
 }
 
-
-
-
-// Function to open the confirmation modal
-function openConfirmationModal(callback) {
-    const modal = document.getElementById("confirmation-modal");
-    modal.classList.remove("hidden");
-  
-    // Handling button clicks
-    document.getElementById("confirm-button").onclick = () => {
-      callback(true);  // Return 'true' if 'Yes' is clicked
-      closeModal("confirmation-modal");
-    };
-  
-    document.getElementById("cancel-button").onclick = () => {
-      callback(false);  // Return 'false' if 'No' is clicked
-      closeModal("confirmation-modal");
-    };
-  }
-  
-  // Function to open the delete confirmation modal
-  function openDeleteModal(callback) {
-    const modal = document.getElementById("delete-modal");
-    modal.classList.remove("hidden");
-  
-    // Handling button clicks
-    document.getElementById("delete-confirm-button").onclick = () => {
-      callback(true);  // Return 'true' if 'Delete' is clicked
-      closeModal("delete-modal");
-    };
-  
-    document.getElementById("delete-cancel-button").onclick = () => {
-      callback(false);  // Return 'false' if 'Cancel' is clicked
-      closeModal("delete-modal");
-    };
-  }
-  
-  // Function to close the modal
-  function closeModal(modalId) {
-    const modal = document.getElementById(modalId);
-    modal.classList.add("hidden");
-  }
-  
-
-
-function openConfirmationModal(callback) {
-    const modal = document.getElementById("confirmation-modal");
-    modal.classList.remove("hidden"); // Show the confirmation modal
-
-    document.getElementById("confirm-button").onclick = () => {
-        callback(true); 
-        closeModal("confirmation-modal");
-    };
-
-    document.getElementById("cancel-button").onclick = () => {
-        callback(false); 
-        closeModal("confirmation-modal");
-    };
+// Function to update appointment status
+function updateAppointmentStatus(action, appointmentId) {
+    fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/processAppointment.php', { 
+        method: 'POST', // Add this line
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            appointmentID: appointmentId,
+            action: action
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log(data.success);
+            alert(data.success);
+            closeAppointmentModal();
+            init(); // Refresh the appointment list or update the UI
+        } else if (data.error) {
+            console.error(data.error);
+            alert(data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while updating the appointment status.');
+    });
 }
 
-function closeModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.classList.add("hidden"); // Add the 'hidden' class to hide the modal
-    } else {
-        console.error(`Modal with ID "${modalId}" not found.`);
-    }
-}
-
-// Function to show and populate the modal
+// Function to show and populate the appointment modal
 function showAppointmentModal(appointment) {
-
-    
     if (!appointment) {
         console.error('Appointment data is undefined or null');
         return;
     }
-
     const modal = document.getElementById('appointment-modal');
 
     // Populate modal fields
-    document.getElementById('appointment-name').textContent = appointment.name || 'hafshashfahf/A';
-    document.getElementById('appointment-email').textContent = appointment.email || 'N/A';
-    document.getElementById('appointment-phone').textContent = appointment.phone || 'N/A';
-    document.getElementById('appointment-address').textContent = appointment.address || 'N/A';
-    document.getElementById('appointment-purpose').textContent = appointment.purpose || 'N/A';
-    document.getElementById('appointment-organization').textContent = appointment.organization || 'N/A';
-    document.getElementById('appointment-population').textContent = appointment.population || 'N/A';
-    document.getElementById('appointment-date').textContent = appointment.date || 'N/A';
-    document.getElementById('appointment-time').textContent = appointment.time || 'N/A';
-    document.getElementById('appointment-notes').textContent = appointment.notes || 'N/A';
+    document.getElementById('appointment-name').textContent = appointment.visitor_name || 'N/A';
+    document.getElementById('appointment-email').textContent = appointment.visitor_email || 'N/A';
+    document.getElementById('appointment-phone').textContent = appointment.visitor_phone || 'N/A';
+    document.getElementById('appointment-address').textContent = appointment.visitor_address || 'N/A';
+    document.getElementById('appointment-purpose').textContent = appointment.appointment_purpose || 'N/A';
+    document.getElementById('appointment-organization').textContent = appointment.visitor_organization || 'N/A';
+    document.getElementById('appointment-population').textContent = appointment.number_of_attendees || 'N/A';
+    document.getElementById('appointment-date').textContent = appointment.appointment_date || 'N/A';
+    document.getElementById('appointment-time').textContent = appointment.appointment_time || 'N/A';
+    document.getElementById('appointment-notes').textContent = appointment.appointment_notes || 'N/A';
+
+    // Set the appointment ID on the buttons
+    document.getElementById('approve-appointment-btn').setAttribute('data-appointment-id', appointment.id);
+    document.getElementById('reject-appointment-btn').setAttribute('data-appointment-id', appointment.id);
 
     // Show the modal
     if (modal) {
@@ -314,25 +245,108 @@ function showAppointmentModal(appointment) {
     }
 }
 
-
 // Close modal logic
 document.getElementById('close-appointment-modal').addEventListener('click', () => {
-    const modal = document.getElementById('appointment-modal');
-    if (modal) {
-        modal.classList.add('hidden');
-    }
+    closeModal('appointment-modal');
 });
 
 document.getElementById('close-appointment-modal-btn').addEventListener('click', () => {
-    const modal = document.getElementById('appointment-modal');
+    closeModal('appointment-modal');
+});
+
+// Function to close a modal by ID
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
     if (modal) {
         modal.classList.add('hidden');
+    } else {
+        console.error(`Modal with ID "${modalId}" not found.`);
     }
+}
+
+// Function to close the appointment modal
+function closeAppointmentModal() {
+    closeModal('appointment-modal');
+}
+
+// Function to open the delete confirmation modal
+function openAppointmentDeleteModal(callback) {
+    const modal = document.getElementById("delete-modal");
+
+    if (!modal) {
+        console.error("Delete modal not found.");
+        return;
+    }
+
+    modal.classList.remove("hidden"); // Show the modal
+
+    // Get buttons
+    const confirmButton = document.getElementById("delete-confirm-button");
+    const cancelButton = document.getElementById("delete-cancel-button");
+
+    if (!confirmButton || !cancelButton) {
+        console.error("Delete modal buttons not found.");
+        return;
+    }
+
+    // Define handlers
+    const confirmHandler = () => {
+        callback(true); // Confirm deletion
+        closeModal("delete-modal");
+        cleanupEventListeners(); // Clean up event listeners
+    };
+
+    const cancelHandler = () => {
+        callback(false); // Cancel deletion
+        closeModal("delete-modal");
+        cleanupEventListeners(); // Clean up event listeners
+    };
+
+    // Add event listeners
+    confirmButton.addEventListener("click", confirmHandler);
+    cancelButton.addEventListener("click", cancelHandler);
+
+    // Function to remove event listeners to prevent duplicates
+    function cleanupEventListeners() {
+        confirmButton.removeEventListener("click", confirmHandler);
+        cancelButton.removeEventListener("click", cancelHandler);
+    }
+}
+
+// Add event listeners to the approve and reject buttons
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('approve-appointment-btn').addEventListener('click', function() {
+        const appointmentId = this.getAttribute('data-appointment-id');
+        console.log('Approve button clicked for appointment ID:', appointmentId); // Added console.log
+        handleAction('approve', appointmentId);
+    });
+
+    document.getElementById('reject-appointment-btn').addEventListener('click', function() {
+        const appointmentId = this.getAttribute('data-appointment-id');
+        console.log('Reject button clicked for appointment ID:', appointmentId); // Added console.log
+        handleAction('reject', appointmentId);
+    });
 });
 
 
 
+function deleteAppointment(appointmentId) {
+    return fetch(`delete_appointment.php?id=${appointmentId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => {
+        return response.json().then(data => {
+            if (response.ok) {
+                return data;
+            } else {
+                throw new Error(data.error || 'Failed to delete appointment');
+            }
+        });
+    });
+}
 
-
+// Start the application
 init();
-// Fetch appointments and populate the table
