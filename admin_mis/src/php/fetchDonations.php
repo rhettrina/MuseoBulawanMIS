@@ -20,14 +20,11 @@ $query = "
         l.submission_date AS submission_date,
         CONCAT(dn.first_name, ' ', dn.last_name) AS donor_name, 
         a.artifact_nameID AS artifact_title, 
-        a.artifact_typeID AS form_type, 
+        'Lending' AS form_type, -- Explicitly set form type as 'Lending'
         'To Review' AS status, 
         'Pending' AS transfer_status, 
-        'Lending' AS form_type,
         a.updated_date AS updated_date, 
         dn.donatorID AS donID
-
-        
     FROM 
         Lending AS l
     JOIN 
@@ -42,13 +39,11 @@ $query = "
         d.submission_date AS submission_date,
         CONCAT(dn.first_name, ' ', dn.last_name) AS donor_name, 
         a.artifact_nameID AS artifact_title, 
-        a.artifact_typeID AS form_type, 
+        'Donation' AS form_type, -- Explicitly set form type as 'Donation'
         'To Review' AS status, 
         'Pending' AS transfer_status, 
-        'Donation' AS form_type,
         a.updated_date AS updated_date,
         dn.donatorID AS donID
-        
     FROM 
         Donation AS d
     JOIN 
