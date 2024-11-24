@@ -1,22 +1,25 @@
+// Function to reload the page
+function reloadOnOpen() {
+    // Check if this is the first load in the current session
+    if (!sessionStorage.getItem('reloaded')) {
+        sessionStorage.setItem('reloaded', 'true'); // Mark that the page has been reloaded
+        window.location.reload(); // Reload the page
+    } else {
+        sessionStorage.removeItem('reloaded'); // Reset the reload flag
+    }
+}
 
-(() => {
-    let currentActiveCard = null; // Scoped to layout.js
+// Call this function at the start of the script
+reloadOnOpen();
 
-    function init() {
-        console.log("Initializing donation.js...");
-        fetchTotalDonations();
+
+function init() {
+    // Call the display functions here
+    fetchTotalDonations();
     fetchDonations();
-    }
+    // No need to call deleteDonation here; it's triggered by specific actions
+}
 
-    function cleanup() {
-        console.log("Cleaning up donation.js...");
-        currentActiveCard = null;
-        // Remove other event listeners or reset state if needed
-    }
-
-    window.init = init; // Expose `init` for router.js
-    window.cleanup = cleanup; // Expose `cleanup` for router.js
-})();
 function fetchTotalDonations() {
     fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchTotalDonations.php')
         .then(response => {
@@ -517,4 +520,5 @@ const calculateDuration = (startDate, endDate) => {
 
 
 
-window.onload = init;
+  
+init();  // Initialize everything when the script runs
