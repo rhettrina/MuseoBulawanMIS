@@ -433,8 +433,12 @@ function openFormModal(donID, formType) {
     document.getElementById('modal-email').textContent = details.email;
     document.getElementById('modal-phone').textContent = details.phone;
     document.getElementById('modal-organization').textContent = details.organization;
-    document.getElementById('modal-address').textContent = `${details.street}, ${details.barangay}, ${details.city}, ${details.province}`;
-  
+    // Populate each part of the address separately
+    document.getElementById('modal-street').textContent = details.street;
+    document.getElementById('modal-barangay').textContent = details.barangay;
+    document.getElementById('modal-city').textContent = details.city;
+    document.getElementById('modal-province').textContent = details.province;
+    
     // Populate artifact details
     document.getElementById('modal-artifact-title').textContent = details.artifact_nameID;
     document.getElementById('modal-artifact-description').textContent = details.artifact_description;
