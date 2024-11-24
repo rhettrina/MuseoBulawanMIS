@@ -33,7 +33,7 @@ if (isset($data['donID'], $data['transfer_status'])) {
     $transfer_status = $data['transfer_status'];
 
     // Prepare the SQL statement
-    $stmt = $connextion->prepare("UPDATE Artifact SET transfer_status = ?, updated_date = NOW() WHERE donatorID = ?");
+    $stmt = $connextion->prepare("UPDATE Artifact SET transfer_status = ? WHERE donatorID = ?");
     if (!$stmt) {
         http_response_code(500); // Internal Server Error
         echo json_encode(['success' => false, 'error' => $connextion->error]);
