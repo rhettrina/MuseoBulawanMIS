@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $narrative = $conn->real_escape_string($_POST['narrative']);
     
     // Image upload handling
-    $allowed_exs = array("jpg", "jpeg", "png");
+    $allowed_exs = array("jpg", "jpeg", "png", "docx");
 
     // Handle artifact image upload
     $art_img_upload_path = '';
