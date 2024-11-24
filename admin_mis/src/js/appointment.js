@@ -241,16 +241,21 @@ function displayNoDataMessage() {
 
 // Function to update appointment status
 function updateAppointmentStatus(action, formID) {
-    fetch('https://museobulawan.online/admin_mis/src/php/processAppointment.php', { 
+    const payload = JSON.stringify({
+        appointmentID: formID, // Ensure formID has the correct value
+        action: action // Ensure action is a valid string like "approved" or "rejected"
+    });
+    console.log("Payload being sent:", payload);
+    
+    
+    fetch('https://museobulawan.online/development/admin_mis/src/php/processAppointment.php', { 
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-            appointmentID: formID, // Use formID here if it holds the correct value
-            action: action 
-        })
+        body: payload
     })
+    
     .then(response => response.json())
     .then(data => {
         if (data.success) {
@@ -274,7 +279,7 @@ function showAppointmentModal(appointment) {
     if (!appointment) {
         console.error('Appointment data is undefined or null');
         return;
-    }
+    }   
     const modal = document.getElementById('appointment-modal');
 
     // Populate modal fields
