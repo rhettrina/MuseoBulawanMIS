@@ -31,13 +31,13 @@ function selectTab(selectedButton) {
         'artifacts-table',
         'acquired-table',
         'borrowing-table',
-        'donators'
+        'donors-table'
     ];
     const sortContainerIdList = [
         'artifact-sort',
         'acquired-sort',
         'borrowing-sort',
-        'donators-sort'
+        'donors-sort'
     ];
 
     // Show the corresponding table
@@ -104,19 +104,17 @@ async function fetchAndRenderTables() {
     
 
         const donators = data.map(item => ({
-            donatorID: item.donatorID,
-            firstName: item.first_name,
-            lastName: item.last_name,
-            email: item.email,
-            age: item.age,
-            city: item.city,
+            date: item.ArtifactSubmissionDate,
+            donor: `${item.first_name} ${item.last_name}`,
+            donation: item.last_name,
+
         }));
 
         // Render the data into the tables
         renderTable(artifacts, "artifacts-table", ["date", "title", "type", "lastUpdated"]);
         renderTable(acquired, "acquired-table", ["date", "artifactName", "donorName", "lastUpdated"]);
         renderTable(borrowing, "borrowing-table", ["date", "artifactName","duration","update" ]);
-        renderTable(donators, "donors-table", ["donatorID", "firstName", "lastName", "email", "age", "city"]);
+        renderTable(donators, "donors-table", ["date", "donor", "donation"]);
 
     } catch (error) {
         console.error("Error fetching or processing data:", error);
