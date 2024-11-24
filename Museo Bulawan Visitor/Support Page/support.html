@@ -1,4 +1,6 @@
-<html lang="en"></html>
+<html lang="en">
+
+</html>
 
 <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -66,7 +68,7 @@
 
     <div class="wrapperwhite mt-3">
         <div id="container2">
-            <nav class="navbar navbar-expand-lg navbar-dark">
+            <nav class="navbar navbar-expand-lg navbar-light">
                 <div class="logowrapper">
                     <img src="../source/LOGO.png" alt="" id="logo">
                     <div class="vr border border-4 mx-3 border-dark opacity-100" style="height: 85;"></div>
@@ -82,7 +84,7 @@
 
                     <ul class="hovering navbar-nav fs-5 gap-3">
                         <li class="nav-item">
-                            <a class="nav-link" href="../Home/index.php">Home</a>
+                            <a class="nav-link" href="../Home/index.html">Home</a>
 
                         </li>
                         <li class="nav-item">
@@ -136,21 +138,90 @@
                 </div>
             </div>
 
+            <div class="container py-4">
+                <div class="social-links d-flex flex-wrap justify-content-center gap-4">
+                    <a href="https://www.facebook.com/museobulawancn" class="btn btn-outline-primary d-flex align-items-center">
+                        <i class="bi bi-facebook me-2"></i> Museo Bulawan
+                    </a>
+                    <a href="https://www.instagram.com/museobulawanofficial/?fbclid=IwY2xjawGwPXJleHRuA2FlbQIxMAABHU4YxVm5V1ukjj8paGdOZ447v7Vw3Q3Ev48IWx9y3j_GMuxL3SV4JImZ2A_aem_axPL8inSHwlshEjm302y0Q"
+                        class="btn btn-outline-danger d-flex align-items-center">
+                        <i class="bi bi-instagram me-2"></i> museobulawanofficial
+                    </a>
+                    <a href="#" class="btn btn-outline-secondary d-flex align-items-center" onclick="copyToClipboard('bulawanmuseo@gmail.com')">
+                        <i class="bi bi-envelope me-2"></i> museobulawan
+                    </a>
+                    <a href="https://www.tiktok.com/@museobulawan?fbclid=IwY2xjawGwPYhleHRuA2FlbQIxMAABHcDyW7-AYo39esZPZOJ5lsPT9X7D2-q7H5eGzPBC8hJipdIygKzil6-FJQ_aem_suPbRb5642gtt1ctON0BoQ"
+                        class="btn btn-outline-dark d-flex align-items-center">
+                        <i class="bi bi-tiktok me-2"></i> museobulawan
+                    </a>
+                    <a href="https://www.youtube.com/@Museo%20Bulawan%20(Abel%20C.%20Icatlo)?fbclid=IwY2xjawGwPahleHRuA2FlbQIxMAABHZmoalEOkRP3K-tCcxlIYOG2ngeFrdhQ4RIkaOaDHFO8rCVVy5pP7NaCVg_aem_eBzwjaXSy2n9o5RmVvUpmw"
+                        class="btn btn-outline-danger d-flex align-items-center">
+                        <i class="bi bi-youtube me-2"></i> Museo Bulawan
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Toast Notification -->
+            <div id="toast-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: none;">
+                <div id="toast" style="background-color: #333; color: #fff; padding: 10px 20px; border-radius: 5px; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">
+                    Email address copied to clipboard!
+                </div>
+            </div>
+            
+            <script>
+                function copyToClipboard(text) {
+                    navigator.clipboard.writeText(text).then(() => {
+                        showToast();
+                    }).catch(err => {
+                        console.error('Failed to copy text: ', err);
+                    });
+                }
+            
+                function showToast() {
+                    const toastContainer = document.getElementById('toast-container');
+                    const toast = document.getElementById('toast');
+            
+                    toastContainer.style.display = 'block'; // Show the toast
+                    toast.style.opacity = '1'; // Make it visible
+            
+                    setTimeout(() => {
+                        toast.style.opacity = '0'; // Start fading out
+                        setTimeout(() => {
+                            toastContainer.style.display = 'none'; // Hide after fading
+                        }, 500); // Wait for fade-out animation
+                    }, 2000); // Keep the toast visible for 2 seconds
+                }
+            </script>
+    
+            
+            
+
             <!-- supp msg -->
-            <div class="support-message">
+            <div class="support-message mt-0">
                 <p>
-                    By supporting Museo Bulawan, you are not only helping to preserve important artifacts and historical objects but also contributing to the education and empowerment of future generations. This museum is more than just a place to view exhibits; it is a space for the community to connect, learn, and take pride in their shared heritage.
+                    By supporting Museo Bulawan, you are not only helping to preserve important artifacts and historical
+                    objects but also contributing to the education and empowerment of future generations. This museum is
+                    more than just a place to view exhibits; it is a space for the community to connect, learn, and take
+                    pride in their shared heritage.
                 </p>
                 <p>
-                    We invite you to join us in this important endeavor. Your support can make a significant difference in ensuring that the identity of the Camnorteños continues to thrive, fostering a deeper sense of patriotism and pride in our community. Together, we can keep the spirit of Camarines Norte alive for generations to come.
+                    We invite you to join us in this important endeavor. Your support can make a significant difference
+                    in ensuring that the identity of the Camnorteños continues to thrive, fostering a deeper sense of
+                    patriotism and pride in our community. Together, we can keep the spirit of Camarines Norte alive for
+                    generations to come.
                 </p>
             </div>
         </div>
 
+
+        
+        
         <!-- right sec -->
         <div class="right-section">
             <div class="lorem">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip ex ea commodo consequat.</p>
             </div>
 
             <!-- contact  -->
@@ -159,7 +230,7 @@
                 <p>Do you want to donate your artifact?</p>
 
                 <a href="../Donation_Form/donateindex.html">
-                <button class="donate-button" >Donate</button>
+                    <button class="donate-button">Donate</button>
                 </a>
 
                 <p>Do you want to lend us your artifact?</p>
@@ -169,85 +240,89 @@
     </div>
 
     <!--Support Us end-->
+
+    
+    
+    <!-- Include Bootstrap Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
         
 
+    <!-- start of footer -->
+    <div class="wrapper">
 
-               <!-- start of footer -->
-        <div class="wrapper">
-
-            <div class="lowercontainer ms-5">
-                <div class="row d-flex">
-                    <div class="col-12">
-                        <ul class="nav-links">
-                            <li><a class="text-decoration-none" href="">Home</a></li>
-                            <div class="vr border border-1 border-light opacity-100" style="height: 40px;"></div>
-                            <li><a class="text-decoration-none" href="">Collections</a></li>
-                            <div class="vr border border-1 border-light opacity-100" style="height: 40px;"></div>
-                            <li><a class="text-decoration-none" href="">News & Events</a></li>
-                            <div class="vr border border-1 border-light opacity-100" style="height: 40px;"></div>
-                            <li><a class="text-decoration-none" href="">About Us</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-
-
-            <hr class="border border-1 border-light opacity-100 mx-4">
-
-            <div class="side-footer mx-5 mb-3">
-                <div class="row d-flex justify-content-between">
-                    <div class="col-lg-7 col-sm-12">
-                        <div class="museo-bulawan-cmp d-flex justify-content-start mb-3">
-                            <img src="../source/LOGO.png" alt="">
-                            <h2>Museo Bulawan</h2>
-                        </div>
-                        <p class="lead">Helping us raise awareness regarding Camnortenos identity is crucial, and
-                            your
-                            support can make a significant difference.</p>
-                        <div class="container-fluid d-flex flex-wrap p-0 pb-4">
-                            <p class="me-3">We gratefully accept donations or just lending of your artifact will greatly
-                                help us.
-                            </p>
-                            <button type="button" class="btn btn-light btn-lg">Support Us</button>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-2 col-sm-12 mb-4">
-                        <nav class="navbar">
-                            <ul class="navbar-nav text-start navbar-dark">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="../About Us/about.html">Visit Us</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="../About Us/about.html">About Us</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="../Appointment Form/appointindex.html">Book a Tour</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="../Support Page/support.html">Contact Us</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="../About Us/about.html">Map View</a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-
-                    <div class="col-lg-3 col-sm-12">
-                        <h5>Opening Hours</h5>
-                        <p>Camarines Norte Provincial Capitol Grounds,
-                            Daet Philippines</p>
-                        <p>Open Daily 9:00am-5:00pm,
-                            Monday- Friday,</p>
-                    </div>
-
+        <div class="lowercontainer ms-5">
+            <div class="row d-flex">
+                <div class="col-12">
+                    <ul class="nav-links">
+                        <li><a class="text-decoration-none" href="">Home</a></li>
+                        <div class="vr border border-1 border-light opacity-100" style="height: 40px;"></div>
+                        <li><a class="text-decoration-none" href="">Collections</a></li>
+                        <div class="vr border border-1 border-light opacity-100" style="height: 40px;"></div>
+                        <li><a class="text-decoration-none" href="">News & Events</a></li>
+                        <div class="vr border border-1 border-light opacity-100" style="height: 40px;"></div>
+                        <li><a class="text-decoration-none" href="">About Us</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
 
-        <!-- end of footer -->
+
+
+        <hr class="border border-1 border-light opacity-100 mx-4">
+
+        <div class="side-footer mx-5 mb-3">
+            <div class="row d-flex justify-content-between">
+                <div class="col-lg-7 col-sm-12">
+                    <div class="museo-bulawan-cmp d-flex justify-content-start mb-3">
+                        <img src="../source/LOGO.png" alt="">
+                        <h2>Museo Bulawan</h2>
+                    </div>
+                    <p class="lead">Helping us raise awareness regarding Camnortenos identity is crucial, and
+                        your
+                        support can make a significant difference.</p>
+                    <div class="container-fluid d-flex flex-wrap p-0 pb-4">
+                        <p class="me-3">We gratefully accept donations or just lending of your artifact will greatly
+                            help us.
+                        </p>
+                        <button type="button" class="btn btn-light btn-lg">Support Us</button>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-sm-12 mb-4">
+                    <nav class="navbar">
+                        <ul class="navbar-nav text-start navbar-dark">
+                            <li class="nav-item">
+                                <a class="nav-link" href="../About Us/about.html">Visit Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="../About Us/about.html">About Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="../Appointment Form/appointindex.html">Book a Tour</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="../Support Page/support.html">Contact Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="../About Us/about.html">Map View</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <div class="col-lg-3 col-sm-12">
+                    <h5>Opening Hours</h5>
+                    <p>Camarines Norte Provincial Capitol Grounds,
+                        Daet Philippines</p>
+                    <p>Open Daily 9:00am-5:00pm,
+                        Monday- Friday,</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- end of footer -->
 
     </div>
 

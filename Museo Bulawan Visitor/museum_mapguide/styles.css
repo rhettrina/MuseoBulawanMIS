@@ -657,14 +657,14 @@ body {
 }
 
 #stickyNav.scrolled {
-    background-color: rgba(28, 27, 25, 1); /* Opaque background */
+    background-color: rgba(28, 27, 25, 1); /* Default opaque background */
 }
 
 #stickyNav.scrolled #navLinks {
     opacity: 1; /* Show links */
 }
 
-/* Ensure the login link is always visible */
+/* Ensure login is always visible */
 #stickyNav.always-visible a[href="../admin_login/login.html"] {
     opacity: 1 !important;
 }
@@ -676,4 +676,40 @@ body {
     top: 0;
     left: 0;
     z-index: 20;
+}
+
+/* New Styles */
+
+/* Initial state: Text and Log In link are black */
+#texttime,
+#stickyNav a[href="../admin_login/login.html"] /* or use #loginLink if you added the ID */ {
+    color: black;
+    transition: color 0.5s ease; /* Smooth transition for color changes */
+}
+
+/* Scrolled state: Text and Log In link turn white */
+#stickyNav.scrolled #texttime,
+#stickyNav.scrolled a[href="../admin_login/login.html"] /* or #loginLink */ {
+    color: white;
+}
+
+/* Initial state */
+#texttime,
+#loginLink {
+    color: black;
+    transition: color 0.5s ease;
+}
+
+/* Scrolled state */
+#stickyNav.scrolled #texttime,
+#stickyNav.scrolled #loginLink {
+    color: white;
+}
+
+body {
+    padding-top: 35px;
+}
+
+.hovering a{
+    color: black;
 }

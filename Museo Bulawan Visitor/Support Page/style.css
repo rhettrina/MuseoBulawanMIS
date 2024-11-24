@@ -417,5 +417,9 @@ body {
 }
 
 body {
-    padding-top: 20px;
+    padding-top: 25px;
+}
+
+.hovering a{
+    color: black;
 }
