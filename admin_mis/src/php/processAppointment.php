@@ -1,62 +1,35 @@
 <?php
 header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json");
+header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Allow-Headers: Content-Type, x-requested-with");
 
-require 'db_connect.php'; // Include the database connection
+// Include database connection
+include 'db_connect.php';
 
-$response = ["success" => false, "error" => ""]; // Default response
+// Get the POST data
+$data = json_decode(file_get_contents("php://input"), true);
+$appointmentId = $data['appointmentId'];
+$status = $data['status'];
 
-try {
-    if ($_SERVER["REQUEST_METHOD"] === "POST") {
-        // Retrieve and validate inputs
-        $id = $_POST["id"] ?? null;
-        $action = $_POST["action"] ?? null;
-
-        if (!$id || !$action) {
-            throw new Exception("Missing required fields: appointment ID or action.");
-        }
-
-        // Determine the status based on the action
-        $status = null;
-        switch (strtolower(trim($action))) {
-            case 'approve':
-                $status = 'Approved';
-                break;
-            case 'reject':
-                $status = 'Rejected';
-                break;
-            default:
-                throw new Exception("Invalid action. Allowed actions: approve, reject.");
-        }
-
-        // Update query
-        $query = "UPDATE appointment SET status = ?, confirmation_date = NOW() WHERE appointmentID = ?";
-        $stmt = $connextion->prepare($query);
-
-        if (!$stmt) {
-            throw new Exception("Failed to prepare the database query.");
-        }
-
-        // Bind and execute the statement
-        $stmt->bind_param("si", $status, $id);
-
-        if ($stmt->execute()) {
-            $response["success"] = true;
-            $response["message"] = "Appointment status updated to $status.";
-        } else {
-            throw new Exception("Failed to execute the database query.");
-        }
-
-        $stmt->close();
-    } else {
-        throw new Exception("Invalid request method. Only POST is allowed.");
-    }
-} catch (Exception $e) {
-    $response["error"] = $e->getMessage();
+// Validate input
+if (!$appointmentId || !$status) {
+    echo json_encode(['success' => false, 'message' => 'Invalid input.']);
+    exit;
 }
 
-// Output the response as JSON
-echo json_encode($response);
+// Update query
+$query = "
+    UPDATE appointment 
+    SET status = ?, confirmation_date = NOW() 
+    WHERE appointmentID = ?
+";
 
-$connextion->close(); // Close the database connection
+$stmt = $connextion->prepare($query);
+$stmt->bind_param("si", $status, $appointmentId);
+
+if ($stmt->execute()) {
+    echo json_encode(['success' => true, 'message' => 'Appointment updated successfully.']);
+} else {
+    echo json_encode(['success' => false, 'message' => 'Failed to update appointment.']);
+}
 ?>
