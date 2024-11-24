@@ -1,70 +1,62 @@
 <?php
-header('Content-Type: application/json');
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json");
 
-session_start();
+require 'db_connect.php'; // Include the database connection
 
+$response = ["success" => false, "error" => ""]; // Default response
 
-// Include the database connextion
-include 'db_connect.php';
+try {
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        // Retrieve and validate inputs
+        $id = $_POST["id"] ?? null;
+        $action = $_POST["action"] ?? null;
 
-// Retrieve and decode raw JSON input
-$rawData = file_get_contents("php://input");
-error_log("Raw input: " . $rawData);  
-$data = json_decode($rawData, true);
+        if (!$id || !$action) {
+            throw new Exception("Missing required fields: appointment ID or action.");
+        }
 
-// Validate JSON decoding
-if (!is_array($data)) {
-    echo json_encode(['error' => 'Invalid JSON input.']);
-    exit;
-}
+        // Determine the status based on the action
+        $status = null;
+        switch (strtolower(trim($action))) {
+            case 'approve':
+                $status = 'Approved';
+                break;
+            case 'reject':
+                $status = 'Rejected';
+                break;
+            default:
+                throw new Exception("Invalid action. Allowed actions: approve, reject.");
+        }
 
-// Check required fields
-if (!isset($data['appointmentID']) || !isset($data['action'])) {
-    echo json_encode(['error' => 'Missing appointmentID or action.']);
-    exit;
-}
+        // Update query
+        $query = "UPDATE appointment SET status = ?, confirmation_date = NOW() WHERE appointmentID = ?";
+        $stmt = $connextion->prepare($query);
 
-// Sanitize and validate input
-$appointmentID = intval($data['appointmentID']);
-$action = strtolower(trim($data['action'])); 
+        if (!$stmt) {
+            throw new Exception("Failed to prepare the database query.");
+        }
 
-// Determine the database changes based on the action
-switch ($action) {
-    case 'approve':
-        $status = 'Approved';
-        $message = 'The appointment has been approved.';
-        break;
-    case 'reject':
-        $status = 'Rejected';
-        $message = 'The appointment has been rejected.';
-        break;
-    default:
-        echo json_encode(['error' => 'Invalid action.']);
-        exit;
-}
+        // Bind and execute the statement
+        $stmt->bind_param("si", $status, $id);
 
-// Prepare and execute the update statement
-$sql = "UPDATE appointment SET status = ?, confirmation_date = NOW() WHERE appointmentID = ?";
-$stmt = $connextion->prepare($sql);
+        if ($stmt->execute()) {
+            $response["success"] = true;
+            $response["message"] = "Appointment status updated to $status.";
+        } else {
+            throw new Exception("Failed to execute the database query.");
+        }
 
-if ($stmt) {
-    $stmt->bind_param("si", $status, $appointmentID);
-
-    if ($stmt->execute()) {
-        echo json_encode(['success' => $message]);
+        $stmt->close();
     } else {
-        // Log the error internally
-        error_log("Error updating appointment: " . $stmt->error);
-        echo json_encode(['error' => 'Failed to update the appointment. Please try again later.']);
+        throw new Exception("Invalid request method. Only POST is allowed.");
     }
-
-    $stmt->close();
-} else {
-    // Log preparation error
-    error_log("Error preparing statement: " . $connextion->error);
-    echo json_encode(['error' => 'Server error. Please try again later.']);
+} catch (Exception $e) {
+    $response["error"] = $e->getMessage();
 }
 
-// Close the database connextion
-$connextion->close();
+// Output the response as JSON
+echo json_encode($response);
+
+$connextion->close(); // Close the database connection
 ?>
