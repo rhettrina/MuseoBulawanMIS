@@ -330,8 +330,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-function deleteAppointment(appointmentId) {
-    return fetch(`delete_appointment.php?id=${appointmentId}`, {
+function deleteAppointment(fkID) {
+    return fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/deleteAppointments.php?id=${fkID}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
