@@ -78,13 +78,13 @@ async function fetchAndRenderTables() {
         const artifacts = data.map(item => ({
             date: item.ArtifactSubmissionDate,
             title: item.artifact_nameID || "N/A",
-            type: item.type, // Adjust this logic based on your needs
+            type: item.artifact_typeID, // Adjust this logic based on your needs
             display_status: true,
             lastUpdated: item.updated_date || "Not Edited",
         }));
 
         const acquired = data.map(item => ({
-            donationID: item.DonatorSubmissionDate,
+            date: item.DonationSubmissionDate,
             donatorID: item.donatorID,
             artifactName: item.artifact_nameID,
             lastUpdated: item.updated_date,
@@ -117,7 +117,7 @@ async function fetchAndRenderTables() {
 
         // Render the data into the tables
         renderTable(artifacts, "artifacts-table", ["date", "title", "type", "display_status","lastUpdated"]);
-        renderTable(acquired, "acquired-table", ["donationID",  "artifactName","donorName","lastUpdated"]);
+        renderTable(acquired, "acquired-table", ["date",  "artifactName","donorName","lastUpdated"]);
         renderTable(borrowing, "borrowing-table", ["lendingID", "donatorID", "artifactName", "duration", "reason"]);
         renderTable(display, "display-table", ["artifactID", "type", "name", "status"]);
         renderTable(donators, "donors-table", ["donatorID", "firstName", "lastName", "email", "age", "city"]);

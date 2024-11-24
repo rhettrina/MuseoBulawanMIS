@@ -6,6 +6,7 @@ include 'db_connect.php';
 $sql = "
 SELECT *,
 
+    Artifact.artifact_nameID AS artname,
     Donation.donationID,
     Donation.donatorID AS DonationDonatorID,
     Donation.submission_date AS DonationSubmissionDate,
