@@ -1,17 +1,10 @@
 <?php
-// Ensure JSON response
 header('Content-Type: application/json');
 
-// Start session for admin authentication
 session_start();
 
-// Check if admin is logged in
-if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
-    echo json_encode(['error' => 'Unauthorized access.']);
-    exit;
-}
 
-// Include the database connection
+// Include the database connextion
 include 'db_connect.php';
 
 // Retrieve and decode raw JSON input
@@ -51,7 +44,7 @@ switch ($action) {
 
 // Prepare and execute the update statement
 $sql = "UPDATE appointment SET status = ?, confirmation_date = NOW() WHERE appointmentID = ?";
-$stmt = $connection->prepare($sql);
+$stmt = $connextion->prepare($sql);
 
 if ($stmt) {
     $stmt->bind_param("si", $status, $appointmentID);
@@ -67,10 +60,10 @@ if ($stmt) {
     $stmt->close();
 } else {
     // Log preparation error
-    error_log("Error preparing statement: " . $connection->error);
+    error_log("Error preparing statement: " . $connextion->error);
     echo json_encode(['error' => 'Server error. Please try again later.']);
 }
 
-// Close the database connection
-$connection->close();
+// Close the database connextion
+$connextion->close();
 ?>
