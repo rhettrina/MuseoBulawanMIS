@@ -89,10 +89,12 @@ if ($appointmentID) {
     } catch (Exception $e) {
         // Rollback the transaction in case of any errors
         $connection->rollback();
+        http_response_code(500);
         echo json_encode(['error' => 'Deletion failed: ' . $e->getMessage()]);
     }
 } else {
     // Error if appointment ID is not provided
+    http_response_code(400);
     echo json_encode(['error' => 'Appointment ID is required.']);
 }
 
