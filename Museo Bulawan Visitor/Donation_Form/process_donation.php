@@ -114,6 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Success response
     echo json_encode(['success' => true, 'message' => 'Data submitted successfully.']);
+    header("Location: donateindex.html?error=$em");
 }
 
 // Close the connection
