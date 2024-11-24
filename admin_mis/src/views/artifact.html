@@ -1,2 +1,215 @@
 <h2 class="text-2xl font-semibold">Artifact</h2>
 <p class="text-gray-600">Welcome to the Artifact!</p>
+
+          <div class=" w-full min-h-28 pt-6 rounded-md flex flex-col lg:flex-row md:flex-row justify-center md:justify-between lg:justify-start gap-y-2 mb-10">
+            <div class="flex justify-around flex-wrap gap-6">
+                <div class="p-2 border-[1px] border-black max-w-44 max-h-24 rounded-md bg-orange-200 flex justify-center items-center">
+                    <div class="flex justify-center  align-items-center w-20 h-16 rounded-md items-center">
+                      <span class="text-center text-sm font-bold">Total Artifacts</span>
+                    </div>
+                    <div class="border-[1px] border-black flex justify-center align-items-center w-20 h-16 rounded-md bg-white items-center">
+                      <span id="total-layouts" class="text-xl font-bold">0</span>
+                    </div>
+                </div>
+
+                <div class="p-2 border-[1px] border-black max-w-44 max-h-24 rounded-md bg-orange-200 flex justify-center items-center">
+                    <div class="flex justify-center  align-items-center w-20 h-16 rounded-md items-center">
+                      <span class="text-center text-sm font-bold">Acquired</span>
+                    </div>
+                    <div class="border-[1px] border-black flex justify-center align-items-center w-20 h-16 rounded-md bg-white items-center">
+                      <span id="total-layouts" class="text-xl font-bold">0</span>
+                    </div>
+                </div>
+
+                <div class="p-2 border-[1px] border-black max-w-44 max-h-24 rounded-md bg-orange-200 flex justify-center items-center">
+                    <div class="flex justify-center  align-items-center w-20 h-16 rounded-md items-center">
+                      <span class="text-center text-sm font-bold">Borrowing</span>
+                    </div>
+                    <div class="border-[1px] border-black flex justify-center align-items-center w-20 h-16 rounded-md bg-white items-center">
+                      <span id="total-layouts" class="text-xl font-bold">0</span>
+                    </div>
+                </div>
+
+                <div class="p-2 border-[1px] border-black max-w-44 max-h-24 rounded-md bg-orange-200 flex justify-center items-center">
+                    <div class="flex justify-center  align-items-center w-20 h-16 rounded-md items-center">
+                      <span class="text-center text-sm font-bold">On Display</span>
+                    </div>
+                    <div class="border-[1px] border-black flex justify-center align-items-center w-20 h-16 rounded-md bg-white items-center">
+                      <span id="total-layouts" class="text-xl font-bold">0</span>
+                    </div>
+                </div>
+            </div>
+          </div>
+          
+          <div class="w-full h-fit items-center flex justify-between p-4 border-b-[2px] border-black">
+          <!--Toolbar-->
+          <div class="flex items-center justify-center h-full ">
+            <div id="tabs" class="flex space-x-4  rounded-md ">
+              <button
+                class="font-medium text-gray-500 hover:text-black focus:outline-none active-tab"
+                onclick="selectTab(this)"
+              >
+                Artifacts
+              </button>
+              <button
+                class="font-medium text-gray-500 hover:text-black focus:outline-none"
+                onclick="selectTab(this)"
+              >
+                Acquired
+              </button>
+              <button
+                class="font-medium text-gray-500 hover:text-black focus:outline-none"
+                onclick="selectTab(this)"
+              >
+                Borrowing
+              </button>
+              <button
+                class="font-medium text-gray-500 hover:text-black focus:outline-none"
+                onclick="selectTab(this)"
+              >
+                Display
+              </button>
+              <button
+                class="font-medium text-gray-500 hover:text-black focus:outline-none"
+                onclick="selectTab(this)"
+              >
+                Donator Records
+              </button>
+            </div>
+          </div>
+       
+
+              <div class="hidden sort-container border-0 outline outline-1 outline-black rounded-md">
+                <label for="artifact-sort" class="text-gray-700 font-medium mb-2">&nbsp&nbspSort</label>
+                <select id="artifact-sort" class="w-fit px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-300">
+                    <option value="newest">Newest</option>
+                    <option value="oldest">Oldest</option>
+                </select>
+              </div>
+
+              <div class="hidden sort-container border-0 outline outline-1 outline-black rounded-md">
+                <label for="acquired-sort" class="text-gray-700 font-medium mb-2">&nbsp&nbspSort</label>
+                <select id="acquired-sort" class="w-fit px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-300">
+                    <option value="newest">Newest</option>
+                    <option value="oldest">Oldest</option>
+                </select>
+              </div>
+
+              <div class="hidden sort-container border-0 outline outline-1 outline-black rounded-md">
+                <label for="borrowing-sort" class="text-gray-700 font-medium mb-2">&nbsp&nbspSort</label>
+                <select id="borrowing-sort" class="w-fit px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-300">
+                    <option value="newest">Newest</option>
+                    <option value="oldest">Oldest</option>
+                </select>
+              </div>
+
+              <div class="hidden sort-container border-0 outline outline-1 outline-black rounded-md">
+                <label for="display-sort" class="text-gray-700 font-medium mb-2">&nbsp&nbspSort</label>
+                <select id="display-sort" class="w-fit px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-300">
+                    <option value="newest">Newest</option>
+                    <option value="oldest">Oldest</option>
+                </select>
+              </div>
+
+              <div class="hidden sort-container border-0 outline outline-1 outline-black rounded-md">
+                <label for="donors-sort" class="text-gray-700 font-medium mb-2">&nbsp&nbspSort</label>
+                <select id="donors-sort" class="w-fit px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-300">
+                    <option value="newest">Newest</option>
+                    <option value="oldest">Oldest</option>
+                </select>
+              </div>
+          </div>
+
+
+          <div class="flex flex-col justify-center items-start overflow-y-auto max-h-[450px]">
+            <table id="artifacts-table" class="hidden min-w-full table-auto border-separate border-spacing-y-[8px]">
+                <thead class="bg-orange-100 sticky top-0">
+                    <tr>
+                        <th class="px-4 py-2 text-center ">Date</th>
+                        <th class="px-4 py-2 text-center ">Title</th>
+                        <th class="px-4 py-2 text-center ">Type</th>
+                        <th class="px-4 py-2 text-center ">Display Status</th>
+                        <th class="px-4 py-2 text-center ">Last Modified</th>
+                        <th class="px-4 py-2 text-center ">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="mb-4">
+                        <td colspan="6" class="text-center py-4">No artifacts found.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+            <table id="acquired-table" class="hidden min-w-full table-auto border-separate border-spacing-y-[8px]">
+                <thead class="bg-orange-100 sticky top-0">
+                    <tr>
+                        <th class="px-4 py-2 text-center ">Date</th>
+                        <th class="px-4 py-2 text-center ">Title</th>
+                        <th class="px-4 py-2 text-center ">Display Status</th>
+                        <th class="px-4 py-2 text-center ">Last Modified</th>
+                        <th class="px-4 py-2 text-center ">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="mb-4">
+                        <td colspan="5" class="text-center py-4">No acquired found.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+            <table id="borrowing-table" class="hidden min-w-full table-auto border-separate border-spacing-y-[8px]">
+                <thead class="bg-orange-100 sticky top-0">
+                    <tr>
+                        <th class="px-4 py-2 text-center ">Date</th>
+                        <th class="px-4 py-2 text-center ">Title</th>
+                        <th class="px-4 py-2 text-center ">Display Status</th>
+                        <th class="px-4 py-2 text-center ">Last Modified</th>
+                        <th class="px-4 py-2 text-center ">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="mb-4">
+                        <td colspan="5" class="text-center py-4">No borrowing found.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table id="display-table" class="hidden min-w-full table-auto border-separate border-spacing-y-[8px]">
+                <thead class="bg-orange-100 sticky top-0">
+                    <tr>
+                        <th class="px-4 py-2 text-center ">Date</th>
+                        <th class="px-4 py-2 text-center ">Title</th>
+                        <th class="px-4 py-2 text-center ">Display Status</th>
+                        <th class="px-4 py-2 text-center ">Last Modified</th>
+                        <th class="px-4 py-2 text-center ">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="mb-4">
+                        <td colspan="5" class="text-center py-4">No on display found.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <table id="donors-table" class="hidden min-w-full table-auto border-separate border-spacing-y-[8px]">
+            <thead class="bg-orange-100 sticky top-0">
+                <tr>
+                    <th class="px-4 py-2 text-center ">Date</th>
+                    <th class="px-4 py-2 text-center ">Title</th>
+                    <th class="px-4 py-2 text-center ">Display Status</th>
+                    <th class="px-4 py-2 text-center ">Last Modified</th>
+                    <th class="px-4 py-2 text-center ">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="mb-4">
+                    <td colspan="5" class="text-center py-4">No donors found.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+        

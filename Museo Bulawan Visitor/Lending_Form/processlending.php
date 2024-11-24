@@ -95,6 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Execute the insert query for Donator
     if ($stmt->execute()) {
         echo "Donator added successfully!<br>";
+        header("Location: lendindex.html?error=$em");
     } else {
         echo "Error inserting donator: " . $stmt->error;
         exit();
@@ -130,6 +131,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Execute the query for the Lending table
     if ($stmt->execute()) {
         echo "Lending record added successfully!<br>";
+        header("Location: lendindex.html?error=$em");
     } else {
         echo "Error: " . $stmt->error;
         exit();
@@ -150,6 +152,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Execute the query
     if ($stmt->execute()) {
         echo "Artifact added successfully!<br>";
+        header("Location: lendindex.html?error=$em");
     } else {
         echo "Error: " . $stmt->error;
         exit();

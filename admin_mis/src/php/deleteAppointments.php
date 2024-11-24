@@ -17,31 +17,12 @@ $appointmentID = isset($_GET['id']) ? intval($_GET['id']) : null;
 
 if ($appointmentID) {
     // Start a transaction
-    $connection->begin_transaction();
+    $connextion->begin_transaction();
 
     try {
-        // 1. Retrieve the visitorID associated with this appointmentID
-        $queryVisitorID = "SELECT visitorID FROM appointment WHERE appointmentID = ?";
-        $stmtVisitorID = $connection->prepare($queryVisitorID);
-        if (!$stmtVisitorID) {
-            throw new Exception('Failed to prepare visitorID retrieval query.');
-        }
-        $stmtVisitorID->bind_param("i", $appointmentID);
-        $stmtVisitorID->execute();
-        $resultVisitorID = $stmtVisitorID->get_result();
-        if ($resultVisitorID->num_rows > 0) {
-            $row = $resultVisitorID->fetch_assoc();
-            $visitorID = $row['visitorID'];
-        } else {
-            throw new Exception('Appointment not found.');
-        }
-
-        // 2. Delete related records from other tables that reference appointmentID
-        // Adjust table names and column names as per your database schema
-
-        // Example: Delete from 'appointment_details' table
-        $deleteDetails = "DELETE FROM appointment WHERE appointmentID = ?";
-        $stmtDetails = $connection->prepare($deleteDetails);
+    
+        $deleteDetails = "DELETE FROM appointment WHERE visitorID = ?";
+        $stmtDetails = $connextion->prepare($deleteDetails);
         if (!$stmtDetails) {
             throw new Exception('Failed to prepare appointment_details deletion query.');
         }
@@ -52,8 +33,8 @@ if ($appointmentID) {
         // ...
 
         // 3. Delete the appointment record from the 'appointment' table
-        $deleteAppointment = "DELETE FROM appointment WHERE appointmentID = ?";
-        $stmtAppointment = $connection->prepare($deleteAppointment);
+        $deleteAppointment = "DELETE FROM visitor WHERE visitorID = ?";
+        $stmtAppointment = $connextion->prepare($deleteAppointment);
         if (!$stmtAppointment) {
             throw new Exception('Failed to prepare appointment deletion query.');
         }
@@ -62,7 +43,7 @@ if ($appointmentID) {
 
         // 4. Check if the visitorID is associated with any other appointments
         $queryVisitorAppointments = "SELECT COUNT(*) as count FROM appointment WHERE visitorID = ?";
-        $stmtVisitorAppointments = $connection->prepare($queryVisitorAppointments);
+        $stmtVisitorAppointments = $connextion->prepare($queryVisitorAppointments);
         if (!$stmtVisitorAppointments) {
             throw new Exception('Failed to prepare visitor appointments count query.');
         }
@@ -75,7 +56,7 @@ if ($appointmentID) {
         // If no other appointments are associated with this visitor, delete the visitor record
         if ($appointmentCount == 0) {
             $deleteVisitor = "DELETE FROM visitor WHERE visitorID = ?";
-            $stmtVisitor = $connection->prepare($deleteVisitor);
+            $stmtVisitor = $connextion->prepare($deleteVisitor);
             if (!$stmtVisitor) {
                 throw new Exception('Failed to prepare visitor deletion query.');
             }
@@ -84,11 +65,11 @@ if ($appointmentID) {
         }
 
         // 5. Commit the transaction
-        $connection->commit();
+        $connextion->commit();
         echo json_encode(['message' => 'Appointment and associated visitor deleted successfully.']);
     } catch (Exception $e) {
         // Rollback the transaction in case of any errors
-        $connection->rollback();
+        $connextion->rollback();
         http_response_code(500);
         echo json_encode(['error' => 'Deletion failed: ' . $e->getMessage()]);
     }
@@ -99,5 +80,5 @@ if ($appointmentID) {
 }
 
 // Close the database connection
-$connection->close();
+$connextion->close();
 ?>

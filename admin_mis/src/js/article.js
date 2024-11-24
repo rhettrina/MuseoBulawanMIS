@@ -20,7 +20,7 @@
 })();
 // Fetch the total number of articles
 function fetchTotalArticles() {
-    fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchTotalArticles.php')
+    fetch('https://museobulawan.online/admin_mis/src/php/fetchTotalArticles.php')
         .then(response => {                         
             if (!response.ok) {
                 throw new Error('Network response was not ok: ' + response.statusText);
@@ -43,7 +43,7 @@ function fetchTotalArticles() {
 
 // Fetch and populate the articles table
 function fetchArticles(sort = 'newest') {
-    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/fetchArticles.php?sort=${sort}`)
+    fetch(`https://museobulawan.online/admin_mis/src/php/fetchArticles.php?sort=${sort}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok: ' + response.statusText);
@@ -160,7 +160,7 @@ function handleAction(action, articleId) {
 
 // Fetch article details for preview
 function fetchArticleDetails(articleId) {
-    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/previewArticle.php?id=${articleId}`)
+    fetch(`https://museobulawan.online/admin_mis/src/php/previewArticle.php?id=${articleId}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -181,7 +181,7 @@ function fetchArticleDetails(articleId) {
 
 // Populate the preview modal with article details
 function populateModal(article) {
-    const basePath = 'https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/uploads/articlesUploads/';
+    const basePath = 'https://museobulawan.online/admin_mis/src/uploads/articlesUploads/';
 
     const titleElement = document.getElementById('article-title-preview');
     const dateElement = document.getElementById('article-date-preview');
@@ -389,7 +389,7 @@ function saveArticle() {
     saveButton.disabled = true;
 
     // Send form data to server
-    fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/saveArticle.php', {
+    fetch('https://museobulawan.online/admin_mis/src/php/saveArticle.php', {
         method: 'POST',
         body: formData
     })
@@ -422,7 +422,7 @@ function saveArticle() {
 // Function to delete an article by ID
 function deleteArticle(articleId) {
     // Send a DELETE request to the server
-    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/deleteArticle.php?id=${articleId}`, {
+    fetch(`https://museobulawan.online/admin_mis/src/php/deleteArticle.php?id=${articleId}`, {
         method: 'DELETE', // Ensure the server handles DELETE method
         headers: {
             'Content-Type': 'application/json'
@@ -455,7 +455,7 @@ function updateArticle(articleId) {
     modal.classList.remove("hidden");
 
     // Fetch existing article data to populate the modal
-    fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/previewArticle.php?id=${articleId}`)
+    fetch(`https://museobulawan.online/admin_mis/src/php/previewArticle.php?id=${articleId}`)
         .then(response => response.json())
         .then(data => {
             if (data) {
@@ -472,7 +472,7 @@ function updateArticle(articleId) {
                 setValue("update-article-created-at", data.created_at);
                 setValue("update-article-updated-at", data.updated_date);
 
-                const baseUrl = "https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/uploads/articlesUploads/";
+                const baseUrl = "https://museobulawan.online/admin_mis/src/uploads/articlesUploads/";
 
                 // Helper function to adjust image URL
                 const adjustImageUrl = (filePath) => filePath ? baseUrl + filePath.split('/').pop() : '';
@@ -520,7 +520,7 @@ function updateArticle(articleId) {
             if (image2) formData.append("imgu2", image2);
             if (image3) formData.append("imgu3", image3);
 
-            fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/updateArticle.php', {
+            fetch('https://museobulawan.online/admin_mis/src/php/updateArticle.php', {
                 method: 'POST',
                 body: formData
             })

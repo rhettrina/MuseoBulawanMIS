@@ -123,7 +123,7 @@ function populateTable(appointments) {
         const deleteButton = document.createElement('button');
         deleteButton.classList.add('bg-transparent', 'text-black', 'p-2', 'rounded', 'hover:bg-orange-300');
         deleteButton.innerHTML = `<i class="fas fa-trash"></i>`;
-        deleteButton.addEventListener('click', () => handleAction('delete', appointment.id));
+        deleteButton.addEventListener('click', () => handleAction('delete', appointment.fkID));
 
         actionCell.appendChild(editButton);
         actionCell.appendChild(deleteButton);
@@ -167,7 +167,9 @@ function handleAction(action, data) {
             
         case 'approve':
         case 'reject':
-            updateAppointmentStatus(action, data); // 'data' is appointment ID
+            
+            updateAppointmentStatus(action, formID);
+            console.log('Hotdog!');
             break;
         default:
             console.error('Unknown action:', action);
@@ -186,15 +188,15 @@ function displayNoDataMessage() {
 }
 
 // Function to update appointment status
-function updateAppointmentStatus(action, appointmentId) {
+function updateAppointmentStatus(action, formID) {
     fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/processAppointment.php', { 
-        method: 'POST', // Add this line
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            appointmentID: appointmentId,
-            action: action
+            appointmentID: formID,
+            action: action 
         })
     })
     .then(response => response.json())
@@ -330,8 +332,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-function deleteAppointment(appointmentId) {
-    return fetch(`delete_appointment.php?id=${appointmentId}`, {
+function deleteAppointment(fkID) {
+    return fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/deleteAppointments.php?id=${fkID}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
