@@ -9,6 +9,7 @@ include 'db_connect.php';
 
 // Retrieve and decode raw JSON input
 $rawData = file_get_contents("php://input");
+error_log("Raw input: " . $rawData);  
 $data = json_decode($rawData, true);
 
 // Validate JSON decoding
@@ -25,7 +26,7 @@ if (!isset($data['appointmentID']) || !isset($data['action'])) {
 
 // Sanitize and validate input
 $appointmentID = intval($data['appointmentID']);
-$action = strtolower(trim($data['action'])); // Example: "approve" or "reject"
+$action = strtolower(trim($data['action'])); 
 
 // Determine the database changes based on the action
 switch ($action) {
