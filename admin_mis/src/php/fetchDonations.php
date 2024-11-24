@@ -12,7 +12,7 @@ include 'db_connect.php';
 // Validate and set sort parameter
 $sort = isset($_GET['sort']) && $_GET['sort'] === 'oldest' ? 'ASC' : 'DESC';
 
-// Query to fetch sorted donations with necessary joins
+// Query to fetch sorted donations with snecessary joins
 $query = "
     SELECT DISTINCT
         l.lendingID AS formID, 
