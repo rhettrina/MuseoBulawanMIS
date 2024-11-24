@@ -14,6 +14,7 @@
 })();
 
 
+// Fetch total donation statistics
 function fetchTotalDonations() {
     fetch('https://museobulawan.online/development/admin_mis/src/php/fetchTotalDonations.php')
         .then(response => {
@@ -35,6 +36,7 @@ function fetchTotalDonations() {
             displayErrorMessages();
         });
 }
+
 // Fetch and populate the donations table
 function fetchDonations(sort = 'newest') {
     fetch(`https://museobulawan.online/development/admin_mis/src/php/fetchDonations.php?sort=${sort}`)
@@ -47,7 +49,28 @@ function fetchDonations(sort = 'newest') {
             } else {
                 displayNoDataMessage();
             }
+        })
+        .catch(error => {
+            console.error('Error fetching donations:', error);
+            displayNoDataMessage();
         });
+}
+
+// Placeholder functions for display and table population
+function displayErrorMessages() {
+    console.error("Display error messages called");
+}
+
+function populateTotalDonationData(data) {
+    console.log("Populate total donation data:", data);
+}
+
+function populateTable(data) {
+    console.log("Populate table with data:", data);
+}
+
+function displayNoDataMessage() {
+    console.log("No data to display");
 }
 
 
