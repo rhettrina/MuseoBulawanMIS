@@ -22,11 +22,11 @@ if ($conn->connect_error) {
 }
 
 // Define constants for file upload
-define('UPLOAD_DIR', __DIR__ . '/src/uploads/artifacts/'); // Adjusted for your path
+define('UPLOAD_DIR', __DIR__ . '/uploads/articlesUploads/'); // Adjusted for your path
 
 // Ensure the upload directory exists
 if (!is_dir(UPLOAD_DIR)) {
-    if (!mkdir(UPLOAD_DIR, 0755, true)) {
+    if (!mkdir(UPLOAD_DIR, 0777, true)) { // Set to 777 temporarily for debugging
         die("Failed to create upload directory: " . UPLOAD_DIR);
     }
 }
@@ -36,7 +36,10 @@ function uploadImage($image) {
     $targetDir = UPLOAD_DIR;
     $targetFile = $targetDir . basename($image["name"]);
     $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
-    $errorMessage = "";
+
+    error_log("UPLOAD_DIR: " . $targetDir);
+    error_log("Temp file path: " . $image["tmp_name"]);
+    error_log("Target file path: " . $targetFile);
 
     // Check if the file is an image
     if (getimagesize($image["tmp_name"]) === false) {
@@ -45,6 +48,7 @@ function uploadImage($image) {
 
     // Check if file already exists
     if (file_exists($targetFile)) {
+        error_log("File already exists: " . $targetFile);
         return $targetFile; // Return the existing file path
     }
 
@@ -58,11 +62,20 @@ function uploadImage($image) {
         return "Only JPG, JPEG, PNG, and GIF files are allowed.";
     }
 
-    // Try to move the uploaded file to the target directory
-    if (!move_uploaded_file($image["tmp_name"], $targetFile)) {
-        return "Failed to move uploaded file to " . $targetFile;
+    // Ensure temp file exists
+    if (!file_exists($image["tmp_name"])) {
+        error_log("Temp file does not exist: " . $image["tmp_name"]);
+        return "Temporary file not found.";
     }
 
+    // Try to move the uploaded file to the target directory
+    if (!move_uploaded_file($image["tmp_name"], $targetFile)) {
+        error_log("Failed to move uploaded file. Temp file: " . $image["tmp_name"] . " Target: " . $targetFile);
+        error_log("move_uploaded_file Error: " . print_r(error_get_last(), true));
+        return "Failed to move uploaded file.";
+    }
+
+    error_log("File successfully uploaded to: " . $targetFile);
     return $targetFile; // Return the file path
 }
 

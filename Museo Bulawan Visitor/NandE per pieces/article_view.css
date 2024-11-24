@@ -32,6 +32,7 @@ html{
 .wrapper {
     background-color: #1C1B19;
     padding-bottom: 10px;
+    padding-top: 10px;
 }
 
 #container1 {
@@ -348,8 +349,180 @@ html{
     color: #ccc;
 }
 
-/* end of footer */
+@media only screen and (min-width: 1024px) {}
 
-@media (max-width: 720px) {
-    
+/* Media Query for Tablets */
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+
+
+    #texttime {
+        font-size: 15px;
+    }
+
+    .fp-info h2 {
+        font-size: 2.5em;
+    }
+
+    .fp-info h1 {
+        font-size: 3.5em;
+    }
+
+    #learn-button, #book-button {
+        font-size: 2vw; /* Adjust font size for better visibility on tablets */
+        width: 9em; /* Smaller width for tablet screens */
+        min-height: 4em; /* Adjusting the height to make the button smaller */
+        margin: 5px; /* Smaller margin for compact layout on tablets */
+    }
+
+    .details {
+        margin-top: 10px;
+        font-size: 1.2em;
+        color: #ffffff;
+    }
+
+    .top-about h4{
+        font-size: 1.3em;
+    }
+
+    .top-about h1 {
+        font-size: 1.7em;
+    }
+
+    .top-about h3 {
+        font-size: 1.4em;
+    }
+
+    .top-about h5 {
+        font-size: .9em;
+    }
+
+    .top-about ul li {
+        font-size: .7em;
+    }
 }
+
+
+
+/* Media Query for Mobile Devices */
+@media only screen and (max-width: 767px) {
+    .body {
+        padding: 3em;
+    }
+
+    #texttime {
+        font-size: 10px;
+    }
+
+    .fp-info h2 {
+        font-size: 3em;
+    }
+
+    .fp-info h1 {
+        font-size: 5em;
+    }
+
+    #learn-button, #book-button {
+        font-size: 3.5vw;
+        width: 90vw;
+        min-height: 18vw;
+        margin: 10px; /* Consistent margin for mobile to avoid clutter */
+    }
+
+    .details {
+        margin-top: 10px;
+        font-size: .9em;
+        color: #ffffff;
+    }
+
+
+    .socials-left  .socials-right{
+       margin: 12;
+    }
+
+}
+
+
+/* Restore the initial layout */
+.metadata {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    font-family: "Hina Mincho", serif;
+    padding-bottom: 7vh;
+    font-size: 1vw;
+}
+
+.metadata > div {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 13vw; /* Relative width for scaling */
+    height: auto; /* Allow dynamic height */
+    border: 1px solid #1C1B19;
+    padding: 1em;
+}
+
+/* Responsive text sizes */
+.metadata p,
+.metadata h5 {
+    font-size: 1.5vw; /* Base size for desktops */
+}
+
+/* For tablets */
+@media only screen and (max-width: 1024px) {
+    .metadata p,
+    .metadata h5 {
+        font-size: 2vw; /* Slightly larger text for better readability */
+    }
+}
+
+/* For mobile devices */
+@media only screen and (max-width: 768px) {
+    .metadata {
+        flex-direction: column; /* Stack the items vertically */
+        align-items: center;
+    }
+    .metadata > div {
+        width: 90%; /* Use full width */
+    }
+    .metadata p,
+    .metadata h5 {
+        font-size: 3vw; /* Larger size for smaller screens */
+    }
+}
+
+/* Center the title and make it responsive */
+.title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 0; /* Remove default margins */
+    padding: 15vh 2vw; /* Add padding for spacing */
+    width: 100%; /* Ensure it spans the full width */
+}
+
+.title p {
+    font-size: 5vw; /* Responsive font size for large screens */
+    font-family: "Hina Mincho", serif; /* Use your chosen font */
+    text-shadow: 2px 2px 4px rgba(133, 133, 133, 0.8); /* Optional shadow */
+    margin: 0; /* Reset margin */
+    padding: 0; /* Reset padding */
+}
+
+/* For tablets */
+@media only screen and (max-width: 1024px) {
+    .title p {
+        font-size: 7vw; /* Adjust font size for tablets */
+    }
+}
+
+/* For mobile devices */
+@media only screen and (max-width: 768px) {
+    .title p {
+        font-size: 10vw; /* Larger font size for smaller screens */
+    }
+}
+
+
+
