@@ -8,16 +8,38 @@ include 'db_connect.php';
 
 // Validate and fetch parameters
 $donID = isset($_GET['donID']) ? intval($_GET['donID']) : null;
-$formType = isset($_GET['formType']) ? $_GET['formType'] : null;
 
-// Check for missing parameters
-if (!$donID || !$formType) {
+if (!$donID) {
     echo json_encode(['success' => false, 'error' => 'Missing required parameters']);
     exit();
 }
 
 try {
-    // Build query based on form type
+    // Step 1: Determine the form type dynamically using artifact_typeID
+    $formTypeQuery = "SELECT a.artifact_typeID
+                      FROM Artifact AS a
+                      JOIN Donation AS d ON d.artifact_nameID = a.artifact_nameID
+                      WHERE d.donationID = ?
+                      UNION
+                      SELECT a.artifact_typeID
+                      FROM Artifact AS a
+                      JOIN Lending AS l ON l.artifact_nameID = a.artifact_nameID
+                      WHERE l.lendingID = ?";
+                      
+    $formTypeStmt = $connection->prepare($formTypeQuery);
+    $formTypeStmt->bind_param("ii", $donID, $donID);
+    $formTypeStmt->execute();
+    $formTypeResult = $formTypeStmt->get_result();
+
+    if ($formTypeResult->num_rows === 0) {
+        echo json_encode(['success' => false, 'error' => 'No record found for the given donation or lending ID']);
+        exit();
+    }
+
+    $row = $formTypeResult->fetch_assoc();
+    $formType = $row['artifact_typeID'];
+
+    // Step 2: Build and execute the main query based on form type
     if ($formType === 'Donation') {
         $query = "SELECT d.*, 
                          dn.first_name, dn.last_name, dn.age, dn.sex, dn.email, dn.phone, 
@@ -39,23 +61,20 @@ try {
                   JOIN Artifact AS a ON l.artifact_nameID = a.artifact_nameID
                   WHERE l.lendingID = ? AND a.artifact_typeID = 'Lending'";
     } else {
-        echo json_encode(['success' => false, 'error' => 'Invalid form type']);
+        echo json_encode(['success' => false, 'error' => 'Invalid artifact type']);
         exit();
     }
 
-    // Prepare and execute statement
-    $stmt = $connection->prepare($query); // Corrected connection variable name
+    $stmt = $connection->prepare($query);
     if (!$stmt) {
         echo json_encode(['success' => false, 'error' => 'Failed to prepare statement']);
         exit();
     }
 
-    // Bind parameter and execute query
     $stmt->bind_param("i", $donID);
     $stmt->execute();
     $result = $stmt->get_result();
 
-    // Check if records were found
     if ($result->num_rows === 0) {
         echo json_encode(['success' => false, 'error' => 'No record found']);
     } else {
@@ -63,7 +82,6 @@ try {
         echo json_encode(['success' => true, 'formDetails' => $formDetails]);
     }
 } catch (Exception $e) {
-    // Catch any errors and return them in the response
     echo json_encode(['success' => false, 'error' => 'An error occurred: ' . $e->getMessage()]);
 }
 ?>
