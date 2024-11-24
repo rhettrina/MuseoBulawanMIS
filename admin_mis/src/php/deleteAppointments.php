@@ -1,53 +1,101 @@
 <?php
+// Set CORS headers to allow cross-origin requests (adjust the origin as needed)
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST, DELETE, OPTIONS"); 
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS, DELETE");
 header("Access-Control-Allow-Headers: Content-Type, x-requested-with");
 
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    exit(0); 
+// Handle preflight requests (OPTIONS method)
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    exit(0);
 }
 
-// Include database connection file
+// Include the database connection file
 include 'db_connect.php';
 
-// Check for valid HTTP method
-if ($_SERVER['REQUEST_METHOD'] !== 'POST' && $_SERVER['REQUEST_METHOD'] !== 'DELETE') {
-    http_response_code(405); // Method Not Allowed
-    echo json_encode(['error' => 'Invalid HTTP method']);
-    exit;
-}
+// Get the appointment ID from the URL query parameter
+$appointmentID = isset($_GET['id']) ? intval($_GET['id']) : null;
 
-// Decode input data for POST or GET
-$data = json_decode(file_get_contents("php://input"), true);
-$appointmentId = isset($data['id']) ? intval($data['id']) : null;
+if ($appointmentID) {
+    // Start a transaction
+    $connection->begin_transaction();
 
-if (!$appointmentId) {
-    http_response_code(400); // Bad Request
-    echo json_encode(['error' => 'Invalid or missing appointment ID']);
-    exit;
-}
+    try {
+        // 1. Retrieve the visitorID associated with this appointmentID
+        $queryVisitorID = "SELECT visitorID FROM appointment WHERE appointmentID = ?";
+        $stmtVisitorID = $connection->prepare($queryVisitorID);
+        if (!$stmtVisitorID) {
+            throw new Exception('Failed to prepare visitorID retrieval query.');
+        }
+        $stmtVisitorID->bind_param("i", $appointmentID);
+        $stmtVisitorID->execute();
+        $resultVisitorID = $stmtVisitorID->get_result();
+        if ($resultVisitorID->num_rows > 0) {
+            $row = $resultVisitorID->fetch_assoc();
+            $visitorID = $row['visitorID'];
+        } else {
+            throw new Exception('Appointment not found.');
+        }
 
-$query = "DELETE FROM appointment WHERE appointmentID = ?";
-$stmt = $connextion->prepare($query);
+        // 2. Delete related records from other tables that reference appointmentID
+        // Adjust table names and column names as per your database schema
 
-if (!$stmt) {
-    http_response_code(500); // Internal Server Error
-    echo json_encode(['error' => 'Failed to prepare database statement']);
-    exit;
-}
+        // Example: Delete from 'appointment_details' table
+        $deleteDetails = "DELETE FROM appointment WHERE appointmentID = ?";
+        $stmtDetails = $connection->prepare($deleteDetails);
+        if (!$stmtDetails) {
+            throw new Exception('Failed to prepare appointment_details deletion query.');
+        }
+        $stmtDetails->bind_param("i", $appointmentID);
+        $stmtDetails->execute();
 
-$stmt->bind_param("i", $appointmentId);
+        // Add more deletion queries for other related tables if necessary
+        // ...
 
-if ($stmt->execute()) {
-    // Return success message
-    http_response_code(200); // OK
-    echo json_encode(['message' => 'Appointment deleted successfully']);
+        // 3. Delete the appointment record from the 'appointment' table
+        $deleteAppointment = "DELETE FROM appointment WHERE appointmentID = ?";
+        $stmtAppointment = $connection->prepare($deleteAppointment);
+        if (!$stmtAppointment) {
+            throw new Exception('Failed to prepare appointment deletion query.');
+        }
+        $stmtAppointment->bind_param("i", $appointmentID);
+        $stmtAppointment->execute();
+
+        // 4. Check if the visitorID is associated with any other appointments
+        $queryVisitorAppointments = "SELECT COUNT(*) as count FROM appointment WHERE visitorID = ?";
+        $stmtVisitorAppointments = $connection->prepare($queryVisitorAppointments);
+        if (!$stmtVisitorAppointments) {
+            throw new Exception('Failed to prepare visitor appointments count query.');
+        }
+        $stmtVisitorAppointments->bind_param("i", $visitorID);
+        $stmtVisitorAppointments->execute();
+        $resultVisitorAppointments = $stmtVisitorAppointments->get_result();
+        $row = $resultVisitorAppointments->fetch_assoc();
+        $appointmentCount = $row['count'];
+
+        // If no other appointments are associated with this visitor, delete the visitor record
+        if ($appointmentCount == 0) {
+            $deleteVisitor = "DELETE FROM visitor WHERE visitorID = ?";
+            $stmtVisitor = $connection->prepare($deleteVisitor);
+            if (!$stmtVisitor) {
+                throw new Exception('Failed to prepare visitor deletion query.');
+            }
+            $stmtVisitor->bind_param("i", $visitorID);
+            $stmtVisitor->execute();
+        }
+
+        // 5. Commit the transaction
+        $connection->commit();
+        echo json_encode(['message' => 'Appointment and associated visitor deleted successfully.']);
+    } catch (Exception $e) {
+        // Rollback the transaction in case of any errors
+        $connection->rollback();
+        echo json_encode(['error' => 'Deletion failed: ' . $e->getMessage()]);
+    }
 } else {
-    // Return error message
-    http_response_code(500); // Internal Server Error
-    echo json_encode(['error' => 'Failed to delete appointment']);
+    // Error if appointment ID is not provided
+    echo json_encode(['error' => 'Appointment ID is required.']);
 }
 
-$stmt->close();
-$connextion->close(); // Close database connection
+// Close the database connection
+$connection->close();
 ?>

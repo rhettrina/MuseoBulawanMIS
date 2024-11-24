@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         // Send the data to the server using fetch
-        fetch('https://lightpink-dogfish-795437.hostingersite.com/MuseoBulawanMIS/Museo Bulawan Visitor/admin_login/loginphp.php', {
+        fetch('http://127.0.0.1:5500/Museo%20Bulawan%20Visitor/admin_login/loginphp.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
