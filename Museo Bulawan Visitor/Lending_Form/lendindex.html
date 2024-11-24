@@ -231,13 +231,24 @@
             <h3>Lending Details</h3>
 
             <div class="form-group row align-items-center mt-4">
-                <label for="loanDuration" class="col-sm-4 col-form-label fs-5"><b>Proposed duration of the loan?</b>
-                    <span class="text-danger">*</span></label>
-                <div class="col-sm-8">
-                    <input type="text" class="form-control border-2 border-dark" id="loanDuration" name="loanDuration"
-                        placeholder="Specific duration (ex. 5 years), Month yyyy - Month dd, yyyy" required>
+                <label for="startingDate" class="col-sm-4 col-form-label fs-5"><b>Lending Duration</b>
+                    <span class="text-danger">*</span>
+                </label>
+                <div class="col-sm-8 d-flex align-items-center">
+                    <!-- Starting Date Label and Input -->
+                    <div class="d-flex align-items-center me-3">
+                        <span class="me-2 fw-bold" style="font-size: 1rem; font-style: italic;">Starting Date</span>
+                        <input type="date" class="form-control border-2 border-dark" id="startingDate" name="startingDate" style="width: 150px;" required>
+                    </div>
+                    <!-- Ending Date Label and Input -->
+                    <div class="d-flex align-items-center">
+                        <span class="me-2 fw-bold" style="font-size: 1rem; font-style: italic;">Ending Date</span>
+                        <input type="date" class="form-control border-2 border-dark" id="endingDate" name="endingDate" style="width: 150px;" required>
+                    </div>
                 </div>
             </div>
+            
+            
 
             <div class="form-group row align-items-center mt-4">
                 <label for="displayConditions" class="col-sm-4 col-form-label fs-5"><b>Specific conditions or

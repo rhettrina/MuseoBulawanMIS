@@ -36,18 +36,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Collect additional form data specific to lending
     $loanDuration = $conn->real_escape_string($_POST['loanDuration']);
+    $startingDate = $conn->real_escape_string($_POST['startingDate']);
+    $endingDate = $conn->real_escape_string($_POST['endingDate']);
     $displayConditions = $conn->real_escape_string($_POST['displayConditions']);
     $liabilityConcerns = $conn->real_escape_string($_POST['liabilityConcerns']);
     $lendingReason = $conn->real_escape_string($_POST['lendingReason']);
-
-    
 
     $artifactTitle = $conn->real_escape_string($_POST['artifactTitle']);
     $artifactDescription = $conn->real_escape_string($_POST['artifactDescription']);
     $acquisition = $conn->real_escape_string($_POST['acquisition']);
     $additionalInfo = $conn->real_escape_string($_POST['additionalInfo']);
     $narrative = $conn->real_escape_string($_POST['narrative']);
-    
 
     // Initialize image file paths
     $art_img_upload_path = '';
@@ -73,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $art_img_ex_lc = strtolower(pathinfo($art_img_name, PATHINFO_EXTENSION));
                 if (in_array($art_img_ex_lc, $allowed_exs)) {
                     $new_art_img_name = uniqid("IMG-", true) . '.' . $art_img_ex_lc;
-                    $art_img_upload_path = 'uploads/artifacts' . $new_art_img_name;
+                    $art_img_upload_path = 'uploads/artifacts/' . $new_art_img_name;
                     move_uploaded_file($art_tmp_name, $art_img_upload_path);
                 } else {
                     $em = "You can't upload files of this type for artifact image.";
@@ -96,7 +95,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Execute the insert query for Donator
     if ($stmt->execute()) {
-        header("Location: lendindex.html?error=$em");
         echo "Donator added successfully!<br>";
     } else {
         echo "Error inserting donator: " . $stmt->error;
@@ -104,9 +102,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Now retrieve the donatorID from the Donator table
-    $fk_selector = "SELECT `donatorID` FROM `Donator` WHERE `first_name` = ? AND `last_name` = ? AND `email` = ? AND `phone` = ? AND `province` = ? AND `street` = ? AND `barangay` = ? AND `organization` = ? AND `age` = ? AND `sex` = ? AND `city` = ?";
+    $fk_selector = "SELECT `donatorID` FROM `Donator` WHERE `first_name` = ? AND `last_name` = ? AND `email` = ?";
     $stmt = $conn->prepare($fk_selector);
-    $stmt->bind_param("ssssssssiss", $firstName, $lastName, $email, $phone, $province, $street, $barangay, $organization, $age, $sex, $city);
+    $stmt->bind_param("sss", $firstName, $lastName, $email);
 
     // Execute the query to get donatorID
     $stmt->execute();
@@ -123,34 +121,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    // Insert query for the Donation table
-    $abt_art = "INSERT INTO `Lending`(`donatorID`, `artifact_nameID`, `lending_durationID`,  
-    `display_conditions`, `liability_concerns`, `lending_reason`) VALUES (?, ?, ?, ?, ?, ?)";
+    // Insert query for the Lending table
+    $abt_art = "INSERT INTO `Lending`(`donatorID`, `artifact_nameID`, `starting_date`, `ending_date`,  
+                 `display_conditions`, `liability_concerns`, `lending_reason`) 
+                VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($abt_art);
-    $stmt->bind_param("isssss", $donatorID, $artifactTitle, $loanDuration , $displayConditions, $liabilityConcerns , $lendingReason);
+    $stmt->bind_param("issssss", $donatorID, $artifactTitle, $startingDate, $endingDate, $displayConditions, $liabilityConcerns, $lendingReason);
 
-    // Execute the query for the Donation table
+    // Execute the query for the Lending table
     if ($stmt->execute()) {
-        echo "Artifact donation added successfully!<br>";
-        header("Location: lendindex.html?error=$em");
+        echo "Lending record added successfully!<br>";
     } else {
         echo "Error: " . $stmt->error;
         exit();
     }
 
     // Insert query for the Artifact table
-    $sql_artifact = "INSERT INTO `Artifact`(`artifact_typeID`, `donatorID`, `artifact_description`, `artifact_nameID`, `acquisition`, `additional_info`, `narrative`, `artifact_img`, `documentation`, `related_img`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql_artifact = "INSERT INTO `Artifact`(`artifact_typeID`, `donatorID`, `artifact_description`, `artifact_nameID`, `acquisition`, 
+                     `additional_info`, `narrative`, `artifact_img`, `documentation`, `related_img`) 
+                     VALUES (?, ?, ?, ?, ?,?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql_artifact);
 
     $type = "Lending";  // Setting a default value for artifact type
 
     // Bind the parameters to the prepared statement
-    $stmt->bind_param("sissssssss", $type, $donatorID, $artifactDescription, $artifactTitle, $acquisition, $additionalInfo, $narrative, $art_img_name, $doc_img_name, $rel_img_name);
+    $stmt->bind_param("sissssssss", $type, $donatorID, $artifactDescription, $artifactTitle, $acquisition, 
+                      $additionalInfo, $narrative, $art_img_upload_path, $doc_img_upload_path, $rel_img_upload_path);
 
     // Execute the query
     if ($stmt->execute()) {
         echo "Artifact added successfully!<br>";
-        header("Location: lendindex.html?error=$em");
     } else {
         echo "Error: " . $stmt->error;
         exit();
@@ -163,3 +163,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Close the connection
 $conn->close();
 ?>
+ 
