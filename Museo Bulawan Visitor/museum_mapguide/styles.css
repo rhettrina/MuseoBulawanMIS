@@ -642,3 +642,38 @@ body {
     font-weight: bold;
     color: #555;
   }
+
+  #stickyNav {
+    position: sticky;
+    top: 0;
+    background-color: transparent; /* Transparent background */
+    transition: background-color 0.5s ease; /* Smooth transition for background */
+    z-index: 1000;
+}
+
+#navLinks {
+    opacity: 0; /* Hide links initially */
+    transition: opacity 0.5s ease; /* Smooth fade-in animation for links */
+}
+
+#stickyNav.scrolled {
+    background-color: rgba(28, 27, 25, 1); /* Opaque background */
+}
+
+#stickyNav.scrolled #navLinks {
+    opacity: 1; /* Show links */
+}
+
+/* Ensure the login link is always visible */
+#stickyNav.always-visible a[href="../admin_login/login.html"] {
+    opacity: 1 !important;
+}
+
+.stickycon {
+    position: fixed;
+    width: 100%;
+    height: 48px;
+    top: 0;
+    left: 0;
+    z-index: 20;
+}

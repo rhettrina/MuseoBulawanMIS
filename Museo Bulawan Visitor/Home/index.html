@@ -20,51 +20,60 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="./script.js"></script>
 </head>
 
 <body>
-    <div class="container-fluid" style="background-color: #1C1B19;">
-        <nav class="navbar navbar-expand-lg navbar-dark p-1">
-            <p id="texttime" class="text-light my-auto ms-lg-5 ms-sm-1 ms-md-3">Open Daily 9:00am-5:00pm, Monday-
-                Friday, Close During Holidays
-            </p>
+    <div class="stickycon">
+        <div id="stickyNav" class="container-fluid sticky-top">
+            <nav class="navbar navbar-expand-lg navbar-dark p-1">
+                <p id="texttime" class="text-light my-auto ms-lg-5 ms-sm-1 ms-md-3">
+                    Open Daily 9:00am-5:00pm, Monday-Friday, Close During Holidays
+                </p>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#morebtn"
+                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="fa-solid fa-caret-down"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="morebtn">
+                    <ul id="navLinks" class="navbar-nav ms-auto me-lg-5 me-sm-1 me-md-3">
+                        <li class="navupper nav-item">
+                            <a class="nav-link" href="../Home/index.html">Home</a>
+                        </li>
+                        <li class="navupper nav-item">
+                            <a class="nav-link" href="../News and Events/naeindex.html">News and Events</a>
+                        </li>
+                        <li class="navupper nav-item">
+                            <a class="nav-link" href="../museum_mapguide/index.html">Museum Map</a>
+                        </li>
+                        <li class="navupper nav-item">
+                            <a class="nav-link" href="../About Us/about.html">About Us</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ms-lg-3">
+                        <li class="navupper nav-item">
+                            <a class="nav-link" href="../admin_login/login.html">Log In</a>
+                        </li>
+                    </ul>
 
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#morebtn"
-                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="fa-solid fa-caret-down"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="morebtn">
-
-
-
-                <ul class="navbar-nav ms-auto me-lg-5 me-sm-1 me-md-3">
-                    <li class="navupper nav-item">
-                        <a class=" nav-link" href="../About Us/about.html">About Us</a>
-                    </li>
-                    <li class="navupper nav-item"></li>
-                    <a class="nav-link" href="../Appointment Form/appointindex.html">Visit Us</a>
-                    </li>
-                    <li class="navupper nav-item"></li>
-                    <a class="nav-link" href="../admin_login/login.html">Log In</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+                </div>
+            </nav>
+        </div>
     </div>
+
+
+
 
 
     <div class="front-page">
         <div class="socials-left">
             <div class="handle">
-                <p><a href="#"
+                <p><a href="https://www.facebook.com/museobulawancn"
                         class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"><i
                             class="bi bi-circle-fill"></i>&nbsp;&nbsp;<i class="bi bi-facebook"></i>&nbsp;&nbsp;Museo
                         Bulawan</a></p>
             </div>
             <div class="handle">
-                <p><a href="#"
+                <p><a href="https://www.instagram.com/museobulawanofficial/?fbclid=IwY2xjawGwPXJleHRuA2FlbQIxMAABHU4YxVm5V1ukjj8paGdOZ447v7Vw3Q3Ev48IWx9y3j_GMuxL3SV4JImZ2A_aem_axPL8inSHwlshEjm302y0Q"
                         class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"><i
                             class="bi bi-circle-fill"></i>&nbsp;&nbsp;<i
                             class="bi bi-instagram"></i>&nbsp;&nbsp;museobulawanofficial</a></p>
@@ -72,19 +81,56 @@
         </div>
         <div class="socials-right">
             <div class="handle">
-                <p><a href="#"
-                        class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"><i
-                            class="bi bi-circle-fill"></i>&nbsp;&nbsp;<i
-                            class="bi bi-envelope"></i>&nbsp;&nbsp;museobulawan</a></p>
+                <p>
+                    <a href="#" 
+                       class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" 
+                       onclick="copyToClipboard('bulawanmuseo@gmail.com')">
+                       <i class="bi bi-circle-fill"></i>&nbsp;&nbsp;
+                       <i class="bi bi-envelope"></i>&nbsp;&nbsp;museobulawan
+                    </a>
+                </p>
             </div>
+            
+            <!-- Toast Container -->
+            <div id="toast-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: none;">
+                <div id="toast" style="background-color: #333; color: #fff; padding: 10px 20px; border-radius: 5px; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">
+                    Email address copied to clipboard!
+                </div>
+            </div>
+            
+            <script>
+                function copyToClipboard(text) {
+                    navigator.clipboard.writeText(text).then(() => {
+                        showToast();
+                    }).catch(err => {
+                        console.error('Failed to copy text: ', err);
+                    });
+                }
+            
+                function showToast() {
+                    const toastContainer = document.getElementById('toast-container');
+                    const toast = document.getElementById('toast');
+                    
+                    toastContainer.style.display = 'block'; // Show the toast
+                    toast.style.opacity = '1'; // Make it visible
+                    
+                    setTimeout(() => {
+                        toast.style.opacity = '0'; // Start fading out
+                        setTimeout(() => {
+                            toastContainer.style.display = 'none'; // Hide after fading
+                        }, 500); // Wait for fade-out animation
+                    }, 2000); // Keep the toast visible for 2 seconds
+                }
+            </script>
+            
             <div class="handle">
-                <p><a href="#"
+                <p><a href="https://www.tiktok.com/@museobulawan?fbclid=IwY2xjawGwPYhleHRuA2FlbQIxMAABHcDyW7-AYo39esZPZOJ5lsPT9X7D2-q7H5eGzPBC8hJipdIygKzil6-FJQ_aem_suPbRb5642gtt1ctON0BoQ"
                         class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"><i
                             class="bi bi-circle-fill"></i>&nbsp;&nbsp;<i
                             class="bi bi-tiktok"></i>&nbsp;&nbsp;museobulawan</a></p>
             </div>
             <div class="handle">
-                <p><a href="#"
+                <p><a href="https://www.youtube.com/@Museo%20Bulawan%20(Abel%20C.%20Icatlo)?fbclid=IwY2xjawGwPahleHRuA2FlbQIxMAABHZmoalEOkRP3K-tCcxlIYOG2ngeFrdhQ4RIkaOaDHFO8rCVVy5pP7NaCVg_aem_eBzwjaXSy2n9o5RmVvUpmw"
                         class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"><i
                             class="bi bi-circle-fill"></i>&nbsp;&nbsp;<i class="bi bi-youtube"></i>&nbsp;&nbsp;Museo
                         Bulawan</a></p>
@@ -92,25 +138,28 @@
         </div>
 
 
-        <div class="container-fluid mx-auto">
+        <div class="container-fluid mx-auto" style="margin-top: 40px;">
             <nav class="navbar navbar-expand-lg navbar-dark bg-transparent">
                 <div class="d-flex flex-row align-items-center">
                     <img src="../source/LOGO.png" style="height: 5em; width: auto;" alt="">
                     <div class="vr border border-3 mx-3 border-light opacity-100" style="height: 85px;"></div>
-                    <a class="navbar-brand fw-bold p-0 fs-3" href="">MUSEO <br> BULAWAN</a>
+                    <a class="navbar-brand fw-bold p-0 fs-3" href="../About Us/about.html">MUSEO <br> BULAWAN</a>
                 </div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#burgerbtn"
                     aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="collapse navbar-collapse justify-content-around flex-grow-1" id="burgerbtn">
+                <div class="collapse navbar-collapse justify-content-end flex-grow-1" id="burgerbtn">
                     <ul id="list" class="navbar-nav fs-5 gap-5">
                         <li class="nav-item">
-                            <a class="nav-link" href="../Home/index.php">Home</a>
+                            <a class="nav-link" href="../Home/index.html">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="../News and Events/naeindex.html">News and Events</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../museum_mapguide/index.html">Museum Map</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="../About Us/about.html">About Us</a>
@@ -176,9 +225,7 @@
                                 the values of the people and deepen their patriotism and sense of identity.
                             </p>
                         </div>
-                        <a href="#" class="btn btn-outline-light">
-                            Learn More <i class="bi bi-arrow-right"></i>
-                        </a>
+                        
                     </div>
                 </div>
 
@@ -333,7 +380,8 @@
                         <h3 class="fw-bold">YOUR SUPPORT MATTERS</h3>
                         <p>Help us preserve and celebrate our heritage! Contribute to Museo Bulawan by donating or
                             lending artifacts to enrich our collection and share history with future generations.</p>
-                        <button type="button" class="btn btn-outline-dark rounded-5">Support</button>
+                            <a href="../Support Page/support.html" class="btn btn-outline-dark rounded-5" role="button">Support</a>
+
                     </div>
                     <div class="position-relative image-container">
                         <!-- Image with an inner border -->
@@ -362,15 +410,7 @@
             <div class="row d-flex">
                 <div class="col-12">
                     <ul class="nav-links">
-                        <li><a class="text-decoration-none" href="#">Home</a></li>
-                        <div class="vr border border-1 border-light opacity-100" style="height: 40px;"></div>
-                        <li><a class="text-decoration-none"
-                                href="../Collection Page/collectionpage.html">Collections</a></li>
-                        <div class="vr border border-1 border-light opacity-100" style="height: 40px;"></div>
-                        <li><a class="text-decoration-none" href="../News and Events/naeindex.html">News & Events</a>
-                        </li>
-                        <div class="vr border border-1 border-light opacity-100" style="height: 40px;"></div>
-                        <li><a class="text-decoration-none" href="">About Us</a></li>
+                        
                     </ul>
                 </div>
             </div>
@@ -394,7 +434,7 @@
                         <p class="me-3">We gratefully accept donations or just lending of your artifact will greatly
                             help us.
                         </p>
-                        <button type="button" class="btn btn-light btn-lg">Support Us</button>
+                        <a href="../Support Page/support.html" class="btn btn-light btn-lg" role="button">Support Us</a>
                     </div>
                 </div>
 
@@ -408,13 +448,10 @@
                                 <a class="nav-link" href="../About Us/about.html">About Us</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="../Appointment Form/appointindex.html">Book a Tour</a>
+                                <a class="nav-link" href="../Support Page/support.html">Contact Us</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="../About Us/about.html">Contact Us</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="../About Us/">Map View</a>
+                                <a class="nav-link" href="../museum_mapguide/index.html">Map View</a>
                             </li>
                         </ul>
                     </nav>
