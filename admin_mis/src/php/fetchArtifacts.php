@@ -17,10 +17,10 @@ SELECT *,
     Donator.last_name,
     Lending.lendingID,
     Lending.lending_durationID
-FROM Artifact
-LEFT JOIN Artifact ON Donation.donatorID = Artifact.donatorID
-LEFT JOIN Donator ON Donation.donatorID = Donator.donatorID
-LEFT JOIN Lending ON Lending.donatorID = Donation.donatorID;
+FROM Donator
+LEFT JOIN Artifact ON Donator.donatorID = Artifact.donatorID
+LEFT JOIN Donation ON Donator.donatorID = Donation.donatorID
+LEFT JOIN Lending ON Lending.donatorID = Donator.donatorID;
 
 ";
 
