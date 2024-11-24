@@ -326,7 +326,15 @@ document.getElementById('close-appointment-modal-btn').addEventListener('click',
     closeModal('appointment-modal');
 });
 
-
+// Function to close a modal by ID
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.add('hidden');
+    } else {
+        console.error(`Modal with ID "${modalId}" not found.`);
+    }
+}
 
 // Function to open the delete confirmation modal
 function openAppointmentDeleteModal(callback) {

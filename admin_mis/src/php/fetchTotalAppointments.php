@@ -27,8 +27,8 @@ $results = [
 $query = "
     SELECT 
         COUNT(*) AS total_appointments,
-        SUM(status = 'Approved') AS approved_appointments,
-        SUM(status = 'Rejected') AS rejected_appointments
+        SUM(status = 'approved') AS approved_appointments,
+        SUM(status = 'rejected') AS rejected_appointments
     FROM appointment
 ";
 
