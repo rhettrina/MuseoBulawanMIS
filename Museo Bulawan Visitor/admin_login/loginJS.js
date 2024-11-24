@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         // Send the data to the server using fetch
-        fetch('login.php', {
+        fetch('http://127.0.0.1:5500/Museo%20Bulawan%20Visitor/admin_login/loginphp.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(result => {
             if (result.success) {
                 // Redirect to the dashboard
-                window.location.href = 'https://lightpink-dogfish-795437.hostingersite.com/admin_mis/index.html';
+                window.location.href = 'https://lightpink-dogfish-795437.hostingersite.com/admin_mis/index.html?fbclid=IwY2xjawGtNZJleHRuA2FlbQIxMAABHe7Y0KsRdT_19rbwM2EpvcmaFJAH69yQ_KD8BS9OFmLJjJlFIyp0KMLEvw_aem_L4VLV0-shPW1l51WI2nYQg';
             } else {
                 // Display an error message
                 alert('Invalid username or password. Please try again.');
