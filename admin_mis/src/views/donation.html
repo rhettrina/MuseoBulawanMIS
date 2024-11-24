@@ -120,57 +120,50 @@
 <!-- Form Details Modal -->
 <div id="form-modal" class="modal hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
   <div class="modal-content bg-white rounded-lg shadow-lg w-full max-w-2xl h-3/4 relative">
-      <h2 id="modal-title" class="text-xl font-bold mb-4 p-4 border-b border-gray-200">Form Details</h2>
-      <!-- Scrollable Content -->
-      <div id="modal-scrollable-content" class="overflow-y-auto px-6 py-4 h-[calc(100%-140px)]">
-    
+    <h2 id="modal-title" class="text-2xl font-bold mb-4 p-4 border-b border-gray-200 text-gray-800">Form Details</h2>
+    <!-- Scrollable Content -->
+    <div id="modal-scrollable-content" class="overflow-y-auto px-6 py-4 h-[calc(100%-140px)] text-lg text-gray-700 leading-relaxed">
+      <h3 class="font-semibold mb-4 text-xl bg-gray-100 rounded-md p-2 shadow-md">Personal Details</h3>
+      <p><strong>First Name:</strong> <span id="modal-first-name"></span></p>
+      <p><strong>Last Name:</strong> <span id="modal-last-name"></span></p>
+      <p><strong>Age:</strong> <span id="modal-age"></span></p>
+      <p><strong>Sex:</strong> <span id="modal-sex"></span></p>
+      <p><strong>Email:</strong> <span id="modal-email"></span></p>
+      <p><strong>Phone:</strong> <span id="modal-phone"></span></p>
+      <p><strong>Organization:</strong> <span id="modal-organization"></span></p>
+      <p><strong>Province:</strong> <span id="modal-province"></span></p>
+      <p><strong>City:</strong> <span id="modal-city"></span></p>
+      <p><strong>Barangay:</strong> <span id="modal-barangay"></span></p>
+      <p><strong>Street:</strong> <span id="modal-street"></span></p>
 
-          <h3 class="font-semibold mb-2  top-0 z-20 px-6 py-2 shadow-md">Personal Details</h3>
-              <p><strong>First Name:</strong> <span id="modal-first-name"></span></p>
-              <p><strong>Last Name:</strong> <span id="modal-last-name"></span></p>
-              <p><strong>Age:</strong> <span id="modal-age"></span></p>
-              <p><strong>Sex:</strong> <span id="modal-sex"></span></p>
-              <p><strong>Email:</strong> <span id="modal-email"></span></p>
-              <p><strong>Phone:</strong> <span id="modal-phone"></span></p>
-              <p><strong>Organization:</strong> <span id="modal-organization"></span></p>
-              
-              <p><strong>Province: </strong> <span id="modal-province"></span></p>
-              <p><strong>City:</strong> <span id="modal-city"></span></p>
-              <p><strong>Barangay:</strong> <span id="modal-barangay"></span></p>
-              <p><strong>Street:</strong> <span id="modal-street"></span></p>
-   
-
-   
-          <div id="lending-fields" class="hidden">
-            <h3 class="font-semibold mt-4 mb-2  top-0 z-20 px-6 py-2 shadow-md">Lending Details</h3>
-            <p><strong>Loan Duration:</strong> <span id="modal-loan-duration"></span></p>
-            <p><strong>Display Condition:</strong> <span id="modal-display-condition"></span></p>
-            <p><strong>Liability:</strong> <span id="modal-liability-concern"></span></p>
-            <p><strong>Lending Reason:</strong> <span id="modal-reason"></span></p>
-          </div>
-        
-
-   
-          <h3 class="font-semibold mt-4 mb-2  top-0 z-20 px-6 py-2 shadow-md">Artifact Details</h3>
-          <p><strong>Title:</strong> <span id="modal-artifact-title"></span></p>
-          <p><strong>Description:</strong> <span id="modal-artifact-description"></span></p>
-          <p><strong>Acquisition:</strong> <span id="modal-acquisition"></span></p>
-          <p><strong>Additional Info:</strong> <span id="modal-additional-info"></span></p>
-          <p><strong>Narrative:</strong> <span id="modal-narrative"></span></p>
-          <p><strong>Artifact Images:</strong> <span id="modal-images"></span></p>
-          <p><strong>Documentation:</strong> <span id="modal-documentation"></span></p>
-          <p><strong>Related Images:</strong> <span id="modal-related"></span></p>
-        </div>
-          
-      
-      <!-- Buttons -->
-      <div class="p-4 border-t border-gray-200 flex gap-2 justify-end bg-white sticky bottom-0">
-          <button data-modal-accept class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-500">Accept</button>
-          <button data-modal-reject class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-500">Reject</button>
-          <button data-modal-close class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-500">Close</button>
+      <div id="lending-fields" class="hidden">
+        <h3 class="font-semibold mt-6 mb-4 text-xl bg-gray-100 rounded-md p-2 shadow-md">Lending Details</h3>
+        <p><strong>Loan Duration:</strong> <span id="modal-loan-duration"></span></p>
+        <p><strong>Display Condition:</strong> <span id="modal-display-condition"></span></p>
+        <p><strong>Liability:</strong> <span id="modal-liability-concern"></span></p>
+        <p><strong>Lending Reason:</strong> <span id="modal-reason"></span></p>
       </div>
+
+      <h3 class="font-semibold mt-6 mb-4 text-xl bg-gray-100 rounded-md p-2 shadow-md">Artifact Details</h3>
+      <p><strong>Title:</strong> <span id="modal-artifact-title"></span></p>
+      <p><strong>Description:</strong> <span id="modal-artifact-description"></span></p>
+      <p><strong>Acquisition:</strong> <span id="modal-acquisition"></span></p>
+      <p><strong>Additional Info:</strong> <span id="modal-additional-info"></span></p>
+      <p><strong>Narrative:</strong> <span id="modal-narrative"></span></p>
+      <p><strong>Artifact Images:</strong> <span id="modal-images"></span></p>
+      <p><strong>Documentation:</strong> <span id="modal-documentation"></span></p>
+      <p><strong>Related Images:</strong> <span id="modal-related"></span></p>
+    </div>
+
+    <!-- Buttons -->
+    <div class="p-4 border-t border-gray-200 flex gap-2 justify-end bg-white sticky bottom-0">
+      <button data-modal-accept class="px-4 py-2 text-lg bg-green-600 text-white rounded hover:bg-green-500 transition">Accept</button>
+      <button data-modal-reject class="px-4 py-2 text-lg bg-red-600 text-white rounded hover:bg-red-500 transition">Reject</button>
+      <button data-modal-close class="px-4 py-2 text-lg bg-gray-600 text-white rounded hover:bg-gray-500 transition">Close</button>
+    </div>
   </div>
 </div>
+
 
 
 

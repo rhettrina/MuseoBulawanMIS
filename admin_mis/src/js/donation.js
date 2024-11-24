@@ -1,22 +1,12 @@
-(() => {
-    function init() {
-        console.log("Initializing artifact page...");
-        fetchDonations();
-        fetchTotalDonations();
-    }
+function init() {
+    // Call the display functions here
+    fetchTotalDonations();
+    fetchDonations();
+    // No need to call deleteDonation here; it's triggered by specific actions
+}
 
-    function cleanup() {
-        console.log("Cleaning up artifact page...");
-        // Cleanup logic
-    }
-
-    window.artifactPage = { init, cleanup };
-
-
-
-// Fetch total donation statistics
 function fetchTotalDonations() {
-    fetch('https://museobulawan.online/development/admin_mis/src/php/fetchTotalDonations.php')
+    fetch('https://museobulawan.online/admin_mis/src/php/fetchTotalDonations.php')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok: ' + response.statusText);
@@ -36,18 +26,22 @@ function fetchTotalDonations() {
             displayErrorMessages();
         });
 }
-
 // Fetch and populate the donations table
 function fetchDonations(sort = 'newest') {
-    fetch(`https://museobulawan.online/development/admin_mis/src/php/fetchDonations.php?sort=${sort}`)
-        .then(response => response.json())
+    fetch(`https://museobulawan.online/admin_mis/src/php/fetchDonations.php?sort=${sort}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
+            }
+            return response.json();
+        })
         .then(data => {
-            const tableBody = document.getElementById('donations-table').querySelector('tbody');
-            tableBody.innerHTML = ''; // Clear existing rows before appending
-            if (data.length) {
-                populateTable(data);
-            } else {
+            if (data.error) {
+                console.error(data.error);
                 displayNoDataMessage();
+            } else {
+                console.log('Fetched donations:', data); // Debug: Check the response
+                populateTable(data);
             }
         })
         .catch(error => {
@@ -55,24 +49,6 @@ function fetchDonations(sort = 'newest') {
             displayNoDataMessage();
         });
 }
-
-// Placeholder functions for display and table population
-function displayErrorMessages() {
-    console.error("Display error messages called");
-}
-
-function populateTotalDonationData(data) {
-    console.log("Populate total donation data:", data);
-}
-
-function populateTable(data) {
-    console.log("Populate table with data:", data);
-}
-
-function displayNoDataMessage() {
-    console.log("No data to display");
-}
-
 
 function populateTable(donations) {
     const tableBody = document.getElementById('donations-table').querySelector('tbody');
@@ -256,7 +232,7 @@ document.getElementById("sorts").addEventListener("change", function () {
 });
   
 function deleteDonation(donID) {
-    fetch(`https://museobulawan.online/development/admin_mis/src/php/deleteDonations.php?id=${donID}`, {
+    fetch(`https://museobulawan.online/admin_mis/src/php/deleteDonations.php?id=${donID}`, {
         method: 'DELETE',
     })
         .then((response) => {
@@ -324,99 +300,111 @@ function closeDModal(modalId) {
 
 
 function updateTransferStatus(donID, newStatus) {
-    if (!donID || !newStatus) {
-        console.error('Invalid parameters for updateTransferStatus:', { donID, newStatus });
-        return;
-    }
-
-    fetch('https://museobulawan.online/development/admin_mis/src/php/updateTransferStatus.php', {
+    fetch('https://museobulawan.online/admin_mis/src/php/updateTransferStatus.php', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `donID=${encodeURIComponent(donID)}&transfer_status=${encodeURIComponent(newStatus)}`,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ donation: donID, transfer_status: newStatus })
     })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error('Failed to update transfer status');
-            }
-            return response.text(); // Expect a plain text response
-        })
-        .then((responseText) => {
-            console.log('Server response:', responseText);
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to update transfer status');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
             fetchDonations(); // Refresh the table to reflect updates
-        })
-        .catch((error) => {
-            console.error('Error updating transfer status:', error);
-        });
+        } else {
+            console.error('Failed to update transfer status:', data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error updating transfer status:', error);
+    });
 }
 
 function openStatusModal(donID, currentStatus, newStatus, dropdown) {
     // Validate inputs
     if (!donID || !newStatus || !dropdown) {
-        console.error('Invalid parameters for openStatusModal:', { donID, currentStatus, newStatus, dropdown });
+        console.error('Invalid parameters passed to openStatusModal:', { donID, currentStatus, newStatus, dropdown });
         return;
     }
 
-    // Dynamically retrieve the current status
-    currentStatus = dropdown.getAttribute('data-current-status') || currentStatus;
+    // Dynamically retrieve the actual current status from the dropdown to ensure correctness
+    currentStatus = dropdown.getAttribute("data-current-status") || currentStatus;
 
-    // Cache modal elements
-    const modal = document.getElementById('transfer-status-modal');
-    const confirmButton = document.getElementById('status-confirm-button');
-    const cancelButton = document.getElementById('status-cancel-button');
-    const confirmationMessage = document.getElementById('status-confirmation-message');
+    const modal = document.getElementById("transfer-status-modal");
+    const confirmButton = document.getElementById("status-confirm-button");
+    const cancelButton = document.getElementById("status-cancel-button");
+    const confirmationMessage = document.getElementById("status-confirmation-message");
 
+    // Ensure modal and buttons exist
     if (!modal || !confirmButton || !cancelButton || !confirmationMessage) {
-        console.error('Modal or required elements not found');
+        console.error("Modal or required elements not found");
         return;
     }
 
     // Update the modal content and show it
     confirmationMessage.textContent = `Do you want to confirm the change of transfer status from "${currentStatus}" to "${newStatus}" for the donor with ID: ${donID}?`;
-    modal.classList.remove('hidden');
+    modal.classList.remove("hidden");
 
-    console.log(`Opening confirmation modal for donor ID: ${donID}, current status: "${currentStatus}", new status: "${newStatus}"`);
+    console.log(`Opening confirmation modal for donator ID: ${donID}, current status: "${currentStatus}", new status: "${newStatus}"`);
 
-    // Confirm button functionality
+    // When the user confirms
     confirmButton.onclick = () => {
-        console.log(`User confirmed the change for donor ID: ${donID}, changing status from "${currentStatus}" to "${newStatus}"`);
+        console.log(`User confirmed the change for donator ID: ${donID}, changing status from "${currentStatus}" to "${newStatus}"`);
 
-        // Update transfer status via fetch
-        fetch('https://museobulawan.online/development/admin_mis/src/php/updateTransferStatus.php', {
+        // Make a fetch request to update the status
+        fetch('https://museobulawan.online/admin_mis/src/php/updateTransferStatus.php', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `donID=${encodeURIComponent(donID)}&transfer_status=${encodeURIComponent(newStatus)}`,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                donID: donID,
+                transfer_status: newStatus
+            }),
         })
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Failed to update transfer status');
                 }
-                return response.text(); // Expect a plain text response
+                return response.json();
             })
-            .then((responseText) => {
-                console.log('Server response:', responseText);
-                dropdown.setAttribute('data-current-status', newStatus); // Update the current status reference
-                dropdown.value = newStatus; // Reflect the change in the dropdown
+            .then((data) => {
+                if (data.success) {
+                    console.log(`Transfer status successfully changed from "${currentStatus}" to "${newStatus}"`);
+                    dropdown.setAttribute("data-current-status", newStatus); // Update the current status reference
+                    dropdown.value = newStatus; // Reflect the change in the dropdown
+                } else {
+                    console.error('Failed to update transfer status:', data.error);
+                    dropdown.value = currentStatus; // Revert dropdown to its previous value
+                }
             })
             .catch((error) => {
                 console.error('Error updating transfer status:', error);
                 dropdown.value = currentStatus; // Revert dropdown to its previous value
             })
             .finally(() => {
-                closeTModal('transfer-status-modal');
+                closeTModal("transfer-status-modal");
             });
     };
 
-    // Cancel button functionality
+    // When the user cancels
     cancelButton.onclick = () => {
-        console.log(`User canceled the status change for donor ID: ${donID}. Status remains as "${currentStatus}"`);
+        console.log(`User canceled the status change for donator ID: ${donID}. Status remains as "${currentStatus}"`);
         dropdown.value = currentStatus; // Revert the dropdown to original value
-        closeTModal('transfer-status-modal');
+        closeTModal("transfer-status-modal");
     };
 }
 
+function closeTModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.add("hidden");
+    }
+} 
 
 function openFormModal(donID, formType) {
-    fetch(`https://museobulawan.online/development/admin_mis/src/php/getFormDetails.php?donID=${donID}&formType=${formType}`)
+    fetch(`https://museobulawan.online/admin_mis/src/php/getFormDetails.php?donID=${donID}&formType=${formType}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Failed to fetch form details');
@@ -513,4 +501,7 @@ const calculateDuration = (startDate, endDate) => {
     }
 }
 
-})();
+
+
+  
+init();  // Initialize everything when the script runs
