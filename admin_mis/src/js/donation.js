@@ -1,10 +1,30 @@
+// Initialize the page when the DOM is fully loaded
+document.addEventListener("DOMContentLoaded", () => {
+    init(); // Ensure init runs when the page is fully loaded
+
+    // Re-run dynamic initialization on SPA navigation (if applicable)
+    window.addEventListener("popstate", () => {
+        dynamicPageInit();
+    });
+});
+
+// Dynamic page initialization to handle SPA-like navigation
+function dynamicPageInit() {
+    const currentPath = window.location.pathname;
+
+    if (currentPath.includes("donation.html")) {
+        init(); // Re-initialize the donation table when this page is loaded
+    }
+}
+
+// Main initialization function
 function init() {
-    // Call the display functions here
     fetchTotalDonations();
     fetchDonations();
     // No need to call deleteDonation here; it's triggered by specific actions
 }
 
+// Fetch total donation statistics
 function fetchTotalDonations() {
     fetch('https://museobulawan.online/development/admin_mis/src/php/fetchTotalDonations.php')
         .then(response => {
@@ -26,6 +46,7 @@ function fetchTotalDonations() {
             displayErrorMessages();
         });
 }
+
 // Fetch and populate the donations table
 function fetchDonations(sort = 'newest') {
     fetch(`https://museobulawan.online/development/admin_mis/src/php/fetchDonations.php?sort=${sort}`)
@@ -38,7 +59,28 @@ function fetchDonations(sort = 'newest') {
             } else {
                 displayNoDataMessage();
             }
+        })
+        .catch(error => {
+            console.error('Error fetching donations:', error);
+            displayNoDataMessage();
         });
+}
+
+// Placeholder functions for display and table population
+function displayErrorMessages() {
+    console.error("Display error messages called");
+}
+
+function populateTotalDonationData(data) {
+    console.log("Populate total donation data:", data);
+}
+
+function populateTable(data) {
+    console.log("Populate table with data:", data);
+}
+
+function displayNoDataMessage() {
+    console.log("No data to display");
 }
 
 
