@@ -6,6 +6,7 @@ include 'db_connect.php';
 $sql = "
 SELECT *,
 
+    Artifact.artifact_nameID AS artname,
     Donation.donationID,
     Donation.donatorID AS DonationDonatorID,
     Donation.submission_date AS DonationSubmissionDate,
@@ -16,7 +17,7 @@ SELECT *,
     Donator.last_name,
     Lending.lendingID,
     Lending.lending_durationID
-FROM Donation
+FROM Artifact
 LEFT JOIN Artifact ON Donation.donatorID = Artifact.donatorID
 LEFT JOIN Donator ON Donation.donatorID = Donator.donatorID
 LEFT JOIN Lending ON Lending.donatorID = Donation.donatorID;
