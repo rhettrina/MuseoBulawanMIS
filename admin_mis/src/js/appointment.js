@@ -1,7 +1,7 @@
 // Initialize the application
 
 
-(() => {
+
     function init() {
         console.log("Initializing artifact page...");
         // Page-specific initialization
@@ -9,13 +9,7 @@
         fetchAppointments();
     }
 
-    function cleanup() {
-        console.log("Cleaning up artifact page...");
-        // Cleanup logic
-    }
-
-    window.artifactPage = { init, cleanup };
-})();
+\
 
 // Fetch total appointments data
 function fetchTotalAppointments() {

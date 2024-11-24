@@ -1,17 +1,21 @@
-document.addEventListener("DOMContentLoaded", init);
+
 
 (() => {
     function init() {
         const defaultButton = document.querySelector('#tabs button:first-child');
         
+        window.artifactPage = { init, cleanup };
+        
         if (!defaultButton) {
             console.error("Default button not found! Ensure the DOM structure is correct.");
             return;
         }
+
+            selectTab(defaultButton);
     
         // Set "Artifacts" as the default tab
         console.log("Default button selected:", defaultButton);
-        selectTab(defaultButton);
+       
     
         // Fetch and render tables
         fetchAndRenderTables();
@@ -21,11 +25,8 @@ document.addEventListener("DOMContentLoaded", init);
         // Cleanup logic
     }
 
-    window.artifactPage = { init, cleanup };
+    
 })();
-
-
-
 
 
 
@@ -65,6 +66,9 @@ function selectTab(selectedButton) {
         'donors-sort'
     ];
 
+    // Save the active tab index to local storage
+    localStorage.setItem('activeTabIndex', buttonIndex);
+
     // Show the corresponding table
     const tableToShow = document.getElementById(tableIdList[buttonIndex]);
     if (tableToShow) {
@@ -81,6 +85,26 @@ function selectTab(selectedButton) {
         }
     }
 }
+
+function setDefaultActiveTab() {
+    const buttons = document.querySelectorAll('#tabs button');
+
+    // Load the active tab index from local storage
+    const activeTabIndex = localStorage.getItem('activeTabIndex');
+    const defaultButton = buttons[activeTabIndex] || buttons[0]; // Use saved index or default to the first button
+
+    if (defaultButton) {
+        selectTab(defaultButton); // Call selectTab with the default button
+    } else {
+        console.error("No default button found!");
+    }
+}
+
+// Call the default tab selection when the page loads
+document.addEventListener("DOMContentLoaded", setDefaultActiveTab);
+
+
+
 
 
 // Initialize the default state when the page loads
@@ -214,7 +238,7 @@ function renderTable(data, tableId, columns) {
             cell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
 
             if (column === columns[0]) cell.classList.add('rounded-l-[15px]', 'border-l-2');
-            if (column === columns[columns.length - 1]) cell.classList.add('rounded-r-[15px]', 'border-r-2');
+            
 
             cell.textContent = item[column] || "N/A";
 
