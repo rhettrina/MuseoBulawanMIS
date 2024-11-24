@@ -168,83 +168,90 @@ function handleAction(action, data) {
             console.error('Unknown action:', action);
     }
 }
+/*-----------------------------------------------------------------------------------------------------------------------------------------------*/
+function createActionCell(appointment) {
+    const cell = document.createElement('td');
+    cell.classList.add('px-4', 'py-2', 'flex', 'justify-center', 'space-x-2', 'bg-white', 'border-black');
 
+    const editButton = createActionButton('Edit', 'fas fa-edit', () => handleAction('edit', appointment));
+    const deleteButton = createActionButton('Delete', 'fas fa-trash', () => handleAction('delete', appointment.fkID));
+
+    cell.append(editButton, deleteButton);
+    return cell;
+}
 
 function handleAppointmentAction(action, data) {
-    switch (action) {
-        case 'approve':
-            approveAppointment(data)
-                .then(() => {
-                    console.log(`Appointment with ID ${data.id} approved.`);
-                    alert('Appointment approved successfully.');
-                    init(); // Refresh the data/display
-                })
-                .catch(error => {
-                    console.error('Error approving appointment:', error);
-                    alert('An error occurred while approving the appointment.');
-                });
-            break;
+    console.log(`Button clicked: ${action} button for appointment ID ${data.id}`);
 
-        case 'reject':
-            rejectAppointment(data)
-                .then(() => {
-                    console.log(`Appointment with ID ${data.id} rejected.`);
-                    alert('Appointment rejected successfully.');
-                    init(); // Refresh the data/display
-                })
-                .catch(error => {
-                    console.error('Error rejecting appointment:', error);
-                    alert('An error occurred while rejecting the appointment.');
-                });
-            break;
-
-        default:
-            console.error('Unknown action:', action);
-    }
+    fetch('https://museobulawan.online/admin_mis/src/php/processAppointment.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            action: action, // 'approve' or 'reject'
+            appointmentID: data.id,
+        }),
+    })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                alert(`Appointment ${action}d successfully.`);
+                console.log(`Appointment ID ${data.id} successfully ${action}d.`);
+                closeModal('appointment-modal');
+                init(); // Refresh the table data
+            } else {
+                alert(`Failed to ${action} appointment: ${result.error}`);
+                console.error(`Error from server while ${action}ing appointment: ${result.error}`);
+            }
+        })
+        .catch(error => {
+            console.error(`Error during ${action}:`, error);
+            alert(`An error occurred while trying to ${action} the appointment.`);
+        });
 }
 
-// Mock implementations of approve/reject logic
-function approveAppointment(data) {
-    return new Promise((resolve, reject) => {
-        // Simulate a backend API call for approval
-        setTimeout(() => {
-            console.log('Simulated backend approval for:', data);
-            resolve(); // Call resolve to simulate success
-        }, 500);
-    });
-}
-
-function rejectAppointment(data) {
-    return new Promise((resolve, reject) => {
-        // Simulate a backend API call for rejection
-        setTimeout(() => {
-            console.log('Simulated backend rejection for:', data);
-            resolve(); // Call resolve to simulate success
-        }, 500);
-    });
-}
-
-// Example usage:
+// Event listeners for Approve and Reject buttons
 document.getElementById('approve-appointment-btn').addEventListener('click', () => {
-    const appointmentData = getAppointmentDataFromModal(); // Replace with your method to fetch current appointment data
+    const appointmentData = getAppointmentDataFromModal();
     handleAppointmentAction('approve', appointmentData);
 });
 
 document.getElementById('reject-appointment-btn').addEventListener('click', () => {
-    const appointmentData = getAppointmentDataFromModal(); // Replace with your method to fetch current appointment data
+    const appointmentData = getAppointmentDataFromModal();
     handleAppointmentAction('reject', appointmentData);
 });
 
-// Mock function to retrieve data from the modal
-function getAppointmentDataFromModal() {
-    return {
-        id: 123, // Example appointment ID
-        name: document.getElementById('appointment-name').innerText,
-        email: document.getElementById('appointment-email').innerText,
-        phone: document.getElementById('appointment-phone').innerText,
-        // Add additional fields as necessary
-    };
+// Function to retrieve data from the modal
+function getAppointmentDataFromAPI(appointmentId) {
+    fetch(`https://museobulawan.online/development/admin_mis/src/php/fetchAppointments.php${appointmentId}`)
+      .then(response => response.json())
+      .then(data => {
+        // Populate modal fields with the retrieved data
+        document.getElementById('appointment-id').innerText = data.id;
+        document.getElementById('appointment-name').innerText = data.name;
+        document.getElementById('appointment-email').innerText = data.email;
+        document.getElementById('appointment-phone').innerText = data.phone;
+        // Add additional fields as needed
+      })
+      .catch(error => {
+        console.error('Error fetching appointment data:', error);
+      });
+  }
+// Function to close a modal by ID
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.add('hidden');
+    } else {
+        console.error(`Modal with ID "${modalId}" not found.`);
+    }
 }
+
+
+
+/*-----------------------------------------------------------------------------------------------------------------------------------------------*/
+
 
 
 

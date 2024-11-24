@@ -3,13 +3,12 @@ header('Content-Type: application/json');
 
 session_start();
 
-
-// Include the database connextion
+// Include the database connection
 include 'db_connect.php';
 
 // Retrieve and decode raw JSON input
 $rawData = file_get_contents("php://input");
-error_log("Raw input: " . $rawData);  
+error_log("Raw input: " . $rawData);
 $data = json_decode($rawData, true);
 
 // Validate JSON decoding
@@ -26,7 +25,7 @@ if (!isset($data['appointmentID']) || !isset($data['action'])) {
 
 // Sanitize and validate input
 $appointmentID = intval($data['appointmentID']);
-$action = strtolower(trim($data['action'])); 
+$action = strtolower(trim($data['action']));
 
 // Determine the database changes based on the action
 switch ($action) {
@@ -43,28 +42,32 @@ switch ($action) {
         exit;
 }
 
-// Prepare and execute the update statement
-$sql = "UPDATE appointment SET status = ?, confirmation_date = NOW() WHERE appointmentID = ?";
-$stmt = $connextion->prepare($sql);
+try {
+    // Prepare and execute the update statement
+    $sql = "UPDATE appointment SET status = ?, confirmation_date = NOW() WHERE appointmentID = ?";
+    $stmt = $connextion->prepare($sql);
 
-if ($stmt) {
-    $stmt->bind_param("si", $status, $appointmentID);
+    if ($stmt) {
+        $stmt->bind_param("si", $status, $appointmentID);
 
-    if ($stmt->execute()) {
-        echo json_encode(['success' => $message]);
+        if ($stmt->execute()) {
+            echo json_encode(['success' => true, 'message' => $message]);
+        } else {
+            error_log("Error updating appointment: " . $stmt->error);
+            echo json_encode(['error' => 'Failed to update the appointment. Please try again later.']);
+        }
+
+        $stmt->close();
     } else {
-        // Log the error internally
-        error_log("Error updating appointment: " . $stmt->error);
-        echo json_encode(['error' => 'Failed to update the appointment. Please try again later.']);
+        error_log("Error preparing statement: " . $connextion->error);
+        echo json_encode(['error' => 'Server error. Please try again later.']);
     }
-
-    $stmt->close();
-} else {
-    // Log preparation error
-    error_log("Error preparing statement: " . $connextion->error);
-    echo json_encode(['error' => 'Server error. Please try again later.']);
+} catch (Exception $e) {
+    error_log("Unexpected error: " . $e->getMessage());
+    echo json_encode(['error' => 'An unexpected error occurred.']);
 }
 
-// Close the database connextion
+// Close the database connection
 $connextion->close();
+
 ?>
