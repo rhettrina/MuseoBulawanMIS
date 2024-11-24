@@ -65,10 +65,10 @@ if (!empty($_FILES['artifact_img']['name'])) {
 
                 if (in_array($mime_type, $allowed_mime_types)) {
                     $new_art_img_name = uniqid("IMG-", true) . '.' . $art_img_ex_lc;
-                    $art_img_upload_path = 'uploads/artifacts/' . $new_art_img_name;
+                    $art_img_upload_path = '/uploads/artifacts/' . $new_art_img_name;
 
                     // Check if the directory exists and is writable
-                    if (is_dir('uploads/artifacts/') && is_writable('uploads/artifacts/')) {
+                    if (is_dir('/uploads/artifacts/') && is_writable('/uploads/artifacts/')) {
                         if (move_uploaded_file($art_tmp_name, $art_img_upload_path)) {
                             // Success
                         } else {
