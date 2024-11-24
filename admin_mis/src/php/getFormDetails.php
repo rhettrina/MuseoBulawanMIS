@@ -34,11 +34,12 @@ try {
                   FROM Lending AS l
                   JOIN Donator AS dn ON l.donatorID = dn.donatorID
                   JOIN Artifact AS a ON l.artifact_nameID = a.artifact_nameID
-                  WHERE l.donatorID = ?";
+                  WHERE l.lendingID = ?"; // Ensure lendingID is used for Lending records.
     } else {
         echo json_encode(['success' => false, 'error' => 'Invalid form type']);
         exit();
     }
+    
 
     // Prepare and execute statement
     $stmt = $connextion->prepare($query);
