@@ -188,42 +188,88 @@ function getAppointmentId() {
     return document.getElementById("appointment-modal").dataset.appointmentId;
 }
 
-// Function to update the appointment status
+
+// Function to update appointment status
 function updateAppointmentStatus(appointmentId, status) {
-    fetch(`https://museobulawan.online/development/admin_mis/src/php/updateAppointment.php`, {
-        method: "POST",
+    // Validate inputs
+    if (!appointmentId || !status) {
+        console.error("Invalid appointmentId or status:", appointmentId, status);
+        alert("Invalid appointment ID or status.");
+        return;
+    }
+
+    const payload = JSON.stringify({
+        appointmentId: appointmentId, // Consistent with PHP expectation
+        status: status                // Consistent with PHP expectation
+    });
+
+    // Log the payload before sending
+    console.log("Payload being sent:", payload);
+    console.log("Sending request to processAppointment.php...");
+
+    fetch('https://museobulawan.online/development/admin_mis/src/php/processAppointment.php', { 
+        method: 'POST',
         headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-            appointmentId: appointmentId,
-            status: status,
-        }),
+        body: payload
     })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json();
-        })
-        .then((data) => {
-            if (data.success) {
-                alert("Appointment status updated successfully!");
-                closeModal();
-                fetchAppointments(); // Refresh the table
-            } else {
-                alert("Failed to update appointment: " + data.message);
-            }
-        })
-        .catch((error) => {
-            console.error("Error updating appointment:", error);
-        });
+    .then(response => {
+        console.log("Received response with status:", response.status);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log("Response from PHP:", data);
+        if (data.success) {
+            alert("Appointment status updated successfully!");
+            closeModal();
+            fetchAppointments(); // Refresh the appointment list or update the UI
+        } else {
+            console.error("Error response from PHP:", data.message);
+            alert("Failed to update appointment: " + data.message);
+        }
+    })
+    .catch(error => {
+        console.error("Error updating appointment:", error);
+        alert('An error occurred while updating the appointment status.');
+    });
+}
+
+// Approve button handler
+document.getElementById("approve-appointment-btn").addEventListener("click", () => {
+    const appointmentId = getAppointmentId();
+    console.log(`Updating status to approved for appointment ID: ${appointmentId}`);
+    updateAppointmentStatus(appointmentId, "approved");
+});
+
+// Reject button handler
+document.getElementById("reject-appointment-btn").addEventListener("click", () => {
+    const appointmentId = getAppointmentId();
+    console.log(`Updating status to rejected for appointment ID: ${appointmentId}`);
+    updateAppointmentStatus(appointmentId, "rejected");
+});
+
+// Get the appointment ID from the modal
+function getAppointmentId() {
+    const modal = document.getElementById("appointment-modal");
+    const appointmentId = modal.dataset.appointmentId;
+    if (!appointmentId) {
+        console.error("No appointment ID found in the modal.");
+    }
+    return appointmentId;
 }
 
 // Close modal function
 function closeModal() {
     const modal = document.getElementById("appointment-modal");
-    modal.classList.add("hidden");
+    if (modal) {
+        modal.classList.add("hidden");
+    } else {
+        console.error("Modal element not found.");
+    }
 }
 
 /*-----------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -241,40 +287,7 @@ function displayNoDataMessage() {
     `;
 }
 
-// Function to update appointment status
-function updateAppointmentStatus(formID, action) {
-    const payload = JSON.stringify({
-        appointmentID: formID, // Ensure formID has the correct value
-        action: action // Ensure action is a valid string like "approved" or "rejected"
-    });
-    console.log("Payload being sent:", payload);
-    
-    
-    fetch('https://museobulawan.online/development/admin_mis/src/php/processAppointment.php', { 
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: payload
-    })
-    
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            console.log(data.success);
-            alert(data.success);
-            closeAppointmentModal();
-            init(); // Refresh the appointment list or update the UI
-        } else if (data.error) {
-            console.error(data.error);
-            alert(data.error);
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('An error occurred while updating the appointment status.');
-    });
-}
+
 
 // Function to show and populate the appointment modal
 function showAppointmentModal(appointment) {
