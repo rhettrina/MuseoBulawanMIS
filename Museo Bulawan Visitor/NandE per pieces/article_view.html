@@ -10,20 +10,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Museo Bulawan Collection Page</title>
-        <link href="article_view.css" rel="stylesheet">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Hina+Mincho&display=swap" rel="stylesheet">
+    <link href="article_view.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hina+Mincho&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+
 </head>
 
 <body>
-<!-- header start -->
+    <!-- header start -->
 
-<div class="wrapper">
+    <div class="container-fluid mb-2" style="background-color: #1C1B19;">
+        <nav class="navbar navbar-expand-lg navbar-dark p-1">
+            <p id="texttime" class="text-light my-auto ms-lg-5 ms-sm-1 ms-md-3">Open Daily 9:00am-5:00pm, Monday-
+                Friday, Close During Holidays
+            </p>
 
-    <div id="container1">
-        <nav class="navbar navbar-expand-lg navbar-dark me-3">
-            <p id="open">Open Daily 9:00am-5:00pm, Monday- Friday, Close During Holidays</p>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#morebtn"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,18 +39,15 @@
             </button>
 
             <div class="collapse navbar-collapse" id="morebtn">
-
-
-
-                <ul class="navbar-nav ms-auto px-4">
-                    <li class="nav-item">
-                        <a class="nav-link" href="">About Us</a>
+                <ul class="navbar-nav ms-auto me-lg-5 me-sm-1 me-md-3">
+                    <li class="navupper nav-item">
+                        <a class=" nav-link" href="../About Us/about.html">About Us</a>
                     </li>
-                    <li class="nav-item"></li>
-                    <a class="nav-link" href="">Visit Us</a>
+                    <li class="navupper nav-item"></li>
+                    <a class="nav-link" href="../Appointment Form/appointindex.html">Visit Us</a>
                     </li>
-                    <li class="nav-item"></li>
-                    <a class="nav-link" href="">Log In</a>
+                    <li class="navupper nav-item"></li>
+                    <a class="nav-link" href="../admin_login/login.html">Log In</a>
                     </li>
                 </ul>
             </div>
@@ -50,224 +55,272 @@
     </div>
 
 
-    <div id="container2">
-        <nav class="navbar navbar-expand-lg navbar-dark">
-            <div class="logowrapper">
-                <img src="../source/LOGO.png" alt="" id="logo">
-                <div class="vr border border-4 ms-5 border-light opacity-100" style="height: 85;"></div>
-                <a id="brand" class="navbar-brand text-start" href="">Museo<br>Bulawan</a>
+
+    <div class="container-fluid mx-auto">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white">
+            <div class="d-flex flex-row align-items-center ms-lg-5">
+                <img src="../source/LOGO.png" style="height: 5em; width: auto;" alt="Logo">
+                <div class="vr border border-3 mx-3 border-dark opacity-100" style="height: 85px;"></div>
+                <a class="navbar-brand fw-bold p-0 fs-3 text-dark text-start" href="#">
+                    MUSEO <br> BULAWAN
+                </a>
             </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#burgerbtn"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <div class="collapse navbar-collapse" id="burgerbtn">
-
-
-
-                <ul id="list" class="navbar-nav fs-5">
+                <ul id="list" class="navbar-nav fs-5 gap-3 ms-md-auto me-md-5 ms-sm-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="">Home <img class="dropdownicon" src="../source/dropdown.png"
-                                alt=""></a>
-
+                        <a class="nav-link text-dark" href="../Home/index.php">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">Collections <img class="dropdownicon"
-                                src="../source/dropdown.png" alt=""></a>
-
+                        <a class="nav-link text-dark" href="../News and Events/naeindex.html">News and Events</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">News and Events <img class="dropdownicon"
-                                src="../source/dropdown.png" alt=""></a>
-
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">About Us <img class="dropdownicon" src="../source/dropdown.png"
-                                alt=""></a>
-
+                        <a class="nav-link text-dark" href="../About Us/about.html">About Us</a>
                     </li>
                 </ul>
-                <button class="btn ms-auto"><img src="../source/search.png" alt="" id="searchbtn"></button>
             </div>
-
-
-
-
         </nav>
-        <hr class="border border-1 border-light opacity-100">
+        <hr class="border border-1 border-dark opacity-100 mx-md-2 mx-sm-3">
     </div>
+
 
 
     <!-- header end -->
 
-<!-- Russel Code -->
-<div class="wrap">
-    <div class="title">
-        <P id="title">placeholder</P>
-        <!-- id-title for article title-->
-    </div>
-    <div class="metadata">
-         <!-- id's are as follows: date, author, location, type-->
-        <div class="date">
-            <p>Date</p>
-            <h5 id="date">placeholder date</h5>
-        </div>
-        <div class="author">
-            <p>Author</p>
-            <h5 id="author">placeholder author</h5>
-        </div>
-        <div class="location">
-            <p>Location</p>
-            <h5 id="location">placeholder location</h5>
-        </div>
-        <div class="type">
-            <p>Type</p>
-            <h5 id="type">placeholder type</h5>
-        </div>
-    </div>
-   
-    <div class="img-container1">
-            <img id="img-container1" src="../source/456411725_818119137184125_1334004125955189067_n.png" alt="">
-             <!-- img-container1 for image nput id-->
-    </div>
-    <div class="img-details1">
-        <p id="img-dets">placeholder details for image1</p>
-        <!-- img-dets for img1 details-->
-    </div>
-    <div class="text-content1">
-        <div class="text-container">
-            <p id="text-left">placeholder text Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-        </div>
-        <div class="text-container">
-            <p id="text-right">placeholder text Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
-        </div>
-        <!-- text-left and text-right are id-->
-    </div>
+    <!-- Russel Code -->
+    <div class="container-fluid">
+        <div class="row">
 
-    <div class="img-container2">
+            <div class="wrap">
+                <div class="col-md-10 ">
+                    <div class="title">
+                        <P id="title">placeholder</P>
+                        <!-- id-title for article title-->
+                    </div>
 
-        <div class="img-background1">
-            
-        </div>
-        <div class="img-holder1">
-            <img id="img-container2" src="../../Museo Bulawan Visitor/source/456411725_818119137184125_1334004125955189067_n.png" alt="">
-            <!-- img-container2 for image nput id-->
-        </div>
-  
-        <p id="text-container2">
-            placeholder text Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-        <!-- text-container3 for text nput id-->
-        </p>
-
-
-    </div>
-
-    <div class="img-container3">
-        <p id="text-container3">
-            placeholder text Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-        <!-- text-container3 for text nput id-->
-        </p>
-        
-        <div class="img-holder2">
-            <img id="img-container3" src="../../Museo Bulawan Visitor/source/456411725_818119137184125_1334004125955189067_n.png" alt="">
-            <!-- img-container3 for image nput id-->
-        </div>
-        <div class="img-background2">
-            
-        </div>
-    </div>
-
-    <div class="last-modified">
-        <p>Last modified: <span id="last-modified">10/10/10</span></p>
-    </div>
-
-    <div class="buffer">
-        
-    </div>
-   
-</div>
-
-
-  <!-- Russel Code -->
-    
-
-  <!-- start of footer -->
-  <div class="wrapper">
-
-    <div class="lowercontainer ms-5">
-        <div class="row d-flex">
-            <div class="col-12">
-                <ul class="nav-links">
-                    <li><a class="text-decoration-none" href="">Home</a></li>
-                    <div class="vr border border-1 border-light opacity-100" style="height: 40px;"></div>
-                    <li><a class="text-decoration-none" href="">Collections</a></li>
-                    <div class="vr border border-1 border-light opacity-100" style="height: 40px;"></div>
-                    <li><a class="text-decoration-none" href="">News & Events</a></li>
-                    <div class="vr border border-1 border-light opacity-100" style="height: 40px;"></div>
-                    <li><a class="text-decoration-none" href="">About Us</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-
-
-    <hr class="border border-1 border-light opacity-100 mx-4">
-
-    <div class="side-footer mx-5 mb-3">
-        <div class="row d-flex justify-content-between">
-            <div class="col-lg-7 col-sm-12">
-                <div class="museo-bulawan-cmp d-flex justify-content-start mb-3">
-                    <img src="../source/LOGO.png" alt="">
-                    <h2>Museo Bulawan</h2>
+                    <div class="metadata">
+                        <!-- id's are as follows: date, author, location, type-->
+                        <div class="date">
+                            <p>Date</p>
+                            <h5 id="date">placeholder date</h5>
+                        </div>
+                        <div class="author">
+                            <p>Author</p>
+                            <h5 id="author">placeholder author</h5>
+                        </div>
+                        <div class="location">
+                            <p>Location</p>
+                            <h5 id="location">placeholder location</h5>
+                        </div>
+                        <div class="type">
+                            <p>Type</p>
+                            <h5 id="type">placeholder type</h5>
+                        </div>
+                    </div>
                 </div>
-                <p class="lead">Helping us raise awareness regarding Camnortenos identity is crucial, and
-                    your
-                    support can make a significant difference.</p>
-                <div class="container-fluid d-flex flex-wrap p-0 pb-4">
-                    <p class="me-3">We gratefully accept donations or just lending of your artifact will greatly
-                        help us.
+
+
+                
+                <div class="img-container1">
+                    <img id="img-container1" src="../source/456411725_818119137184125_1334004125955189067_n.png" alt="">
+                    <!-- img-container1 for image nput id-->
+                </div>
+                <div class="img-details1">
+                    <p id="img-dets">placeholder details for image1</p>
+                    <!-- img-dets for img1 details-->
+                </div>
+                <div class="text-content1">
+                    <div class="text-container">
+                        <p id="text-left">placeholder text Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                            sed do
+                            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                            quis
+                            nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                            irure
+                            dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                            pariatur.Lorem
+                            ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore et
+                            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut
+                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                            velit esse
+                            cillum dolore eu fugiat nulla pariatur.</p>
+                    </div>
+                    <div class="text-container">
+                        <p id="text-right">placeholder text Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                            sed do
+                            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                            quis
+                            nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                            irure
+                            dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                            pariatur.Lorem
+                            ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore et
+                            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut
+                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                            velit esse
+                            cillum dolore eu fugiat nulla pariatur. </p>
+                    </div>
+                    <!-- text-left and text-right are id-->
+                </div>
+
+                <div class="img-container2">
+
+                    <div class="img-background1">
+
+                    </div>
+                    <div class="img-holder1">
+                        <img id="img-container2"
+                            src="../../Museo Bulawan Visitor/source/456411725_818119137184125_1334004125955189067_n.png"
+                            alt="">
+                        <!-- img-container2 for image nput id-->
+                    </div>
+
+                    <p id="text-container2">
+                        placeholder text Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                        tempor
+                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                        exercitation
+                        ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                        reprehenderit in
+                        voluptate velit esse cillum dolore eu fugiat nulla pariatur.Lorem ipsum dolor sit amet,
+                        consectetur
+                        adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+                        ad minim
+                        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        Duis aute
+                        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                        <!-- text-container3 for text nput id-->
                     </p>
-                    <button onclick="location.href='../Support Page/support.html'" type="button'" class="btn btn-light btn-lg">Support Us</button>
+
+
                 </div>
-            </div>
 
-            <div class="col-lg-2 col-sm-12 mb-4">
-                <nav class="navbar">
-                    <ul class="navbar-nav text-start navbar-dark">
-                        <li class="nav-item">
-                            <a class="nav-link" href="">Visit Us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="">About Us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="">Book a Tour</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="">Contact Us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="">Map View</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+                <div class="img-container3">
+                    <p id="text-container3">
+                        placeholder text Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                        tempor
+                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                        exercitation
+                        ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                        reprehenderit in
+                        voluptate velit esse cillum dolore eu fugiat nulla pariatur.Lorem ipsum dolor sit amet,
+                        consectetur
+                        adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+                        ad minim
+                        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        Duis aute
+                        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                        <!-- text-container3 for text nput id-->
+                    </p>
 
-            <div class="col-lg-3 col-sm-12">
-                <h5>Opening Hours</h5>
-                <p>Camarines Norte Provincial Capitol Grounds,
-                    Daet Philippines</p>
-                <p>Open Daily 9:00am-5:00pm,
-                    Monday- Friday,</p>
-            </div>
+                    <div class="img-holder2">
+                        <img id="img-container3"
+                            src="../../Museo Bulawan Visitor/source/456411725_818119137184125_1334004125955189067_n.png"
+                            alt="">
+                        <!-- img-container3 for image nput id-->
+                    </div>
+                    <div class="img-background2">
 
+                    </div>
+                </div>
+
+                <div class="last-modified">
+                    <p>Last modified: <span id="last-modified">10/10/10</span></p>
+                </div>
+
+
+            </div>
         </div>
     </div>
-</div>
+    <!-- Russel Code -->
 
-<!-- end of footer -->
-<script src="article_view.js"></script>
+
+    <!-- start of footer -->
+    <div class="wrapper">
+
+        <div class="lowercontainer ms-5">
+            <div class="row d-flex">
+                <div class="col-12">
+                    <ul class="nav-links">
+                        <li><a class="text-decoration-none" href="">Home</a></li>
+                        <div class="vr border border-1 border-light opacity-100" style="height: 40px;"></div>
+                        <li><a class="text-decoration-none" href="">Collections</a></li>
+                        <div class="vr border border-1 border-light opacity-100" style="height: 40px;"></div>
+                        <li><a class="text-decoration-none" href="">News & Events</a></li>
+                        <div class="vr border border-1 border-light opacity-100" style="height: 40px;"></div>
+                        <li><a class="text-decoration-none" href="">About Us</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+
+        <hr class="border border-1 border-light opacity-100 mx-4">
+
+        <div class="side-footer mx-5 mb-3">
+            <div class="row d-flex justify-content-between">
+                <div class="col-lg-7 col-sm-12">
+                    <div class="museo-bulawan-cmp d-flex justify-content-start mb-3">
+                        <img src="../source/LOGO.png" alt="">
+                        <h2>Museo Bulawan</h2>
+                    </div>
+                    <p class="lead">Helping us raise awareness regarding Camnortenos identity is crucial, and
+                        your
+                        support can make a significant difference.</p>
+                    <div class="container-fluid d-flex flex-wrap p-0 pb-4">
+                        <p class="me-3">We gratefully accept donations or just lending of your artifact will greatly
+                            help us.
+                        </p>
+                        <button onclick="location.href='../Support Page/support.html'" type="button'"
+                            class="btn btn-light btn-lg">Support Us</button>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-sm-12 mb-4">
+                    <nav class="navbar">
+                        <ul class="navbar-nav text-start navbar-dark">
+                            <li class="nav-item">
+                                <a class="nav-link" href="">Visit Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="">About Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="">Book a Tour</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="">Contact Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="">Map View</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <div class="col-lg-3 col-sm-12">
+                    <h5>Opening Hours</h5>
+                    <p>Camarines Norte Provincial Capitol Grounds,
+                        Daet Philippines</p>
+                    <p>Open Daily 9:00am-5:00pm,
+                        Monday- Friday,</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- end of footer -->
+    <script src="article_view.js"></script>
 </body>
 
 </html>
