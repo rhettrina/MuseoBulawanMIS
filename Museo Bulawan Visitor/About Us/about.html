@@ -24,7 +24,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Hina+Mincho&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <script src="./about.js"></script>
 
     
 </head>
@@ -33,12 +33,11 @@
 
     <!-- header start -->
 
-    <div class="container-fluid mb-2" style="background-color: #1C1B19;">
+    <div class="container-fluid mb-2 stickycon" id="stickyNav">
         <nav class="navbar navbar-expand-lg navbar-dark p-1">
-            <p id="texttime" class="text-light my-auto ms-lg-5 ms-sm-1 ms-md-3">Open Daily 9:00am-5:00pm, Monday-
-                Friday, Close During Holidays
+            <p id="texttime" class="text-light my-auto ms-lg-5 ms-sm-1 ms-md-3">
+                Open Daily 9:00am-5:00pm, Monday-Friday, Close During Holidays
             </p>
-
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#morebtn"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,18 +45,24 @@
             </button>
 
             <div class="collapse navbar-collapse" id="morebtn">
-
-
-
-                <ul class="navbar-nav ms-auto me-lg-5 me-sm-1 me-md-3">
+                <ul class="navbar-nav ms-auto me-lg-5 me-sm-1 me-md-3" id="navLinks">
                     <li class="navupper nav-item">
-                        <a class=" nav-link" href="../About Us/about.html">About Us</a>
+                        <a class="nav-link" href="../Home/index.html">Home</a>
                     </li>
-                    <li class="navupper nav-item"></li>
-                    <a class="nav-link" href="../Appointment Form/appointindex.html">Visit Us</a>
+                    <li class="navupper nav-item">
+                        <a class="nav-link" href="../News and Events/naeindex.html">News and Events</a>
                     </li>
-                    <li class="navupper nav-item"></li>
-                    <a class="nav-link" href="../admin_login/login.html">Log In</a>
+                    <li class="navupper nav-item">
+                        <a class="nav-link" href="../museum_mapguide/index.html">Museum Map</a>
+                    </li>
+                    <li class="navupper nav-item">
+                        <a class="nav-link" href="../About Us/about.html">About Us</a>
+                    </li>
+                    <li class="navupper nav-item">
+                        <a class="nav-link" href="../Appointment Form/appointindex.html">Visit Us</a>
+                    </li>
+                    <li class="navupper nav-item">
+                        <a class="nav-link" href="../admin_login/login.html">Log In</a>
                     </li>
                 </ul>
             </div>
@@ -71,7 +76,7 @@
             <div class="d-flex flex-row align-items-center ms-lg-5">
                 <img src="../source/LOGO.png" style="height: 5em; width: auto;" alt="Logo">
                 <div class="vr border border-3 mx-3 border-dark opacity-100" style="height: 85px;"></div>
-                <a class="navbar-brand fw-bold p-0 fs-3 text-dark text-start" href="#">
+                <a class="navbar-brand fw-bold p-0 fs-3 text-dark text-start" href="../About Us/about.html">
                     MUSEO <br> BULAWAN
                 </a>
             </div>
@@ -83,10 +88,13 @@
             <div class="collapse navbar-collapse" id="burgerbtn">
                 <ul id="list" class="navbar-nav fs-5 gap-3 ms-md-auto me-md-5 ms-sm-0" style="">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" href="../Home/index.php">Home</a>
+                        <a class="nav-link text-dark" href="../Home/index.html">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" href="../News and Events/naeindex.html">News and Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="../museum_mapguide/index.html">Museum Map</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" href="../About Us/about.html">About Us</a>
@@ -422,30 +430,15 @@
     </div>
 
     <!-- start of footer -->
-    <div class="wrapper">
+    <div class="wrapper pt-4 mb-0">
 
-        <div class="lowercontainer ms-5 pt-4">
-            <div class="row d-flex">
-                <div class="col-12">
-                    <ul class="nav-links">
-                        <li><a class="text-decoration-none" href="../Home/index.html">Home</a></li>
-                        <div class="vr border border-1 border-light opacity-100" style="height: 40px;"></div>
-                        <li><a class="text-decoration-none"
-                                href="../Collection Page/collectionpage.html">Collections</a></li>
-                        <div class="vr border border-1 border-light opacity-100" style="height: 40px;"></div>
-                        <li><a class="text-decoration-none" href="../News and Events/">News & Events</a></li>
-                        <div class="vr border border-1 border-light opacity-100" style="height: 40px;"></div>
-                        <li><a class="text-decoration-none" href="../About Us/about.html">About Us</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+        
 
 
 
         <hr class="border border-1 border-light opacity-100 mx-4">
 
-        <div class="side-footer mx-5">
+        <div class="side-footer mx-5 mb-0">
             <div class="row d-flex justify-content-between">
                 <div class="col-lg-7 col-sm-12">
                     <div class="museo-bulawan-cmp d-flex justify-content-start mb-3">
@@ -459,7 +452,8 @@
                         <p class="me-3">We gratefully accept donations or just lending of your artifact will greatly
                             help us.
                         </p>
-                        <button type="button" class="btn btn-light btn-lg">Support Us</button>
+                        <a href="../Support Page/support.html" class="btn btn-light btn-lg" role="button">Support Us</a>
+
                     </div>
                 </div>
 
@@ -470,16 +464,13 @@
                                 <a class="nav-link" href="../Appointment Form/appointindex.html">Visit Us</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="">About Us</a>
+                                <a class="nav-link" href="../About Us/about.html">About Us</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="">Book a Tour</a>
+                                <a class="nav-link" href="../About Us/about.html">Contact Us</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="">Contact Us</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="">Map View</a>
+                                <a class="nav-link" href="../museum_mapguide/index.html">Map View</a>
                             </li>
                         </ul>
                     </nav>

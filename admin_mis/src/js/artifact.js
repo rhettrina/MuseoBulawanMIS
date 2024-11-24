@@ -31,15 +31,13 @@ function selectTab(selectedButton) {
         'artifacts-table',
         'acquired-table',
         'borrowing-table',
-        'display-table',
-        'donors-table'
+        'donators'
     ];
     const sortContainerIdList = [
         'artifact-sort',
         'acquired-sort',
         'borrowing-sort',
-        'display-sort',
-        'donors-sort'
+        'donators-sort'
     ];
 
     // Show the corresponding table
@@ -95,15 +93,15 @@ async function fetchAndRenderTables() {
 
         // Filter for type "lending" and map for borrowing table
         const borrowing = data
-            .filter(item => item.artifact_typeID === "Lending") // Ensure only lending type is included
-            .map(item => ({
-                date: item.LendingSubmissionDate,
-                lendingID: item.lendingID,
-                duration: item.LendingArtName,
-                artifactName: item.artifact_nameID,
-                duration: `${calculateDuration(item.starting_date, item.ending_date)}`,
-                reason: item.lending_reason,
-            }));
+        .filter(item => item.artifact_typeID === "Lending") // Ensure only lending type is included
+        .map(item => ({
+            date: item.LendingSubmissionDate,
+            lendingID: item.lendingID,
+            artifactName: item.artifact_nameID,
+            duration: calculateDuration(item.starting_date, item.ending_date), // Use the calculateDuration function for duration
+            update: item.updated_date
+        }));
+    
 
         const donators = data.map(item => ({
             donatorID: item.donatorID,
@@ -117,7 +115,7 @@ async function fetchAndRenderTables() {
         // Render the data into the tables
         renderTable(artifacts, "artifacts-table", ["date", "title", "type", "lastUpdated"]);
         renderTable(acquired, "acquired-table", ["date", "artifactName", "donorName", "lastUpdated"]);
-        renderTable(borrowing, "borrowing-table", ["date", "artifactName","title",  "duration"]);
+        renderTable(borrowing, "borrowing-table", ["date", "artifactName","duration","update" ]);
         renderTable(donators, "donors-table", ["donatorID", "firstName", "lastName", "email", "age", "city"]);
 
     } catch (error) {
@@ -129,22 +127,36 @@ const calculateDuration = (startDate, endDate) => {
     const start = new Date(startDate);
     const end = new Date(endDate);
 
-    // Calculate the difference in milliseconds
-    const diffInMilliseconds = end - start;
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+        return "Invalid date";
+    }
 
-    // Convert the difference to days, months, and years
-    const diffInDays = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24));
-    const diffInYears = Math.floor(diffInDays / 365);
-    const diffInMonths = Math.floor((diffInDays % 365) / 30);
+    let years = end.getFullYear() - start.getFullYear();
+    let months = end.getMonth() - start.getMonth();
+    let days = end.getDate() - start.getDate();
+
+    // Adjust for negative days
+    if (days < 0) {
+        months -= 1;
+        const previousMonth = new Date(end.getFullYear(), end.getMonth(), 0); // Last day of the previous month
+        days += previousMonth.getDate();
+    }
+
+    // Adjust for negative months
+    if (months < 0) {
+        years -= 1;
+        months += 12;
+    }
 
     // Build a readable duration string
-    const years = diffInYears > 0 ? `${diffInYears} year${diffInYears > 1 ? 's' : ''}` : '';
-    const months = diffInMonths > 0 ? `${diffInMonths} month${diffInMonths > 1 ? 's' : ''}` : '';
-    const days = diffInDays % 30 > 0 ? `${diffInDays % 30} day${diffInDays % 30 > 1 ? 's' : ''}` : '';
+    const yearString = years > 0 ? `${years} year${years > 1 ? 's' : ''}` : '';
+    const monthString = months > 0 ? `${months} month${months > 1 ? 's' : ''}` : '';
+    const dayString = days > 0 ? `${days} day${days > 1 ? 's' : ''}` : '';
 
     // Combine non-empty parts
-    return [years, months, days].filter(Boolean).join(', ');
+    return [yearString, monthString, dayString].filter(Boolean).join(', ');
 };
+
 function renderTable(data, tableId, columns) {
     const table = document.getElementById(tableId);
 
