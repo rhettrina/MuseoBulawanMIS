@@ -22,7 +22,7 @@ if ($conn->connect_error) {
 }
 
 // Define constants for file upload
-define('UPLOAD_DIR', 'uploads/artifacts/');
+define('UPLOAD_DIR', '/uploads/artifacts/');
 $allowed_exts = ['jpg', 'jpeg', 'png'];
 $max_file_size = 12 * 1024 * 1024; // 12 MB
 
