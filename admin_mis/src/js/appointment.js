@@ -141,51 +141,111 @@ function populateTable(appointments) {
     });
 }
 
-// Handle actions for edit, delete, approve, and reject
+// Handle actions for edit and delete
 function handleAction(action, data) {
     switch (action) {
         case 'edit':
             showAppointmentModal(data); // 'data' is the appointment object
             break;
-            case 'delete':
-                openAppointmentDeleteModal((response) => {
-                    if (response) {
-                        deleteAppointment(data) // 'data' is appointment.id
-                            .then(() => {
-                                console.log(`Appointment with ID ${data} deleted.`);
-                                init(); // Refresh the data/display
-                            })
-                            .catch(error => {
-                                console.error('Error deleting appointment:', error);
-                                alert('An error occurred while deleting the appointment.');
-                            });
-                    } else {
-                        console.log("Delete action canceled.");
-                    }
-                });
-                break;
-            
+        case 'delete':
+            openAppointmentDeleteModal((response) => {
+                if (response) {
+                    deleteAppointment(data) // 'data' is appointment.id
+                        .then(() => {
+                            console.log(`Appointment with ID ${data} deleted.`);
+                            init(); // Refresh the data/display
+                        })
+                        .catch(error => {
+                            console.error('Error deleting appointment:', error);
+                            alert('An error occurred while deleting the appointment.');
+                        });
+                } else {
+                    console.log("Delete action canceled.");
+                }
+            });
+            break;
         default:
             console.error('Unknown action:', action);
     }
 }
 
 
-function handleApprovalOrRejection(action, formID) {
-    if (action !== 'approve' && action !== 'reject') {
-        console.error('Invalid action passed to handleApprovalOrRejection:', action);
-        return;
-    }
+function handleAppointmentAction(action, data) {
+    switch (action) {
+        case 'approve':
+            approveAppointment(data)
+                .then(() => {
+                    console.log(`Appointment with ID ${data.id} approved.`);
+                    alert('Appointment approved successfully.');
+                    init(); // Refresh the data/display
+                })
+                .catch(error => {
+                    console.error('Error approving appointment:', error);
+                    alert('An error occurred while approving the appointment.');
+                });
+            break;
 
-    updateAppointmentStatus(action, formID)
-        .then(() => {
-            console.log(`Appointment ${action === 'approve' ? 'approved' : 'rejected'} successfully.`);
-        })
-        .catch(error => {
-            console.error(`Error handling ${action} action:`, error);
-            alert(`An error occurred while trying to ${action} the appointment.`);
-        });
+        case 'reject':
+            rejectAppointment(data)
+                .then(() => {
+                    console.log(`Appointment with ID ${data.id} rejected.`);
+                    alert('Appointment rejected successfully.');
+                    init(); // Refresh the data/display
+                })
+                .catch(error => {
+                    console.error('Error rejecting appointment:', error);
+                    alert('An error occurred while rejecting the appointment.');
+                });
+            break;
+
+        default:
+            console.error('Unknown action:', action);
+    }
 }
+
+// Mock implementations of approve/reject logic
+function approveAppointment(data) {
+    return new Promise((resolve, reject) => {
+        // Simulate a backend API call for approval
+        setTimeout(() => {
+            console.log('Simulated backend approval for:', data);
+            resolve(); // Call resolve to simulate success
+        }, 500);
+    });
+}
+
+function rejectAppointment(data) {
+    return new Promise((resolve, reject) => {
+        // Simulate a backend API call for rejection
+        setTimeout(() => {
+            console.log('Simulated backend rejection for:', data);
+            resolve(); // Call resolve to simulate success
+        }, 500);
+    });
+}
+
+// Example usage:
+document.getElementById('approve-appointment-btn').addEventListener('click', () => {
+    const appointmentData = getAppointmentDataFromModal(); // Replace with your method to fetch current appointment data
+    handleAppointmentAction('approve', appointmentData);
+});
+
+document.getElementById('reject-appointment-btn').addEventListener('click', () => {
+    const appointmentData = getAppointmentDataFromModal(); // Replace with your method to fetch current appointment data
+    handleAppointmentAction('reject', appointmentData);
+});
+
+// Mock function to retrieve data from the modal
+function getAppointmentDataFromModal() {
+    return {
+        id: 123, // Example appointment ID
+        name: document.getElementById('appointment-name').innerText,
+        email: document.getElementById('appointment-email').innerText,
+        phone: document.getElementById('appointment-phone').innerText,
+        // Add additional fields as necessary
+    };
+}
+
 
 
 // Function to display a message when no data is available
@@ -200,7 +260,7 @@ function displayNoDataMessage() {
 
 // Function to update appointment status
 function updateAppointmentStatus(action, formID) {
-    fetch('https://museobulawan.online/development/admin_mis/src/php/processAppointment.php', { 
+    fetch('https://museobulawan.online/admin_mis/src/php/processAppointment.php', { 
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -248,10 +308,6 @@ function showAppointmentModal(appointment) {
     document.getElementById('appointment-time').textContent = appointment.appointment_time || 'N/A';
     document.getElementById('appointment-notes').textContent = appointment.appointment_notes || 'N/A';
 
-    // Set the appointment ID on the buttons
-    document.getElementById('approve-appointment-btn').setAttribute('data-appointment-id', appointment.formID);
-    document.getElementById('reject-appointment-btn').setAttribute('data-appointment-id', appointment.formID);
-
     // Show the modal
     if (modal) {
         modal.classList.remove('hidden');
@@ -275,11 +331,6 @@ function closeModal(modalId) {
     } else {
         console.error(`Modal with ID "${modalId}" not found.`);
     }
-}
-
-// Function to close the appointment modal
-function closeAppointmentModal() {
-    closeModal('appointment-modal');
 }
 
 // Function to open the delete confirmation modal
@@ -325,23 +376,6 @@ function openAppointmentDeleteModal(callback) {
         cancelButton.removeEventListener("click", cancelHandler);
     }
 }
-
-// Add event listeners to the approve and reject buttons
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('approve-appointment-btn').addEventListener('click', function() {
-        const appointmentId = this.getAttribute('data-appointment-id');
-        console.log('Approve button clicked for appointment ID:', appointmentId); // Added console.log
-        handleApprovalOrRejection('approve', appointmentId);
-    });
-
-    document.getElementById('reject-appointment-btn').addEventListener('click', function() {
-        const appointmentId = this.getAttribute('data-appointment-id');
-        console.log('Reject button clicked for appointment ID:', appointmentId); // Added console.log
-        handleApprovalOrRejection('reject', appointmentId);
-    });
-});
-
-
 
 function deleteAppointment(fkID) {
     return fetch(`https://museobulawan.online/development/admin_mis/src/php/deleteAppointments.php?id=${fkID}`, {
