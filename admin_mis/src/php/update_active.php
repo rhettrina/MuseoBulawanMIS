@@ -2,9 +2,17 @@
 // Include the database connection file
 include 'db_connect.php'; // Ensure this file properly sets $connextion
 
-// Check if `unique_id` is provided via POST
-if (isset($_POST['unique_id'])) {
-    $unique_id = $_POST['unique_id'];
+// Retrieve and decode the input data
+$input = json_decode(file_get_contents("php://input"), true);
+
+if (isset($input['unique_id'])) {
+    $unique_id = $input['unique_id'];
+
+    // Validate unique_id (e.g., check if it's not empty)
+    if (empty($unique_id)) {
+        echo json_encode(["success" => false, "message" => "unique_id is empty"]);
+        exit;
+    }
 
     // Prepare the SQL statement to increment the `active` field
     $sql = "UPDATE floorplans SET active = active + 1 WHERE unique_id = ?";

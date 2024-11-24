@@ -194,12 +194,13 @@ function updateActive(uniqueId) {
   }
 
   fetch('https://museobulawan.online/development/admin_mis/src/php/update_active.php', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ unique_id: uniqueId }),
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ unique_id: uniqueId }), // Replace '12345' with the actual unique_id
   })
+
       .then(response => response.json())
       .then(data => {
           if (data.success) {
