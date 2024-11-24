@@ -8,7 +8,7 @@ header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, x-requested-with");
 
 // Database configuration
-$servername = "localhost"; 
+$servername = "localhost";
 $username = "u376871621_bomb_squad";       
 $password = "Fujiwara000!";            
 $dbname = "u376871621_mb_mis";
@@ -22,13 +22,13 @@ if ($conn->connect_error) {
 }
 
 // Define constants for file upload
-define('UPLOAD_DIR', '/uploads/artifacts/');
+define('UPLOAD_DIR', __DIR__ . '/uploads/artifacts/'); // Use the script's directory as the base
 $allowed_exts = ['jpg', 'jpeg', 'png'];
 $max_file_size = 12 * 1024 * 1024; // 12 MB
 
 // Ensure the upload directory exists
 if (!is_dir(UPLOAD_DIR)) {
-    die("The upload directory does not exist. Please create the directory: " . UPLOAD_DIR);
+    mkdir(UPLOAD_DIR, 0755, true); // Create the directory if it doesn't exist
 }
 if (!is_writable(UPLOAD_DIR)) {
     die("The upload directory is not writable: " . UPLOAD_DIR);
@@ -97,7 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $artifactImagePath = '';
     if (!empty($_FILES['artifact_img']['name'])) {
         $artifactImagePath = uploadImage($_FILES['artifact_img']);
-        if (strpos($artifactImagePath, 'uploads/') === false) {
+        if (strpos($artifactImagePath, UPLOAD_DIR) === false) {
             // Error occurred during file upload
             header("Location: donateindex.html?error=" . urlencode($artifactImagePath));
             exit();
