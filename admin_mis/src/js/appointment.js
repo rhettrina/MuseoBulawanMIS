@@ -172,12 +172,14 @@ function handleAction(action, data) {
 // Approve button handler
 document.getElementById("approve-appointment-btn").addEventListener("click", () => {
     const appointmentId = getAppointmentId();
+    console.log(`Updating status to approved for appointment ID: ${appointmentId}`);
     updateAppointmentStatus(appointmentId, "approved");
 });
 
 // Reject button handler
 document.getElementById("reject-appointment-btn").addEventListener("click", () => {
     const appointmentId = getAppointmentId();
+    console.log(`Updating status to rejected for appointment ID: ${appointmentId}`);
     updateAppointmentStatus(appointmentId, "rejected");
 });
 
@@ -240,7 +242,7 @@ function displayNoDataMessage() {
 }
 
 // Function to update appointment status
-function updateAppointmentStatus(action, formID) {
+function updateAppointmentStatus(formID, action) {
     const payload = JSON.stringify({
         appointmentID: formID, // Ensure formID has the correct value
         action: action // Ensure action is a valid string like "approved" or "rejected"
