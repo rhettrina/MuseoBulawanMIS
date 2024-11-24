@@ -20,26 +20,7 @@ if ($appointmentID) {
     $connextion->begin_transaction();
 
     try {
-        // 1. Retrieve the visitorID associated with this appointmentID
-        $queryVisitorID = "SELECT visitorID FROM appointment WHERE visitorID = ?";
-        $stmtVisitorID = $connextion->prepare($queryVisitorID);
-        if (!$stmtVisitorID) {
-            throw new Exception('Failed to prepare visitorID retrieval query.');
-        }
-        $stmtVisitorID->bind_param("i", $appointmentID);
-        $stmtVisitorID->execute();
-        $resultVisitorID = $stmtVisitorID->get_result();
-        if ($resultVisitorID->num_rows > 0) {
-            $row = $resultVisitorID->fetch_assoc();
-            $visitorID = $row['visitorID'];
-        } else {
-            throw new Exception('Appointment not found.');
-        }
-
-        // 2. Delete related records from other tables that reference appointmentID
-        // Adjust table names and column names as per your database schema
-
-        // Example: Delete from 'appointment_details' table
+    
         $deleteDetails = "DELETE FROM appointment WHERE visitorID = ?";
         $stmtDetails = $connextion->prepare($deleteDetails);
         if (!$stmtDetails) {
