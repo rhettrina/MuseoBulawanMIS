@@ -87,7 +87,7 @@ async function fetchAndRenderTables() {
             donationID: item.donationID,
             donatorID: item.donatorID,
             artifactName: item.artifact_nameID,
-            description: item.artifact_description,
+            lastUpdated: item.updated_date,
             donorName: `${item.first_name} ${item.last_name}` // Concatenate first and last names
         }));
 
