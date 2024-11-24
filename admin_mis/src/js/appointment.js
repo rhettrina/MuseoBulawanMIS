@@ -167,8 +167,9 @@ function handleAction(action, data) {
             
         case 'approve':
         case 'reject':
+            
+            updateAppointmentStatus(action, formID);
             console.log('Hotdog!');
-            updateAppointmentStatus(action, data);
             break;
         default:
             console.error('Unknown action:', action);
@@ -187,33 +188,20 @@ function displayNoDataMessage() {
 }
 
 // Function to update appointment status
-function updateAppointmentStatus(action, appointmentId) {
-    fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/processAppointment.php', { 
+function updateAppointmentStatus(action, formID) {
+    fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/processAppointment.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            appointmentID: appointmentId,
-            action: action // Send the button action (approve/reject)
+            appointmentID: 12,
+            action: 'approve'
         })
     })
     .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            console.log(data.success);
-            alert(data.success);
-            closeAppointmentModal();
-            init(); // Refresh the appointment list or update the UI
-        } else if (data.error) {
-            console.error(data.error);
-            alert(data.error);
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('An error occurred while updating the appointment status.');
-    });
+    .then(data => console.log(data))
+    .catch(error => console.error('Error:', error));
 }
 
 // Function to show and populate the appointment modal

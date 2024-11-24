@@ -3,13 +3,18 @@ header('Content-Type: application/json');
 
 session_start();
 
-
-// Include the database connextion
+// Include the database connection
 include 'db_connect.php';
+
+// Check database connection
+if (!$connextion) {
+    echo json_encode(['error' => 'Database connection failed.']);
+    exit;
+}
 
 // Retrieve and decode raw JSON input
 $rawData = file_get_contents("php://input");
-error_log("Raw input: " . $rawData);  
+error_log("Raw input: " . $rawData);
 $data = json_decode($rawData, true);
 
 // Validate JSON decoding
@@ -28,6 +33,13 @@ if (!isset($data['appointmentID']) || !isset($data['action'])) {
 $appointmentID = intval($data['appointmentID']);
 $action = strtolower(trim($data['action'])); 
 
+// Validate allowed actions
+$validActions = ['approve', 'reject'];
+if (!in_array($action, $validActions)) {
+    echo json_encode(['error' => 'Invalid action.']);
+    exit;
+}
+
 // Determine the database changes based on the action
 switch ($action) {
     case 'approve':
@@ -38,9 +50,6 @@ switch ($action) {
         $status = 'Rejected';
         $message = 'The appointment has been rejected.';
         break;
-    default:
-        echo json_encode(['error' => 'Invalid action.']);
-        exit;
 }
 
 // Prepare and execute the update statement
@@ -51,10 +60,14 @@ if ($stmt) {
     $stmt->bind_param("si", $status, $appointmentID);
 
     if ($stmt->execute()) {
-        echo json_encode(['success' => $message]);
+        if ($stmt->affected_rows > 0) {
+            echo json_encode(['success' => htmlspecialchars($message)]);
+        } else {
+            echo json_encode(['error' => 'No rows updated. Either the appointment does not exist or the status is unchanged.']);
+        }
     } else {
         // Log the error internally
-        error_log("Error updating appointment: " . $stmt->error);
+        error_log("Error updating appointment ID $appointmentID: " . $stmt->error);
         echo json_encode(['error' => 'Failed to update the appointment. Please try again later.']);
     }
 
@@ -65,6 +78,6 @@ if ($stmt) {
     echo json_encode(['error' => 'Server error. Please try again later.']);
 }
 
-// Close the database connextion
+// Close the database connection
 $connextion->close();
 ?>
