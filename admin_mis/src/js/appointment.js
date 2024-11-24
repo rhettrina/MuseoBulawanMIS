@@ -330,73 +330,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-function deleteAppointment(fkID) {
-    return fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/deleteAppointments.php?id=${fkID}`, {
+function deleteAppointment(appointmentId) {
+    return fetch(`https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/phpdeleteAppointments.php?id=${appointmentId}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
         },
     })
-    .then((response) => {
-        if (!response.ok) {
-            throw new Error('Failed to delete the donation.');
-        }
-        return response.json();
-    })
-    .then((data) => {
-        if (data.message) {
-            alert(data.message);
-
-            // Dynamically remove the row from the table
-            const row = document.querySelector(`[data-id="${fkID}"]`);
-            if (row) {
-                row.parentNode.removeChild(row);
+    .then(response => {
+        return response.json().then(data => {
+            if (response.ok) {
+                return data;
+            } else {
+                throw new Error(data.error || 'Failed to delete appointment');
             }
-        } else {
-            console.error(data.error || 'Unknown error occurred.');
-        }
-    })
-    .catch((error) => {
-        console.error('Error deleting donation:', error);
-    });
-}
-function openDeleteModal(callback) {
-    const modal = document.getElementById('delete-modal');
-    modal.classList.remove('hidden');
-
-    const confirmButton = document.getElementById('delete-confirm-button');
-    const cancelButton = document.getElementById('delete-cancel-button');
-
-    // Remove existing event listeners to avoid stacking
-    confirmButton.replaceWith(confirmButton.cloneNode(true));
-    cancelButton.replaceWith(cancelButton.cloneNode(true));
-
-    document.getElementById('delete-confirm-button').addEventListener('click', function () {
-        if (typeof callback === 'function') {
-            callback(true);
-        }
-        closeDModal('delete-modal');
-    });
-
-    document.getElementById('delete-cancel-button').addEventListener('click', function () {
-        if (typeof callback === 'function') {
-            callback(false);
-        }
-        closeDModal('delete-modal');
+        });
     });
 }
 
-function confirmDeleteDonation(fkID) {
-    openDeleteModal((confirmed) => {
-        if (confirmed) {
-            deleteDonation(donID); // Call deleteDonation with the correct ID
-        }
-    });
-}
-
-function closeDModal(modalId) {
-    const modal = document.getElementById(modalId);
-    modal.classList.add('hidden');
-}
 // Start the application
 init();
