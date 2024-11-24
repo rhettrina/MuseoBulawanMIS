@@ -22,51 +22,48 @@ if ($conn->connect_error) {
 }
 
 // Define constants for file upload
-define('UPLOAD_DIR', __DIR__ . '/uploads/artifacts/'); // Use the script's directory as the base
+define('UPLOAD_DIR', __DIR__ . '/src/uploads/artifacts/'); // Adjusted for your path
 
 // Ensure the upload directory exists
 if (!is_dir(UPLOAD_DIR)) {
-    mkdir(UPLOAD_DIR, 0755, true); // Create the directory if it doesn't exist
+    if (!mkdir(UPLOAD_DIR, 0755, true)) {
+        die("Failed to create upload directory: " . UPLOAD_DIR);
+    }
 }
 
 // Function to handle image upload
 function uploadImage($image) {
     $targetDir = UPLOAD_DIR;
     $targetFile = $targetDir . basename($image["name"]);
-    $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
     $errorMessage = "";
 
     // Check if the file is an image
     if (getimagesize($image["tmp_name"]) === false) {
-        $errorMessage = "File is not an image.";
-        return $errorMessage;
+        return "File is not an image.";
     }
 
-    // If file already exists, use the same path
+    // Check if file already exists
     if (file_exists($targetFile)) {
         return $targetFile; // Return the existing file path
     }
 
     // Check file size (max 12MB)
     if ($image["size"] > 12 * 1024 * 1024) {
-        $errorMessage = "File size exceeds 12MB.";
-        return $errorMessage;
+        return "File size exceeds 12MB.";
     }
 
     // Check file format (allowed types: jpg, jpeg, png, gif)
     if (!in_array($imageFileType, ['jpg', 'jpeg', 'png', 'gif'])) {
-        $errorMessage = "Only JPG, JPEG, PNG, and GIF files are allowed.";
-        return $errorMessage;
+        return "Only JPG, JPEG, PNG, and GIF files are allowed.";
     }
 
     // Try to move the uploaded file to the target directory
-    if (move_uploaded_file($image["tmp_name"], $targetFile)) {
-        return $targetFile; // Return the file path
-    } else {
-        $errorMessage = "Error uploading the file: " . $image["error"];
-        return $errorMessage;
+    if (!move_uploaded_file($image["tmp_name"], $targetFile)) {
+        return "Failed to move uploaded file to " . $targetFile;
     }
+
+    return $targetFile; // Return the file path
 }
 
 // Handle form submission
@@ -97,8 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $artifactImagePath = uploadImage($_FILES['artifact_img']);
         if (strpos($artifactImagePath, UPLOAD_DIR) === false) {
             // Error occurred during file upload
-            header("Location: donateindex.html?error=" . urlencode($artifactImagePath));
-            exit();
+            die("Error during file upload: " . $artifactImagePath);
         }
     }
 
