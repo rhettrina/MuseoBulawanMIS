@@ -189,7 +189,7 @@ function displayNoDataMessage() {
 // Function to update appointment status
 function updateAppointmentStatus(action, appointmentId) {
     fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/processAppointment.php', { 
-        method: 'PATCH',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
