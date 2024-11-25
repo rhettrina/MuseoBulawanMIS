@@ -28,7 +28,7 @@ $stmt = $connextion->prepare($query);
 $stmt->bind_param("si", $status, $appointmentId);
 
 if ($stmt->execute()) {
-    echo json_encode(['success' => true, 'message' => 'Appointment updated successfully.']);
+    echo json_encode(['success' => true, 'message' => 'Appointment updated successfully']);
 } else {
     echo json_encode(['success' => false, 'message' => 'Failed to update appointment.']);
 }

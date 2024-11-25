@@ -1,6 +1,27 @@
+
 <?php
-// Include your database connection
-include 'db_connect.php';
+
+
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS, DELETE");
+header("Access-Control-Allow-Headers: Content-Type, x-requested-with");
+
+
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    exit(0); 
+}
+
+
+$svn = "localhost"; 
+$username = "u376871621_bomb_squad";       
+$password = "Fujiwara000!";            
+$dbname = "u376871621_mb_mis";   
+
+$conn = new mysqli($svn, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
 // Prepare the SQL query
 $sql = "
@@ -27,7 +48,7 @@ LEFT JOIN Lending ON Lending.donatorID = Donator.donatorID;
 ";
 
 // Execute the query
-$result = mysqli_query($connextion, $sql);
+$result = mysqli_query($conn, $sql);
 
 // Check if query was successful
 if ($result) {
@@ -41,10 +62,10 @@ if ($result) {
     // Output an error message
     echo json_encode([
         "error" => "Query failed",
-        "details" => mysqli_error($connextion)
+        "details" => mysqli_error($conn)
     ]);
 }
 
 // Close the database connection
-mysqli_close($connextion);
+mysqli_close($conn);
 ?>
