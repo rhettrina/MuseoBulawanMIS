@@ -1240,7 +1240,7 @@ function saveFloorPlan(floorPlanName) {
     formData.append('image', imageFile);
 
     // Send the image data and other form data to the PHP server
-    fetch('https://lightpink-dogfish-795437.hostingersite.com/admin_mis/src/php/save_floorplan.php', {
+    fetch('https://museobulawan.online/development/admin_mis/src/php/save_floorplan.php', {
       method: 'POST',
       body: formData,
     })
