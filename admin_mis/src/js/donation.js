@@ -77,7 +77,7 @@ function populateTable(donations) {
 
         const titleCell = document.createElement('td');
         titleCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
-        titleCell.textContent = donation.artifact_title;;
+        titleCell.textContent = donation.artifact_title;
 
         const typeCell = document.createElement('td');
         typeCell.classList.add('px-4', 'py-0','bg-white','border-black','border-t-2', 'border-b-2');
