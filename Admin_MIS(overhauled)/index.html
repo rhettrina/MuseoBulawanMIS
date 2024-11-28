@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Museo Bulawan Admin</title>
+    <link rel="stylesheet" href="./src/css/styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/x-icon" href="/src/img/LOGO.png">
+    <script src="https://unpkg.com/navigo"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+      .active {
+        background-color: #524433;
+        font-weight: bold;
+        color: white;
+        border-radius: 0.25rem;
+      }
+
+
+      .loading-spinner {
+        text-align: center;
+        font-size: 1.5em;
+        padding: 20px;
+      }
+
+
+    </style>
+
+</head>
+<body class="flex flex-col h-screen">
+  
+      
+  <!-- Header -->
+  <header class="p-4 bg-gray-950 text-white flex justify-between items-center min-h-[60px] sticky top-0 z-50">
+    <div class="flex items-center">
+        <img src="/src/img/LOGO.png" alt="Logo" class="w-[24px] h-[24px] mr-3">
+        <div class="bg-white w-[2px] h-[24px] mr-3"></div>
+        <div>
+            <h1 class="text-[15px] font-bold">Museo Bulawan</h1>
+            <h2 class="text-[7.4px] leading-none">Management Information Systems</h2>
+        </div>
+    </div>
+
+
+    <button class="lg:hidden text-white" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+</header>
+    <div class="flex h-full">
+    <aside class="w-64 bg-white text-black flex flex-col h-full w-[256px] relative top-0 left-0 lg:translate-x-0 transition-transform lg:static z-30 lg:block hidden" id="sidebar">
+        <nav class="flex-1 p-4">
+            <ul class="space-y-4">
+              <li>
+                <a href="/dashboard" class="flex items-center px-3 py-2 rounded nav-link hover:outline hover:outline-2 hover:outline-gray-400" data-navigo>
+                  <i class="fas fa-home mr-3"></i> Dashboard
+                </a>
+              </li>
+              <li>
+                <a href="/donation" class="flex items-center px-3 py-2 rounded nav-link hover:outline hover:outline-2 hover:outline-gray-400" data-navigo>
+                  <i class="fas fa-hand-holding-heart mr-3"></i> Donation
+                </a>
+              </li>
+              <li>
+                <a href="/artifact" class="flex items-center px-3 py-2 rounded nav-link hover:outline hover:outline-2 hover:outline-gray-400" data-navigo>
+                  <i class="fas fa-archive mr-3"></i> Artifact
+                </a>
+              </li>
+              <li>
+                <a href="/appointment" class="flex items-center px-3 py-2 rounded nav-link hover:outline hover:outline-2 hover:outline-gray-400" data-navigo>
+                  <i class="fas fa-calendar-check mr-3"></i> Appointment
+                </a>
+              </li>
+              <li>
+                <a href="/layout" class="flex items-center px-3 py-2 rounded nav-link hover:outline hover:outline-2 hover:outline-gray-400" data-navigo>
+                  <i class="fas fa-layer-group mr-3"></i> Layout
+                </a>
+              </li>
+              <li>
+                <a href="/article" class="flex items-center px-3 py-2 rounded nav-link hover:outline hover:outline-2 hover:outline-gray-400" data-navigo>
+                  <i class="fas fa-newspaper mr-3"></i> Article
+                </a>
+              </li>
+            </ul>
+          </nav>
+          
+        <div class="mt-auto p-4">
+            <button id="logout-button" class="flex items-center px-3 py-2 w-[225px] rounded w-full bg-red-600 text-white hover:bg-red-700">
+              <i class="fas fa-sign-out-alt mr-3"></i> Logout </button>
+          </div>
+    </aside>
+  
+
+    <!-- Main Content -->
+    <main id="main-page" class="flex-1 justify-center  p-6 bg-orange-100 flex-col">
+
+    </main>
+    
+  </div>
+  <script src="./src/js/router.js" type="module"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            if (!sidebar) {
+                console.error("Sidebar element not found!");
+                return;
+            }
+            sidebar.classList.toggle("hidden");
+        }
+
+        // Expose the function globally for use in inline onclick handlers
+        window.toggleSidebar = toggleSidebar;
+    });
+
+
+    function closeSidebarOnOutsideClick(event) {
+        const sidebar = document.getElementById("sidebar");
+        const toggleButton = document.querySelector("button[onclick='toggleSidebar()']");
+
+        // Check if the click is outside the sidebar and toggle button
+        if (!sidebar.contains(event.target) && !toggleButton.contains(event.target)) {
+            sidebar.classList.add("hidden");
+            document.removeEventListener("click", closeSidebarOnOutsideClick);
+        }
+    }
+
+  </script>
+    
+</body>
+</html>
+
+
+
+

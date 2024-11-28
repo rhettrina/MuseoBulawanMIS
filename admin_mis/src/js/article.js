@@ -80,25 +80,25 @@ function populateTable(articles) {
 
         // Create cells
         const dateCell = document.createElement('td');
-        dateCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'rounded-l-[15px]', 'border-t-2', 'border-b-2', 'border-l-2');
+        dateCell.classList.add('px-4', 'py-2', 'bg-orange-100', 'border-black', 'rounded-l-[15px]', 'border-t-2', 'border-b-2', 'border-l-2');
         dateCell.textContent = article.created_at;
 
         const titleCell = document.createElement('td');
-        titleCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
+        titleCell.classList.add('px-4', 'py-2', 'bg-orange-100', 'border-black', 'border-t-2', 'border-b-2');
         titleCell.textContent = article.article_title;
 
         const typeCell = document.createElement('td');
-        typeCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
+        typeCell.classList.add('px-4', 'py-2', 'bg-orange-100', 'border-black', 'border-t-2', 'border-b-2');
         typeCell.textContent = article.article_type;
 
         const updatedDateCell = document.createElement('td');
-        updatedDateCell.classList.add('px-4', 'py-2', 'bg-white', 'border-black', 'border-t-2', 'border-b-2');
+        updatedDateCell.classList.add('px-4', 'py-2', 'bg-orange-100', 'border-black', 'border-t-2', 'border-b-2');
         updatedDateCell.textContent = article.updated_date === "Not Edited" || !article.updated_date
             ? "Not Edited"
             : article.updated_date;
 
         const actionCell = document.createElement('td');
-        actionCell.classList.add('px-4', 'py-2', 'flex', 'justify-center', 'space-x-2', 'bg-white', 'border-black', 'rounded-r-[15px]', 'border-t-2', 'border-b-2', 'border-r-2');
+        actionCell.classList.add('px-4', 'py-2', 'flex', 'justify-center', 'space-x-2', 'bg-orange-100', 'border-black', 'rounded-r-[15px]', 'border-t-2', 'border-b-2', 'border-r-2');
 
         // Add buttons with event listeners
         const previewButton = document.createElement('button');
